@@ -1,11 +1,27 @@
-/*import CoreDataStructures.*;
-
 package PuzzleGenerator;
 
+import CoreDataStructures.*;
+
+/** Generates a completed solution -- a 9x9 grid following the Sudoku constraints
+ */
 public class SolutionGenerator {
 
-	public CellGrid GenerateSolution() {
-			int subBoardRow = 0;
+	public static CellGrid GenerateSolution() {
+		Board solutionBoard = new Board();
+		
+		for (int rowIndex = 0; rowIndex < 9; rowIndex++) {
+			for (int columnIndex = 0; columnIndex < 9; columnIndex++) {
+				PopulateCell(rowIndex, columnIndex);
+			}
+		}
+		
+		return solutionBoard.getCellGrid();
+	}
+	
+	private static void PopulateCell(int rowIndex, int columnIndex) {
+		//TODO
+	}
+			/*int subBoardRow = 0;
 			int subBoardColumn = 0;
 
 			Cell lastCell = null;
@@ -156,6 +172,5 @@ public class SolutionGenerator {
 				j = 0;
 			}
 		}
-	}
+	}*/
 }
-*/

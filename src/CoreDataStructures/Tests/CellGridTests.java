@@ -19,7 +19,7 @@ public class CellGridTests {
 		for (int rowIndex = 0; rowIndex < 9; rowIndex++) {
 			for (int columnIndex = 0; columnIndex < 9; columnIndex++) {
 				Cell currentCell = testGrid.getCell(rowIndex, columnIndex);
-				
+				 
 				assertNotNull("A null cell was encountered, which is not expected", 
 						currentCell);
 				assertFalse("A cell was encountered more than once, which is not expected", 

@@ -18,7 +18,18 @@ public class Board {
 		}
 	}
 	
-	public void Initialize(Puzzle puzzle) {
+	public CellGrid getCellGrid() {
+		return m_grid;
+	}
+	
+	public CellConstraints getCellConstraints(int rowIndex, int columnIndex) {
+		Row row = m_rows[rowIndex];
+		Column column = m_columns[columnIndex];
 		
+		//Calculate the block index
+		int blockIndex = rowIndex / 3 + columnIndex % 3;
+		Block block = m_blocks[blockIndex];
+		
+		return new CellConstraints(row, column, block);
 	}
 }
