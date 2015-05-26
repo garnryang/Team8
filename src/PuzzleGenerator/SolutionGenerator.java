@@ -1,176 +1,128 @@
 package PuzzleGenerator;
 
-import CoreDataStructures.*;
+import java.util.Date;
+import java.util.Random;
+import java.util.Set;
 
-/** Generates a completed solution -- a 9x9 grid following the Sudoku constraints
- */
+import CoreDataStructures.Board;
+import CoreDataStructures.CellConstraints;
+import CoreDataStructures.CellGrid;
+import CoreDataStructures.Helpers;
+
 public class SolutionGenerator {
+	public static void main(String[] args) {
+		generateSolutions(1000);
+	}
 
-	public static CellGrid GenerateSolution() {
-		Board solutionBoard = new Board();
+	public static CellGrid[] generateSolutions(int numSolutions) {
+		CellGrid[] solutions = new CellGrid[numSolutions];
+		
+		Date startTime = new Date();
+		for (int solutionIndex = 0; solutionIndex < numSolutions; solutionIndex++) {
+			
+			//Keep going until we get a valid solution
+			Board board = null;
+			do { //Average number of cycles over a few thousand runs is ~80. 
+				board = tryCreateSolution();
+			} while(board == null);
+			
+			solutions[solutionIndex] = board.getCellGrid();
+		}
+		
+		Date endTime = new Date();
+		long totalTimeMS = endTime.getTime() - startTime.getTime();
+		double avgTime = totalTimeMS / (double) numSolutions;
+		
+		System.out.println("Total Time for " + numSolutions + " solutions: " + totalTimeMS);
+		System.out.println("Average Time: " + avgTime);
+		
+		return solutions;
+	}
+	
+	private static Board tryCreateSolution() {
+		Board board = new Board();
 		
 		for (int rowIndex = 0; rowIndex < 9; rowIndex++) {
 			for (int columnIndex = 0; columnIndex < 9; columnIndex++) {
-				PopulateCell(rowIndex, columnIndex);
+				Integer[] availableNumbers = getAvailableNumbers(board, rowIndex, columnIndex);
+
+				int size = availableNumbers.length; // 1 ~ 9
+				if (size == 0) {
+					return null;
+				}
+
+				//Pick a random number from the available numbers
+				Random rand = new Random();
+				int randomIndex = rand.nextInt(size);
+
+				int suggested = availableNumbers[randomIndex];
+				board.getCell(rowIndex, columnIndex).setNumber(suggested);
 			}
 		}
 		
-		return solutionBoard.getCellGrid();
+		return board;
 	}
-	
-	private static void PopulateCell(int rowIndex, int columnIndex) {
-		//TODO
-	}
-			/*int subBoardRow = 0;
-			int subBoardColumn = 0;
 
-			Cell lastCell = null;
-			Row lastRow = null;
-			Column lastColumn = null;
-			Block lastSubBoard = null;
+	private static Integer[] getAvailableNumbers(Board board, int rowIndex, int columnIndex) {
+		CellConstraints constraints = board.getCellConstraints(rowIndex, columnIndex);
 
-			int j = 0;
+		Set<Integer> availableNumbers = constraints.getAvailableNumbers();
 
-			// row
-			for (int i = 0; i < 9; i++) {
-				if (i < 3) {
-					subBoardRow = 0;
-				} else if (3 <= i && i < 6) {
-					subBoardRow = 1;
-				} else {
-					subBoardRow = 2;
+		int blockIndex = Helpers.getBlockIndex(rowIndex, columnIndex);
+		if ((blockIndex % 3 == 1) && (rowIndex % 3 == 1)) {
+
+			/*
+			 * If this is the first block, it doesn't matter.
+			 * however, if this is the second block, we shouldn't
+			 * exhaust all the options for the third block. it all
+			 * depends how many numbers from the second block is
+			 * taken by the first block
+			 */
+			
+			//Get the numbers used in block 3 that are available in the current row
+			int thirdBlockIndex = blockIndex + 1;
+			Set<Integer> mustHave = board.getBlock(thirdBlockIndex).getUsedNumbers();
+			Set<Integer> currentRowAvailableNumbers = board.getRow(rowIndex).getAvailableNumbers();
+			mustHave.retainAll(currentRowAvailableNumbers);
+
+			if (columnIndex % 3 == 0) { //First column in the block
+				if (mustHave.size() == 3) {
+					availableNumbers = mustHave; 
+				} else if (mustHave.size() == 2) {
+					mustHave.addAll(availableNumbers);
+				} else if (mustHave.size() == 1) {
+					//(JN) I'm a little lost in this part. Why do we break at 2?
+					int counter = 0;
+					for (int eachAvail : availableNumbers) {
+						if (!mustHave.contains(eachAvail)) {
+							mustHave.add(eachAvail);
+							counter++;
+
+							if (counter == 2) {
+								break;
+							}
+						}
+					}
 				}
-
-				// column
-
-				for (; j < 9; j++) {
-
-					if (j < 3) {
-						subBoardColumn = 0;
-					} else if (3 <= j && j < 6) {
-						subBoardColumn = 1;
-					} else {
-						subBoardColumn = 2;
-					}
-
-					Cell cell = new Cell();
-
-					List<Integer> availableNumbers = new ArrayList<Integer>();
-
-					List<Integer> availableNumbers_row = rows[i]
-							.getAvailableNumbers();
-					List<Integer> availableNumbers_column = columns[j]
-							.getAvailableNumbers();
-					List<Integer> availableNumbers_subBoard = subBoards[subBoardRow][subBoardColumn]
-							.getAvailableNumbers();
-
-					for (Integer rowNumb : availableNumbers_row) {
-						if (availableNumbers_column.contains(rowNumb)
-								&& availableNumbers_subBoard.contains(rowNumb)) {
-							 intersection found 
-							availableNumbers.add(rowNumb);
+			} else if (columnIndex % 3 == 1) { //Second column in the block
+				if (mustHave.size() == 2) {
+					availableNumbers = mustHave;
+				} else if (mustHave.size() == 1) {
+					//Confused here too...why do we only add one number?
+					for (int eachAvail : availableNumbers) {
+						if (!mustHave.contains(eachAvail)) {
+							mustHave.add(eachAvail);
+							break;
 						}
 					}
-
-					if (subBoardColumn == 1 && i - subBoardRow * 3 == 1) {
-
-						
-						 * If this is the first subBoard, it doesn't matter.
-						 * however, if this is the second subBoard, we shouldn't
-						 * exhaust all the options for the third subBoard. it all
-						 * depends how many numbers from the second subBoard is
-						 * taken by the first subBoard
-						 
-
-						List<Integer> mustHave = new ArrayList<Integer>();
-						Map<Integer, Boolean> subBoard3Used = subBoards[subBoardRow][2]
-								.getUsedNumbers();
-						for (Map.Entry<Integer, Boolean> eachUsed3rd : subBoard3Used
-								.entrySet()) {
-							if (Boolean.TRUE.equals(eachUsed3rd.getValue())
-									&& rows[i].getAvailableNumbers().contains(
-											eachUsed3rd.getKey())) {
-								mustHave.add(eachUsed3rd.getKey());
-							}
-						}
-
-						if (j - subBoardColumn * 3 == 0) {
-							if (mustHave.size() == 3) {
-								availableNumbers = mustHave;
-							} else if (mustHave.size() == 2) {
-
-								for (int eachAvail : availableNumbers) {
-									if (!mustHave.contains(eachAvail)) {
-										mustHave.add(eachAvail);
-										break;
-									}
-								}
-
-							} else if (mustHave.size() == 1) {
-
-								int counter = 0;
-								for (int eachAvail : availableNumbers) {
-									if (!mustHave.contains(eachAvail)) {
-										mustHave.add(eachAvail);
-										counter++;
-
-										if (counter == 2) {
-											break;
-										}
-									}
-								}
-							}
-						} else if (j - subBoardColumn * 3 == 1) {
-							if (mustHave.size() == 2) {
-								availableNumbers = mustHave;
-							} else if (mustHave.size() == 1) {
-								for (int eachAvail : availableNumbers) {
-									if (!mustHave.contains(eachAvail)) {
-										mustHave.add(eachAvail);
-										break;
-									}
-								}
-							}
-						} else if (j - subBoardColumn * 3 == 2) {
-							if (mustHave.size() == 1) {
-								availableNumbers = mustHave;
-							}
-						}
-
-					}
-
-					int size = availableNumbers.size(); // 1 ~ 9
-
-					if (size == 0) {
-						throw new Exception("We cannot proceed");
-					}
-
-					Random rand = new Random();
-					int randomPositoin = rand.nextInt(size);
-
-					int suggested = availableNumbers.get(randomPositoin);
-
-					cell.setValue(suggested);
-
-					rows[i].addCell(cell);
-					columns[j].addCell(cell);
-					subBoards[subBoardRow][subBoardColumn].addCell(cell, i
-							- subBoardRow * 3, j - subBoardColumn * 3);
-
-					cell.previousCell = lastCell;
-					lastCell = cell;
-
-					rows[i].previousRow = lastRow;
-					lastRow = rows[i];
-
-					columns[j].previousColumn = lastColumn;
-					lastColumn = columns[j];
-
-					lastSubBoard = subBoards[subBoardRow][subBoardColumn];
 				}
-
-				j = 0;
+			} else { //Third column in the block 
+				if (mustHave.size() == 1) {
+					availableNumbers = mustHave;
+				}
 			}
 		}
-	}*/
+
+		return availableNumbers.toArray(new Integer[0]); //Return it as an array so it can be indexed into
+	}
 }
