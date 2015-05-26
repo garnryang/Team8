@@ -1,161 +1,44 @@
-/*import CoreDataStructures.*;
-
 package PuzzleGenerator;
+
+import CoreDataStructures.Board;
+import CoreDataStructures.CellGrid;
 
 public class SolutionGenerator {
 
-	public CellGrid GenerateSolution() {
-			int subBoardRow = 0;
-			int subBoardColumn = 0;
+	public static void main(String[] args) {
 
-			Cell lastCell = null;
-			Row lastRow = null;
-			Column lastColumn = null;
-			Block lastSubBoard = null;
+		Board board = null;
+		final int TRIAL_LIMIT = 1000;
+		boolean keepGoing = true;
+		int breakCounter = 0;
 
-			int j = 0;
-
-			// row
-			for (int i = 0; i < 9; i++) {
-				if (i < 3) {
-					subBoardRow = 0;
-				} else if (3 <= i && i < 6) {
-					subBoardRow = 1;
-				} else {
-					subBoardRow = 2;
-				}
-
-				// column
-
-				for (; j < 9; j++) {
-
-					if (j < 3) {
-						subBoardColumn = 0;
-					} else if (3 <= j && j < 6) {
-						subBoardColumn = 1;
-					} else {
-						subBoardColumn = 2;
-					}
-
-					Cell cell = new Cell();
-
-					List<Integer> availableNumbers = new ArrayList<Integer>();
-
-					List<Integer> availableNumbers_row = rows[i]
-							.getAvailableNumbers();
-					List<Integer> availableNumbers_column = columns[j]
-							.getAvailableNumbers();
-					List<Integer> availableNumbers_subBoard = subBoards[subBoardRow][subBoardColumn]
-							.getAvailableNumbers();
-
-					for (Integer rowNumb : availableNumbers_row) {
-						if (availableNumbers_column.contains(rowNumb)
-								&& availableNumbers_subBoard.contains(rowNumb)) {
-							 intersection found 
-							availableNumbers.add(rowNumb);
-						}
-					}
-
-					if (subBoardColumn == 1 && i - subBoardRow * 3 == 1) {
-
-						
-						 * If this is the first subBoard, it doesn't matter.
-						 * however, if this is the second subBoard, we shouldn't
-						 * exhaust all the options for the third subBoard. it all
-						 * depends how many numbers from the second subBoard is
-						 * taken by the first subBoard
-						 
-
-						List<Integer> mustHave = new ArrayList<Integer>();
-						Map<Integer, Boolean> subBoard3Used = subBoards[subBoardRow][2]
-								.getUsedNumbers();
-						for (Map.Entry<Integer, Boolean> eachUsed3rd : subBoard3Used
-								.entrySet()) {
-							if (Boolean.TRUE.equals(eachUsed3rd.getValue())
-									&& rows[i].getAvailableNumbers().contains(
-											eachUsed3rd.getKey())) {
-								mustHave.add(eachUsed3rd.getKey());
-							}
-						}
-
-						if (j - subBoardColumn * 3 == 0) {
-							if (mustHave.size() == 3) {
-								availableNumbers = mustHave;
-							} else if (mustHave.size() == 2) {
-
-								for (int eachAvail : availableNumbers) {
-									if (!mustHave.contains(eachAvail)) {
-										mustHave.add(eachAvail);
-										break;
-									}
-								}
-
-							} else if (mustHave.size() == 1) {
-
-								int counter = 0;
-								for (int eachAvail : availableNumbers) {
-									if (!mustHave.contains(eachAvail)) {
-										mustHave.add(eachAvail);
-										counter++;
-
-										if (counter == 2) {
-											break;
-										}
-									}
-								}
-							}
-						} else if (j - subBoardColumn * 3 == 1) {
-							if (mustHave.size() == 2) {
-								availableNumbers = mustHave;
-							} else if (mustHave.size() == 1) {
-								for (int eachAvail : availableNumbers) {
-									if (!mustHave.contains(eachAvail)) {
-										mustHave.add(eachAvail);
-										break;
-									}
-								}
-							}
-						} else if (j - subBoardColumn * 3 == 2) {
-							if (mustHave.size() == 1) {
-								availableNumbers = mustHave;
-							}
-						}
-
-					}
-
-					int size = availableNumbers.size(); // 1 ~ 9
-
-					if (size == 0) {
-						throw new Exception("We cannot proceed");
-					}
-
-					Random rand = new Random();
-					int randomPositoin = rand.nextInt(size);
-
-					int suggested = availableNumbers.get(randomPositoin);
-
-					cell.setValue(suggested);
-
-					rows[i].addCell(cell);
-					columns[j].addCell(cell);
-					subBoards[subBoardRow][subBoardColumn].addCell(cell, i
-							- subBoardRow * 3, j - subBoardColumn * 3);
-
-					cell.previousCell = lastCell;
-					lastCell = cell;
-
-					rows[i].previousRow = lastRow;
-					lastRow = rows[i];
-
-					columns[j].previousColumn = lastColumn;
-					lastColumn = columns[j];
-
-					lastSubBoard = subBoards[subBoardRow][subBoardColumn];
-				}
-
-				j = 0;
+		while (keepGoing && breakCounter < TRIAL_LIMIT) {
+			try {
+				board = new Board();
+				board.populationIteration();				
+				keepGoing = false;
+			} catch (Exception e) {
+				breakCounter++;
 			}
+		}
+
+		System.out.println("failed: " + breakCounter);
+
+		if (board != null) {
+
+			CellGrid cellGrid = board.getCellGrid();
+			
+			for (int i = 0; i < 9; i++) {
+				for (int j = 0; j < 9; j++) {
+					System.out.print(cellGrid.getCell(i, j).getNumber());
+					System.out.print(" ");
+				}
+				System.out.println();
+			}
+		}
+
+		else {
+			System.out.println("Board cannot be populated");
 		}
 	}
 }
-*/
