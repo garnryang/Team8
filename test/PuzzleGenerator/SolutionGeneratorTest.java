@@ -62,7 +62,7 @@ public class SolutionGeneratorTest {
 	@Test
 	public void testInitialBoardGenerationCheckingSudokuRule() {
 
-		final int NUMB_BOARDS_TO_BE_GENERATED = 10;
+		final int NUMB_BOARDS_TO_BE_GENERATED = 30;
 
 		for (int i = 0; i < NUMB_BOARDS_TO_BE_GENERATED; i++) {
 			eachIteration();
