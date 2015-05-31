@@ -1,4 +1,4 @@
-package CoreDataStructures.Tests;
+package CoreDataStructures;
 
 import java.util.HashSet;
 
@@ -8,12 +8,7 @@ import org.junit.Test;
 import CoreDataStructures.Cell;
 import CoreDataStructures.CellGrid;
 
-/**
- * @deprecated
- * Please see test.CoreDataStructures.CellGridTest
- *
- */
-public class CellGridTests {
+public class CellGridTest {
 	
 	@Test
 	public void defaultConstructorInitializes9x9GridOfUniqueEmptyCells() {

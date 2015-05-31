@@ -1,4 +1,4 @@
-package CoreDataStructures.Tests;
+package CoreDataStructures;
 
 import static org.junit.Assert.*;
 
@@ -7,10 +7,8 @@ import org.junit.Test;
 import CoreDataStructures.Helpers;
 
 /** Test the helper methods since I don't trust my math
- * @deprecated
- * see test.CoreDataStructures.HelperTest
  */
-public class HelperTests {
+public class HelperTest {
 	@Test
 	public void getBlockIndexRows0Through2Columns0Through2Returns0() {
 		for (int rowIndex = 0; rowIndex < 3; rowIndex++) {

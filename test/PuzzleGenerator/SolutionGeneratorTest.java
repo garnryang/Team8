@@ -11,6 +11,8 @@ import CoreDataStructures.CellGrid;
 import PuzzleGenerator.SolutionGenerator;
 
 public class SolutionGeneratorTest {
+	
+	private final static int TRIAL_LIMIT = 1000;
 
 	/**
 	 * This test is checking to see if Board.populationIteration() method can
@@ -20,20 +22,7 @@ public class SolutionGeneratorTest {
 	@Test
 	public void testInitialBoardGenerationWithinLimit() {
 
-		Board board = null;
-		final int TRIAL_LIMIT = 1000;
-		boolean keepGoing = true;
-		int breakCounter = 0;
-
-		while (keepGoing && breakCounter < TRIAL_LIMIT) {
-			board = SolutionGenerator.tryCreateSolution();
-
-			if (board == null) {
-				breakCounter++;
-			} else {
-				keepGoing = false;
-			}
-		}
+		Board board = boardGeneration();
 
 		if (board != null) {
 
@@ -65,36 +54,47 @@ public class SolutionGeneratorTest {
 		final int NUMB_BOARDS_TO_BE_GENERATED = 30;
 
 		for (int i = 0; i < NUMB_BOARDS_TO_BE_GENERATED; i++) {
-			eachIteration();
+			Board board = boardGeneration();
+			eachIteration(board);
 		}
 	}
+	
+	/**
+	 * This test is checking to see if Board.populationIteration() method can
+	 * generate a board where all the rows are without any duplicates, all the
+	 * columns are without any duplicates, and all the blocks are without any
+	 * duplicates. This test will try to generate a reasonable number of full
+	 * boards (30) to make sure the result is repeatable.
+	 */
+	@Test
+	public void testInitialBoardGenerationCheckingSudokuRuleUsingSolutionGenerator() {
 
+		final int NUMB_BOARDS_TO_BE_GENERATED = 30;
+
+		for (int i = 0; i < NUMB_BOARDS_TO_BE_GENERATED; i++) {
+			CellGrid cellGrid = SolutionGenerator.generateSolutions(1)[0]; 
+			eachIteration(cellGrid);
+		}
+	}
+	
+	private static void eachIteration(Board board) {
+		if (board != null) {
+			eachIteration(board.getCellGrid());
+		} else {
+			Assert.fail("Board Generation Failed within " + TRIAL_LIMIT
+					+ " trials!");
+		}
+	}
+	
 	/**
 	 * This method test a single full board generation checking rows, columns,
 	 * and blocks. A full board is generated within a reasonable number of
 	 * trials (1,000).
 	 */
-	private static void eachIteration() {
-
-		Board board = null;
-		final int TRIAL_LIMIT = 1000;
-		boolean keepGoing = true;
-		int breakCounter = 0;
-
-		/* a full board is generated within 10,000 trials */
-		while (keepGoing && breakCounter < TRIAL_LIMIT) {
-			board = SolutionGenerator.tryCreateSolution();
-			if (board == null) {
-				breakCounter++;
-			} else {
-				keepGoing = false;
-			}
-		}
-
+	private static void eachIteration(CellGrid cellGrid) {
+		
 		/* if a board is generated, we believe it's fully populated, at least */
-		if (board != null) {
-
-			CellGrid cellGrid = board.getCellGrid();
+		if (cellGrid != null) {
 
 			/* preparing for block check */
 			Map<Integer, Map<Integer, Boolean>> mapOfBlockMaps = new HashMap<>();
@@ -228,4 +228,22 @@ public class SolutionGeneratorTest {
 					+ " trials!");
 		}
 	}
+	
+	private static Board boardGeneration() {
+		Board board = null;
+		boolean keepGoing = true;
+		int breakCounter = 0;
+
+		/* a full board is generated within 1,000 trials */
+		while (keepGoing && breakCounter < TRIAL_LIMIT) {
+			board = SolutionGenerator.tryCreateSolution();
+			if (board == null) {
+				breakCounter++;
+			} else {
+				keepGoing = false;
+			}
+		}
+		
+		return board;
+	} 
 }

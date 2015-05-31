@@ -1,16 +1,11 @@
-package CoreDataStructures.Tests;
+package CoreDataStructures;
 
 import CoreDataStructures.Cell;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-/**
- * @deprecated
- * see test.CoreDataStructures.CellTest
- *
- */
-public class CellTests {
+public class CellTest {
 	
 	@Test
 	public void defaultConstructorCreatesEmptyAndUserDefinedCell() {
