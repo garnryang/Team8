@@ -39,7 +39,7 @@ public class SolutionGenerator {
 		return solutions;
 	}
 	
-	private static Board tryCreateSolution() {
+	public static Board tryCreateSolution() {
 		Board board = new Board();
 		
 		for (int rowIndex = 0; rowIndex < 9; rowIndex++) {
