@@ -16,10 +16,11 @@ public class CellGrid {
 	}
 	
 	public CellGrid(CellGrid gridToCopy) {
+		
 		//Clone all of the cells
 		for (int rowIndex = 0; rowIndex < 9; rowIndex++) {
 			for (int columnIndex = 0; columnIndex < 9; columnIndex++) {
-				m_cells[rowIndex][columnIndex] = new Cell(gridToCopy.m_cells[rowIndex][columnIndex]);
+				m_cells[rowIndex][columnIndex] = new Cell(gridToCopy.getCell(rowIndex,columnIndex));
 			}
 		}
 	}
@@ -33,7 +34,7 @@ public class CellGrid {
 		for (int rowIndex = 0; rowIndex < 9; rowIndex++) {
 			for (int columnIndex = 0; columnIndex < 9; columnIndex++) {
 				Cell myCell = m_cells[rowIndex][columnIndex];
-				Cell otherCell = gridToCompare.m_cells[rowIndex][columnIndex];
+				Cell otherCell = gridToCompare.getCell(rowIndex, columnIndex);
 				if (myCell.getNumber() != otherCell.getNumber())
 					return false;
 			}

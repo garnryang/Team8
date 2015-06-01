@@ -3,6 +3,8 @@ package CoreDataStructures;
 import java.util.HashSet;
 
 import static org.junit.Assert.*;
+
+import org.junit.Assert;
 import org.junit.Test;
 
 import CoreDataStructures.Cell;
@@ -58,5 +60,32 @@ public class CellGridTest {
 		CellGrid testGrid = new CellGrid();
 		
 		testGrid.getCell(5, 9);
+	}
+	
+	@Test
+	public void testCopyLineConstructor() {
+		CellGrid mockCellGrid = DataStructureTestHelper.buildSudokuManually();
+		CellGrid targetCellGrid = new CellGrid(mockCellGrid);
+		
+		if (mockCellGrid == targetCellGrid) {
+			Assert.fail("two cannot be the same instance");
+		}
+		
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				Cell originalCell = mockCellGrid.getCell(i,  j);
+				Cell targetCell = targetCellGrid.getCell(i,  j);
+				
+				Assert.assertEquals(originalCell.getNumber(), targetCell.getNumber());
+			}
+		}
+	}
+	
+	@Test
+	public void testEualsLikeMethod() {
+		CellGrid mockCellGrid = DataStructureTestHelper.buildSudokuManually();
+		CellGrid targetCellGrid = new CellGrid(mockCellGrid);
+
+		Assert.assertTrue(targetCellGrid.valuesAreEqual(mockCellGrid));
 	}
 }
