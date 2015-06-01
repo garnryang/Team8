@@ -10,15 +10,26 @@ public class Cell {
 		UserDefined
 	}
 	
+	private CellCoordinates m_coordinates;
 	private int m_currentValue = 0;
 	private ValueType m_type = ValueType.UserDefined;
 	
 	public Cell() {
+		this(0,0); //Some default coordinates
+	}
+	
+	public Cell(int rowIndex, int columnIndex) {
+		m_coordinates = new CellCoordinates(rowIndex, columnIndex);
 	}
 	
 	public Cell(Cell cellToCopy) {
+		m_coordinates = cellToCopy.m_coordinates;
 		m_currentValue = cellToCopy.m_currentValue;
 		m_type = cellToCopy.m_type;
+	}
+	
+	public CellCoordinates getCoordinates() {
+		return m_coordinates;
 	}
 	
 	public int getNumber() { 
