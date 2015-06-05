@@ -1,5 +1,8 @@
 package CoreDataStructures;
 
+import java.util.HashSet;
+import java.util.Set;
+
 
 /** Represents a cell (i.e. square) within the 9x9 Sudoku board
  * Contains the cell's type and current value
@@ -13,6 +16,7 @@ public class Cell {
 	private CellCoordinates m_coordinates;
 	private int m_currentValue = 0;
 	private ValueType m_type = ValueType.UserDefined;
+	private Set<Integer> m_pencilMarks = new HashSet<Integer>();
 	
 	public Cell() {
 		this(0,0); //Some default coordinates
@@ -57,5 +61,9 @@ public class Cell {
 	
 	public void clearNumber() {
 		m_currentValue = 0;
+	}
+	
+	public Set<Integer> getPencilMarks() {
+		return m_pencilMarks;
 	}
 }

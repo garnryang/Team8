@@ -2,6 +2,7 @@ package CoreDataStructures;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Data holder and controller for a Sudoku grid Used to validate game
@@ -103,5 +104,14 @@ public class Board {
 	
 	public Puzzle getCurrentPuzzle() {
 		return m_currentPuzzle;
+	}
+	
+	public boolean puzzleIsSolved() {
+		//(JN 6/4/15) Easy enough to implement. Leaving it unimplemented for the sake of the test failure report.
+		throw new UnsupportedOperationException();
+	}
+	
+	public Set<Cell> getCellsViolatingConstraints() {
+		throw new UnsupportedOperationException();
 	}
 }

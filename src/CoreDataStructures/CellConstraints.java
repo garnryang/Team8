@@ -37,6 +37,12 @@ public class CellConstraints {
 		return numberSet;
 	}
 
+	public final Set<Integer> getUsedNumbers() {
+		Set<Integer> usedNumbers = Helpers.getValidNumberSet();
+		usedNumbers.removeAll(getAvailableNumbers());
+		return usedNumbers;
+	}
+	
 	public Iterator<Constraint> getIterator() {
 		return new ConstraintIterator(this);
 	}
