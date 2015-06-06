@@ -6,9 +6,9 @@ import java.util.Random;
 import java.util.Set;
 
 import CoreDataStructures.Board;
+import CoreDataStructures.Cell;
 import CoreDataStructures.CellConstraints;
 import CoreDataStructures.CellGrid;
-import CoreDataStructures.Helpers;
 
 public class SolutionGenerator {
 	public static void main(String[] args) {
@@ -68,12 +68,12 @@ public class SolutionGenerator {
 
 	private static Integer[] getAvailableNumbers(Board board, int rowIndex,
 			int columnIndex) {
-		CellConstraints constraints = board.getCellConstraints(rowIndex,
-				columnIndex);
+		Cell currentCell = board.getCell(rowIndex, columnIndex);
+		CellConstraints constraints = board.getCellConstraints(currentCell);
 
 		Set<Integer> availableNumbers = constraints.getAvailableNumbers();
 
-		int blockIndex = Helpers.getBlockIndex(rowIndex, columnIndex);
+		int blockIndex = currentCell.getCoordinates().getBlockIndex();
 
 		if ((blockIndex % 3 == 1) && (rowIndex % 3 == 1)) {
 

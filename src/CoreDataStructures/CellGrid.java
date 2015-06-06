@@ -10,7 +10,7 @@ public class CellGrid {
 		//Initialize the cells
 		for (int rowIndex = 0;  rowIndex < 9; rowIndex++) {
 			for (int columnIndex = 0; columnIndex < 9; columnIndex++) {
-				m_cells[rowIndex][columnIndex] = new Cell();
+				m_cells[rowIndex][columnIndex] = new Cell(rowIndex, columnIndex);
 			}
 		}
 	}
@@ -40,5 +40,15 @@ public class CellGrid {
 			}
 		}
 		return true;
+	}
+	
+	public void print() {
+		for (int rowIndex = 0; rowIndex < 9; rowIndex++) {
+			for (int columnIndex = 0; columnIndex < 9; columnIndex++) {
+				Cell cell = m_cells[rowIndex][columnIndex];
+				System.out.print(cell.getNumber() + " ");
+			}
+			System.out.print("\n");
+		}
 	}
 }

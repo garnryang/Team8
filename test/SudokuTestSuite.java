@@ -4,7 +4,6 @@ import org.junit.runners.Suite;
 import CoreDataStructures.CellConstraintsTest;
 import CoreDataStructures.CellGridTest;
 import CoreDataStructures.CellTest;
-import CoreDataStructures.HelperTest;
 import PuzzleGenerator.SolutionGeneratorTest;
 
 @RunWith(Suite.class)
@@ -12,7 +11,6 @@ import PuzzleGenerator.SolutionGeneratorTest;
    SolutionGeneratorTest.class,
    CellGridTest.class,
    CellTest.class,
-   HelperTest.class,
    CellConstraintsTest.class
 })
 public class SudokuTestSuite {
