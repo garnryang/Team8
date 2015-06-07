@@ -128,4 +128,23 @@ public class GameSession {
 	private Object getHint() {
 		return null;
 	}
+
+	/**
+	 * saveFile can be name on a designated file
+	 * or file's path/name  
+	 * @param saveFile
+	 */
+	public void doSave(String saveFile) {
+		
+		/* TODO implement */
+	}
+	
+	/**
+	 * saveFile can be name on a designated file
+	 * or file's path/name
+	 * @param saveFile
+	 */
+	public void doLoad(String saveFile) {
+		/* TODO implement */
+	}
 }
