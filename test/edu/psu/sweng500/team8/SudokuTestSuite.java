@@ -26,7 +26,6 @@ import edu.psu.sweng500.team8.solver.HintGeneratorTests;
    CellGridTest.class,
    CellTest.class,
    CellConstraintsTest.class,
-   SolutionGeneratorTest.class,
    ConstraintSolverTests.class,
    GuessAndCheckSolverTests.class,
    HintGeneratorTests.class,
