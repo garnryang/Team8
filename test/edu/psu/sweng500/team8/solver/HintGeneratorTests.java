@@ -1,4 +1,4 @@
-package edu.psu.sweng500.team8.solver;
+package Solver;
 
 import static org.junit.Assert.*;
 
@@ -51,7 +51,7 @@ public class HintGeneratorTests {
 	/** 
 	 * (1, 1) is the open cell with only one available number: 4
 	 */
-	public static Puzzle getPuzzleWithCellWithOnlyOneAvailableNumber() {
+	private static Puzzle getPuzzleWithCellWithOnlyOneAvailableNumber() {
 		//Got this one from my iphone Sudoku app...
 		Puzzle puzzle = new Puzzle();
 		puzzle.setDifficulty(DifficultyLevel.Medium);
@@ -102,7 +102,7 @@ public class HintGeneratorTests {
 	/** 
 	 * (0, 0) is the only place a 7 can fit
 	 */
-	public static Puzzle getPuzzleWhereANumberCanOnlyFitInOneCell() {
+	private static Puzzle getPuzzleWhereANumberCanOnlyFitInOneCell() {
 		//Got this one from my iphone Sudoku app...
 		//Same puzzle as above with the 4 filled in
 		Puzzle puzzle = new Puzzle();
