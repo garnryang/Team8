@@ -1,4 +1,4 @@
-package CoreDataStructures;
+package PuzzleGenerator;
 
 
 public class Header extends Node{

@@ -1,8 +1,10 @@
-package CoreDataStructures;
+package PuzzleGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+
+import CoreDataStructures.CellGrid;
 
 public class DLX {
 	protected Header[] columns;
