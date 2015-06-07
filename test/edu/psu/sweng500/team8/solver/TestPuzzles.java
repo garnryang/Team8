@@ -1,7 +1,9 @@
-package Solver;
+package edu.psu.sweng500.team8.solver;
 
-import CoreDataStructures.Puzzle;
-import CoreDataStructures.Puzzle.DifficultyLevel;
+import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
+import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
+
+
 /**
  * This is a helper class
  *
