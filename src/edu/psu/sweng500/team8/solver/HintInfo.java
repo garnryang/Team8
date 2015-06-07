@@ -1,6 +1,6 @@
 package edu.psu.sweng500.team8.solver;
 
-import CoreDataStructures.Cell;
+import edu.psu.sweng500.team8.coreDataStructures.Cell;
 
 public class HintInfo {
 	private Cell m_filledCell;

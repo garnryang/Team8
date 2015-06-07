@@ -4,10 +4,10 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import CoreDataStructures.Board;
-import CoreDataStructures.Cell;
-import CoreDataStructures.Puzzle;
-import CoreDataStructures.Puzzle.DifficultyLevel;
+import edu.psu.sweng500.team8.coreDataStructures.Board;
+import edu.psu.sweng500.team8.coreDataStructures.Cell;
+import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
+import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
 
 public class HintGeneratorTests {
 	@Test
@@ -51,7 +51,7 @@ public class HintGeneratorTests {
 	/** 
 	 * (1, 1) is the open cell with only one available number: 4
 	 */
-	public static Puzzle getPuzzleWithCellWithOnlyOneAvailableNumber() {
+	private static Puzzle getPuzzleWithCellWithOnlyOneAvailableNumber() {
 		//Got this one from my iphone Sudoku app...
 		Puzzle puzzle = new Puzzle();
 		puzzle.setDifficulty(DifficultyLevel.Medium);
@@ -102,7 +102,7 @@ public class HintGeneratorTests {
 	/** 
 	 * (0, 0) is the only place a 7 can fit
 	 */
-	public static Puzzle getPuzzleWhereANumberCanOnlyFitInOneCell() {
+	private static Puzzle getPuzzleWhereANumberCanOnlyFitInOneCell() {
 		//Got this one from my iphone Sudoku app...
 		//Same puzzle as above with the 4 filled in
 		Puzzle puzzle = new Puzzle();
