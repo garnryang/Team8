@@ -1,4 +1,4 @@
-package CoreDataStructures;
+package edu.psu.sweng500.team8.coreDataStructures;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
