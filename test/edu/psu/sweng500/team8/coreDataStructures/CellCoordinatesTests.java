@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import CoreDataStructures.CellCoordinates;
+import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 
 /** Test the helper methods since I don't trust my math
  */

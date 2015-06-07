@@ -1,4 +1,4 @@
-package PuzzleGenerator;
+package edu.psu.sweng500.team8.puzzleGenerator;
 
 import static org.junit.Assert.assertTrue;
 
@@ -89,24 +89,19 @@ public class PuzzleTests {
 		DLX dlx = new DLX(pz);
 		int test = dlx.Solve();
 		
-		Assert.asserTrue(test == 1);
+		assertTrue(test == 1);
 	}
 	
 	@Test //For UC1 Step4
 	public void testsForWhetherSystemCategorizes(){
 		int test = DifficultyLevel.Easy.ordinal();
-		AssretTrue(test == 36);
+		assertTrue(test == 36);
 	}
 	
 	@Test //For UC1 Step 5
 	public void testsForGameSaves(){
 		Game game = new Game(DifficultyLevel.Easy){
-			Assert.assertTrue(game.Save());
+			assertTrue(game.Save());
 		}
-	}
-
-	private void AssretTrue(boolean b) {
-		// TODO Auto-generated method stub
-		
 	}
 }

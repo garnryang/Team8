@@ -1,6 +1,6 @@
 package edu.psu.sweng500.team8.coreDataStructures;
 
-import CoreDataStructures.Cell;
+import edu.psu.sweng500.team8.coreDataStructures.Cell;
 
 import static org.junit.Assert.*;
 import org.junit.Test;

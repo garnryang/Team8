@@ -6,9 +6,9 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
-import CoreDataStructures.Board;
-import CoreDataStructures.CellGrid;
-import PuzzleGenerator.SolutionGenerator;
+import edu.psu.sweng500.team8.coreDataStructures.Board;
+import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
+import edu.psu.sweng500.team8.puzzleGenerator.SolutionGenerator;
 
 public class SolutionGeneratorTest {
 	

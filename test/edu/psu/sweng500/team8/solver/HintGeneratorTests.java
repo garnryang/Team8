@@ -1,13 +1,13 @@
-package Solver;
+package edu.psu.sweng500.team8.solver;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import CoreDataStructures.Board;
-import CoreDataStructures.Cell;
-import CoreDataStructures.Puzzle;
-import CoreDataStructures.Puzzle.DifficultyLevel;
+import edu.psu.sweng500.team8.coreDataStructures.Board;
+import edu.psu.sweng500.team8.coreDataStructures.Cell;
+import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
+import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
 
 public class HintGeneratorTests {
 	@Test
