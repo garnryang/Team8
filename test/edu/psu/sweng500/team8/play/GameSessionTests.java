@@ -163,4 +163,26 @@ public class GameSessionTests {
 		Assert.assertEquals(5, cellAfterRedo.getNumber());
 		
 	}
+	
+	@Test
+	public void testHelp_About() {
+		Board board = new Board();
+		GameSession gameSession = new GameSession(board);
+		Assert.assertNotNull(gameSession.getHelp(HelpType.ABOUT));
+	}
+	
+	@Test
+	public void testHelp_Hint() {
+		Board board = new Board();
+		GameSession gameSession = new GameSession(board);
+		Assert.assertNotNull(gameSession.getHelp(HelpType.HINT));
+	}
+	
+	@Test
+	public void testHelp_Rules() {
+		Board board = new Board();
+		GameSession gameSession = new GameSession(board);
+		Assert.assertNotNull(gameSession.getHelp(HelpType.RULES));
+		
+	}
 }

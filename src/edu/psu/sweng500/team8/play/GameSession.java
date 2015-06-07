@@ -104,4 +104,28 @@ public class GameSession {
 	public Board refresh() {
 		return this.board;
 	}
+	
+	public Object getHelp(HelpType helpType) {
+		switch (helpType) {
+		case RULES:
+			return getRules();
+		case ABOUT:
+			return getAbout();
+		case HINT:
+			return getHint();
+		}
+		return null;
+	}
+	
+	private Object getRules() {
+		return null;
+	}
+	
+	private Object getAbout() {
+		return null;
+	}
+	
+	private Object getHint() {
+		return null;
+	}
 }
