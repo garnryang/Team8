@@ -1,11 +1,20 @@
 package edu.psu.sweng500.team8.puzzleGenerator;
 
-import CoreDataStructures.CellGrid;
-import CoreDataStructures.Puzzle.DifficultyLevel;
+import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
+import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
 
 
 
-public class test5 {
+/**
+ * 
+ * FIXME
+ * 1. Class name should start with a capital letter
+ * 2. Class name should be more descriptive
+ * 3. Test case should be in test source folder
+ * 4. Please add missing class (PuzzleGenerator)
+ *
+ */
+public class Test5 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

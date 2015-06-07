@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import CoreDataStructures.CellGrid;
+import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
+
 
 public class DLX {
 	protected Header[] columns;
