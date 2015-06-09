@@ -10,9 +10,19 @@ public class Puzzle {
 		Hard
 	}
 	
-	private CellGrid m_grid = new CellGrid();
 	private DifficultyLevel m_difficulty = DifficultyLevel.Medium;
+	private CellGrid m_grid = new CellGrid();
 	private CellGrid m_solution;
+	
+	//DEPRECATED. TODO: Remove
+	public Puzzle() {
+		
+	}
+	
+	public Puzzle(CellGrid startingGrid, CellGrid solution) {
+		m_grid = new CellGrid(startingGrid); //Make a copy so we have full control
+		m_solution = solution; //Should be read-only, so copy is not necessary
+	}
 	
 	public DifficultyLevel getDifficulty() {
 		return m_difficulty;
