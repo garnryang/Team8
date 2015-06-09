@@ -75,8 +75,15 @@ public final class PuzzleGenerator {
 		Board puzzleBoard = new Board();
 		puzzleBoard.Initialize(puzzle);
 		ISolver solver = SolverFactory.getSolverThatTriesConstraintsFirst();
-		List<CellGrid> solutions = solver.findAllSolutions(puzzleBoard);
-		return solutions.size() == 1;
+		CellGrid solution = solver.findUniqueSolutionOrNull(puzzleBoard);
+		
+		//DEBUG: Remove
+		if (solution != null)
+		{
+			assert puzzle.getSolution().valuesAreEqual(solution);
+		}
+		
+		return solution != null;
 		
 		//DLX solver = new DLX(puzzle.getCopyOfCellGrid());
 

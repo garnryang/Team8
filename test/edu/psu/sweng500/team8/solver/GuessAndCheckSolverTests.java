@@ -2,6 +2,7 @@ package edu.psu.sweng500.team8.solver;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -81,5 +82,17 @@ public class GuessAndCheckSolverTests {
 		assertNotNull(foundSolutions);
 
 		assertEquals(8, foundSolutions.size());
+	}
+	
+	@Test
+	public void returnsNullIfThereIsMoreThanOneSolution() {
+		Puzzle testPuzzle = TestPuzzles.getPuzzleWithMultipleSolutions();
+
+		Board boardToSolve = new Board();
+		boardToSolve.Initialize(testPuzzle);
+		ISolver solver = SolverFactory.getStraightUpGuessAndCheckSolver();
+
+		CellGrid foundSolution = solver.findUniqueSolutionOrNull(boardToSolve);
+		assertNull(foundSolution);
 	}
 }

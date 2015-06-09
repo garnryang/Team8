@@ -10,15 +10,27 @@ import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 
 
 class GuessAndCheckSolver implements ISolver {
+	//DEPRECATED. Don't think we need this.
 	public List<CellGrid> findAllSolutions(Board board) {
 		List<CellGrid> foundSolutions = new ArrayList<CellGrid>();
 		
-		tryRecursiveGuessAndCheck(new Board(board), foundSolutions);
+		tryRecursiveGuessAndCheck(new Board(board), foundSolutions, false);
 		
 		return foundSolutions;
 	}
 	
-	private static boolean tryRecursiveGuessAndCheck(Board board, List<CellGrid> foundSolutions) {
+	public CellGrid findUniqueSolutionOrNull(Board board) {
+		List<CellGrid> foundSolutions = new ArrayList<CellGrid>();
+		
+		tryRecursiveGuessAndCheck(new Board(board), foundSolutions, true);
+		
+		return (foundSolutions.size() == 1) ? foundSolutions.get(0) : null;
+	}
+	
+	private static boolean tryRecursiveGuessAndCheck(
+			Board board, 
+			List<CellGrid> foundSolutions, 
+			boolean stopAfter2Solutions) {
 		if (!board.hasOpenCells())
 		{
 			//Found a solution! But first check if it is a duplicate
@@ -35,13 +47,16 @@ class GuessAndCheckSolver implements ISolver {
 			cellToTry.setNumber(number);
 
 			//Recursively try to solve the puzzle
-			if (tryRecursiveGuessAndCheck(board, foundSolutions))
+			if (tryRecursiveGuessAndCheck(board, foundSolutions, stopAfter2Solutions))
 			{
-				//Successfully found a solution, but quit yet since we want to find all solutions
+				//Successfully found a solution
 				success = true;
 			} 
 			
-			//Didn't work. Clear it and try a different one.
+			if (stopAfter2Solutions && foundSolutions.size() > 1)
+				return success; //Found 2 solutions -- quit now
+			
+			//Clear it and try a different one.
 			cellToTry.clearNumber();
 		}
 

@@ -16,4 +16,12 @@ public interface ISolver {
 	 * @return All possible solutions
 	 */
 	List<CellGrid> findAllSolutions(Board board);
+	
+	/** Get the unique solution to the current board state, if it exists
+	 * @throws IllegalArgumentException There is no possible solution to the board,
+	 * or a constraint has been violated.
+	 * @param board Board to solve
+	 * @return Unique solution, else null
+	 */
+	CellGrid findUniqueSolutionOrNull(Board board);
 }
