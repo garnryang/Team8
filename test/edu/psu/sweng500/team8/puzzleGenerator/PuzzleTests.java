@@ -2,13 +2,10 @@ package edu.psu.sweng500.team8.puzzleGenerator;
 
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
-import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
-import edu.psu.sweng500.team8.play.GameSession;
 
 public class PuzzleTests {
 

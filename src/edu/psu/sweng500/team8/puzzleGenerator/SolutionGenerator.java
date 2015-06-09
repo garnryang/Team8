@@ -20,7 +20,6 @@ public class SolutionGenerator {
 	public static CellGrid[] generateSolutions(int numSolutions) {
 		CellGrid[] solutions = new CellGrid[numSolutions];
 
-		Date startTime = new Date();
 		for (int solutionIndex = 0; solutionIndex < numSolutions; solutionIndex++) {
 
 			// Keep going until we get a valid solution
@@ -31,14 +30,6 @@ public class SolutionGenerator {
 
 			solutions[solutionIndex] = board.getCellGrid();
 		}
-
-		Date endTime = new Date();
-		long totalTimeMS = endTime.getTime() - startTime.getTime();
-		double avgTime = totalTimeMS / (double) numSolutions;
-
-		System.out.println("Total Time for " + numSolutions + " solutions: "
-				+ totalTimeMS);
-		System.out.println("Average Time: " + avgTime);
 
 		return solutions;
 	}

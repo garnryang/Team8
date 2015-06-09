@@ -13,7 +13,7 @@ import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
 
 public class FillPuzzleTests {
 
-	@Test //UC2 Step 1
+	@Test //UC3 Step 1
 	public void playerSelectsAnEmptySquare() {
 		Game game = new Game(DifficultyLevel.Easy);
 		BoardGUI boardGui = new BoardGUI();
@@ -42,7 +42,7 @@ public class FillPuzzleTests {
 		assertTrue(boardGui.hasFocus(row,column));
 	}
 	
-	@Test //UC2 Steps 2&3
+	@Test //UC3 Steps 2&3
 	public void playerEntersNumber(){
 		Game game = new Game(DifficultyLevel.Easy);
 		BoardGUI boardGui = new BoardGUI();
@@ -70,7 +70,7 @@ public class FillPuzzleTests {
 		assertTrue(boardGui.getvalue(row, column) == 9);
 		
 	}
-	@Test //UC2 Step 4
+	@Test //UC3 Step 4
 	public void systemClearsAnyPenciledinValuesInTheSquare(){
 		Game game = new Game(DifficultyLevel.Easy);
 		BoardGUI boardGui = new BoardGUI();
@@ -98,7 +98,7 @@ public class FillPuzzleTests {
 		assertNull(boardGui.getvalue(row, column).getPencilMark());
 	}
 	
-	@Test //UC2 Step 5
+	@Test //UC3 Step 5
 	public void systemClearsAnyPenciledinValuesFromRowColumnBoxes(){
 		Game game = new Game(DifficultyLevel.Easy);
 		BoardGUI boardGui = new BoardGUI();
