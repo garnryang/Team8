@@ -68,6 +68,20 @@ public class BoardTests {
 		assertTrue(retrievedViolatingCells.containsAll(expectedViolatingCells));
 	}
 	
+	@Test
+	public void initializeDoesNotReplaceTheCellGrid() {
+		//Test for a bug that was discovered...
+		//Initialize replaced the cell grid, which invalidated the rows/columns/blocks
+		Puzzle puzzle = TestPuzzles.getMediumPuzzle();
+		Board testBoard = new Board();
+		
+		CellGrid boardBeforeInitialize = testBoard.getCellGrid();
+		testBoard.Initialize(puzzle);
+		CellGrid boardAfterInitialize = testBoard.getCellGrid();
+		
+		assertEquals(boardBeforeInitialize, boardAfterInitialize);
+	}
+	
 	private static void fillInTheSolution(Board board) {
 		//Fill in all the open cells with numbers from the solution
 		CellGrid solution = board.getCurrentPuzzle().getSolution();
@@ -97,11 +111,15 @@ public class BoardTests {
 		while (iterator.hasNext()) {
 			Constraint currentConstraint = iterator.next();
 			
-			for (Cell constraintCell : currentConstraint.getCells()) {
+			for (Cell constraintCell : currentConstraint.getCells()) {	
 				if (constraintCell != cell && constraintCell.getNumber() == cell.getNumber())
 					duplicateCellSet.add(constraintCell);
 			}
 		}
+		
+		//If there are any duplicates, count the cell itself as a duplicate
+		if (duplicateCellSet.size() > 0) 
+			duplicateCellSet.add(cell);
 		
 		return duplicateCellSet;
 	}

@@ -14,15 +14,13 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-
-
-//TODO: This should probably be a static class that calls the SolutionGenerator itself
-//Rather than taking the solution as input
 public final class PuzzleGenerator {
 	private PuzzleGenerator() {
 
 	}
 
+	//TODO: This should probably call the SolutionGenerator itself
+	//Rather than taking the solution as input
 	public static Puzzle makePuzzle(CellGrid solutionGrid, DifficultyLevel difficulty){
 		int revealedCellCount = 0;
 
@@ -77,14 +75,9 @@ public final class PuzzleGenerator {
 		ISolver solver = SolverFactory.getSolverThatTriesConstraintsFirst();
 		CellGrid solution = solver.findUniqueSolutionOrNull(puzzleBoard);
 		
-		//DEBUG: Remove
-		if (solution != null)
-		{
-			assert puzzle.getSolution().valuesAreEqual(solution);
-		}
-		
 		return solution != null;
 		
+		//Disabled due to Taiga issue #81
 		//DLX solver = new DLX(puzzle.getCopyOfCellGrid());
 
 		//return solver.Solve() == 1;

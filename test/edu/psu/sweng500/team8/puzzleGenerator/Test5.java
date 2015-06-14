@@ -6,13 +6,7 @@ import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
 
 
 /**
- * 
- * FIXME
- * 1. Class name should start with a capital letter
- * 2. Class name should be more descriptive
- * 3. Test case should be in test source folder
- * 4. Please add missing class (PuzzleGenerator)
- *
+ * FIXME: Class name should be more descriptive
  */
 public class Test5 {
 

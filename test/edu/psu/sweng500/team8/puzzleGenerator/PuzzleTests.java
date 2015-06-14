@@ -9,15 +9,19 @@ import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
 
 public class PuzzleTests {
 
+	//FIXME: This should be in SolutionGeneratorTests
 	@Test //For UC1 Step1
 	public void testsGeneratedSolutionfor4SudokuConstraints() {
 				
+		//FIXME: What is this test actually verifying? Seems to only be checking the first row,
+		//and the constraint checks are incorrect
+		
 		CellGrid[] grid = SolutionGenerator.generateSolutions(1);
 		
 		//check for all cells occupied
-		for(int i = 1; i<10; i++){
+		for(int i = 1; i < 9; i++){
 			int cellToTest = grid[0].getCell(0, i).getNumber();
-			assertTrue(cellToTest > 0 && cellToTest <10);
+			assertTrue(cellToTest > 0 && cellToTest < 10);
 		}
 		
 		//check for row constraint 
@@ -57,24 +61,24 @@ public class PuzzleTests {
 		}
 	}
 
+	//FIXME: This should be in PuzzleGeneratorTests
 	@Test //For UC1 Step2
 	public void testsGeneratedPuzzleForatleasr18EmptyCells(){
 		CellGrid[] grid = SolutionGenerator.generateSolutions(1);
 		CellGrid puzzleGrid = PuzzleGenerator.makePuzzle(grid[0], DifficultyLevel.Hard).getCopyOfCellGrid();
-		
+
 		int emptyCellCounter = 0;
-		
-		for(int i = 0; i < 81; i++){
-			 int r = ((int)Math.ceil(i/9.0)-1);
-			 int c = (i%9)-1;
-			 int test = puzzleGrid.getCell(r, c==-1?8:c).getNumber();
-			 
-			 if(test == 0) emptyCellCounter++;
-			 
-			 assertTrue(emptyCellCounter >= 18);
-		 }
+
+		for(int i = 0; i < 9; i++){
+			for (int j = 0; j < 9; j++) {
+				if(puzzleGrid.getCell(i,  j).hasNumber()) 
+					emptyCellCounter++;
+			}
+		}
+		assertTrue(emptyCellCounter >= 18);
 	}
-	
+
+	//FIXME: This should be in PuzzleGeneratorTests
 	@Test //For UC1 Step3
 	public void testsforOneSolution(){
 		CellGrid[] grid = SolutionGenerator.generateSolutions(1);
@@ -86,9 +90,10 @@ public class PuzzleTests {
 		assertTrue(numSolutions == 1);
 	}
 	
+	//FIXME: This should be in PuzzleGeneratorTests. Also, complete this test. 
 	@Test //For UC1 Step4
 	public void testsForWhetherSystemCategorizes(){
 		int test = DifficultyLevel.Easy.ordinal();
-		assertTrue(test == 36);
+		assertTrue(test == 36); 
 	}
 }
