@@ -63,7 +63,7 @@ public class PuzzleTests {
 
 	//FIXME: This should be in PuzzleGeneratorTests
 	@Test //For UC1 Step2
-	public void testsGeneratedPuzzleForatleasr18EmptyCells(){
+	public void testsGeneratedPuzzleForAtLeast18EmptyCells(){
 		CellGrid[] grid = SolutionGenerator.generateSolutions(1);
 		CellGrid puzzleGrid = PuzzleGenerator.makePuzzle(grid[0], DifficultyLevel.Hard).getCopyOfCellGrid();
 

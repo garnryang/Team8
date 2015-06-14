@@ -81,7 +81,7 @@ public class CellGridTest {
 	}
 	
 	@Test
-	public void testEualsLikeMethod() {
+	public void valuesAreEqualReturnsTrueForGridsWithSameValues() {
 		CellGrid mockCellGrid = DataStructureTestHelper.buildSudokuManually();
 		CellGrid targetCellGrid = new CellGrid(mockCellGrid);
 
