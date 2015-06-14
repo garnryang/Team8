@@ -7,18 +7,15 @@ import java.util.Stack;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 
 
-public class DLX {
-	protected Header[] columns;
-	protected NodePointer[] rows;
-	protected Stack<Node> sol;
-	protected Header h;
-	protected int totalSolution;
-	public int[][] solution;
-	public boolean getSolution;
-	protected List<String> problem = new ArrayList<String>(); 
-	protected CellGrid problemGrid;
+class DLX {
+	private Header[] columns;
+	private NodePointer[] rows;
+	private Stack<Node> sol;
+	private Header h;
+	private int totalSolution;
+	private List<String> problem = new ArrayList<String>(); 
+	private CellGrid problemGrid;
 
-	
 	
 	public DLX(CellGrid problemGrid){
 		this.h = new Header(0);
@@ -51,7 +48,6 @@ public class DLX {
 				}
 			}
 		}
-		int test = 0;
 	}
 	
 	public void buildSkeleton(int rowCount, int colCount){
@@ -69,7 +65,6 @@ public class DLX {
 		for(int i = 0; i< rowCount; i++){
 			rows[i]=new NodePointer();
 		}
-		int test =0;
 	}
 	
 	// r = string representation of row

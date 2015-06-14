@@ -5,6 +5,11 @@ import java.util.Stack;
 import edu.psu.sweng500.team8.coreDataStructures.Board;
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
+import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
+import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
+import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
+import edu.psu.sweng500.team8.puzzleGenerator.PuzzleGenerator;
+import edu.psu.sweng500.team8.puzzleGenerator.SolutionGenerator;
 
 /**
  * 
@@ -13,17 +18,29 @@ import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
  */
 public class GameSession {
 	
-	private Board board;
+	private Board board = new Board();
 	/* TODO - Do we want to have a player class? */
 	// private Player player;
 	
-	private Stack<SudokuAction> sudokuActionQueue;
-	private Stack<SudokuAction> sudokuActionQueueForUndo;
+	private Stack<SudokuAction> sudokuActionQueue = new Stack<SudokuAction>();
+	private Stack<SudokuAction> sudokuActionQueueForUndo = new Stack<SudokuAction>();
 	
+	public GameSession(DifficultyLevel difficulty) {
+		CellGrid solution = SolutionGenerator.generateSolutions(1)[00];
+		Puzzle puzzle = PuzzleGenerator.makePuzzle(solution, difficulty);
+		this.board = new Board();
+		board.Initialize(puzzle);
+	}
+	
+	//DEPRECATED. TODO: Remove
 	public GameSession(Board board) {
 		this.board = board;
 		this.sudokuActionQueue = new Stack<SudokuAction>();
 		this.sudokuActionQueueForUndo = new Stack<SudokuAction>();
+	}
+	
+	public Board getGameBoard() {
+		return board;
 	}
 	
 	/**

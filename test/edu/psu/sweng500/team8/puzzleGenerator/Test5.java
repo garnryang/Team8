@@ -18,11 +18,8 @@ public class Test5 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		SolutionGenerator solGen = new SolutionGenerator();
-		CellGrid[] grid = solGen.generateSolutions(1);
-		PuzzleGenerator pg = new PuzzleGenerator(grid[0],DifficultyLevel.Easy);
-		
-		CellGrid cg = pg.makePuzzle();
+		CellGrid[] grid = SolutionGenerator.generateSolutions(1);
+		CellGrid cg = PuzzleGenerator.makePuzzle(grid[0], DifficultyLevel.Easy).getCopyOfCellGrid();
 		
 		for(int i = 0; i<9; i++){
 			for(int j = 0; j<9; j++){
@@ -30,7 +27,6 @@ public class Test5 {
 			}
 		}
 		
-		@SuppressWarnings("unused")
 		DLX dlx = new DLX(cg);
 		
 		int test = dlx.Solve();

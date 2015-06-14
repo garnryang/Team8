@@ -2,7 +2,6 @@ package edu.psu.sweng500.team8.puzzleGenerator;
 
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
@@ -61,17 +60,14 @@ public class PuzzleTests {
 	@Test //For UC1 Step2
 	public void testsGeneratedPuzzleForatleasr18EmptyCells(){
 		CellGrid[] grid = SolutionGenerator.generateSolutions(1);
-		PuzzleGenerator pg = new PuzzleGenerator(grid[0],DifficultyLevel.Hard);
-		
-		CellGrid pz = pg.makePuzzle();
-		
+		CellGrid puzzleGrid = PuzzleGenerator.makePuzzle(grid[0], DifficultyLevel.Hard).getCopyOfCellGrid();
 		
 		int emptyCellCounter = 0;
 		
 		for(int i = 0; i < 81; i++){
 			 int r = ((int)Math.ceil(i/9.0)-1);
 			 int c = (i%9)-1;
-			 int test = pz.getCell(r, c==-1?8:c).getNumber();
+			 int test = puzzleGrid.getCell(r, c==-1?8:c).getNumber();
 			 
 			 if(test == 0) emptyCellCounter++;
 			 
@@ -82,26 +78,17 @@ public class PuzzleTests {
 	@Test //For UC1 Step3
 	public void testsforOneSolution(){
 		CellGrid[] grid = SolutionGenerator.generateSolutions(1);
-		PuzzleGenerator pg = new PuzzleGenerator(grid[0],DifficultyLevel.Easy);
+		CellGrid puzzleGrid = PuzzleGenerator.makePuzzle(grid[0], DifficultyLevel.Easy).getCopyOfCellGrid();
 		
-		CellGrid pz = pg.makePuzzle();
+		DLX dlx = new DLX(puzzleGrid);
+		int numSolutions = dlx.Solve();
 		
-		DLX dlx = new DLX(pz);
-		int test = dlx.Solve();
-		
-		assertTrue(test == 1);
+		assertTrue(numSolutions == 1);
 	}
 	
 	@Test //For UC1 Step4
 	public void testsForWhetherSystemCategorizes(){
 		int test = DifficultyLevel.Easy.ordinal();
 		assertTrue(test == 36);
-	}
-	
-	@Test //For UC1 Step 5
-	public void testsForGameSaves(){
-		Game game = new Game(DifficultyLevel.Easy){
-			assertTrue(game.Save());
-		}
 	}
 }
