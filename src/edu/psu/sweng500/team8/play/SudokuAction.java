@@ -1,6 +1,7 @@
 package edu.psu.sweng500.team8.play;
 
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
+import edu.psu.sweng500.team8.coreDataStructures.PencilMarkManager;
 
 /**
  * 
@@ -14,12 +15,14 @@ public class SudokuAction {
 	private CellCoordinates cellCordinates;
 	private int previousValue;
 	private int newValue;
+	private PencilMarkManager pencilMarkManager; 
 
 	public SudokuAction(CellCoordinates cellCoordinates,
-			int previousValue, int newVale) {
+			int previousValue, int newVale, PencilMarkManager currentPencilMarkStatus) {
 		this.cellCordinates = cellCoordinates;
 		this.previousValue = previousValue;
 		this.newValue = newVale;
+		this.setPencilMarkManager(currentPencilMarkStatus);
 	}
 	
 	public CellCoordinates getCellCordinates() {
@@ -44,5 +47,13 @@ public class SudokuAction {
 
 	public void setNewValue(int newValue) {
 		this.newValue = newValue;
+	}
+
+	public PencilMarkManager getPencilMarkManager() {
+		return pencilMarkManager;
+	}
+
+	public void setPencilMarkManager(PencilMarkManager pencilMarkManager) {
+		this.pencilMarkManager = pencilMarkManager;
 	}
 }
