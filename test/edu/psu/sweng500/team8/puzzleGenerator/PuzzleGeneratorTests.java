@@ -7,7 +7,7 @@ import org.junit.Test;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
 
-public class PuzzleTests {
+public class PuzzleGeneratorTests {
 
 	//FIXME: This should be in SolutionGeneratorTests
 	@Test //For UC1 Step1

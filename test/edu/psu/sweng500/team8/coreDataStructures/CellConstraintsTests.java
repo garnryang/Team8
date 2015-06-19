@@ -5,7 +5,7 @@ import java.util.Set;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-public class CellConstraintsTest {
+public class CellConstraintsTests {
 
 	//	@Test
 	//	public void testCellConstraints() {

@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 public class GridPanel extends javax.swing.JPanel {    
     private JTextField[][] controlGrid = new JTextField[9][9];
     
+    
     /**
      * Creates new form GridPanel
      */
