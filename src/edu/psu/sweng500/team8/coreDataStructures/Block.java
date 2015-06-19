@@ -4,7 +4,7 @@ package edu.psu.sweng500.team8.coreDataStructures;
  * Blocks in the 9x9 grid, as well as within the block itself are indexed as:
  * 0 1 2
  * 3 4 5
- * 6 7 8
+ * 6 7 8 
  * The block index and sub-indicies are used to determine the actual cells in the 9x9 grid
  */
 public class Block extends Constraint {
