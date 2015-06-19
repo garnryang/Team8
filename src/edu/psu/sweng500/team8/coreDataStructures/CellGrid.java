@@ -31,6 +31,14 @@ public class CellGrid implements BinarySerializable {
 		}
 	}
 	
+	public void updateToCellGrid(CellGrid cellGridToImitate) {
+		for (int rowIndex = 0; rowIndex < 9; rowIndex++) {
+			for (int columnIndex = 0; columnIndex < 9; columnIndex++) {
+				m_cells[rowIndex][columnIndex] = new Cell(cellGridToImitate.getCell(rowIndex,columnIndex));
+			}
+		}
+	}
+	
 	public Cell getCell(int row, int column) {
 		return m_cells[row][column];
 	}

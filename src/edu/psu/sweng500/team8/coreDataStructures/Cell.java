@@ -35,6 +35,7 @@ public class Cell implements BinarySerializable {
 		m_coordinates = cellToCopy.m_coordinates;
 		m_currentValue = cellToCopy.m_currentValue;
 		m_type = cellToCopy.m_type;
+		m_pencilMarks = cellToCopy.m_pencilMarks;
 	}
 	
 	public CellCoordinates getCoordinates() {
