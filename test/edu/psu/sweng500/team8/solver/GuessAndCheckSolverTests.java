@@ -12,7 +12,7 @@ import org.junit.Test;
 import edu.psu.sweng500.team8.coreDataStructures.Board;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
-
+import edu.psu.sweng500.team8.coreDataStructures.TestPuzzles;
 
 public class GuessAndCheckSolverTests {
 	@Test

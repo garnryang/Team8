@@ -10,7 +10,7 @@ import edu.psu.sweng500.team8.coreDataStructures.Board;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 import edu.psu.sweng500.team8.puzzleGenerator.SolutionGenerator;
 
-public class SolutionGeneratorTest {
+public class SolutionGeneratorTests {
 	
 	private final static int TRIAL_LIMIT = 1000;
 
@@ -234,6 +234,7 @@ public class SolutionGeneratorTest {
 		boolean keepGoing = true;
 		int breakCounter = 0;
 
+		//FIXME: Why not use a for loop with a break statement instead of a separate counter and a flag??
 		/* a full board is generated within 1,000 trials */
 		while (keepGoing && breakCounter < TRIAL_LIMIT) {
 			board = SolutionGenerator.tryCreateSolution();
