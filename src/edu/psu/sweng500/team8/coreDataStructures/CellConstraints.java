@@ -80,11 +80,14 @@ public class CellConstraints {
 			return next;
 		}
 
-		@Override
+		/**
+		 * We do not have to implement as we don't need it
+		 * but we still need to have this added since Iterator interface requires it
+		 */
 		public void remove() {
-			// TODO Auto-generated method stub
-			// FIXME - why was this not added?
+			// Auto-generated method stub
+			// why was this not added? (JN) Because it's not required by the interface, nor do we need it.
+			// Iterator interface requires remote method to be implemented whehter we need it or not
 		}
-
 	}
 }

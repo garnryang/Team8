@@ -21,22 +21,9 @@ public class CellGrid implements BinarySerializable {
 		}
 	}
 	
-	public CellGrid(CellGrid gridToCopy) {
-		
+	public CellGrid(CellGrid gridToCopy) {		
 		//Clone all of the cells
-		for (int rowIndex = 0; rowIndex < 9; rowIndex++) {
-			for (int columnIndex = 0; columnIndex < 9; columnIndex++) {
-				m_cells[rowIndex][columnIndex] = new Cell(gridToCopy.getCell(rowIndex,columnIndex));
-			}
-		}
-	}
-	
-	public void updateToCellGrid(CellGrid cellGridToImitate) {
-		for (int rowIndex = 0; rowIndex < 9; rowIndex++) {
-			for (int columnIndex = 0; columnIndex < 9; columnIndex++) {
-				m_cells[rowIndex][columnIndex] = new Cell(cellGridToImitate.getCell(rowIndex,columnIndex));
-			}
-		}
+		copyValues(gridToCopy);
 	}
 	
 	public Cell getCell(int row, int column) {
@@ -56,6 +43,15 @@ public class CellGrid implements BinarySerializable {
 		return true;
 	}
 	
+	public void copyValues(CellGrid gridToCopy) {
+		for (int rowIndex = 0; rowIndex < 9; rowIndex++) {
+			for (int columnIndex = 0; columnIndex < 9; columnIndex++) {
+				m_cells[rowIndex][columnIndex] = new Cell(gridToCopy.getCell(rowIndex,columnIndex));
+			}
+		}
+	}
+	
+	//for debugging
 	public void print() {
 		for (int rowIndex = 0; rowIndex < 9; rowIndex++) {
 			for (int columnIndex = 0; columnIndex < 9; columnIndex++) {

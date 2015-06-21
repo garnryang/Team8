@@ -67,6 +67,20 @@ public class BoardTests {
 		assertTrue(retrievedViolatingCells.containsAll(expectedViolatingCells));
 	}
 	
+	@Test
+	public void initializeDoesNotReplaceTheCellGrid() {
+		//Test for a bug that was discovered...
+		//Initialize replaced the cell grid, which invalidated the rows/columns/blocks
+		Puzzle puzzle = TestPuzzles.getMediumPuzzle();
+		Board testBoard = new Board();
+		
+		CellGrid boardBeforeInitialize = testBoard.getCellGrid();
+		testBoard.Initialize(puzzle);
+		CellGrid boardAfterInitialize = testBoard.getCellGrid();
+		
+		assertEquals(boardBeforeInitialize, boardAfterInitialize);
+	}
+	
 	private static void fillInTheSolution(Board board) {
 		//Fill in all the open cells with numbers from the solution
 		CellGrid solution = board.getCurrentPuzzle().getSolution();

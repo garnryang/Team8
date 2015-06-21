@@ -34,7 +34,7 @@ public class ActionManager {
 			lastAction.setCellGrid(new CellGrid(currentCellGridFromBoard));
 			sudokuActionQueueForUndo.add(lastAction);
 			
-			currentCellGridFromBoard.updateToCellGrid(previousCellGrid);
+			currentCellGridFromBoard.copyValues(previousCellGrid);
 		}
 	}
 
@@ -50,7 +50,7 @@ public class ActionManager {
 			lastActionUndone.setCellGrid(new CellGrid(currentCellGridFromBoard));
 			sudokuActionQueue.add(lastActionUndone);
 
-			currentCellGridFromBoard.updateToCellGrid(previousCellGrid);
+			currentCellGridFromBoard.copyValues(previousCellGrid);
 		}
 	}
 }
