@@ -40,8 +40,6 @@ public class GameSession {
 		return board;
 	}
 	
-
-
 	
 	/**
 	 * Enter a number to given cellCoordinates

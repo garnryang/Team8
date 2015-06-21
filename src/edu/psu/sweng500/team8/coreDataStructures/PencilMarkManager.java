@@ -7,7 +7,7 @@ public class PencilMarkManager {
 		m_board = board;
 	}
 	
-	public void addPencilMark(int number, Cell cell) {	
+	public void addPencilMark(int number, Cell cell) {		
 		cell.getPencilMarks().add(number);
 	}
 	

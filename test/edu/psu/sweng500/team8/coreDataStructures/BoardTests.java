@@ -110,7 +110,7 @@ public class BoardTests {
 		while (iterator.hasNext()) {
 			Constraint currentConstraint = iterator.next();
 			
-			for (Cell constraintCell : currentConstraint.getCells()) {	
+			for (Cell constraintCell : currentConstraint.getCells()) {
 				if (constraintCell != cell && constraintCell.getNumber() == cell.getNumber())
 					duplicateCellSet.add(constraintCell);
 			}

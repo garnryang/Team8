@@ -256,4 +256,20 @@ public class GameSessionTests {
 		Cell unsavedCell = boardAfterLoad.getCell(1, 1);
 		Assert.assertEquals(0, unsavedCell.getNumber());
 	}
+	
+	/**
+	 * FIXME - implement and update the document
+	 */
+	@Test
+	public void testDoUndo_With_PencilMark() {
+		Assert.fail();
+	}
+	
+	/**
+	 * FIXME - implement and update the document
+	 */
+	@Test
+	public void testDoRedo_With_PencilMark() {
+		Assert.fail();
+	}
 }
