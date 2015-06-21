@@ -61,13 +61,14 @@ public class GameSession {
 	 * @param number
 	 */
 	public void enterNumber(CellCoordinates cellCoordinates, int number) {
+
+		/* keep track of the last action*/
+		SudokuAction sudokuAction = new SudokuAction(new CellGrid(board.getCellGrid()));
 		
 		/* updating number */
 		Cell currentCell = board.getCell(cellCoordinates.getRowIndex(), cellCoordinates.getColumnIndex());
 		currentCell.setNumber(number);
 		
-		/* keep track of the last action*/
-		SudokuAction sudokuAction = new SudokuAction(new CellGrid(board.getCellGrid()));
 		actionManager.addAction(sudokuAction);
 		
 		/* TODO - PencilMarkManager updating/wiping out PencilMark number matching entered number */
