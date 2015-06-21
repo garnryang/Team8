@@ -24,6 +24,7 @@ public class CellGrid implements BinarySerializable {
 	public CellGrid(CellGrid gridToCopy) {		
 		//Clone all of the cells
 		copyValues(gridToCopy);
+	
 	}
 	
 	public Cell getCell(int row, int column) {
