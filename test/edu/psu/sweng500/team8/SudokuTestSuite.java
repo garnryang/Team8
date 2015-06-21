@@ -4,12 +4,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 import edu.psu.sweng500.team8.coreDataStructures.BoardTests;
-import edu.psu.sweng500.team8.coreDataStructures.CellConstraintsTest;
+import edu.psu.sweng500.team8.coreDataStructures.CellConstraintsTests;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinatesTests;
 import edu.psu.sweng500.team8.coreDataStructures.CellGridTests;
 import edu.psu.sweng500.team8.coreDataStructures.CellTests;
 import edu.psu.sweng500.team8.coreDataStructures.PencilMarkManagerTests;
 import edu.psu.sweng500.team8.play.GameSessionTests;
+import edu.psu.sweng500.team8.puzzleGenerator.DLXTests;
 import edu.psu.sweng500.team8.puzzleGenerator.FillPuzzleTests;
 import edu.psu.sweng500.team8.puzzleGenerator.PuzzleGeneratorTests;
 import edu.psu.sweng500.team8.puzzleGenerator.SolutionGeneratorTests;
@@ -23,12 +24,13 @@ import edu.psu.sweng500.team8.solver.HintGeneratorTests;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
    BoardTests.class,
-   CellConstraintsTest.class,
+   CellConstraintsTests.class,
    CellCoordinatesTests.class,
    CellGridTests.class,
    CellTests.class,
    PencilMarkManagerTests.class,
    GameSessionTests.class,
+   DLXTests.class,
    FillPuzzleTests.class,
    PuzzleGeneratorTests.class,
    SolutionGeneratorTests.class,

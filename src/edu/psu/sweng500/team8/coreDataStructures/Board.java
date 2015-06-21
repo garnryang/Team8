@@ -136,7 +136,15 @@ public class Board {
 		for (Cell cell : cells) {
 			int cellNumber = cell.getNumber();
 			
-			Set<Cell> cellsWithSameNumber = numbersToCells.getOrDefault(cellNumber, null);
+			/**
+			 * FIXME - This is JAVA 8 functionality and doesn't exist on Java 7
+			 * If default value should be null, get(cellNumber) will yeild the same result
+			 */
+			//Set<Cell> cellsWithSameNumber = numbersToCells.getOrDefault(cellNumber, null);
+			Set<Cell> cellsWithSameNumber = numbersToCells.get(cellNumber);
+			
+			
+			
 			if (cellsWithSameNumber == null)
 			{
 				cellsWithSameNumber = new HashSet<Cell>(2); //most likely only need 1-2 numbers

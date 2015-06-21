@@ -1,7 +1,5 @@
 package edu.psu.sweng500.team8.play;
 
-import java.util.Stack;
-
 import edu.psu.sweng500.team8.coreDataStructures.Board;
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
@@ -19,70 +17,31 @@ import edu.psu.sweng500.team8.puzzleGenerator.SolutionGenerator;
 public class GameSession {
 	
 	private Board board = new Board();
-	/* TODO - Do we want to have a player class? */ //(JN): I don't see any reason for it unless we're tracking scores or something
+	/* TODO - Do we want to have a player class? */
 	// private Player player;
-	
-	private Stack<SudokuAction> sudokuActionQueue = new Stack<SudokuAction>();
-	private Stack<SudokuAction> sudokuActionQueueForUndo = new Stack<SudokuAction>();
+	private ActionManager actionManager;
 	
 	public GameSession(DifficultyLevel difficulty) {
 		CellGrid solution = SolutionGenerator.generateSolutions(1)[00];
 		Puzzle puzzle = PuzzleGenerator.makePuzzle(solution, difficulty);
 		this.board = new Board();
 		board.Initialize(puzzle);
+		
+		actionManager = new ActionManager();
 	}
 	
 	//DEPRECATED. TODO: Remove
 	public GameSession(Board board) {
 		this.board = board;
-		this.sudokuActionQueue = new Stack<SudokuAction>();
-		this.sudokuActionQueueForUndo = new Stack<SudokuAction>();
+		actionManager = new ActionManager();
 	}
 	
 	public Board getGameBoard() {
 		return board;
 	}
 	
-	/**
-	 * Undo last action such as entering a number or redo
-	 */
-	public void doUndo() {
-		/* revert last action on the sudokuActionQueue, and put that action into sudokuActionQueueForUndo */
-		if (!sudokuActionQueue.isEmpty()) {
-			SudokuAction lastAction = sudokuActionQueue.pop();
-			sudokuActionQueueForUndo.add(lastAction);
-			
-			/* TODO - following is a sample implementation
-			 * Actual board update to be implemented */			
-//			Cell currentCell = board.getCell(lastAction.getCellCordinates().getRowIndex(), lastAction.getCellCordinates().getColumnIndex());
-//			if (0 == lastAction.getPreviousValue()) {
-//				currentCell.clearNumber();
-//			} else {
-//				currentCell.setNumber(lastAction.getPreviousValue());
-//			}
-		} 
-	}
-	
-	/** 
-	 * redo last action reverted back back undo  */
-	public void doRedo() {
-		/* redo last action reverted back by undo */
-		if (!sudokuActionQueueForUndo.isEmpty()) {
-			SudokuAction lastActionUndone = sudokuActionQueueForUndo.pop();
-			sudokuActionQueue.add(lastActionUndone);
-			
-			/* TODO - following is a sample implementation
-			 * Actual board update to be implemented */			
-//			Cell currentCell = board.getCell(lastActionUndone.getCellCordinates().getRowIndex(), lastActionUndone.getCellCordinates().getColumnIndex());
-//			if (0 == lastActionUndone.getNewValue()) {
-//				currentCell.clearNumber();
-//			} else {
-//				currentCell.setNumber(lastActionUndone.getNewValue());
-//			}
-			
 
-		}	
-	}
+
 	
 	/**
 	 * Enter a number to given cellCoordinates
@@ -105,13 +64,15 @@ public class GameSession {
 	 */
 	public void enterNumber(CellCoordinates cellCoordinates, int number) {
 		
+		/* updating number */
 		Cell currentCell = board.getCell(cellCoordinates.getRowIndex(), cellCoordinates.getColumnIndex());
-		SudokuAction sudokuAction = new SudokuAction(cellCoordinates, currentCell.getNumber(), number);
-		
-		/* TODO Actual Board Update to be implemented */
 		currentCell.setNumber(number);
 		
-		sudokuActionQueue.add(sudokuAction);
+		/* keep track of the last action*/
+		SudokuAction sudokuAction = new SudokuAction(new CellGrid(board.getCellGrid()));
+		actionManager.addAction(sudokuAction);
+		
+		/* TODO - PencilMarkManager updating/wiping out PencilMark number matching entered number */
 	}
 	
 	/**
@@ -163,5 +124,13 @@ public class GameSession {
 	 */
 	public void doLoad(String saveFile) {
 		/* TODO implement */
+	}
+
+	public void doRedo() {
+		actionManager.doRedo(board.getCellGrid());		
+	}
+
+	public void doUndo() {
+		actionManager.doUndo(board.getCellGrid());		
 	}
 }
