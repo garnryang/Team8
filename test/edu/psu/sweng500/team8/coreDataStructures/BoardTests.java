@@ -116,6 +116,10 @@ public class BoardTests {
 			}
 		}
 		
+		//If there are any duplicates, count the cell itself as a duplicate
+		if (duplicateCellSet.size() > 0) 
+			duplicateCellSet.add(cell);
+		
 		return duplicateCellSet;
 	}
 }
