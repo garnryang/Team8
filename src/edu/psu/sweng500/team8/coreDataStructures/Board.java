@@ -1,6 +1,8 @@
 package edu.psu.sweng500.team8.coreDataStructures;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -97,11 +99,9 @@ public class Board {
 		return openCells;
 	}
 	
-	/* FIXME - This cannot work. new Board starts with cellGrid and
-	 * the constructor sets row, column and block
-	 * setting a new m_grid from puzzle will not update row, column, and block */
 	public void Initialize(Puzzle puzzle) {
-		m_grid = puzzle.getCopyOfCellGrid();
+		//Copy the cells without swapping the cell grid
+		m_grid.copyValues(puzzle.getCopyOfCellGrid());
 		m_currentPuzzle = puzzle;
 	}
 	
@@ -110,11 +110,48 @@ public class Board {
 	}
 	
 	public boolean puzzleIsSolved() {
-		//(JN 6/4/15) Easy enough to implement. Leaving it unimplemented for the sake of the test failure report.
-		throw new UnsupportedOperationException();
+		return m_grid.valuesAreEqual(m_currentPuzzle.getSolution());
 	}
 	
 	public Set<Cell> getCellsViolatingConstraints() {
-		throw new UnsupportedOperationException();
+		//Check each constraint for duplicates
+		Set<Cell> duplicateCells = new HashSet<Cell>();
+		for (Row row : m_rows)
+			duplicateCells.addAll(getCellsViolatingConstraint(row));
+		
+		for (Column column : m_columns)
+			duplicateCells.addAll(getCellsViolatingConstraint(column));
+		
+		for (Block block : m_blocks)
+			duplicateCells.addAll(getCellsViolatingConstraint(block));
+		
+		return duplicateCells;
+	}
+	
+	private Set<Cell> getCellsViolatingConstraint(Constraint constraint) {
+		
+		//Build a map of the numbers with cells containing that number
+		HashMap<Integer, Set<Cell> > numbersToCells = new HashMap<Integer, Set<Cell> >(9);
+		List<Cell> cells = constraint.getCells();
+		for (Cell cell : cells) {
+			int cellNumber = cell.getNumber();
+			
+			Set<Cell> cellsWithSameNumber = numbersToCells.getOrDefault(cellNumber, null);
+			if (cellsWithSameNumber == null)
+			{
+				cellsWithSameNumber = new HashSet<Cell>(2); //most likely only need 1-2 numbers
+				numbersToCells.put(cellNumber, cellsWithSameNumber);
+			}
+			cellsWithSameNumber.add(cell);
+		}
+		
+		//Combine the cells with more than one entry
+		Set<Cell> cellsWithDuplicates = new HashSet<Cell>();
+		for (Set<Cell> cellSet : numbersToCells.values()) {
+			if (cellSet.size() > 1)
+				cellsWithDuplicates.addAll(cellSet);
+		}
+		
+		return cellsWithDuplicates;
 	}
 }

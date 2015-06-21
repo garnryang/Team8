@@ -19,7 +19,7 @@ import edu.psu.sweng500.team8.puzzleGenerator.SolutionGenerator;
 public class GameSession {
 	
 	private Board board = new Board();
-	/* TODO - Do we want to have a player class? */
+	/* TODO - Do we want to have a player class? */ //(JN): I don't see any reason for it unless we're tracking scores or something
 	// private Player player;
 	
 	private Stack<SudokuAction> sudokuActionQueue = new Stack<SudokuAction>();

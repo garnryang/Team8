@@ -7,11 +7,11 @@ public class PencilMarkManager {
 		m_board = board;
 	}
 	
-	public void addPencilMark(int number, Cell cell) {		
-		throw new UnsupportedOperationException();
+	public void addPencilMark(int number, Cell cell) {	
+		cell.getPencilMarks().add(number);
 	}
 	
 	public void removePencilMark(int number, Cell cell) {
-		throw new UnsupportedOperationException();
+		cell.getPencilMarks().remove(number);
 	}
 }

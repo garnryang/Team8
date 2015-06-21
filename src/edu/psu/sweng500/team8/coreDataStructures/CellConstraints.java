@@ -80,11 +80,11 @@ public class CellConstraints {
 			return next;
 		}
 
-		@Override
+		/*@Override
 		public void remove() {
 			// TODO Auto-generated method stub
-			// FIXME - why was this not added?
-		}
+			// FIXME - why was this not added? (JN) Because it's not required by the interface, nor do we need it.
+		}*/
 
 	}
 }
