@@ -3,6 +3,18 @@ package edu.psu.sweng500.team8.gui;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
 import edu.psu.sweng500.team8.play.GameSession;
 
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JFileChooser;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.GroupLayout;
+import javax.swing.AbstractAction;
+
+import java.awt.event.ActionEvent;
+
+import javax.swing.Action;
+
+import java.awt.event.ActionListener;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -40,19 +52,40 @@ public class SudokuGUI extends javax.swing.JFrame {
         radMedium = new javax.swing.JRadioButton();
         radHard = new javax.swing.JRadioButton();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
+        jButton10.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		saveGame();
+        	}
+
+			private void saveGame() {
+				// TODO Auto-generated method stub
+				
+			}
+        });
         jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
+        jButton12.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		undoMove();
+        	}
+
+			private void undoMove() {
+				// TODO Auto-generated method stub
+				
+			}
+        });
         jButton13 = new javax.swing.JButton();
+        jButton13.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		redoMove();
+        	}
+
+			private void redoMove() {
+				// TODO Auto-generated method stub
+				
+			}
+        });
         jButton14 = new javax.swing.JButton();
         btnNewGame = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
@@ -83,34 +116,6 @@ public class SudokuGUI extends javax.swing.JFrame {
         });
 
         jLabel2.setText("Difficulty");
-
-        jButton1.setText("8");
-
-        jButton2.setText("1");
-
-        jButton3.setText("5");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        jButton4.setText("3");
-
-        jButton5.setText("2");
-
-        jButton6.setText("9");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
-
-        jButton7.setText("4");
-
-        jButton8.setText("6");
-
-        jButton9.setText("7");
 
         jButton10.setText("Save");
 
@@ -143,101 +148,71 @@ public class SudokuGUI extends javax.swing.JFrame {
         jLabel3.setText("Options");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton6))
-                    .addComponent(gameBoard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnNewGame)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(radMedium, javax.swing.GroupLayout.Alignment.TRAILING))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(radHard)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(radEasy))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addGap(4, 4, 4)
-                                    .addComponent(jButton14)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(4, 4, 4)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton12)
-                                    .addComponent(jButton13)
-                                    .addComponent(jButton11)
-                                    .addComponent(jButton10)
-                                    .addComponent(jLabel3))))
-                        .addGap(18, 18, 18))))
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(gameBoard, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        			.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+        				.addGroup(layout.createSequentialGroup()
+        					.addComponent(btnNewGame)
+        					.addContainerGap())
+        				.addGroup(layout.createSequentialGroup()
+        					.addGroup(layout.createParallelGroup(Alignment.LEADING)
+        						.addGroup(layout.createParallelGroup(Alignment.LEADING)
+        							.addComponent(jLabel1, Alignment.TRAILING)
+        							.addComponent(radMedium, Alignment.TRAILING))
+        						.addGroup(layout.createSequentialGroup()
+        							.addGap(4)
+        							.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+        								.addComponent(radHard)
+        								.addComponent(jLabel2)
+        								.addComponent(radEasy)))
+        						.addGroup(layout.createSequentialGroup()
+        							.addGap(4)
+        							.addGroup(layout.createParallelGroup(Alignment.LEADING)
+        								.addComponent(jButton12)
+        								.addComponent(jButton13)
+        								.addComponent(jButton11)
+        								.addComponent(jButton10)
+        								.addComponent(jLabel3)
+        								.addComponent(jButton14))))
+        					.addGap(18))))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addGap(13, 13, 13)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(radEasy)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(radMedium)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(radHard)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton13)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton14)
-                .addGap(18, 18, 18)
-                .addComponent(btnNewGame)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(gameBoard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton5)
-                    .addComponent(jButton4)
-                    .addComponent(jButton7)
-                    .addComponent(jButton3)
-                    .addComponent(jButton8)
-                    .addComponent(jButton9)
-                    .addComponent(jButton6)
-                    .addComponent(jButton1)))
+        	layout.createParallelGroup(Alignment.TRAILING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addComponent(jLabel1)
+        			.addGap(13)
+        			.addComponent(jLabel2)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(radEasy)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(radMedium)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(radHard)
+        			.addPreferredGap(ComponentPlacement.RELATED, 229, Short.MAX_VALUE)
+        			.addComponent(jLabel3)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(jButton10)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(jButton11)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(jButton12)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(jButton13)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(jButton14)
+        			.addGap(18)
+        			.addComponent(btnNewGame)
+        			.addContainerGap())
+        		.addGroup(layout.createSequentialGroup()
+        			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        			.addComponent(gameBoard, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        			.addGap(41))
         );
+        getContentPane().setLayout(layout);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -250,23 +225,26 @@ public class SudokuGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_radHardActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
-
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         // TODO add your handling code here:
+    	//Create a file chooser
+    	final JFileChooser fc = new JFileChooser();
+    	    	//In response to a button click:
+    	int returnVal = fc.showOpenDialog(getComponent(0));
+
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
         // TODO add your handling code here:
+    		openHelp();
     }//GEN-LAST:event_jButton14ActionPerformed
 
-    private void btnNewGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewGameActionPerformed
+    private void openHelp() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void btnNewGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewGameActionPerformed
         DifficultyLevel difficulty;
     	if (radEasy.isSelected())
     		difficulty = DifficultyLevel.Easy;
@@ -318,25 +296,25 @@ public class SudokuGUI extends javax.swing.JFrame {
     private javax.swing.JButton btnNewGame;
     private javax.swing.ButtonGroup buttonGroup1;
     private edu.psu.sweng500.team8.gui.GridPanel gameBoard;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JRadioButton radEasy;
     private javax.swing.JRadioButton radHard;
     private javax.swing.JRadioButton radMedium;
+    private final Action action = new SwingAction();
     // End of variables declaration//GEN-END:variables
+	private class SwingAction extends AbstractAction {
+		public SwingAction() {
+			putValue(NAME, "SwingAction");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+		}
+	}
 }
