@@ -10,10 +10,6 @@ import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 import javax.swing.JTextField;
 
-/**
- *
- * @author Jeremy
- */
 public class GridPanel extends javax.swing.JPanel {    
     private JTextField[][] controlGrid = new JTextField[9][9];
     

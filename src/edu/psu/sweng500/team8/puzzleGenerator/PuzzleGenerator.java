@@ -11,17 +11,15 @@ import edu.psu.sweng500.team8.solver.SolverFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 public final class PuzzleGenerator {
 	private PuzzleGenerator() {
 
 	}
-
-	//TODO: This should probably call the SolutionGenerator itself
-	//Rather than taking the solution as input
-	public static Puzzle makePuzzle(CellGrid solutionGrid, DifficultyLevel difficulty){
+	
+	public static Puzzle makePuzzle(DifficultyLevel difficulty){
+		CellGrid solutionGrid = SolutionGenerator.generateSolution();
 		int revealedCellCount = 0;
 
 		if(difficulty == DifficultyLevel.Easy) revealedCellCount = 40; //Recommended between 36-49
@@ -30,20 +28,13 @@ public final class PuzzleGenerator {
 
 		int numCellsToClear = 81 - revealedCellCount; //Inverse
 
-		Date startTime = new Date();
-		int attemptCounter = 0;
 		//Loop until we get a puzzle with a unique solution
 		Puzzle newPuzzle = null;
 		do {
 			newPuzzle = tryGeneratePuzzle(solutionGrid, numCellsToClear);
-			attemptCounter++;
 		} while (!hasUniqueSolution(newPuzzle));
-
-		Date endTime = new Date();
-		long totalTime = endTime.getTime() - startTime.getTime();
-		System.out.println("Total puzzle generation attempts: " + attemptCounter);
-		System.out.println("Total puzzle generation time: " + totalTime + " ms");
 		
+		newPuzzle.setDifficulty(difficulty);
 		return newPuzzle;
 	}
 

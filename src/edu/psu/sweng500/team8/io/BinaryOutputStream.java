@@ -1,6 +1,7 @@
 package edu.psu.sweng500.team8.io;
 
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,7 +12,10 @@ public class BinaryOutputStream {
 	private BufferedOutputStream outputStream;
 	
 	public BinaryOutputStream(String filename) throws FileNotFoundException {
-		this.fileStream = new FileOutputStream(filename);
+		//Make sure the file and directories exist
+		File file = new File(filename);
+		file.getParentFile().mkdirs();
+		this.fileStream = new FileOutputStream(file);
 		this.outputStream = new BufferedOutputStream(fileStream);
 	}
 	

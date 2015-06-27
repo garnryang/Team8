@@ -12,8 +12,7 @@ public class Test5 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		CellGrid[] grid = SolutionGenerator.generateSolutions(1);
-		CellGrid cg = PuzzleGenerator.makePuzzle(grid[0], DifficultyLevel.Easy).getCopyOfCellGrid();
+		CellGrid cg = PuzzleGenerator.makePuzzle(DifficultyLevel.Easy).getCopyOfCellGrid();
 		
 		for(int i = 0; i<9; i++){
 			for(int j = 0; j<9; j++){
