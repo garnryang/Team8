@@ -14,7 +14,8 @@ public class BinaryOutputStream {
 	public BinaryOutputStream(String filename) throws FileNotFoundException {
 		//Make sure the file and directories exist
 		File file = new File(filename);
-		file.getParentFile().mkdirs();
+		if (file.getParentFile() != null)
+			file.getParentFile().mkdirs();
 		this.fileStream = new FileOutputStream(file);
 		this.outputStream = new BufferedOutputStream(fileStream);
 	}
