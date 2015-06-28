@@ -96,7 +96,7 @@ public class PuzzleRepositoryTests {
 	}
 	
 	@Test
-	public void getPuzzleReturnsDifferentPuzzleOnEachCallTime() {
+	public void getPuzzleReturnsDifferentPuzzleOnEachCall() {
 		PuzzleRepository repo = new PuzzleRepository();
 		
 		try {

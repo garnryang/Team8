@@ -1,5 +1,7 @@
 package edu.psu.sweng500.team8.gui;
 
+import java.io.IOException;
+
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
 import edu.psu.sweng500.team8.play.GameSession;
@@ -22,7 +24,11 @@ public class SudokuGUI extends javax.swing.JFrame {
      * Creates new form SudokuGUI
      */
     public SudokuGUI() {
-    	this.puzzleRepo.initialize();
+    	try {
+			this.puzzleRepo.initialize();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
         initComponents();
     }
 
