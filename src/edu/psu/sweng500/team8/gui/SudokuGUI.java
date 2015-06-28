@@ -1,7 +1,11 @@
 package edu.psu.sweng500.team8.gui;
 
+import java.io.IOException;
+
+import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
 import edu.psu.sweng500.team8.play.GameSession;
+import edu.psu.sweng500.team8.puzzleGenerator.PuzzleRepository;
 
 /*
  * To change this template, choose Tools | Templates
@@ -14,10 +18,17 @@ import edu.psu.sweng500.team8.play.GameSession;
  */
 public class SudokuGUI extends javax.swing.JFrame {
 
+	private PuzzleRepository puzzleRepo = new PuzzleRepository(); //Not sure if there is a better place to put this
+	
     /**
      * Creates new form SudokuGUI
      */
     public SudokuGUI() {
+    	try {
+			this.puzzleRepo.initialize();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
         initComponents();
     }
 
@@ -275,7 +286,8 @@ public class SudokuGUI extends javax.swing.JFrame {
     	else 
     		difficulty = DifficultyLevel.Hard;
     	
-    	GameSession newGame = new GameSession(difficulty);  
+    	Puzzle puzzle = this.puzzleRepo.getPuzzle(difficulty);
+    	GameSession newGame = new GameSession(puzzle);  
         this.gameBoard.populatePanel(newGame.getGameBoard().getCellGrid());
     }//GEN-LAST:event_btnNewGameActionPerformed
 

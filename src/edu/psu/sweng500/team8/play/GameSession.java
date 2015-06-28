@@ -21,9 +21,7 @@ public class GameSession {
 	// private Player player;
 	private ActionManager actionManager;
 	
-	public GameSession(DifficultyLevel difficulty) {
-		CellGrid solution = SolutionGenerator.generateSolutions(1)[00];
-		Puzzle puzzle = PuzzleGenerator.makePuzzle(solution, difficulty);
+	public GameSession(Puzzle puzzle) {
 		this.board = new Board();
 		board.Initialize(puzzle);
 		

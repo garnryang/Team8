@@ -1,6 +1,5 @@
 package edu.psu.sweng500.team8.puzzleGenerator;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -10,28 +9,15 @@ import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.CellConstraints;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 
-
-
 public class SolutionGenerator {
-	public static void main(String[] args) {
-		generateSolutions(1000);
-	}
+	public static CellGrid generateSolution() {
+		// Keep going until we get a valid solution
+		Board board = null;
+		do { // Average number of cycles over a few thousand runs is ~80.
+			board = tryCreateSolution();
+		} while (board == null);
 
-	public static CellGrid[] generateSolutions(int numSolutions) {
-		CellGrid[] solutions = new CellGrid[numSolutions];
-
-		for (int solutionIndex = 0; solutionIndex < numSolutions; solutionIndex++) {
-
-			// Keep going until we get a valid solution
-			Board board = null;
-			do { // Average number of cycles over a few thousand runs is ~80.
-				board = tryCreateSolution();
-			} while (board == null);
-
-			solutions[solutionIndex] = board.getCellGrid();
-		}
-
-		return solutions;
+		return board.getCellGrid();
 	}
 
 	public static Board tryCreateSolution() {

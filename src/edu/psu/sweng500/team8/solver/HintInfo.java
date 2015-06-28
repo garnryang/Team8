@@ -6,6 +6,11 @@ public class HintInfo {
 	private Cell m_filledCell;
 	private String m_explanation;
 	
+	public HintInfo(Cell filledCell, String explanation) {
+		m_filledCell = filledCell;
+		m_explanation = explanation;
+	}
+	
 	public Cell GetCell() {
 		return m_filledCell;
 	}

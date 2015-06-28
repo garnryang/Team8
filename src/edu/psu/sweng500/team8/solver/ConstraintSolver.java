@@ -15,38 +15,7 @@ import edu.psu.sweng500.team8.coreDataStructures.Constraint;
 
 
 
-class ConstraintSolver implements ISolver {
-	//DEPRECATED. Don't think we need this.
-	public List<CellGrid> findAllSolutions(Board board) {
-		//Create a copy so we don't mess up the original
-		Board copiedBoard = new Board(board); 
-				
-		//Loop until there are no available cells
-		while (copiedBoard.hasOpenCells()) {
-			//First try to find cells where there is only one possible number that can fit
-			if (!tryToFillCellsWithOnlyOneAvailableNumber(copiedBoard)) {	
-				//If that didn't work, loop over each constraint and look for numbers
-				//where there is only one cell where it can fit
-				if (!tryToFillCellsWithOnlyOneValidLocationForTheNumber(copiedBoard))
-				{
-					//Constraint solving failed. Skip out.
-					break;
-				}
-			}
-		}
-		
-		if (!copiedBoard.hasOpenCells()) {
-			//Cool, we solved it just with constraints. This also means there can only be one solution.
-			List<CellGrid> foundSolutions = new ArrayList<CellGrid>();
-			foundSolutions.add(copiedBoard.getCellGrid());
-			return foundSolutions;
-		} 
-		
-		//Default to the guess and check solver, which should be the catch-all
-		ISolver guessAndCheckSolver = new GuessAndCheckSolver();
-		return guessAndCheckSolver.findAllSolutions(copiedBoard);
-	}
-	
+class ConstraintSolver implements Solver {
 	public CellGrid findUniqueSolutionOrNull(Board board) {
 		//Create a copy so we don't mess up the original
 		Board copiedBoard = new Board(board); 
@@ -71,7 +40,7 @@ class ConstraintSolver implements ISolver {
 		} 
 		
 		//Default to the guess and check solver, which should be the catch-all
-		ISolver guessAndCheckSolver = new GuessAndCheckSolver();
+		Solver guessAndCheckSolver = new GuessAndCheckSolver();
 		return guessAndCheckSolver.findUniqueSolutionOrNull(copiedBoard);
 	}
 	

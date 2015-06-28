@@ -72,7 +72,7 @@ public class SolutionGeneratorTests {
 		final int NUMB_BOARDS_TO_BE_GENERATED = 30;
 
 		for (int i = 0; i < NUMB_BOARDS_TO_BE_GENERATED; i++) {
-			CellGrid cellGrid = SolutionGenerator.generateSolutions(1)[0]; 
+			CellGrid cellGrid = SolutionGenerator.generateSolution(); 
 			eachIteration(cellGrid);
 		}
 	}
