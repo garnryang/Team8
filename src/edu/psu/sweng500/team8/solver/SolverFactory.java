@@ -4,11 +4,11 @@ public final class SolverFactory {
 	private SolverFactory() {
 	}
 	
-	public static ISolver getSolverThatTriesConstraintsFirst() {
+	public static Solver getSolverThatTriesConstraintsFirst() {
 		return new ConstraintSolver();
 	}
 	
-	public static ISolver getStraightUpGuessAndCheckSolver() {
+	public static Solver getStraightUpGuessAndCheckSolver() {
 		return new GuessAndCheckSolver();
 	}
 }

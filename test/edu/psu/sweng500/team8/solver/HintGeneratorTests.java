@@ -20,12 +20,12 @@ public class HintGeneratorTests {
 		
 		assertTrue(hint != null);
 		Cell filledCell = hint.GetCell();
-		assertEquals(1, filledCell.getCoordinates().getRowIndex());
-		assertEquals(1, filledCell.getCoordinates().getColumnIndex());
-		assertEquals(4, filledCell.getNumber());
+		assertEquals(0, filledCell.getCoordinates().getRowIndex());
+		assertEquals(6, filledCell.getCoordinates().getColumnIndex());
+		assertEquals(3, filledCell.getNumber());
 		
 		//This can change. Made something up for now.
-		String expectedExplanation = "This cell's value must be 4 because it is the only number that can fit in this cell";
+		String expectedExplanation = "This cell's value must be 3 because it is the only number that can fit in this cell";
 		assertEquals(expectedExplanation, hint.GetExplanation());
 	}
 	
