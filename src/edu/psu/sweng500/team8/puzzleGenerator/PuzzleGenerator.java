@@ -6,7 +6,7 @@ import edu.psu.sweng500.team8.coreDataStructures.Board;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
-import edu.psu.sweng500.team8.solver.ISolver;
+import edu.psu.sweng500.team8.solver.Solver;
 import edu.psu.sweng500.team8.solver.SolverFactory;
 
 import java.util.ArrayList;
@@ -63,7 +63,7 @@ public final class PuzzleGenerator {
 	private static boolean hasUniqueSolution(Puzzle puzzle) {
 		Board puzzleBoard = new Board();
 		puzzleBoard.Initialize(puzzle);
-		ISolver solver = SolverFactory.getSolverThatTriesConstraintsFirst();
+		Solver solver = SolverFactory.getSolverThatTriesConstraintsFirst();
 		CellGrid solution = solver.findUniqueSolutionOrNull(puzzleBoard);
 		
 		return solution != null;

@@ -9,16 +9,7 @@ import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 
 
-class GuessAndCheckSolver implements ISolver {
-	//DEPRECATED. Don't think we need this.
-	public List<CellGrid> findAllSolutions(Board board) {
-		List<CellGrid> foundSolutions = new ArrayList<CellGrid>();
-		
-		tryRecursiveGuessAndCheck(new Board(board), foundSolutions, false);
-		
-		return foundSolutions;
-	}
-	
+class GuessAndCheckSolver implements Solver {
 	public CellGrid findUniqueSolutionOrNull(Board board) {
 		List<CellGrid> foundSolutions = new ArrayList<CellGrid>();
 		
