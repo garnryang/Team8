@@ -527,4 +527,20 @@ public class GridPanel extends javax.swing.JPanel {
 	private javax.swing.JTextField txtCell88;
 
 	// End of variables declaration//GEN-END:variables
+	
+	/**
+	 * for testing only
+	 * @return
+	 */
+	public JTextField[][] getControlGrid() {
+		return this.controlGrid;
+	}
+	
+	/**
+	 * for testing only
+	 * @return
+	 */
+	public GameSession getGameSession() {
+		return this.gameSession;
+	}
 }

@@ -1,161 +1,199 @@
 package edu.psu.sweng500.team8.puzzleGenerator;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import javax.swing.JTextField;
+
+import org.junit.Assert;
 import org.junit.Test;
 
+import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
-
+import edu.psu.sweng500.team8.gui.GridPanel;
+import edu.psu.sweng500.team8.play.GameSession;
 
 public class FillPuzzleTests {
 
-	@Test //UC3 Step 1
-	public void playerSelectsAnEmptySquare() {
-		Game game = new Game(DifficultyLevel.Easy);
-		BoardGUI boardGui = new BoardGUI();
-		
-		Puzzle puzzle = game.getPuzzle();
-		CellGrid grid = puzzle.getGrid();
-		boardGui.setGame(game);
-		
-		int row = 0;
-		int column = 0;
-		
-		for(int i = 0; i < 81; i++){
-			 int r = ((int)Math.ceil(i/9.0)-1);
-			 int c = (i%9)-1;
-			 int test = grid.getCell(r, c==-1?8:c).getNumber();
-			 
-			 if(test == 0){
-				 row = r;
-				 column = c;
-				 return;				 
-			 }			 			 
-		 }
-				
-		assertTrue(grid.getCell(row,column).getNumber() == 0);
-		boardGui.setFocus(row,column);
-		assertTrue(boardGui.hasFocus(row,column));
-	}
-	
-	@Test //UC3 Steps 2&3
-	public void playerEntersNumber(){
-		Game game = new Game(DifficultyLevel.Easy);
-		BoardGUI boardGui = new BoardGUI();
-		
-		Puzzle puzzle = game.getPuzzle();
-		CellGrid grid = puzzle.getGrid();
-		boardGui.setGame(game);
-		
-		int row = 0;
-		int column = 0;
-		
-		for(int i = 0; i < 81; i++){
-			 int r = ((int)Math.ceil(i/9.0)-1);
-			 int c = (i%9)-1;
-			 int test = grid.getCell(r, c==-1?8:c).getNumber();
-			 
-			 if(test == 0){
-				 row = r;
-				 column = c;
-				 return;				 
-			 }			 			 
-		 }
-		
-		boardGui.setNumber(row,column,9);
-		assertTrue(boardGui.getvalue(row, column) == 9);
-		
-	}
-	@Test //UC3 Step 4
-	public void systemClearsAnyPenciledinValuesInTheSquare(){
-		Game game = new Game(DifficultyLevel.Easy);
-		BoardGUI boardGui = new BoardGUI();
-		
-		Puzzle puzzle = game.getPuzzle();
-		CellGrid grid = puzzle.getGrid();
-		boardGui.setGame(game);
-		
-		int row = 0;
-		int column = 0;
-		
-		for(int i = 0; i < 81; i++){
-			 int r = ((int)Math.ceil(i/9.0)-1);
-			 int c = (i%9)-1;
-			 int test = grid.getCell(r, c==-1?8:c).getNumber();
-			 
-			 if(test == 0){
-				 row = r;
-				 column = c;
-				 return;				 
-			 }			 			 
-		 }
-		
-		boardGui.setNumber(row,column,9);
-		assertNull(boardGui.getvalue(row, column).getPencilMark());
-	}
-	
-	@Test //UC3 Step 5
-	public void systemClearsAnyPenciledinValuesFromRowColumnBoxes(){
-		Game game = new Game(DifficultyLevel.Easy);
-		BoardGUI boardGui = new BoardGUI();
-		
-		Puzzle puzzle = game.getPuzzle();
-		CellGrid grid = puzzle.getGrid();
-		boardGui.setGame(game);
-		
-		int row = 0;
-		int column = 0;
-		
-		for(int i = 0; i < 81; i++){
-			 int r = ((int)Math.ceil(i/9.0)-1);
-			 int c = (i%9)-1;
-			 int test = grid.getCell(r, c==-1?8:c).getNumber();
-			 
-			 if(test == 0){
-				 row = r;
-				 column = c;
-				 return;				 
-			 }			 			 
-		 }
-		
-		boardGui.setNumber(row,column,9);
-		boolean test = true;
-		
-		//check row pencilmark
-		for(int i = 0; i < 9; i++){
-			if(grid.getCell(i, column).getPencilMark().isNine()){
-				test = true;
-			}else{
-				test = false;
-			}
-			assertFalse(test);
-		}
-		
-		//check column Pencilmark
-		for(int i = 0; i < 9; i++){
-			if(grid.getCell(row, i).getPencilMark().isNine()){
-				test = true;
-			}else{
-				test = false;
-			}
-			assertFalse(test);
-		}
-		
-		//check box pencilmark
-		int rowInit = (int) Math.ceil(row+1);
-		int columnInit = (int) Math.ceil(column+1);
-		for(int i = 0; i < 3; i++){
-			for(int j = 0; j < 3; j++){			
-				if(grid.getCell(row+(rowInit*i), column+(columnInit*j)).getPencilMark().isNine()){
-					test = true;
-				}else{
-					test = false;
+	@Test
+	// UC3 Steps 1&2&3
+	public void playerEntersNumber() {
+
+		DifficultyLevel difficulty = DifficultyLevel.Easy;
+		PuzzleRepository puzzleRepo = new PuzzleRepository(); 
+		Puzzle puzzle = puzzleRepo.getPuzzle(difficulty);
+		GameSession newGame = new GameSession(puzzle);
+		GridPanel gridPanel = new GridPanel();
+		gridPanel.populatePanel(newGame.getGameBoard().getCellGrid(), newGame);
+
+		CellGrid gridLogic = gridPanel.getGameSession().getGameBoard()
+				.getCellGrid();
+		JTextField[][] gridGUI = gridPanel.getControlGrid();
+
+		int row = -1;
+		int column = -1;
+
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				int test = gridLogic.getCell(i, j).getNumber();
+
+				if (test == 0) {
+					row = i;
+					column = j;
+					break;
 				}
-				assertFalse(test);
+				
+				if (test == 0) {
+					break;
+				}
+			}
+		}
+
+		Assert.assertNotEquals(-1, row);
+		Assert.assertNotEquals(-1, column);
+		Assert.assertEquals(0, gridLogic.getCell(row, column).getNumber());
+		
+		JTextField cellGUI = gridGUI[row][column];
+		
+		KeyListener[] keyListeners = cellGUI.getKeyListeners();
+		
+		KeyEvent ke = new KeyEvent (cellGUI, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_9, '9');//(char) KeyEvent.VK_9);
+		keyListeners[0].keyTyped(ke);
+		
+		Assert.assertEquals(9, gridLogic.getCell(row, column).getNumber());
+
+	}
+
+	@Test
+	// UC3 Step 4
+	public void systemClearsAnyPenciledinValuesInTheSquare() {
+		
+		DifficultyLevel difficulty = DifficultyLevel.Easy;
+		PuzzleRepository puzzleRepo = new PuzzleRepository(); 
+		Puzzle puzzle = puzzleRepo.getPuzzle(difficulty);
+		GameSession newGame = new GameSession(puzzle);
+		GridPanel gridPanel = new GridPanel();
+		gridPanel.populatePanel(newGame.getGameBoard().getCellGrid(), newGame);
+
+		CellGrid gridLogic = gridPanel.getGameSession().getGameBoard()
+				.getCellGrid();
+		JTextField[][] gridGUI = gridPanel.getControlGrid();
+
+		int row = -1;
+		int column = -1;
+
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				int test = gridLogic.getCell(i, j).getNumber();
+
+				if (test == 0) {
+					row = i;
+					column = j;
+					break;
+				}
+				
+				if (test == 0) {
+					break;
+				}
+			}
+		}
+
+		Assert.assertNotEquals(-1, row);
+		Assert.assertNotEquals(-1, column);
+		Assert.assertEquals(0, gridLogic.getCell(row, column).getNumber());
+
+		JTextField cellGUI = gridGUI[row][column];
+		
+		KeyListener[] keyListeners = cellGUI.getKeyListeners();
+		
+		KeyEvent ke = new KeyEvent (cellGUI, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_9, '9');//(char) KeyEvent.VK_9);
+		keyListeners[0].keyTyped(ke);
+		
+		Assert.assertTrue(gridLogic.getCell(row, column).getPencilMarks().isEmpty());
+	}
+
+	/**
+	 * FIXME I don't know what this is trying to do...
+	 */
+	@Test
+	// UC3 Step 5
+	public void systemClearsAnyPenciledinValuesFromRowColumnBoxes() {
+		
+		DifficultyLevel difficulty = DifficultyLevel.Easy;
+		PuzzleRepository puzzleRepo = new PuzzleRepository(); 
+		Puzzle puzzle = puzzleRepo.getPuzzle(difficulty);
+		GameSession newGame = new GameSession(puzzle);
+		GridPanel gridPanel = new GridPanel();
+		gridPanel.populatePanel(newGame.getGameBoard().getCellGrid(), newGame);
+
+		CellGrid gridLogic = gridPanel.getGameSession().getGameBoard()
+				.getCellGrid();
+		JTextField[][] gridGUI = gridPanel.getControlGrid();
+
+		int row = -1;
+		int column = -1;
+
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				int test = gridLogic.getCell(i, j).getNumber();
+
+				if (test == 0) {
+					row = i;
+					column = j;
+					break;
+				}
+				
+				if (test == 0) {
+					break;
+				}
+			}
+		}
+
+		Assert.assertNotEquals(-1, row);
+		Assert.assertNotEquals(-1, column);
+		Assert.assertEquals(0, gridLogic.getCell(row, column).getNumber());
+
+		JTextField cellGUI = gridGUI[row][column];
+		
+		
+		/* FIXME - We need UI way of entering Pencil Marks 
+		 * Comeback and modify this once UI Pencil Mark is done */
+		/* put pencil marks on all cells with 9 numbers */
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				Cell currentCell = gridLogic.getCell(i, j);
+				
+				for (int k = 1; k <= 9; k++) {
+					newGame.enterPencilMark(currentCell, k, true);	
+				}
+			}
+		}
+	
+		final int designatedNumber = 9;
+		
+		/* verify pencil mark contains the designatedNumber */
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				Cell currentCell = gridLogic.getCell(i, j);
+				Assert.assertTrue(currentCell.getPencilMarks().contains(designatedNumber));
+			}
+		}
+		
+		/**/
+		KeyListener[] keyListeners = cellGUI.getKeyListeners();
+		KeyEvent ke = new KeyEvent (cellGUI, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_9, '9');//(char) KeyEvent.VK_9);
+		keyListeners[0].keyTyped(ke);
+		
+		
+		/* verify pencil mark doesn't not contain designatedNumber */
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				Cell currentCell = gridLogic.getCell(i, j);
+				Assert.assertFalse(currentCell.getPencilMarks().contains(designatedNumber));
 			}
 		}
 	}

@@ -1,13 +1,11 @@
 package edu.psu.sweng500.team8.play;
 
+import java.util.Set;
+
 import edu.psu.sweng500.team8.coreDataStructures.Board;
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
-import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
-import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
-import edu.psu.sweng500.team8.puzzleGenerator.PuzzleGenerator;
-import edu.psu.sweng500.team8.puzzleGenerator.SolutionGenerator;
 
 /**
  * 
@@ -55,28 +53,60 @@ public class GameSession {
 	 * If we want to use return object, we maybe able to use Enum to show previously defined exception cases.
 	 * 
 	 *
-	 * @param cellCoordinates
+	 * @param cell
 	 * @param number
 	 */
-	public void enterNumber(CellCoordinates cellCoordinates, int number) {
+	public void enterNumber(Cell currentCell, int number) {
 		
 		/* keep track of the last action*/
 		SudokuAction sudokuAction = new SudokuAction(new CellGrid(board.getCellGrid()));
 		
-		/* updating number */
-		Cell currentCell = board.getCell(cellCoordinates.getRowIndex(), cellCoordinates.getColumnIndex());
+		boolean isDelete = false;
 		
 		if (number == 0) {
+			isDelete = true;			
+		}
+		
+		if (isDelete) {
 			currentCell.clearNumber();
 		} else {
 			currentCell.setNumber(number);	
 		}
 		
-		actionManager.addAction(sudokuAction);
+		/* FIXME - PencilMarkManager updating/wiping out PencilMark number matching entered number */
+		if (!isDelete) {
+			for (int i = 0; i < 9; i++) {
+				for (int j = 0; j < 9; j++) {
+					Cell eachCell = this.getGameBoard().getCellGrid().getCell(i, j);
+					enterPencilMark(eachCell, number, false);
+				}
+			}			
+		}
 		
-		/* TODO - PencilMarkManager updating/wiping out PencilMark number matching entered number */
+		actionManager.addAction(sudokuAction);
 	}
+
 	
+	/**
+	 * TODO implement
+	 * @param currentCell
+	 * @param number
+	 */
+	public void enterPencilMark(Cell currentCell, int number, boolean isEnter) {
+		
+		/* keep track of the last action*/
+		SudokuAction sudokuAction = new SudokuAction(new CellGrid(board.getCellGrid()));
+		
+		Set<Integer> pencilMarks = currentCell.getPencilMarks();
+		
+		if (isEnter) {
+			pencilMarks.add(number);
+		} else {
+			pencilMarks.remove(number);
+		}
+	}
+
+
 	/**
 	 * Should we just have a getter instead?
 	 * @return
