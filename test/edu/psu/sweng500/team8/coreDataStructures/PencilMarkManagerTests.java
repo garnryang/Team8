@@ -7,7 +7,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import edu.psu.sweng500.team8.solver.TestPuzzles;
+import edu.psu.sweng500.team8.coreDataStructures.TestPuzzles;
 
 
 public class PencilMarkManagerTests {

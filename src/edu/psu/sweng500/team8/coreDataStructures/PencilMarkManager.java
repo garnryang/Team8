@@ -8,10 +8,10 @@ public class PencilMarkManager {
 	}
 	
 	public void addPencilMark(int number, Cell cell) {		
-		throw new UnsupportedOperationException();
+		cell.getPencilMarks().add(number);
 	}
 	
 	public void removePencilMark(int number, Cell cell) {
-		throw new UnsupportedOperationException();
+		cell.getPencilMarks().remove(number);
 	}
 }

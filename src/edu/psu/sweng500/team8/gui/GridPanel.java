@@ -20,12 +20,9 @@ import java.awt.Color;
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 
-/**
- *
- * @author Jeremy
- */
 public class GridPanel extends javax.swing.JPanel {    
     private JTextField[][] controlGrid = new JTextField[9][9];
+    
     
     /**
      * Creates new form GridPanel

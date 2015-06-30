@@ -1,18 +1,15 @@
 package edu.psu.sweng500.team8.solver;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-
-import java.util.List;
 
 import org.junit.Test;
 
 import edu.psu.sweng500.team8.coreDataStructures.Board;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
-
+import edu.psu.sweng500.team8.coreDataStructures.TestPuzzles;
 
 public class ConstraintSolverTests {
 	@Test
@@ -22,15 +19,14 @@ public class ConstraintSolverTests {
 
 		Board boardToSolve = new Board();
 		boardToSolve.Initialize(testPuzzle);
-		ISolver solver = SolverFactory.getSolverThatTriesConstraintsFirst();
+		Solver solver = SolverFactory.getSolverThatTriesConstraintsFirst();
 
-		List<CellGrid> foundSolutions = solver.findAllSolutions(boardToSolve);
+		CellGrid foundSolution = solver.findUniqueSolutionOrNull(boardToSolve);
 
-		//Verify it found only one solution
-		assertNotNull(foundSolutions);
-		assertEquals(1, foundSolutions.size());
+		//Verify it found a solution
+		assertNotNull(foundSolution);
 		//Check it
-		assertTrue(expectedSolution.valuesAreEqual(foundSolutions.get(0)));
+		assertTrue(expectedSolution.valuesAreEqual(foundSolution));
 	}
 
 	@Test
@@ -40,16 +36,15 @@ public class ConstraintSolverTests {
 
 		Board boardToSolve = new Board();
 		boardToSolve.Initialize(testPuzzle);
-		ISolver solver = SolverFactory.getSolverThatTriesConstraintsFirst();
+		Solver solver = SolverFactory.getSolverThatTriesConstraintsFirst();
 
-		List<CellGrid> foundSolutions = solver.findAllSolutions(boardToSolve);
+		CellGrid foundSolution = solver.findUniqueSolutionOrNull(boardToSolve);
 
-		//Verify it found only one solution
-		assertNotNull(foundSolutions);
-		assertEquals(1, foundSolutions.size()); 
+		//Verify it found a solution
+		assertNotNull(foundSolution);
 
 		//Check it
-		assertTrue(expectedSolution.valuesAreEqual(foundSolutions.get(0)));
+		assertTrue(expectedSolution.valuesAreEqual(foundSolution));
 	}
 
 	@Test
@@ -59,29 +54,14 @@ public class ConstraintSolverTests {
 
 		Board boardToSolve = new Board();
 		boardToSolve.Initialize(testPuzzle);
-		ISolver solver = SolverFactory.getSolverThatTriesConstraintsFirst();
+		Solver solver = SolverFactory.getSolverThatTriesConstraintsFirst();
 
-		List<CellGrid> foundSolutions = solver.findAllSolutions(boardToSolve);
+		CellGrid foundSolution = solver.findUniqueSolutionOrNull(boardToSolve);
 
 		//Verify it found only one solution
-		assertNotNull(foundSolutions);
-		assertEquals(1, foundSolutions.size()); 
+		assertNotNull(foundSolution);
 		//Check it
-		assertTrue(expectedSolution.valuesAreEqual(foundSolutions.get(0)));
-	}
-
-	@Test
-	public void canFindAllSolutions() {
-		Puzzle testPuzzle = TestPuzzles.getPuzzleWithMultipleSolutions();
-
-		Board boardToSolve = new Board();
-		boardToSolve.Initialize(testPuzzle);
-		ISolver solver = SolverFactory.getSolverThatTriesConstraintsFirst();
-
-		List<CellGrid> foundSolutions = solver.findAllSolutions(boardToSolve);
-		assertNotNull(foundSolutions);
-
-		assertEquals(8, foundSolutions.size());
+		assertTrue(expectedSolution.valuesAreEqual(foundSolution));
 	}
 	
 	@Test
@@ -90,7 +70,7 @@ public class ConstraintSolverTests {
 
 		Board boardToSolve = new Board();
 		boardToSolve.Initialize(testPuzzle);
-		ISolver solver = SolverFactory.getSolverThatTriesConstraintsFirst();
+		Solver solver = SolverFactory.getSolverThatTriesConstraintsFirst();
 
 		CellGrid foundSolution = solver.findUniqueSolutionOrNull(boardToSolve);
 		assertNull(foundSolution);

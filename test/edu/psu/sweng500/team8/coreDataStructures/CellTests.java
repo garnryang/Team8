@@ -1,11 +1,19 @@
 package edu.psu.sweng500.team8.coreDataStructures;
 
-import edu.psu.sweng500.team8.coreDataStructures.Cell;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
+import edu.psu.sweng500.team8.coreDataStructures.Cell;
+import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
+import edu.psu.sweng500.team8.io.BinaryInputStream;
+import edu.psu.sweng500.team8.io.BinaryOutputStream;
 import static org.junit.Assert.*;
+
 import org.junit.Test;
 
-public class CellTest {
+public class CellTests {
 	
 	@Test
 	public void defaultConstructorCreatesEmptyAndUserDefinedCell() {
@@ -87,5 +95,52 @@ public class CellTest {
 		testCell.clearNumber();
 		assertEquals("Cell number was not 0, which is not expected", 0, testCell.getNumber());
 		assertFalse("hasNumber returned true, which is not expected", testCell.hasNumber());
+	}
+	
+	@Test
+	public void canSaveAndLoadFromFile() {
+		//Create a user-defined cell
+		Cell userDefinedCellToSave = new Cell(); 
+		userDefinedCellToSave.setNumber(7);
+		userDefinedCellToSave.setType(ValueType.UserDefined);
+		
+		//Create a given cell
+		Cell givenCellToSave = new Cell();
+		givenCellToSave.setNumber(4);
+		givenCellToSave.setType(ValueType.Given);
+		
+		Cell loadedUserDefinedCell = new Cell();
+		Cell loadedGivenCell = new Cell();
+		try {
+			//Save them
+			BinaryOutputStream writeStream = new BinaryOutputStream("test.txt");
+			userDefinedCellToSave.save(writeStream);
+			givenCellToSave.save(writeStream);
+			writeStream.close();
+			
+			//Load them
+			BinaryInputStream readStream = new BinaryInputStream("test.txt");
+			loadedUserDefinedCell.load(readStream);
+			loadedGivenCell.load(readStream);
+			readStream.close();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail("File exception thrown");
+		}
+		
+		//Compare the cells
+		assertEquals(7, loadedUserDefinedCell.getNumber());
+		assertEquals(ValueType.UserDefined, loadedUserDefinedCell.getType());
+		assertEquals(4, loadedGivenCell.getNumber());
+		assertEquals(ValueType.Given, loadedGivenCell.getType());
+		
+		Path filePath = Paths.get("test.txt");
+		try {
+			Files.delete(filePath);
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail("Failed to delete file");
+		}
 	}
 }

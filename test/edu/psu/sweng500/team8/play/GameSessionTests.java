@@ -1,11 +1,8 @@
 package edu.psu.sweng500.team8.play;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -255,5 +252,21 @@ public class GameSessionTests {
 		
 		Cell unsavedCell = boardAfterLoad.getCell(1, 1);
 		Assert.assertEquals(0, unsavedCell.getNumber());
+	}
+	
+	/**
+	 * FIXME - implement and update the document
+	 */
+	@Test
+	public void testDoUndo_With_PencilMark() {
+		Assert.fail();
+	}
+	
+	/**
+	 * FIXME - implement and update the document
+	 */
+	@Test
+	public void testDoRedo_With_PencilMark() {
+		Assert.fail();
 	}
 }

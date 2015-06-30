@@ -6,29 +6,25 @@ import edu.psu.sweng500.team8.coreDataStructures.Board;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
-import edu.psu.sweng500.team8.solver.ISolver;
+import edu.psu.sweng500.team8.solver.Solver;
 import edu.psu.sweng500.team8.solver.SolverFactory;
 
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import javax.swing.text.Highlighter.HighlightPainter;
 
-
-
-//TODO: This should probably be a static class that calls the SolutionGenerator itself
-//Rather than taking the solution as input
 public final class PuzzleGenerator {
 	private PuzzleGenerator() {
 
 	}
-
-	public static Puzzle makePuzzle(CellGrid solutionGrid, DifficultyLevel difficulty){
+	
+	public static Puzzle makePuzzle(DifficultyLevel difficulty){
+		CellGrid solutionGrid = SolutionGenerator.generateSolution();
 		int revealedCellCount = 0;
 
 		if(difficulty == DifficultyLevel.Easy) revealedCellCount = 40; //Recommended between 36-49
@@ -37,20 +33,13 @@ public final class PuzzleGenerator {
 
 		int numCellsToClear = 81 - revealedCellCount; //Inverse
 
-		Date startTime = new Date();
-		int attemptCounter = 0;
 		//Loop until we get a puzzle with a unique solution
 		Puzzle newPuzzle = null;
 		do {
 			newPuzzle = tryGeneratePuzzle(solutionGrid, numCellsToClear);
-			attemptCounter++;
 		} while (!hasUniqueSolution(newPuzzle));
-
-		Date endTime = new Date();
-		long totalTime = endTime.getTime() - startTime.getTime();
-		System.out.println("Total puzzle generation attempts: " + attemptCounter);
-		System.out.println("Total puzzle generation time: " + totalTime + " ms");
 		
+		newPuzzle.setDifficulty(difficulty);
 		return newPuzzle;
 		}
 
@@ -80,17 +69,12 @@ public final class PuzzleGenerator {
 	private static boolean hasUniqueSolution(Puzzle puzzle) {
 		Board puzzleBoard = new Board();
 		puzzleBoard.Initialize(puzzle);
-		ISolver solver = SolverFactory.getSolverThatTriesConstraintsFirst();
+		Solver solver = SolverFactory.getSolverThatTriesConstraintsFirst();
 		CellGrid solution = solver.findUniqueSolutionOrNull(puzzleBoard);
-		
-		//DEBUG: Remove
-		if (solution != null)
-		{
-			assert puzzle.getSolution().valuesAreEqual(solution);
-		}
 		
 		return solution != null;
 		
+		//Disabled due to Taiga issue #81
 		//DLX solver = new DLX(puzzle.getCopyOfCellGrid());
 
 		//return solver.Solve() == 1;

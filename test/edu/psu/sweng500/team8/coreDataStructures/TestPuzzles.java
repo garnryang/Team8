@@ -1,4 +1,4 @@
-package edu.psu.sweng500.team8.solver;
+package edu.psu.sweng500.team8.coreDataStructures;
 
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
