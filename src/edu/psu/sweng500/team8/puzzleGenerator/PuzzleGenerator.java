@@ -9,10 +9,15 @@ import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
 import edu.psu.sweng500.team8.solver.ISolver;
 import edu.psu.sweng500.team8.solver.SolverFactory;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
+import javax.swing.text.Highlighter.HighlightPainter;
 
 
 
@@ -47,7 +52,7 @@ public final class PuzzleGenerator {
 		System.out.println("Total puzzle generation time: " + totalTime + " ms");
 		
 		return newPuzzle;
-	}
+		}
 
 	private static Puzzle tryGeneratePuzzle(CellGrid solution, int numCellsToClear) {
 		Puzzle puzzle = new Puzzle(solution, solution);
@@ -56,6 +61,7 @@ public final class PuzzleGenerator {
 		List<Integer> numbersToRemove = new ArrayList<Integer>(81);
 		for (int i = 0; i < 81; i++) {
 			numbersToRemove.add(i);
+			
 		}
 
 		Collections.shuffle(numbersToRemove);

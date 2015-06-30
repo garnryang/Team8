@@ -8,7 +8,17 @@ package edu.psu.sweng500.team8.gui;
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
+
 import javax.swing.JTextField;
+import javax.swing.text.Highlighter;
+import javax.swing.text.Highlighter.HighlightPainter;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.JTextComponent;
+
+import java.awt.Color;
+
+import javax.swing.*;
+import javax.swing.text.BadLocationException;
 
 /**
  *
@@ -28,19 +38,39 @@ public class GridPanel extends javax.swing.JPanel {
     public void populatePanel(CellGrid grid) {
         clearGrid();
         
+        
         for (int row = 0; row < 9; row++) {
             for (int column = 0; column < 9; column++) {
                 Cell cell = grid.getCell(row, column);
                 if (cell.hasNumber())
                     this.controlGrid[row][column].setText(Integer.toString(cell.getNumber()));
+                
+                
+                HighlightPainter painter = 
+                       new DefaultHighlighter.DefaultHighlightPainter(Color.green);
+                          
+                try {
+                	
+                	 if (cell.hasNumber())
+                		
+					this.controlGrid[row] [column].getHighlighter().addHighlight(0, 3, painter);
+				} catch (BadLocationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+                
             }
         }
     }
+    
+    
     
    private void clearGrid() {
        for (int row = 0; row < 9; row++) {
            for (int column = 0; column < 9; column++) {
                this.controlGrid[row][column].setText("");
+               Highlighter hilite = this.controlGrid [row][column].getHighlighter();
+               hilite.removeAllHighlights();
            }
        }
    }

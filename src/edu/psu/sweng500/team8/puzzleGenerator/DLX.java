@@ -1,8 +1,13 @@
 package edu.psu.sweng500.team8.puzzleGenerator;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
+import javax.swing.text.Highlighter.HighlightPainter;
 
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 
@@ -64,6 +69,12 @@ class DLX {
 		
 		for(int i = 0; i< rowCount; i++){
 			rows[i]=new NodePointer();
+			
+			Highlighter highlighter = NodePointer.getHighlighter();
+		      HighlightPainter painter = 
+		             new DefaultHighlighter.DefaultHighlightPainter(Color.pink);
+		      
+		      highlighter.addHighlight(i, i, painter );
 		}
 	}
 	

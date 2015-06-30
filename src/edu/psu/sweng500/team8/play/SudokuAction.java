@@ -1,5 +1,7 @@
 package edu.psu.sweng500.team8.play;
 
+import java.awt.Color;
+
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 
 /**
@@ -33,7 +35,7 @@ public class SudokuAction {
 	public int getPreviousValue() {
 		return previousValue;
 	}
-
+	
 	public void setPreviousValue(int previousValue) {
 		this.previousValue = previousValue;
 	}
@@ -45,4 +47,5 @@ public class SudokuAction {
 	public void setNewValue(int newValue) {
 		this.newValue = newValue;
 	}
-}
+	
+	}
