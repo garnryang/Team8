@@ -6,12 +6,21 @@ import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 
 public class ActionManager {
 
-	private Stack<SudokuAction> sudokuActionQueue = new Stack<SudokuAction>();
-	private Stack<SudokuAction> sudokuActionQueueForUndo = new Stack<SudokuAction>();
+	/* We can create a properties file to store constant values 
+	 * and make it available external to the compiled JAR
+	 * so they can be adjusted on the fly. 
+	 * Or we can still include it in the JAR but as a separate file
+	 * so we can change it through the development process. */
+	private static final int QUEUE_SIZE_LIMIT = 10;
+	
+	private Stack<SudokuAction> sudokuActionQueue;
+	private Stack<SudokuAction> sudokuActionQueueForUndo;
 
 	public ActionManager() {
 		this.sudokuActionQueue = new Stack<SudokuAction>();
+		this.sudokuActionQueue.setSize(QUEUE_SIZE_LIMIT);		
 		this.sudokuActionQueueForUndo = new Stack<SudokuAction>();
+		this.sudokuActionQueueForUndo.setSize(QUEUE_SIZE_LIMIT);
 	}
 
 	public void addAction(SudokuAction sudokuAction) {
