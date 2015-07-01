@@ -10,7 +10,7 @@ public class ActionManager {
 	 * and make it available external to the compiled JAR
 	 * so they can be adjusted on the fly. 
 	 * Or we can still include it in the JAR but as a separate file
-	 * so we can change it through the development process. */
+	 * so we can change it through the development process.  */
 	private static final int QUEUE_SIZE_LIMIT = 10;
 	
 	private Stack<SudokuAction> sudokuActionQueue;
