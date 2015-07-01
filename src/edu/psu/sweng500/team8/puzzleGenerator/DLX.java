@@ -1,8 +1,10 @@
 package edu.psu.sweng500.team8.puzzleGenerator;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+
 
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 
@@ -64,6 +66,8 @@ class DLX {
 		
 		for(int i = 0; i< rowCount; i++){
 			rows[i]=new NodePointer();
+			
+	
 		}
 	}
 	

@@ -2,6 +2,7 @@ package edu.psu.sweng500.team8.play;
 
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 
+
 /**
  * 
  * Since we are keeping track of both values and pencil marks on Cell object,
@@ -22,7 +23,10 @@ public class SudokuAction {
 		return cellGrid;
 	}
 
+
 	public void setCellGrid(CellGrid cellGrid) {
 		this.cellGrid = cellGrid;
+
 	}
-}
+	
+	}
