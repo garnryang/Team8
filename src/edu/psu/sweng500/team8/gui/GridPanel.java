@@ -51,10 +51,10 @@ public class GridPanel extends javax.swing.JPanel {
 
 					try {
 
-						if (cell.hasNumber())
-
+						if (cell.hasNumber()) {
 							this.controlGrid[row][column].getHighlighter()
 									.addHighlight(0, 3, painter);
+						}
 					} catch (BadLocationException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -74,7 +74,7 @@ public class GridPanel extends javax.swing.JPanel {
 	private void clearGrid() {
 		for (int row = 0; row < 9; row++) {
 			for (int column = 0; column < 9; column++) {
-				this.controlGrid[row][column].setText("");
+				this.controlGrid[row][column].setText("");				
 				Highlighter hilite = this.controlGrid[row][column]
 						.getHighlighter();
 				hilite.removeAllHighlights();
