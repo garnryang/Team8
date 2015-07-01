@@ -1,10 +1,14 @@
 package edu.psu.sweng500.team8.puzzleGenerator;
 
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
+import javax.swing.text.Highlighter.HighlightPainter;
 
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 
@@ -64,10 +68,14 @@ class DLX {
 			h.setLeft(columns[i]);
 		}
 		
-		for(int i = 0; i< rowCount; i++){
-			rows[i]=new NodePointer();
-			
-	
+		for (int i = 0; i < rowCount; i++) {
+			rows[i] = new NodePointer();
+			/* Cliff wanted following section to be removed */
+			/* Cliff's change A begins */
+			/* Highlighter highlighter = NodePointer.getHighlighter(); */
+			/* HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.pink); */
+			/* highlighter.addHighlight(i, i, painter); */
+			/* Cliff's change A ends */
 		}
 	}
 	

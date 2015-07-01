@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.JTextField;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
 import javax.swing.text.Highlighter.HighlightPainter;
 
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
@@ -74,6 +75,9 @@ public class GridPanel extends javax.swing.JPanel {
 		for (int row = 0; row < 9; row++) {
 			for (int column = 0; column < 9; column++) {
 				this.controlGrid[row][column].setText("");
+				Highlighter hilite = this.controlGrid[row][column]
+						.getHighlighter();
+				hilite.removeAllHighlights();
 			}
 		}
 	}
