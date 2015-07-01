@@ -321,9 +321,9 @@ public class SudokuGUI extends javax.swing.JFrame {
 			difficulty = DifficultyLevel.Hard;
 
 		Puzzle puzzle = this.puzzleRepo.getPuzzle(difficulty);
-		GameSession newGame = new GameSession(puzzle);
-		this.gameBoard.populatePanel(newGame.getGameBoard().getCellGrid(),
-				newGame);
+		gameSession = new GameSession(puzzle);
+		this.gameBoard.populatePanel(gameSession.getGameBoard().getCellGrid(),
+				gameSession);
 	}// GEN-LAST:event_btnNewGameActionPerformed
 
 	/**

@@ -36,9 +36,9 @@ public class ActionManager {
 		 * revert last action on the sudokuActionQueue, and put that action into
 		 * sudokuActionQueueForUndo
 		 */
-		if (!sudokuActionQueue.isEmpty()) {
-
-			SudokuAction lastAction = sudokuActionQueue.pop();
+		SudokuAction lastAction = sudokuActionQueue.pop();
+		
+		if (null != lastAction) {
 			CellGrid previousCellGrid = lastAction.getCellGrid();
 			lastAction.setCellGrid(new CellGrid(currentCellGridFromBoard));
 			sudokuActionQueueForUndo.add(lastAction);
@@ -52,9 +52,10 @@ public class ActionManager {
 	 */
 	public void doRedo(CellGrid currentCellGridFromBoard) {
 		/* redo last action reverted back by undo */
-		if (!sudokuActionQueueForUndo.isEmpty()) {
-
-			SudokuAction lastActionUndone = sudokuActionQueueForUndo.pop();
+		
+		SudokuAction lastActionUndone = sudokuActionQueueForUndo.pop();
+		
+		if (null != lastActionUndone) {
 			CellGrid previousCellGrid = lastActionUndone.getCellGrid();
 			lastActionUndone.setCellGrid(new CellGrid(currentCellGridFromBoard));
 			sudokuActionQueue.add(lastActionUndone);
