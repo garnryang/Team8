@@ -1,6 +1,5 @@
 package edu.psu.sweng500.team8.solver;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -12,8 +11,6 @@ import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.CellConstraints;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 import edu.psu.sweng500.team8.coreDataStructures.Constraint;
-
-
 
 class ConstraintSolver implements Solver {
 	public CellGrid findUniqueSolutionOrNull(Board board) {
@@ -44,33 +41,31 @@ class ConstraintSolver implements Solver {
 		return guessAndCheckSolver.findUniqueSolutionOrNull(copiedBoard);
 	}
 	
-	private static boolean tryToFillCellsWithOnlyOneAvailableNumber(Board board) {
+	public static Cell tryToFillACellWithOnlyOneAvailableNumber(Board board) {
 		//Check for cells where there is only one available number
-		boolean filledACell = false;
+		Cell mostConstrainedCell = CommonSolverMethods.getMostConstrainedCell(board);
 
-		while (board.hasOpenCells()) {
-			Cell mostConstrainedCell = CommonSolverMethods.getMostConstrainedCell(board);
+		Set<Integer> availableNumbers = board.getCellConstraints(mostConstrainedCell).getAvailableNumbers();
+		if (availableNumbers.size() > 1)
+			return null;
 
-			Set<Integer> availableNumbers = board.getCellConstraints(mostConstrainedCell).getAvailableNumbers();
-			if (availableNumbers.size() > 1)
-				break;
-			
-			//Sweet, there's only 1 available number, so the number is obvious
-			mostConstrainedCell.setNumber(availableNumbers.toArray(new Integer[0])[0]);
-			filledACell = true;
-			
-			//Optimization idea: this may have caused cells within the same constraint(s) to also have one available number.
-			//Can check those next rather than starting the iteration over.
-		}
+		//Sweet, there's only 1 available number, so the number is obvious
+		int number = availableNumbers.toArray(new Integer[0])[0];
+		mostConstrainedCell.setNumber(number);
 		
-		return filledACell;
+		return mostConstrainedCell;
 	}
-
-	private static boolean tryToFillCellsWithOnlyOneValidLocationForTheNumber(Board board) {
+	
+	public static Cell tryToFillACellWithOnlyOneValidLocationForTheNumber(Board board) {
+		return tryToFillACellWithOnlyOneValidLocationForTheNumber(board, true);
+	}
+	
+	private static Cell tryToFillACellWithOnlyOneValidLocationForTheNumber(Board board, boolean breakOnSuccess) {
+		Cell filledCell = null;
+		
 		//Build a queue of constraints sorted by the fewest available numbers
 		ConstraintQueue queue = buildQueue(board);
 
-		boolean filledAtLeastOneCell = false;
 		//Check each constraint
 		while (!queue.isEmpty()) {
 			Constraint currentConstraint = queue.dequeue();
@@ -99,10 +94,15 @@ class ConstraintSolver implements Solver {
 					}
 				}
 				
-				if (onlyCellThisNumberCanFitIn != null) {
+				if (onlyCellThisNumberCanFitIn != null) {					
 					//Sweet! We found a number where there is only one cell it can fit in.
+					filledCell = onlyCellThisNumberCanFitIn;
+					
 					//Populate the cell.
-					onlyCellThisNumberCanFitIn.setNumber(currentNumber);
+					filledCell.setNumber(currentNumber);
+					
+					if (breakOnSuccess)
+						return filledCell;
 					
 					//Remove it from the open cells
 					openCells.remove(onlyCellThisNumberCanFitIn);
@@ -112,13 +112,32 @@ class ConstraintSolver implements Solver {
 					
 					//Re-sort the constraint queue
 					queue.updateOnCellChange(board.getCellConstraints(onlyCellThisNumberCanFitIn));
-					
-					filledAtLeastOneCell = true;
 				}
 			}
 		}
 		
-		return filledAtLeastOneCell;
+		return filledCell;
+	}
+	
+	private static boolean tryToFillCellsWithOnlyOneAvailableNumber(Board board) {
+		//Check for cells where there is only one available number
+		boolean filledACell = false;
+
+		while (board.hasOpenCells()) {
+			Cell filledCell = tryToFillACellWithOnlyOneAvailableNumber(board);
+			if (filledCell != null)
+				filledACell = true;
+			else
+				break;
+			//Optimization idea: this may have caused cells within the same constraint(s) to also have one available number.
+			//Can check those next rather than starting the iteration over.
+		}
+		
+		return filledACell;
+	}
+
+	private static boolean tryToFillCellsWithOnlyOneValidLocationForTheNumber(Board board) {
+		return tryToFillACellWithOnlyOneValidLocationForTheNumber(board, false) != null;
 	}
 	
 	private static ConstraintQueue buildQueue(Board board) {
