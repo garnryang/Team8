@@ -1,7 +1,5 @@
 package edu.psu.sweng500.team8.solver;
 
-import java.util.List;
-
 import edu.psu.sweng500.team8.coreDataStructures.Board;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 
