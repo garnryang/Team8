@@ -2,16 +2,16 @@ package edu.psu.sweng500.team8.puzzleGenerator;
 
 /** Takes a valid complete Sudoku grid as a CellGrid as turns it into a valid puzzle*/
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import edu.psu.sweng500.team8.coreDataStructures.Board;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
 import edu.psu.sweng500.team8.solver.Solver;
 import edu.psu.sweng500.team8.solver.SolverFactory;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public final class PuzzleGenerator {
 	private PuzzleGenerator() {
@@ -36,7 +36,7 @@ public final class PuzzleGenerator {
 		
 		newPuzzle.setDifficulty(difficulty);
 		return newPuzzle;
-	}
+		}
 
 	private static Puzzle tryGeneratePuzzle(CellGrid solution, int numCellsToClear) {
 		Puzzle puzzle = new Puzzle(solution, solution);
@@ -45,6 +45,7 @@ public final class PuzzleGenerator {
 		List<Integer> numbersToRemove = new ArrayList<Integer>(81);
 		for (int i = 0; i < 81; i++) {
 			numbersToRemove.add(i);
+			
 		}
 
 		Collections.shuffle(numbersToRemove);

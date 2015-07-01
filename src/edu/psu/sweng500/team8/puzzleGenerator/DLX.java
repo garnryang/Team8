@@ -1,5 +1,6 @@
 package edu.psu.sweng500.team8.puzzleGenerator;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -62,8 +63,14 @@ class DLX {
 			h.setLeft(columns[i]);
 		}
 		
-		for(int i = 0; i< rowCount; i++){
-			rows[i]=new NodePointer();
+		for (int i = 0; i < rowCount; i++) {
+			rows[i] = new NodePointer();
+			/* Cliff wanted following section to be removed */
+			/* Cliff's change A begins */
+			/* Highlighter highlighter = NodePointer.getHighlighter(); */
+			/* HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.pink); */
+			/* highlighter.addHighlight(i, i, painter); */
+			/* Cliff's change A ends */
 		}
 	}
 	
