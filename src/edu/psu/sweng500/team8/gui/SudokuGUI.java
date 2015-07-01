@@ -8,6 +8,9 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout.Group;
+import javax.swing.GroupLayout.ParallelGroup;
+import javax.swing.GroupLayout.SequentialGroup;
 import javax.swing.JFileChooser;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
@@ -41,6 +44,109 @@ public class SudokuGUI extends javax.swing.JFrame {
 		initComponents();
 	}
 
+	private void arrangeLayout() {
+		GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+
+		Group difficultyRadioButtonGroup = layout
+				.createParallelGroup(Alignment.TRAILING);
+		difficultyRadioButtonGroup.addComponent(jLabel2); // difficulty
+		difficultyRadioButtonGroup.addComponent(radEasy);
+		difficultyRadioButtonGroup.addComponent(radMedium);
+		difficultyRadioButtonGroup.addComponent(radHard);
+
+		Group difficultyRadioButtonContainer = layout.createSequentialGroup();
+		difficultyRadioButtonContainer.addGap(4);
+		difficultyRadioButtonContainer.addGroup(difficultyRadioButtonGroup);
+
+		Group actionButtonGroup = layout.createParallelGroup(Alignment.LEADING);
+		actionButtonGroup.addComponent(jLabel3); // option
+		actionButtonGroup.addComponent(jButton12);
+		actionButtonGroup.addComponent(jButton13);
+		actionButtonGroup.addComponent(jButton11);
+		actionButtonGroup.addComponent(jButton10);
+		actionButtonGroup.addComponent(jButton14);
+
+		Group actionButtonContainer = layout.createSequentialGroup();
+		actionButtonContainer.addGap(4);
+		actionButtonContainer.addGroup(actionButtonGroup);
+
+		ParallelGroup menuGroup = layout.createParallelGroup(Alignment.LEADING);
+		menuGroup.addComponent(jLabel1, Alignment.TRAILING); // menu
+
+		javax.swing.GroupLayout.Group menuContainer = layout
+				.createParallelGroup(Alignment.LEADING);
+		menuContainer.addGroup(menuGroup);
+		menuContainer.addGroup(difficultyRadioButtonContainer);
+		menuContainer.addGroup(actionButtonContainer);
+		menuContainer.addGap(18);
+
+		/**/
+		SequentialGroup menuContainer_seq = layout.createSequentialGroup();
+		menuContainer_seq.addGroup(menuContainer);
+
+		SequentialGroup newGameMenuGroup = layout.createSequentialGroup();
+		newGameMenuGroup.addComponent(btnNewGame); // new game
+		newGameMenuGroup.addContainerGap();
+
+		javax.swing.GroupLayout.Group menuNnewGame = layout
+				.createParallelGroup(Alignment.TRAILING);
+		menuNnewGame.addGroup(newGameMenuGroup);
+		menuNnewGame.addGroup(menuContainer_seq);
+
+		/**/
+
+		SequentialGroup mainGroup = layout.createSequentialGroup();
+		mainGroup.addContainerGap();
+		mainGroup.addComponent(gameBoard, GroupLayout.PREFERRED_SIZE,
+				GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE);
+		mainGroup.addPreferredGap(ComponentPlacement.RELATED,
+				GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE);
+		mainGroup.addGroup(menuNnewGame);
+
+		/**/
+		Group parallelGroup = layout.createParallelGroup(Alignment.LEADING);
+		parallelGroup.addGroup(mainGroup);
+		layout.setHorizontalGroup(parallelGroup);
+
+		/**/
+		Group virticalGroup = layout.createParallelGroup(Alignment.TRAILING);
+
+		SequentialGroup sg = layout.createSequentialGroup();
+		sg.addComponent(jLabel1);
+		sg.addGap(13);
+		sg.addComponent(jLabel2);
+		sg.addPreferredGap(ComponentPlacement.RELATED);
+		sg.addComponent(radEasy);
+		sg.addPreferredGap(ComponentPlacement.RELATED);
+		sg.addComponent(radMedium);
+		sg.addPreferredGap(ComponentPlacement.RELATED);
+		sg.addComponent(radHard);
+		sg.addPreferredGap(ComponentPlacement.RELATED, 229, Short.MAX_VALUE)
+				.addComponent(jLabel3);
+		sg.addPreferredGap(ComponentPlacement.RELATED);
+		sg.addComponent(jButton10);
+		sg.addPreferredGap(ComponentPlacement.RELATED);
+		sg.addComponent(jButton11);
+		sg.addPreferredGap(ComponentPlacement.RELATED);
+		sg.addComponent(jButton12);
+		sg.addPreferredGap(ComponentPlacement.RELATED);
+		sg.addComponent(jButton13);
+		sg.addPreferredGap(ComponentPlacement.RELATED);
+		sg.addComponent(jButton14).addGap(18).addComponent(btnNewGame);
+		sg.addContainerGap();
+
+		SequentialGroup sg2 = layout.createSequentialGroup();
+		sg2.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE);
+		sg2.addComponent(gameBoard, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE);
+		sg2.addGap(41);
+
+		virticalGroup.addGroup(sg);
+		virticalGroup.addGroup(sg2);
+		layout.setVerticalGroup(virticalGroup);
+
+		getContentPane().setLayout(layout);
+	}
+	
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is always
@@ -163,7 +269,21 @@ public class SudokuGUI extends javax.swing.JFrame {
 		});
 
 		jLabel3.setText("Options");
+		
+		buttonPencilMark = new javax.swing.JButton();
+		buttonPencilMark.setText("Pencil Marks");
 
+		/*
+		 * FIXME
+		 * If we are going to continue to update GroupLayout, 
+		 * it might be better to refactor this early on.
+		 * I created a new method called arrangeLayout()
+		 * which is refactored version of GroupLayout intialization.
+		 * We can remove entire logic around GroupLayout and just call arrangeLayout();
+		 * The reason I am not replacing it now is because I saw Jeremy's branch is actively updating this method.
+		 * Once we are settle, we may considering using arrangeLayout() method
+		 * 
+		 * */
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
 				getContentPane());
 		layout.setHorizontalGroup(layout
@@ -371,6 +491,7 @@ public class SudokuGUI extends javax.swing.JFrame {
 	private javax.swing.JButton jButton12;
 	private javax.swing.JButton jButton13;
 	private javax.swing.JButton jButton14;
+	private javax.swing.JButton buttonPencilMark;
 	private javax.swing.JLabel jLabel1;
 	private javax.swing.JLabel jLabel2;
 	private javax.swing.JLabel jLabel3;
