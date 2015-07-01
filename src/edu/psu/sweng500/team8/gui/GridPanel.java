@@ -6,6 +6,8 @@
 package edu.psu.sweng500.team8.gui;
 
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JTextField;
 import javax.swing.text.BadLocationException;
@@ -26,6 +28,7 @@ public class GridPanel extends javax.swing.JPanel {
 	public GridPanel() {
 		initComponents();
 		initializeGrid();
+		enforce();
 	}
 
 	public void populatePanel(CellGrid grid, GameSession gameSession) {
@@ -48,7 +51,7 @@ public class GridPanel extends javax.swing.JPanel {
 						if (cell.hasNumber())
 
 							this.controlGrid[row][column].getHighlighter()
-							.addHighlight(0, 3, painter);
+									.addHighlight(0, 3, painter);
 					} catch (BadLocationException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -74,6 +77,117 @@ public class GridPanel extends javax.swing.JPanel {
 				this.controlGrid[row][column].setText("");
 			}
 		}
+	}
+
+	public void enforce() {
+		enforceValidNumbers(txtCell00);
+		enforceValidNumbers(txtCell01);
+		enforceValidNumbers(txtCell02);
+		enforceValidNumbers(txtCell03);
+		enforceValidNumbers(txtCell04);
+		enforceValidNumbers(txtCell05);
+		enforceValidNumbers(txtCell06);
+		enforceValidNumbers(txtCell07);
+		enforceValidNumbers(txtCell08);
+
+		enforceValidNumbers(txtCell10);
+		enforceValidNumbers(txtCell11);
+		enforceValidNumbers(txtCell12);
+		enforceValidNumbers(txtCell13);
+		enforceValidNumbers(txtCell14);
+		enforceValidNumbers(txtCell15);
+		enforceValidNumbers(txtCell16);
+		enforceValidNumbers(txtCell17);
+		enforceValidNumbers(txtCell18);
+
+		enforceValidNumbers(txtCell20);
+		enforceValidNumbers(txtCell21);
+		enforceValidNumbers(txtCell22);
+		enforceValidNumbers(txtCell23);
+		enforceValidNumbers(txtCell24);
+		enforceValidNumbers(txtCell25);
+		enforceValidNumbers(txtCell26);
+		enforceValidNumbers(txtCell27);
+		enforceValidNumbers(txtCell28);
+
+		enforceValidNumbers(txtCell30);
+		enforceValidNumbers(txtCell31);
+		enforceValidNumbers(txtCell32);
+		enforceValidNumbers(txtCell33);
+		enforceValidNumbers(txtCell34);
+		enforceValidNumbers(txtCell35);
+		enforceValidNumbers(txtCell36);
+		enforceValidNumbers(txtCell37);
+		enforceValidNumbers(txtCell38);
+
+		enforceValidNumbers(txtCell40);
+		enforceValidNumbers(txtCell41);
+		enforceValidNumbers(txtCell42);
+		enforceValidNumbers(txtCell43);
+		enforceValidNumbers(txtCell44);
+		enforceValidNumbers(txtCell45);
+		enforceValidNumbers(txtCell46);
+		enforceValidNumbers(txtCell47);
+		enforceValidNumbers(txtCell48);
+
+		enforceValidNumbers(txtCell50);
+		enforceValidNumbers(txtCell51);
+		enforceValidNumbers(txtCell52);
+		enforceValidNumbers(txtCell53);
+		enforceValidNumbers(txtCell54);
+		enforceValidNumbers(txtCell55);
+		enforceValidNumbers(txtCell56);
+		enforceValidNumbers(txtCell57);
+		enforceValidNumbers(txtCell58);
+
+		enforceValidNumbers(txtCell60);
+		enforceValidNumbers(txtCell61);
+		enforceValidNumbers(txtCell62);
+		enforceValidNumbers(txtCell63);
+		enforceValidNumbers(txtCell64);
+		enforceValidNumbers(txtCell65);
+		enforceValidNumbers(txtCell66);
+		enforceValidNumbers(txtCell67);
+		enforceValidNumbers(txtCell68);
+
+		enforceValidNumbers(txtCell70);
+		enforceValidNumbers(txtCell71);
+		enforceValidNumbers(txtCell72);
+		enforceValidNumbers(txtCell73);
+		enforceValidNumbers(txtCell74);
+		enforceValidNumbers(txtCell75);
+		enforceValidNumbers(txtCell76);
+		enforceValidNumbers(txtCell77);
+		enforceValidNumbers(txtCell78);
+
+		enforceValidNumbers(txtCell80);
+		enforceValidNumbers(txtCell81);
+		enforceValidNumbers(txtCell82);
+		enforceValidNumbers(txtCell83);
+		enforceValidNumbers(txtCell84);
+		enforceValidNumbers(txtCell85);
+		enforceValidNumbers(txtCell86);
+		enforceValidNumbers(txtCell87);
+		enforceValidNumbers(txtCell88);
+	}
+
+	public void enforceValidNumbers(final JTextField jtf) {
+
+		jtf.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				JTextField textField = (JTextField) e.getSource();
+				String text = textField.getText();
+				try {
+					int n = Integer.parseInt(jtf.getText());
+					if (n < 1 || n > 9) {
+						throw new NumberFormatException();
+					}
+				} catch (NumberFormatException ex) {
+					jtf.setText("");
+				}
+
+			}
+		});
 	}
 
 	public void refreshPanel() {
@@ -453,11 +567,11 @@ public class GridPanel extends javax.swing.JPanel {
 								javax.swing.GroupLayout.Alignment.LEADING)
 								.addGroup(
 										layout.createSequentialGroup()
-										.addContainerGap()
-										.addComponent(
-												board,
-												javax.swing.GroupLayout.DEFAULT_SIZE,
-												470, Short.MAX_VALUE)
+												.addContainerGap()
+												.addComponent(
+														board,
+														javax.swing.GroupLayout.DEFAULT_SIZE,
+														470, Short.MAX_VALUE)
 												.addContainerGap())));
 		layout.setVerticalGroup(layout
 				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -467,11 +581,11 @@ public class GridPanel extends javax.swing.JPanel {
 								javax.swing.GroupLayout.Alignment.LEADING)
 								.addGroup(
 										layout.createSequentialGroup()
-										.addContainerGap()
-										.addComponent(
-												board,
-												javax.swing.GroupLayout.DEFAULT_SIZE,
-												468, Short.MAX_VALUE)
+												.addContainerGap()
+												.addComponent(
+														board,
+														javax.swing.GroupLayout.DEFAULT_SIZE,
+														468, Short.MAX_VALUE)
 												.addContainerGap())));
 	}// </editor-fold>//GEN-END:initComponents
 
@@ -560,17 +674,19 @@ public class GridPanel extends javax.swing.JPanel {
 	private javax.swing.JTextField txtCell88;
 
 	// End of variables declaration//GEN-END:variables
-	
+
 	/**
 	 * for testing only
+	 * 
 	 * @return
 	 */
 	public JTextField[][] getControlGrid() {
 		return this.controlGrid;
 	}
-	
+
 	/**
 	 * for testing only
+	 * 
 	 * @return
 	 */
 	public GameSession getGameSession() {
