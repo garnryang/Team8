@@ -21,8 +21,8 @@ public class GameSessionTests {
 		Board board = new Board();
 		GameSession gameSession = new GameSession(board);
 		
-		CellCoordinates cellCoordinates = new CellCoordinates(0, 0);
-		gameSession.enterNumber(cellCoordinates, 8);
+		Cell cell = gameSession.getGameBoard().getCell(0, 0);
+		gameSession.enterNumber(cell, 8);
 		Board boardAfterEnteringNumber = gameSession.refresh();
 		Cell cellAfterEnteringNumber = boardAfterEnteringNumber.getCell(0, 0);
 		Assert.assertEquals(8, cellAfterEnteringNumber.getNumber());	
@@ -52,14 +52,14 @@ public class GameSessionTests {
 		Board board = new Board();
 		GameSession gameSession = new GameSession(board);
 		
-		CellCoordinates cellCoordinates_1 = new CellCoordinates(0, 0);
-		gameSession.enterNumber(cellCoordinates_1, 8);
+		Cell cell_1 = gameSession.getGameBoard().getCell(0, 0);
+		gameSession.enterNumber(cell_1, 8);
 		Board boardAfterEnteringNumber = gameSession.refresh();
 		Cell cellAfterEnteringNumber = boardAfterEnteringNumber.getCell(0, 0);
 		Assert.assertEquals(8, cellAfterEnteringNumber.getNumber());
 		
-		CellCoordinates cellCoordinates_2 = new CellCoordinates(1, 1);
-		gameSession.enterNumber(cellCoordinates_2, 5);
+		Cell cell_2 = gameSession.getGameBoard().getCell(1, 1);
+		gameSession.enterNumber(cell_2, 5);
 		boardAfterEnteringNumber = gameSession.refresh();
 		cellAfterEnteringNumber = boardAfterEnteringNumber.getCell(1, 1);
 		Assert.assertEquals(5, cellAfterEnteringNumber.getNumber());
@@ -85,8 +85,8 @@ public class GameSessionTests {
 		Board board = new Board();
 		GameSession gameSession = new GameSession(board);
 		
-		CellCoordinates cellCoordinates = new CellCoordinates(0, 0);
-		gameSession.enterNumber(cellCoordinates, 8);
+		Cell cell = gameSession.getGameBoard().getCell(0, 0);
+		gameSession.enterNumber(cell, 8);
 		Board boardAfterEnteringNumber = gameSession.refresh();
 		Cell cellAfterEnteringNumber = boardAfterEnteringNumber.getCell(0, 0);
 		Assert.assertEquals(8, cellAfterEnteringNumber.getNumber());	
@@ -109,8 +109,8 @@ public class GameSessionTests {
 		Board board = new Board();
 		GameSession gameSession = new GameSession(board);
 		
-		CellCoordinates cellCoordinates = new CellCoordinates(0, 0);
-		gameSession.enterNumber(cellCoordinates, 8);
+		Cell cell = gameSession.getGameBoard().getCell(0, 0);
+		gameSession.enterNumber(cell, 8);
 		Board boardAfterEnteringNumber = gameSession.refresh();
 		Cell cellAfterEnteringNumber = boardAfterEnteringNumber.getCell(0, 0);
 		Assert.assertEquals(8, cellAfterEnteringNumber.getNumber());	
@@ -128,14 +128,14 @@ public class GameSessionTests {
 		Board board = new Board();
 		GameSession gameSession = new GameSession(board);
 		
-		CellCoordinates cellCoordinates = new CellCoordinates(0, 0);
-		gameSession.enterNumber(cellCoordinates, 8);
+		Cell cell = gameSession.getGameBoard().getCell(0, 0);
+		gameSession.enterNumber(cell, 8);
 		Board boardAfterEnteringNumber = gameSession.refresh();
 		Cell cellAfterEnteringNumber = boardAfterEnteringNumber.getCell(0, 0);
 		Assert.assertEquals(8, cellAfterEnteringNumber.getNumber());
 		
-		cellCoordinates = new CellCoordinates(1, 1);
-		gameSession.enterNumber(cellCoordinates, 5);
+		cell = gameSession.getGameBoard().getCell(1, 1);
+		gameSession.enterNumber(cell, 5);
 		boardAfterEnteringNumber = gameSession.refresh();
 		cellAfterEnteringNumber = boardAfterEnteringNumber.getCell(1, 1);
 		Assert.assertEquals(5, cellAfterEnteringNumber.getNumber());
@@ -232,16 +232,16 @@ public class GameSessionTests {
 		GameSession gameSession = new GameSession(board);
 		
 		/* enter 8 at 0,0 */
-		CellCoordinates cellCoordinates = new CellCoordinates(0, 0);
-		gameSession.enterNumber(cellCoordinates, 8);
+		Cell cell = gameSession.getGameBoard().getCell(0, 0);
+		gameSession.enterNumber(cell, 8);
 		Board boardAfterEnteringNumber = gameSession.refresh();
 		
 		/* save */
 		gameSession.doSave(saveFile);
 		
 		/* enter 5 at 1, 1 */
-		cellCoordinates = new CellCoordinates(1, 1);
-		gameSession.enterNumber(cellCoordinates, 5);
+		cell = gameSession.getGameBoard().getCell(1, 1);
+		gameSession.enterNumber(cell, 5);
 		boardAfterEnteringNumber = gameSession.refresh();
 		
 		/* load */

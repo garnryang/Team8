@@ -9,10 +9,12 @@ import edu.psu.sweng500.team8.coreDataStructures.CellCoordinatesTests;
 import edu.psu.sweng500.team8.coreDataStructures.CellGridTests;
 import edu.psu.sweng500.team8.coreDataStructures.CellTests;
 import edu.psu.sweng500.team8.coreDataStructures.PencilMarkManagerTests;
+import edu.psu.sweng500.team8.coreDataStructures.PuzzleTests;
 import edu.psu.sweng500.team8.play.GameSessionTests;
 import edu.psu.sweng500.team8.puzzleGenerator.DLXTests;
 import edu.psu.sweng500.team8.puzzleGenerator.FillPuzzleTests;
 import edu.psu.sweng500.team8.puzzleGenerator.PuzzleGeneratorTests;
+import edu.psu.sweng500.team8.puzzleGenerator.PuzzleRepositoryTests;
 import edu.psu.sweng500.team8.puzzleGenerator.SolutionGeneratorTests;
 import edu.psu.sweng500.team8.puzzleGenerator.Test5;
 import edu.psu.sweng500.team8.solver.ConstraintSolverTests;
@@ -29,12 +31,13 @@ import edu.psu.sweng500.team8.solver.HintGeneratorTests;
    CellGridTests.class,
    CellTests.class,
    PencilMarkManagerTests.class,
+   PuzzleTests.class,
    GameSessionTests.class,
    DLXTests.class,
    FillPuzzleTests.class,
    PuzzleGeneratorTests.class,
-   SolutionGeneratorTests.class,
-   Test5.class,
+   PuzzleRepositoryTests.class,
+   SolutionGeneratorTests.class,   
    ConstraintSolverTests.class,
    GuessAndCheckSolverTests.class,
    HintGeneratorTests.class

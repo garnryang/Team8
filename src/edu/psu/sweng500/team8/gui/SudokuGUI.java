@@ -1,5 +1,9 @@
 package edu.psu.sweng500.team8.gui;
 
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import java.io.IOException;
 
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
@@ -68,6 +72,7 @@ public class SudokuGUI extends javax.swing.JFrame {
         btnNewGame = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         gameBoard = new edu.psu.sweng500.team8.gui.GridPanel();
+        
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -133,9 +138,25 @@ public class SudokuGUI extends javax.swing.JFrame {
         });
 
         jButton12.setText("Undo");
+        jButton12.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				doUndo(e);
+			}
+		});
 
         jButton13.setText("Redo");
-
+        jButton13.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				doRedo(e);
+			}
+		});
+        
+        
+        
+        
+        
         jButton14.setText("Help");
         jButton14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -276,7 +297,21 @@ public class SudokuGUI extends javax.swing.JFrame {
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton14ActionPerformed
+    
+    private void doUndo(java.awt.event.ActionEvent evt) {
+    	this.gameSession.doUndo();
+    	this.gameBoard.refreshPanel();
+    }
+    
+    private void doRedo(java.awt.event.ActionEvent evt) {
+    	this.gameSession.doRedo();
+    	this.gameBoard.refreshPanel();
+    }
 
+
+    /* we need to keep track of the current game */
+    private GameSession gameSession;
+    
     private void btnNewGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewGameActionPerformed
         DifficultyLevel difficulty;
     	if (radEasy.isSelected())
@@ -288,7 +323,7 @@ public class SudokuGUI extends javax.swing.JFrame {
     	
     	Puzzle puzzle = this.puzzleRepo.getPuzzle(difficulty);
     	GameSession newGame = new GameSession(puzzle);  
-        this.gameBoard.populatePanel(newGame.getGameBoard().getCellGrid());
+        this.gameBoard.populatePanel(newGame.getGameBoard().getCellGrid(), newGame);
     }//GEN-LAST:event_btnNewGameActionPerformed
 
     /**
@@ -308,7 +343,8 @@ public class SudokuGUI extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SudokuGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            ex.printStackTrace();
+//        	java.util.logging.Logger.getLogger(SudokuGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(SudokuGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {

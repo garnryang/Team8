@@ -7,6 +7,8 @@ import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
 
 /**
  * FIXME: Class name should be more descriptive
+ * TODO: Determine if this is still needed or valid
+ * Is this an integration test case?
  */
 public class Test5 {
 
