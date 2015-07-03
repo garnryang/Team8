@@ -120,6 +120,10 @@ public class CellGridTests {
 				Cell savedCell = gridToSave.getCell(row, column);
 				Cell loadedCell = gridToSave.getCell(row, column);
 				
+				//Check the coordinates
+				assertEquals(row, loadedCell.getCoordinates().getRowIndex());
+				assertEquals(column, loadedCell.getCoordinates().getColumnIndex());
+				
 				//Check the value
 				assertEquals(savedCell.getNumber(), loadedCell.getNumber());
 				
