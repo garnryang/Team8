@@ -73,8 +73,8 @@ public class SudokuGUI extends javax.swing.JFrame {
 
 		Group actionButtonGroup = layout.createParallelGroup(Alignment.LEADING);
 		actionButtonGroup.addComponent(jLabel3); // option
-		actionButtonGroup.addComponent(jButton12);
-		actionButtonGroup.addComponent(jButton13);
+		actionButtonGroup.addComponent(btnUndo);
+		actionButtonGroup.addComponent(btnRedo);
 		actionButtonGroup.addComponent(jButton11);
 		actionButtonGroup.addComponent(jButton10);
 		actionButtonGroup.addComponent(jButton14);
@@ -141,9 +141,9 @@ public class SudokuGUI extends javax.swing.JFrame {
 		sg.addPreferredGap(ComponentPlacement.RELATED);
 		sg.addComponent(jButton11);
 		sg.addPreferredGap(ComponentPlacement.RELATED);
-		sg.addComponent(jButton12);
+		sg.addComponent(btnUndo);
 		sg.addPreferredGap(ComponentPlacement.RELATED);
-		sg.addComponent(jButton13);
+		sg.addComponent(btnRedo);
 		sg.addPreferredGap(ComponentPlacement.RELATED);
 		sg.addComponent(jButton14).addGap(18).addComponent(btnNewGame);
 		sg.addContainerGap();
@@ -178,8 +178,8 @@ public class SudokuGUI extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jButton10 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
-        jButton13 = new javax.swing.JButton();
+        btnUndo = new javax.swing.JButton();
+        btnRedo = new javax.swing.JButton();
         jButton14 = new javax.swing.JButton();
         btnNewGame = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
@@ -222,9 +222,19 @@ public class SudokuGUI extends javax.swing.JFrame {
             }
         });
 
-        jButton12.setText("Undo");
+        btnUndo.setText("Undo");
+        btnUndo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                doUndo(evt);
+            }
+        });
 
-        jButton13.setText("Redo");
+        btnRedo.setText("Redo");
+        btnRedo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                doRedo(evt);
+            }
+        });
 
         jButton14.setText("Help");
         jButton14.addActionListener(new java.awt.event.ActionListener() {
@@ -280,8 +290,8 @@ public class SudokuGUI extends javax.swing.JFrame {
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addGap(4, 4, 4)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jButton12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButton13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnUndo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnRedo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel3)
                                         .addComponent(btnHint, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jButton11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -311,9 +321,9 @@ public class SudokuGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton12)
+                        .addComponent(btnUndo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton13)
+                        .addComponent(btnRedo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton14)
                         .addGap(18, 18, 18))
@@ -344,6 +354,16 @@ public class SudokuGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnHintActionPerformed
 
+    private void doUndo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doUndo
+    	this.gameSession.doUndo();
+		this.gameBoard.refreshPanel();
+    }//GEN-LAST:event_doUndo
+
+    private void doRedo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doRedo
+    	this.gameSession.doRedo();
+		this.gameBoard.refreshPanel();
+    }//GEN-LAST:event_doRedo
+
 	private void radEasyActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_radEasyActionPerformed
 		// TODO add your handling code here:
 	}// GEN-LAST:event_radEasyActionPerformed
@@ -365,16 +385,6 @@ public class SudokuGUI extends javax.swing.JFrame {
 		// TODO add your handling code here:
 		openHelp();
 	}// GEN-LAST:event_jButton14ActionPerformed
-
-	private void doUndo(java.awt.event.ActionEvent evt) {
-		this.gameSession.doUndo();
-		this.gameBoard.refreshPanel();
-	}
-
-	private void doRedo(java.awt.event.ActionEvent evt) {
-		this.gameSession.doRedo();
-		this.gameBoard.refreshPanel();
-	}
 
 	private void openHelp() {
 		// TODO Auto-generated method stub
@@ -435,12 +445,12 @@ public class SudokuGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHint;
     private javax.swing.JButton btnNewGame;
+    private javax.swing.JButton btnRedo;
+    private javax.swing.JButton btnUndo;
     private javax.swing.ButtonGroup buttonGroup1;
     private edu.psu.sweng500.team8.gui.GridPanel gameBoard;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
