@@ -77,7 +77,7 @@ public class CellGrid implements BinarySerializable {
 	public void load(BinaryInputStream stream) throws IOException {
 		for (int rowIndex = 0; rowIndex < 9; rowIndex++) {
 			for (int columnIndex = 0; columnIndex < 9; columnIndex++) {
-				Cell cell = m_cells[rowIndex][columnIndex] = new Cell();
+				Cell cell = m_cells[rowIndex][columnIndex] = new Cell(rowIndex, columnIndex);
 				cell.load(stream);
 			}
 		}
