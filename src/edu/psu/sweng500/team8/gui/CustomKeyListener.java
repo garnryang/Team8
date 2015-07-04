@@ -24,7 +24,10 @@ public class CustomKeyListener implements KeyListener {
 
 	public void keyTyped(java.awt.event.KeyEvent keyEvent) {
 		
+		
+		
 		if (KeyEvent.VK_BACK_SPACE == keyEvent.getKeyChar()) {
+			
 			gameSession.enterNumber(this.cell, 0);
 		} else {
 			gameSession.enterNumber(this.cell, Integer.parseInt(String.valueOf(keyEvent.getKeyChar())));
@@ -34,6 +37,7 @@ public class CustomKeyListener implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent keyEvent) {
 		
+	
 //		if (KeyEvent.VK_BACK_SPACE == keyEvent.getKeyChar()) {
 //			gameSession.enterNumber(this.cell.getCoordinates(), 0);
 //		} else {
@@ -43,6 +47,6 @@ public class CustomKeyListener implements KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-
+	
 	}
 }

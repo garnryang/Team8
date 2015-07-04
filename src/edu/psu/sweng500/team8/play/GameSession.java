@@ -57,33 +57,37 @@ public class GameSession {
 	 * @param number
 	 */
 	public void enterNumber(Cell currentCell, int number) {
+
+		/* We don't have to clear empty cell */
+		if (0 != currentCell.getNumber() || 0 != number) {
 		
-		/* keep track of the last action*/
-		SudokuAction sudokuAction = new SudokuAction(new CellGrid(board.getCellGrid()));
-		
-		boolean isDelete = false;
-		
-		if (number == 0) {
-			isDelete = true;			
+			/* keep track of the last action*/
+			SudokuAction sudokuAction = new SudokuAction(new CellGrid(board.getCellGrid()));
+			
+			boolean isDelete = false;
+			
+			if (number == 0) {
+				isDelete = true;			
+			}
+			
+			if (isDelete) {
+				currentCell.clearNumber();
+			} else {
+				currentCell.setNumber(number);	
+			}
+			
+			/* FIXME - PencilMarkManager updating/wiping out PencilMark number matching entered number */
+			if (!isDelete) {
+				for (int i = 0; i < 9; i++) {
+					for (int j = 0; j < 9; j++) {
+						Cell eachCell = this.getGameBoard().getCellGrid().getCell(i, j);
+						enterPencilMark(eachCell, number, false);
+					}
+				}			
+			}
+			
+			actionManager.addAction(sudokuAction);			
 		}
-		
-		if (isDelete) {
-			currentCell.clearNumber();
-		} else {
-			currentCell.setNumber(number);	
-		}
-		
-		/* FIXME - PencilMarkManager updating/wiping out PencilMark number matching entered number */
-		if (!isDelete) {
-			for (int i = 0; i < 9; i++) {
-				for (int j = 0; j < 9; j++) {
-					Cell eachCell = this.getGameBoard().getCellGrid().getCell(i, j);
-					enterPencilMark(eachCell, number, false);
-				}
-			}			
-		}
-		
-		actionManager.addAction(sudokuAction);
 	}
 
 	

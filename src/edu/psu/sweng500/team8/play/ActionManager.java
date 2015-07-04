@@ -36,12 +36,13 @@ public class ActionManager {
 		 * revert last action on the sudokuActionQueue, and put that action into
 		 * sudokuActionQueueForUndo
 		 */
-		SudokuAction lastAction = sudokuActionQueue.pop();
 		
-		if (null != lastAction) {
-			CellGrid previousCellGrid = lastAction.getCellGrid();
-			lastAction.setCellGrid(new CellGrid(currentCellGridFromBoard));
-			sudokuActionQueueForUndo.add(lastAction);
+		if (null != sudokuActionQueue.peek()) {
+			SudokuAction lastAction = sudokuActionQueue.pop(); 
+			CellGrid previousCellGrid = lastAction.getCellGrid(); 
+			
+			SudokuAction undoAction = new SudokuAction(new CellGrid(currentCellGridFromBoard));
+			sudokuActionQueueForUndo.add(undoAction);
 			
 			currentCellGridFromBoard.copyValues(previousCellGrid);
 		}
@@ -53,12 +54,12 @@ public class ActionManager {
 	public void doRedo(CellGrid currentCellGridFromBoard) {
 		/* redo last action reverted back by undo */
 		
-		SudokuAction lastActionUndone = sudokuActionQueueForUndo.pop();
-		
-		if (null != lastActionUndone) {
+		if (null != sudokuActionQueueForUndo.peek()) {
+			SudokuAction lastActionUndone = sudokuActionQueueForUndo.pop();
 			CellGrid previousCellGrid = lastActionUndone.getCellGrid();
-			lastActionUndone.setCellGrid(new CellGrid(currentCellGridFromBoard));
-			sudokuActionQueue.add(lastActionUndone);
+			
+			SudokuAction redoAction = new SudokuAction(new CellGrid(currentCellGridFromBoard));
+			sudokuActionQueue.add(redoAction);
 
 			currentCellGridFromBoard.copyValues(previousCellGrid);
 		}

@@ -1,11 +1,9 @@
 package edu.psu.sweng500.team8.gui;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout.Group;
@@ -14,10 +12,15 @@ import javax.swing.GroupLayout.SequentialGroup;
 import javax.swing.JFileChooser;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
 import edu.psu.sweng500.team8.play.GameSession;
 import edu.psu.sweng500.team8.puzzleGenerator.PuzzleRepository;
+import edu.psu.sweng500.team8.solver.HintGenerator;
+import edu.psu.sweng500.team8.solver.HintInfo;
+
+import javax.swing.JOptionPane;
 
 /*
  * To change this template, choose Tools | Templates
@@ -31,7 +34,9 @@ import edu.psu.sweng500.team8.puzzleGenerator.PuzzleRepository;
 public class SudokuGUI extends javax.swing.JFrame {
 
 	private PuzzleRepository puzzleRepo = new PuzzleRepository(); //Not sure if there is a better place to put this
-
+        /* we need to keep track of the current game */
+	private GameSession gameSession;
+        
 	/**
 	 * Creates new form SudokuGUI
 	 */
@@ -44,6 +49,14 @@ public class SudokuGUI extends javax.swing.JFrame {
 		initComponents();
 	}
 
+	public void setMessage(String message) {
+		lblMessage.setText(message);
+	}
+	
+	public void clearMessage() {
+		lblMessage.setText("");
+	}
+	
 	private void arrangeLayout() {
 		GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
 
@@ -60,8 +73,8 @@ public class SudokuGUI extends javax.swing.JFrame {
 
 		Group actionButtonGroup = layout.createParallelGroup(Alignment.LEADING);
 		actionButtonGroup.addComponent(jLabel3); // option
-		actionButtonGroup.addComponent(jButton12);
-		actionButtonGroup.addComponent(jButton13);
+		actionButtonGroup.addComponent(btnUndo);
+		actionButtonGroup.addComponent(btnRedo);
 		actionButtonGroup.addComponent(jButton11);
 		actionButtonGroup.addComponent(jButton10);
 		actionButtonGroup.addComponent(jButton14);
@@ -128,9 +141,9 @@ public class SudokuGUI extends javax.swing.JFrame {
 		sg.addPreferredGap(ComponentPlacement.RELATED);
 		sg.addComponent(jButton11);
 		sg.addPreferredGap(ComponentPlacement.RELATED);
-		sg.addComponent(jButton12);
+		sg.addComponent(btnUndo);
 		sg.addPreferredGap(ComponentPlacement.RELATED);
-		sg.addComponent(jButton13);
+		sg.addComponent(btnRedo);
 		sg.addPreferredGap(ComponentPlacement.RELATED);
 		sg.addComponent(jButton14).addGap(18).addComponent(btnNewGame);
 		sg.addContainerGap();
@@ -154,242 +167,202 @@ public class SudokuGUI extends javax.swing.JFrame {
 	 */
 	@SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
 
-		buttonGroup1 = new javax.swing.ButtonGroup();
-		radEasy = new javax.swing.JRadioButton();
-		jLabel1 = new javax.swing.JLabel();
-		radMedium = new javax.swing.JRadioButton();
-		radHard = new javax.swing.JRadioButton();
-		jLabel2 = new javax.swing.JLabel();
-		jButton10 = new javax.swing.JButton();
-		jButton10.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				saveGame();
-			}
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        radEasy = new javax.swing.JRadioButton();
+        jLabel1 = new javax.swing.JLabel();
+        radMedium = new javax.swing.JRadioButton();
+        radHard = new javax.swing.JRadioButton();
+        jLabel2 = new javax.swing.JLabel();
+        jButton10 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
+        btnUndo = new javax.swing.JButton();
+        btnRedo = new javax.swing.JButton();
+        jButton14 = new javax.swing.JButton();
+        btnNewGame = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        gameBoard = new edu.psu.sweng500.team8.gui.GridPanel();
+        btnHint = new javax.swing.JButton();
+        lblMessage = new javax.swing.JLabel();
 
-			private void saveGame() {
-				// TODO Auto-generated method stub
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-			}
-		});
-		jButton11 = new javax.swing.JButton();
-		jButton12 = new javax.swing.JButton();
-		jButton12.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				undoMove();
-			}
+        buttonGroup1.add(radEasy);
+        radEasy.setSelected(true);
+        radEasy.setText("Easy");
+        radEasy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radEasyActionPerformed(evt);
+            }
+        });
 
-			private void undoMove() {
-				// TODO Auto-generated method stub
+        jLabel1.setText("Menu");
 
-			}
-		});
-		jButton13 = new javax.swing.JButton();
-		jButton13.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				redoMove();
-			}
+        buttonGroup1.add(radMedium);
+        radMedium.setText("Medium");
 
-			private void redoMove() {
-				// TODO Auto-generated method stub
+        buttonGroup1.add(radHard);
+        radHard.setText("Hard");
+        radHard.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radHardActionPerformed(evt);
+            }
+        });
 
-			}
-		});
-		jButton14 = new javax.swing.JButton();
-		btnNewGame = new javax.swing.JButton();
-		jLabel3 = new javax.swing.JLabel();
-		gameBoard = new edu.psu.sweng500.team8.gui.GridPanel();
+        jLabel2.setText("Difficulty");
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jButton10.setText("Save");
 
-		buttonGroup1.add(radEasy);
-		radEasy.setSelected(true);
-		radEasy.setText("Easy");
-		radEasy.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				radEasyActionPerformed(evt);
-			}
-		});
+        jButton11.setText("Load");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
 
-		jLabel1.setText("Menu");
+        btnUndo.setText("Undo");
+        btnUndo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                doUndo(evt);
+            }
+        });
 
-		buttonGroup1.add(radMedium);
-		radMedium.setText("Medium");
+        btnRedo.setText("Redo");
+        btnRedo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                doRedo(evt);
+            }
+        });
 
-		buttonGroup1.add(radHard);
-		radHard.setText("Hard");
-		radHard.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				radHardActionPerformed(evt);
-			}
-		});
+        jButton14.setText("Help");
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
+            }
+        });
 
-		jLabel2.setText("Difficulty");
+        btnNewGame.setText("New Game");
+        btnNewGame.setName("btnNewGame"); // NOI18N
+        btnNewGame.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewGameActionPerformed(evt);
+            }
+        });
 
-		jButton10.setText("Save");
+        jLabel3.setText("Options");
 
-		jButton11.setText("Load");
-		jButton11.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jButton11ActionPerformed(evt);
-			}
-		});
+        btnHint.setText("Hint");
+        btnHint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHintActionPerformed(evt);
+            }
+        });
 
-		jButton12.setText("Undo");
-		jButton12.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				doUndo(e);
-			}
-		});
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(lblMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE))
+                    .addComponent(gameBoard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnNewGame)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(radMedium, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addComponent(radHard)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel2)
+                                .addComponent(radEasy))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addGap(4, 4, 4)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(btnUndo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnRedo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel3)
+                                        .addComponent(btnHint, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButton11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                        .addGap(18, 18, 18))))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(13, 13, 13)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(radEasy)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(radMedium)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(radHard)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnHint)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnUndo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnRedo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton14)
+                        .addGap(18, 18, 18))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(gameBoard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5, 5, 5)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnNewGame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblMessage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
 
-		jButton13.setText("Redo");
-		jButton13.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				doRedo(e);
-			}
-		});
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
-		jButton14.setText("Help");
-		jButton14.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jButton14ActionPerformed(evt);
-			}
-		});
+    private void btnHintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHintActionPerformed
+        //Get a hint
+    	if (this.gameSession == null)
+    		return;
+    	
+        HintInfo hint = HintGenerator.getHint(this.gameSession.getGameBoard());
+        if (hint != null) {
+        	CellCoordinates coordinates = hint.GetCell().getCoordinates();
+            this.gameBoard.selectCell(coordinates.getRowIndex(), coordinates.getColumnIndex());
+            this.gameBoard.setSelectedCellNumber(hint.GetCell().getNumber());
+            setMessage(hint.GetExplanation());
+        }
+    }//GEN-LAST:event_btnHintActionPerformed
 
-		btnNewGame.setText("New Game");
-		btnNewGame.setName("btnNewGame"); // NOI18N
-		btnNewGame.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				btnNewGameActionPerformed(evt);
-			}
-		});
+    private void doUndo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doUndo
+    	this.gameSession.doUndo();
+		this.gameBoard.refreshPanel();
+    }//GEN-LAST:event_doUndo
 
-		jLabel3.setText("Options");
-		
-		buttonPencilMark = new javax.swing.JButton();
-		buttonPencilMark.setText("Pencil Marks");
-
-		/*
-		 * FIXME
-		 * If we are going to continue to update GroupLayout, 
-		 * it might be better to refactor this early on.
-		 * I created a new method called arrangeLayout()
-		 * which is refactored version of GroupLayout intialization.
-		 * We can remove entire logic around GroupLayout and just call arrangeLayout();
-		 * The reason I am not replacing it now is because I saw Jeremy's branch is actively updating this method.
-		 * Once we are settle, we may considering using arrangeLayout() method
-		 * 
-		 * */
-		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
-				getContentPane());
-		layout.setHorizontalGroup(layout
-				.createParallelGroup(Alignment.LEADING)
-				.addGroup(
-						layout.createSequentialGroup()
-								.addContainerGap()
-								.addComponent(gameBoard,
-										GroupLayout.PREFERRED_SIZE,
-										GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED,
-										GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)
-								.addGroup(
-										layout.createParallelGroup(
-												Alignment.TRAILING)
-												.addGroup(
-														layout.createSequentialGroup()
-																.addComponent(
-																		btnNewGame)
-																.addContainerGap())
-												.addGroup(
-														layout.createSequentialGroup()
-																.addGroup(
-																		layout.createParallelGroup(
-																				Alignment.LEADING)
-																				.addGroup(
-																						layout.createParallelGroup(
-																								Alignment.LEADING)
-																								.addComponent(
-																										jLabel1,
-																										Alignment.TRAILING)
-																								.addComponent(
-																										radMedium,
-																										Alignment.TRAILING))
-																				.addGroup(
-																						layout.createSequentialGroup()
-																								.addGap(4)
-																								.addGroup(
-																										layout.createParallelGroup(
-																												Alignment.TRAILING)
-																												.addComponent(
-																														radHard)
-																												.addComponent(
-																														jLabel2)
-																												.addComponent(
-																														radEasy)))
-																				.addGroup(
-																						layout.createSequentialGroup()
-																								.addGap(4)
-																								.addGroup(
-																										layout.createParallelGroup(
-																												Alignment.LEADING)
-																												.addComponent(
-																														jButton12)
-																												.addComponent(
-																														jButton13)
-																												.addComponent(
-																														jButton11)
-																												.addComponent(
-																														jButton10)
-																												.addComponent(
-																														jLabel3)
-																												.addComponent(
-																														jButton14))))
-																.addGap(18)))));
-		layout.setVerticalGroup(layout
-				.createParallelGroup(Alignment.TRAILING)
-				.addGroup(
-						layout.createSequentialGroup()
-								.addComponent(jLabel1)
-								.addGap(13)
-								.addComponent(jLabel2)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(radEasy)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(radMedium)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(radHard)
-								.addPreferredGap(ComponentPlacement.RELATED,
-										229, Short.MAX_VALUE)
-								.addComponent(jLabel3)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(jButton10)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(jButton11)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(jButton12)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(jButton13)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(jButton14).addGap(18)
-								.addComponent(btnNewGame).addContainerGap())
-				.addGroup(
-						layout.createSequentialGroup()
-								.addContainerGap(GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)
-								.addComponent(gameBoard,
-										GroupLayout.PREFERRED_SIZE,
-										GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE).addGap(41)));
-		getContentPane().setLayout(layout);
-
-		pack();
-	}// </editor-fold>//GEN-END:initComponents
+    private void doRedo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doRedo
+    	this.gameSession.doRedo();
+		this.gameBoard.refreshPanel();
+    }//GEN-LAST:event_doRedo
 
 	private void radEasyActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_radEasyActionPerformed
 		// TODO add your handling code here:
@@ -413,19 +386,6 @@ public class SudokuGUI extends javax.swing.JFrame {
 		openHelp();
 	}// GEN-LAST:event_jButton14ActionPerformed
 
-	private void doUndo(java.awt.event.ActionEvent evt) {
-		this.gameSession.doUndo();
-		this.gameBoard.refreshPanel();
-	}
-
-	private void doRedo(java.awt.event.ActionEvent evt) {
-		this.gameSession.doRedo();
-		this.gameBoard.refreshPanel();
-	}
-
-	/* we need to keep track of the current game */
-	private GameSession gameSession;
-
 	private void openHelp() {
 		// TODO Auto-generated method stub
 
@@ -441,7 +401,7 @@ public class SudokuGUI extends javax.swing.JFrame {
 			difficulty = DifficultyLevel.Hard;
 
 		Puzzle puzzle = this.puzzleRepo.getPuzzle(difficulty);
-		gameSession = new GameSession(puzzle);
+		this.gameSession = new GameSession(puzzle);
 		this.gameBoard.populatePanel(gameSession.getGameBoard().getCellGrid(),
 				gameSession);
 	}// GEN-LAST:event_btnNewGameActionPerformed
@@ -482,25 +442,24 @@ public class SudokuGUI extends javax.swing.JFrame {
 		});
 	}
 
-	// Variables declaration - do not modify//GEN-BEGIN:variables
-	private javax.swing.JButton btnNewGame;
-	private javax.swing.ButtonGroup buttonGroup1;
-	private edu.psu.sweng500.team8.gui.GridPanel gameBoard;
-	private javax.swing.JButton jButton10;
-	private javax.swing.JButton jButton11;
-	private javax.swing.JButton jButton12;
-	private javax.swing.JButton jButton13;
-	private javax.swing.JButton jButton14;
-	private javax.swing.JButton buttonPencilMark;
-	private javax.swing.JLabel jLabel1;
-	private javax.swing.JLabel jLabel2;
-	private javax.swing.JLabel jLabel3;
-	private javax.swing.JRadioButton radEasy;
-	private javax.swing.JRadioButton radHard;
-	private javax.swing.JRadioButton radMedium;
-	private final Action action = new SwingAction();
-
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnHint;
+    private javax.swing.JButton btnNewGame;
+    private javax.swing.JButton btnRedo;
+    private javax.swing.JButton btnUndo;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private edu.psu.sweng500.team8.gui.GridPanel gameBoard;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton14;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel lblMessage;
+    private javax.swing.JRadioButton radEasy;
+    private javax.swing.JRadioButton radHard;
+    private javax.swing.JRadioButton radMedium;
+    // End of variables declaration//GEN-END:variables
 	private class SwingAction extends AbstractAction {
 		public SwingAction() {
 			putValue(NAME, "SwingAction");
