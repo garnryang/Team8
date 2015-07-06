@@ -34,6 +34,9 @@ public class GridPanel extends javax.swing.JPanel {
 	 * Creates new form GridPanel
 	 */
 	public GridPanel() {
+		
+		
+		
 		initComponents();
 		initializeGrid();
 		/* David's change A begins */
@@ -306,6 +309,10 @@ public class GridPanel extends javax.swing.JPanel {
 		HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(
 				Color.green);
 
+		/* TODO - THIS MAY NOT BE THE BEST PLACE TO HAVE THIS SET BUT I NEED THIS TO MAKE PENCIL MARK WORKING
+		 * DO NOT FORGET REVISIT AND UPDATE ValueType logic */
+		cell.setType(ValueType.Given);
+		
 		CellCoordinates coordinates = cell.getCoordinates();
 		try {
 			this.controlGrid[coordinates.getRowIndex()][coordinates.getColumnIndex()].getHighlighter()
@@ -347,6 +354,8 @@ public class GridPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         board = new javax.swing.JPanel();
+        PencilMarkGridPanel PencilMarkGridPanel  = new PencilMarkGridPanel();
+        
         txtCell00 = new javax.swing.JTextField();
         txtCell01 = new javax.swing.JTextField();
         txtCell02 = new javax.swing.JTextField();
@@ -1193,6 +1202,7 @@ public class GridPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel board;
+    private PencilMarkGridPanel PencilMarkGridPanel;
     private javax.swing.JTextField txtCell00;
     private javax.swing.JTextField txtCell01;
     private javax.swing.JTextField txtCell02;

@@ -36,7 +36,9 @@ public class GameSession {
 		return board;
 	}
 	
-	
+	public void enterNumber(Cell currentCell, int number) {
+		enterNumber(currentCell, number, false);
+	}
 	/**
 	 * Enter a number to given cellCoordinates
 	 * If we do basic validation before calling this method, number can be an Integer
@@ -56,35 +58,64 @@ public class GameSession {
 	 * @param cell
 	 * @param number
 	 */
-	public void enterNumber(Cell currentCell, int number) {
+	public void enterNumber(Cell currentCell, int number, boolean isHint) {
 
 		/* We don't have to clear empty cell */
 		if (0 != currentCell.getNumber() || 0 != number) {
-		
-			/* keep track of the last action*/
-			SudokuAction sudokuAction = new SudokuAction(new CellGrid(board.getCellGrid()));
-			
-			boolean isDelete = false;
-			
-			if (number == 0) {
-				isDelete = true;			
+
+			/* TODO - this is a tricky part that may require refactoring later */
+			if (isHint) {
+				// Assuming hint will only populate empty cell 
+				currentCell.clearNumber();				
 			}
 			
+			/* keep track of the last action */
+			SudokuAction sudokuAction = new SudokuAction(new CellGrid(
+					board.getCellGrid()));
+
+			boolean isDelete = false;
+
+			if (number == 0) {
+				isDelete = true;
+			}
+
 			if (isDelete) {
 				currentCell.clearNumber();
+				currentCell.getPencilMarks().clear();
 			} else {
-				currentCell.setNumber(number);	
+				/*
+				 * TODO Verify : if a number is entered, the pencilMark numbers
+				 * are cleared?
+				 */
+				currentCell.getPencilMarks().clear();
+				currentCell.setNumber(number);
 			}
-			
-			/* FIXME - PencilMarkManager updating/wiping out PencilMark number matching entered number */
+
+			/* Delete PencilMark for the same row/column */
 			if (!isDelete) {
+
 				for (int i = 0; i < 9; i++) {
-					for (int j = 0; j < 9; j++) {
-						Cell eachCell = this.getGameBoard().getCellGrid().getCell(i, j);
-						enterPencilMark(eachCell, number, false);
-					}
-				}			
+					Cell eachCell = this
+							.getGameBoard()
+							.getCellGrid()
+							.getCell(
+									currentCell.getCoordinates().getRowIndex(),
+									i);
+					enterPencilMark(eachCell, number, false);
+				}
+
+				for (int i = 0; i < 9; i++) {
+					Cell eachCell = this
+							.getGameBoard()
+							.getCellGrid()
+							.getCell(
+									i,
+									currentCell.getCoordinates()
+											.getColumnIndex());
+					enterPencilMark(eachCell, number, false);
+				}
 			}
+
 			
 			actionManager.addAction(sudokuAction);			
 		}
@@ -92,7 +123,7 @@ public class GameSession {
 
 	
 	/**
-	 * TODO implement
+	 * TODO implement redo/undo - if needed
 	 * @param currentCell
 	 * @param number
 	 */

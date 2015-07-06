@@ -16,7 +16,7 @@ public class CustomKeyListener implements KeyListener {
 
 	private Cell cell;
 	private GameSession gameSession;
-
+	
 	public CustomKeyListener(Cell cell, GameSession gameSession) {
 		this.cell = cell;
 		this.gameSession = gameSession;
@@ -26,7 +26,7 @@ public class CustomKeyListener implements KeyListener {
 		
 		
 		
-		if (KeyEvent.VK_BACK_SPACE == keyEvent.getKeyChar()) {
+		if (KeyEvent.VK_BACK_SPACE == keyEvent.getKeyChar() || KeyEvent.VK_DELETE == keyEvent.getKeyChar()) {
 			
 			gameSession.enterNumber(this.cell, 0);
 		} else {
