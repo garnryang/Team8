@@ -53,10 +53,12 @@ public class GridPanel extends javax.swing.JPanel {
 					this.controlGrid[row][column].setText(Integer.toString(cell.getNumber()));
 
 					markGivenCell(cell);
+					
+					/* David's change D begins*/
+					this.controlGrid[row][column].setEditable(false);
+					/* David's change D ends*/
+
 				}
-				/* David's change D begins*/
-				this.controlGrid[row][column].setEditable(false);
-				 /* David's change D ends*/
 			
 				/* Scott's change A begins */
 				this.controlGrid[row][column]
@@ -316,7 +318,7 @@ public class GridPanel extends javax.swing.JPanel {
 			e.printStackTrace();
 		}
 	}
-	
+		
 	private void clearSelectedCell() {
 		if (this.selectedCell != null) {
 			this.selectedCell.setBorder(DEFAULT_BORDER);
