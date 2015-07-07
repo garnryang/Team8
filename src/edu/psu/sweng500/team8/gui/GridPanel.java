@@ -18,9 +18,9 @@ import javax.swing.text.Highlighter;
 import javax.swing.text.Highlighter.HighlightPainter;
 
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
+import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
-import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
 import edu.psu.sweng500.team8.play.GameSession;
 
 public class GridPanel extends javax.swing.JPanel {
@@ -354,8 +354,6 @@ public class GridPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         board = new javax.swing.JPanel();
-        PencilMarkGridPanel PencilMarkGridPanel  = new PencilMarkGridPanel();
-        
         txtCell00 = new javax.swing.JTextField();
         txtCell01 = new javax.swing.JTextField();
         txtCell02 = new javax.swing.JTextField();
@@ -1202,7 +1200,6 @@ public class GridPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel board;
-    private PencilMarkGridPanel PencilMarkGridPanel;
     private javax.swing.JTextField txtCell00;
     private javax.swing.JTextField txtCell01;
     private javax.swing.JTextField txtCell02;

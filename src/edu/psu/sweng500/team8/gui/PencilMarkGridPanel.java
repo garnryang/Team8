@@ -21,7 +21,10 @@ import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
 import edu.psu.sweng500.team8.play.GameSession;
 
 public class PencilMarkGridPanel extends javax.swing.JPanel {
-	// private JPanel board;
+
+	private static final int CELL_SIZE = 18*3;
+
+
 	private JPanel[][] pencilMarkCell = new JPanel[9][9];
 	private GameSession gameSession;
 
@@ -43,59 +46,18 @@ public class PencilMarkGridPanel extends javax.swing.JPanel {
 
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
-				Cell cell = this.gameSession.getGameBoard().getCellGrid()
-						.getCell(i, j);
+				Cell cell = this.gameSession.getGameBoard().getCellGrid().getCell(i, j);
+
+				/* Pencil Mark Panel */
+				pencilMarkCell[i][j] = new JPanel();
+				pencilMarkCell[i][j].setPreferredSize(new Dimension(CELL_SIZE, CELL_SIZE));
+				pencilMarkCell[i][j].setBorder(null);
+				this.add(pencilMarkCell[i][j]);
+
 				if (cell.hasNumber()) {
-
-					JTextField textField = new JTextField();
-
-					textField
-							.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-					textField.setBorder(javax.swing.BorderFactory
-							.createLineBorder(new java.awt.Color(0, 0, 0)));
-					textField.setText(Integer.toString(cell.getNumber()));
-
-					HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(
-							Color.green);
-
-					try {
-						textField.getHighlighter().addHighlight(0, 3, painter);
-					} catch (BadLocationException e) {
-						e.printStackTrace();
-					}
-
-					textField.setEditable(false);
-
-					textField.setPreferredSize(new Dimension(18 * 3, 18 * 3));
-
-					pencilMarkCell[i][j] = new JPanel();
-
-					pencilMarkCell[i][j].setPreferredSize(new Dimension(18 * 3,
-							18 * 3));
-					pencilMarkCell[i][j].setBorder(null);
-
-					pencilMarkCell[i][j].add(textField);
-					this.add(pencilMarkCell[i][j]);
-
+					pencilMarkCell[i][j].add(buildReadOnlyTextField(cell, true));
 				} else {
-
-					pencilMarkCell[i][j] = new JPanel();
-
-					pencilMarkCell[i][j].setPreferredSize(new Dimension(18 * 3,
-							18 * 3));
-					pencilMarkCell[i][j].setBorder(null);
-
-					CombinationCell combinationCell = new CombinationCell(cell, this.gameSession);
-					pencilMarkCell[i][j].add(combinationCell);
-					
-					for (int k = 1; k <= 9; k++) {
-						
-						if (this.gameSession.getGameBoard().getCellConstraints(cell).getUsedNumbers().contains(k)) {
-							((JToggleButton)((CombinationCell)pencilMarkCell[i][j].getComponent(0)).getComponent(k-1)).setEnabled(false);	
-						}
-					}
-					
-					this.add(pencilMarkCell[i][j]);
+					pencilMarkCell[i][j].add(buildPencilMarkInputField(cell));
 				}
 			}
 		}
@@ -114,41 +76,26 @@ public class PencilMarkGridPanel extends javax.swing.JPanel {
 					if (!ValueType.Given.equals(cell.getType())) {
 						/* This cell has a user-entered number */
 						pencilMarkCell[i][j].removeAll();
-
-						JTextField textField = new JTextField();
-
-						textField
-								.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-						textField.setBorder(javax.swing.BorderFactory
-								.createLineBorder(new java.awt.Color(0, 0, 0)));
-						textField.setText(Integer.toString(cell.getNumber()));
-
-						textField.setEditable(false);
-
-						textField
-								.setPreferredSize(new Dimension(18 * 3, 18 * 3));
-
-						pencilMarkCell[i][j].add(textField);
+						pencilMarkCell[i][j].add(buildReadOnlyTextField(cell, false));
 					} else {
 						/* Do not touch Given numbers */
 					}
 				} else {
+
 					/* cell does not have a number */
 					if (pencilMarkCell[i][j].getComponent(0) instanceof JTextField) {
 						/* if JTextField is already there, it means the cell got a number and it was deleted afterwards. 
 						 * We need to put the PencilMark back */
 						pencilMarkCell[i][j].removeAll();
-						
-						CombinationCell combinationCell = new CombinationCell(cell, this.gameSession);
-						pencilMarkCell[i][j].add(combinationCell);
+						pencilMarkCell[i][j].add(buildPencilMarkInputField(cell));
 					} else {
 						/* pencilMark buttons should be pre-populated 
 						 * pencilMark buttons should be disabled for given numbers (possibly user-defined numbers) 
 						 * TODO - Talk to the team if we want to disable user-defined numbers for pencil Marks 
 						 * TODO - We may not have to select/unselect every time we refresh, if we keep track of updated cells */
-						
+
 						for (int k = 1; k <= 9; k++) {
-							
+
 							if (cell.getPencilMarks().contains(k)) {
 								((JToggleButton)((CombinationCell)pencilMarkCell[i][j].getComponent(0)).getComponent(k-1)).setSelected(true);	
 							} else {
@@ -159,5 +106,41 @@ public class PencilMarkGridPanel extends javax.swing.JPanel {
 				}
 			}
 		}
+	}
+
+
+	private JTextField buildReadOnlyTextField(Cell cell, boolean isGiven) {
+
+		JTextField textField = new JTextField();
+		textField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+		textField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+		textField.setEditable(false);
+		textField.setPreferredSize(new Dimension(CELL_SIZE, CELL_SIZE));
+		textField.setText(Integer.toString(cell.getNumber()));
+
+		if (isGiven) {
+			HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.green);
+
+			try {
+				textField.getHighlighter().addHighlight(0, 3, painter);
+			} catch (BadLocationException e) {
+				/* TODO - better error handling */
+				e.printStackTrace();
+			}
+		}
+
+		return textField;
+	}
+
+	private CombinationCell buildPencilMarkInputField(Cell cell) {
+		CombinationCell combinationCell = new CombinationCell(cell, this.gameSession);
+
+		
+		/* disable any number used according to the cellConstraints for given cell */
+		for (int usedNumber : this.gameSession.getGameBoard().getCellConstraints(cell).getUsedNumbers()) {
+			((JToggleButton)combinationCell.getComponent(usedNumber-1)).setEnabled(false);
+		}
+
+		return combinationCell;
 	}
 }

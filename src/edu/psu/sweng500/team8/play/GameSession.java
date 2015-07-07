@@ -73,51 +73,33 @@ public class GameSession {
 			SudokuAction sudokuAction = new SudokuAction(new CellGrid(
 					board.getCellGrid()));
 
-			boolean isDelete = false;
-
 			if (number == 0) {
-				isDelete = true;
-			}
-
-			if (isDelete) {
 				currentCell.clearNumber();
 				currentCell.getPencilMarks().clear();
 			} else {
-				/*
-				 * TODO Verify : if a number is entered, the pencilMark numbers
-				 * are cleared?
-				 */
-				currentCell.getPencilMarks().clear();
 				currentCell.setNumber(number);
+				updatePencilMark(currentCell, number);
 			}
-
-			/* Delete PencilMark for the same row/column */
-			if (!isDelete) {
-
-				for (int i = 0; i < 9; i++) {
-					Cell eachCell = this
-							.getGameBoard()
-							.getCellGrid()
-							.getCell(
-									currentCell.getCoordinates().getRowIndex(),
-									i);
-					enterPencilMark(eachCell, number, false);
-				}
-
-				for (int i = 0; i < 9; i++) {
-					Cell eachCell = this
-							.getGameBoard()
-							.getCellGrid()
-							.getCell(
-									i,
-									currentCell.getCoordinates()
-											.getColumnIndex());
-					enterPencilMark(eachCell, number, false);
-				}
-			}
-
 			
 			actionManager.addAction(sudokuAction);			
+		}
+	}
+	
+	private void updatePencilMark(Cell currentCell, int number) {
+		
+		currentCell.getPencilMarks().clear();
+
+		/* Delete PencilMark for the same row/column/block */
+		for (Cell eachCell : this.board.getCellConstraints(currentCell).getRow().getCells()) {
+			enterPencilMark(eachCell, number, false);
+		}
+		
+		for (Cell eachCell : this.board.getCellConstraints(currentCell).getColumn().getCells()) {
+			enterPencilMark(eachCell, number, false);
+		}
+		
+		for (Cell eachCell : this.board.getCellConstraints(currentCell).getBlock().getCells()) {
+			enterPencilMark(eachCell, number, false);
 		}
 	}
 

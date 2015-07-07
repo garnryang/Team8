@@ -11,20 +11,20 @@ public class ActionManager {
 	 * so they can be adjusted on the fly. 
 	 * Or we can still include it in the JAR but as a separate file
 	 * so we can change it through the development process.  */
-	private static final int QUEUE_SIZE_LIMIT = 10;
+	private static final int STACK_SIZE_LIMIT = 10;
 	
-	private Stack<SudokuAction> sudokuActionQueue;
-	private Stack<SudokuAction> sudokuActionQueueForUndo;
+	private Stack<SudokuAction> sudokuActionStack;
+	private Stack<SudokuAction> sudokuActionStackForUndo;
 
 	public ActionManager() {
-		this.sudokuActionQueue = new Stack<SudokuAction>();
-		this.sudokuActionQueue.setSize(QUEUE_SIZE_LIMIT);		
-		this.sudokuActionQueueForUndo = new Stack<SudokuAction>();
-		this.sudokuActionQueueForUndo.setSize(QUEUE_SIZE_LIMIT);
+		this.sudokuActionStack = new Stack<SudokuAction>();
+		this.sudokuActionStack.setSize(STACK_SIZE_LIMIT);		
+		this.sudokuActionStackForUndo = new Stack<SudokuAction>();
+		this.sudokuActionStackForUndo.setSize(STACK_SIZE_LIMIT);
 	}
 
 	public void addAction(SudokuAction sudokuAction) {
-		this.sudokuActionQueue.add(sudokuAction);
+		this.sudokuActionStack.add(sudokuAction);
 	}
 
 	/**
@@ -33,16 +33,16 @@ public class ActionManager {
 	 */
 	public void doUndo(CellGrid currentCellGridFromBoard) {
 		/*
-		 * revert last action on the sudokuActionQueue, and put that action into
-		 * sudokuActionQueueForUndo
+		 * revert last action on the sudokuActionStack, and put that action into
+		 * sudokuActionStackForUndo
 		 */
 		
-		if (null != sudokuActionQueue.peek()) {
-			SudokuAction lastAction = sudokuActionQueue.pop(); 
+		if (null != sudokuActionStack.peek()) {
+			SudokuAction lastAction = sudokuActionStack.pop(); 
 			CellGrid previousCellGrid = lastAction.getCellGrid(); 
 			
 			SudokuAction undoAction = new SudokuAction(new CellGrid(currentCellGridFromBoard));
-			sudokuActionQueueForUndo.add(undoAction);
+			sudokuActionStackForUndo.add(undoAction);
 			
 			currentCellGridFromBoard.copyValues(previousCellGrid);
 		}
@@ -54,12 +54,12 @@ public class ActionManager {
 	public void doRedo(CellGrid currentCellGridFromBoard) {
 		/* redo last action reverted back by undo */
 		
-		if (null != sudokuActionQueueForUndo.peek()) {
-			SudokuAction lastActionUndone = sudokuActionQueueForUndo.pop();
+		if (null != sudokuActionStackForUndo.peek()) {
+			SudokuAction lastActionUndone = sudokuActionStackForUndo.pop();
 			CellGrid previousCellGrid = lastActionUndone.getCellGrid();
 			
 			SudokuAction redoAction = new SudokuAction(new CellGrid(currentCellGridFromBoard));
-			sudokuActionQueue.add(redoAction);
+			sudokuActionStack.add(redoAction);
 
 			currentCellGridFromBoard.copyValues(previousCellGrid);
 		}
