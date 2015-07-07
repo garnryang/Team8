@@ -54,7 +54,10 @@ public class GridPanel extends javax.swing.JPanel {
 
 					markGivenCell(cell);
 				}
-
+				/* David's change D begins*/
+				this.controlGrid[row][column].setEditable(false);
+				 /* David's change D ends*/
+			
 				/* Scott's change A begins */
 				this.controlGrid[row][column]
 						.addKeyListener(new CustomKeyListener(cell, gameSession));
