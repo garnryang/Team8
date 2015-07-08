@@ -1,26 +1,19 @@
 package edu.psu.sweng500.team8.play;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 
 public class ActionManager {
 
-	/* We can create a properties file to store constant values 
-	 * and make it available external to the compiled JAR
-	 * so they can be adjusted on the fly. 
-	 * Or we can still include it in the JAR but as a separate file
-	 * so we can change it through the development process.  */
-	private static final int STACK_SIZE_LIMIT = 10;
-	
-	private Stack<SudokuAction> sudokuActionStack;
-	private Stack<SudokuAction> sudokuActionStackForUndo;
+	/* If limit the size, we need a custom implementation */
+	private Deque<SudokuAction> sudokuActionStack;
+	private Deque<SudokuAction> sudokuActionStackForUndo;
 
 	public ActionManager() {
-		this.sudokuActionStack = new Stack<SudokuAction>();
-		this.sudokuActionStack.setSize(STACK_SIZE_LIMIT);		
-		this.sudokuActionStackForUndo = new Stack<SudokuAction>();
-		this.sudokuActionStackForUndo.setSize(STACK_SIZE_LIMIT);
+		this.sudokuActionStack = new ArrayDeque<SudokuAction>();
+		this.sudokuActionStackForUndo = new ArrayDeque<SudokuAction>();
 	}
 
 	public void addAction(SudokuAction sudokuAction) {
@@ -37,7 +30,7 @@ public class ActionManager {
 		 * sudokuActionStackForUndo
 		 */
 		
-		if (null != sudokuActionStack.peek()) {
+		if (!sudokuActionStack.isEmpty()) {
 			SudokuAction lastAction = sudokuActionStack.pop(); 
 			CellGrid previousCellGrid = lastAction.getCellGrid(); 
 			
@@ -54,7 +47,7 @@ public class ActionManager {
 	public void doRedo(CellGrid currentCellGridFromBoard) {
 		/* redo last action reverted back by undo */
 		
-		if (null != sudokuActionStackForUndo.peek()) {
+		if (!sudokuActionStackForUndo.isEmpty()) {
 			SudokuAction lastActionUndone = sudokuActionStackForUndo.pop();
 			CellGrid previousCellGrid = lastActionUndone.getCellGrid();
 			

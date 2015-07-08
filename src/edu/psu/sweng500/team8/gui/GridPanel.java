@@ -35,13 +35,14 @@ public class GridPanel extends javax.swing.JPanel {
 	 */
 	public GridPanel() {
 		
-		
-		
 		initComponents();
 		initializeGrid();
-		/* David's change A begins */
-		enforce();
-		/* David's change A ends */
+		
+		/* No longer using enforce method.
+		 * See populatePanel and CustomKeyListner */
+		// /* David's change A begins */
+		// enforce();
+		// /* David's change A ends */
 	}
 
 	public void populatePanel(CellGrid grid, GameSession gameSession) {
@@ -80,6 +81,10 @@ public class GridPanel extends javax.swing.JPanel {
 		}
 	
 	/* David's change B begins */
+	/**
+	 * @deprecated See CustomKeyListner
+	 * @TODO delete this method
+	 */
 	public void enforce() {
 		enforceValidNumbers(txtCell00);
 		enforceValidNumbers(txtCell01);
@@ -174,6 +179,11 @@ public class GridPanel extends javax.swing.JPanel {
 	/* David's change B ends */
 	
 	/* David's change C begins */
+	/**
+	 * @deprecated See CustomKeyListner
+	 * @TODO delete this method
+	 * @param jtf
+	 */
 	public void enforceValidNumbers(final JTextField jtf) {
 
 		jtf.addKeyListener(new KeyAdapter() {
