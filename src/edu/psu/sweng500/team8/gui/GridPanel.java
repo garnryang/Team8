@@ -325,6 +325,7 @@ public class GridPanel extends javax.swing.JPanel {
 		}
 		this.selectedCell = null;
 	}
+	
 	private void clearGrid() {
 		clearSelectedCell();
 		

@@ -5,8 +5,10 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
+import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
 
 public class PuzzleGeneratorTests {
@@ -104,5 +106,21 @@ public class PuzzleGeneratorTests {
 		
 		puzzle = PuzzleGenerator.makePuzzle(DifficultyLevel.Hard);
 		assertEquals(DifficultyLevel.Hard, puzzle.getDifficulty());
+	}
+	
+	@Test
+	public void makePuzzleSetsValueTypeOfGivenCells() {
+		Puzzle puzzle = PuzzleGenerator.makePuzzle(DifficultyLevel.Easy);
+		
+		CellGrid grid = puzzle.getCopyOfCellGrid();
+		for (int row = 0; row < 9; row++) {
+			for (int column = 0; column < 9; column++) {
+				Cell currentCell = grid.getCell(row, column);
+				
+				//If it has a number, it should be a Given type. Otherwise it is UserDefined
+				ValueType expectedType = (currentCell.hasNumber()) ? ValueType.Given : ValueType.UserDefined;
+				assertEquals(expectedType, currentCell.getType());
+			}
+		}
 	}
 }

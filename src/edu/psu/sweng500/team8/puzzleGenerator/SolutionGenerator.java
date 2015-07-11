@@ -8,6 +8,7 @@ import edu.psu.sweng500.team8.coreDataStructures.Board;
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.CellConstraints;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
+import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
 
 public class SolutionGenerator {
 	public static CellGrid generateSolution() {
@@ -36,9 +37,12 @@ public class SolutionGenerator {
 				// Pick a random number from the available numbers
 				Random rand = new Random();
 				int randomIndex = rand.nextInt(size);
-
 				int suggested = availableNumbers[randomIndex];
-				board.getCell(rowIndex, columnIndex).setNumber(suggested);
+				
+				//Set the value on the cell and set the type to Given
+				Cell currentCell = board.getCell(rowIndex, columnIndex);
+				currentCell.setNumber(suggested);
+				currentCell.setType(ValueType.Given);
 			}
 		}
 
