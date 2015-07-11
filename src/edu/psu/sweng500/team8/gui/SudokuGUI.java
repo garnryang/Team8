@@ -291,21 +291,23 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
     	
         HintInfo hint = HintGenerator.getHint(this.gameSession.getGameBoard());
         if (hint != null) {
-        	CellCoordinates coordinates = hint.GetCell().getCoordinates();
+        	CellCoordinates coordinates = hint.getCell().getCoordinates();
             this.gameBoard.selectCell(coordinates.getRowIndex(), coordinates.getColumnIndex());
             /* Any numbered entered should go through gameSession.enterNumber method for other business logics */
-            this.gameSession.enterNumber(hint.GetCell(), hint.GetCell().getNumber(), true);
-            this.gameBoard.setSelectedCellNumber(hint.GetCell().getNumber());
-			setMessage(hint.GetExplanation());
+            this.gameSession.enterNumber(hint.getCell(), hint.getNumber());
+            this.gameBoard.setSelectedCellNumber(hint.getNumber());
+			setMessage(hint.getExplanation());
         }
     }//GEN-LAST:event_btnHintActionPerformed
 
     private void doUndo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doUndo
+    	setMessage("");
     	this.gameSession.doUndo();
 		this.gameBoard.refreshPanel();
     }//GEN-LAST:event_doUndo
 
     private void doRedo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doRedo
+    	setMessage("");
     	this.gameSession.doRedo();
 		this.gameBoard.refreshPanel();
     }//GEN-LAST:event_doRedo
