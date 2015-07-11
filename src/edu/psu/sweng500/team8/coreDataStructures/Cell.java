@@ -32,10 +32,10 @@ public class Cell implements BinarySerializable {
 	}
 	
 	public Cell(Cell cellToCopy) {
-		m_coordinates = cellToCopy.m_coordinates;
+		m_coordinates = new CellCoordinates(cellToCopy.m_coordinates.getRowIndex(), cellToCopy.m_coordinates.getColumnIndex());
 		m_currentValue = cellToCopy.m_currentValue;
 		m_type = cellToCopy.m_type;
-		m_pencilMarks = cellToCopy.m_pencilMarks;
+		m_pencilMarks.addAll(cellToCopy.m_pencilMarks);
 	}
 	
 	public CellCoordinates getCoordinates() {

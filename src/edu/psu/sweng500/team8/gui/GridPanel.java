@@ -18,9 +18,9 @@ import javax.swing.text.Highlighter;
 import javax.swing.text.Highlighter.HighlightPainter;
 
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
+import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
-import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
 import edu.psu.sweng500.team8.play.GameSession;
 
 import java.util.HashSet;
@@ -41,13 +41,10 @@ public class GridPanel extends javax.swing.JPanel {
     public GridPanel() {
         initComponents();
         initializeGrid();
-        /* David's change A begins */
-        enforce();
-        /* David's change A ends */
     }
 
     public void populatePanel(CellGrid grid, GameSession gameSession) {
-        clearGrid();
+        clearGrid(true); //FIXME: Remove argument
 
         this.gameSession = gameSession;
 
@@ -58,17 +55,13 @@ public class GridPanel extends javax.swing.JPanel {
                     this.controlGrid[row][column].setText(Integer.toString(cell.getNumber()));
 
                     markGivenCell(cell);
-
-                    /* David's change D begins*/
-                    this.controlGrid[row][column].setEditable(false);
-                    /* David's change D ends*/
-
                 }
 
                 /* Scott's change A begins */
                 this.controlGrid[row][column]
                         .addKeyListener(new CustomKeyListener(cell, gameSession));
-                /* Scott's change A ends */
+                this.controlGrid[row][column].setFocusable(true);
+				/* Scott's change A ends */
 
             }
         }
@@ -88,7 +81,7 @@ public class GridPanel extends javax.swing.JPanel {
 
     /* Scott's change B begins */
     public void refreshPanel() {
-        clearGrid();
+        clearGrid(false);
 
         for (int row = 0; row < 9; row++) {
             for (int column = 0; column < 9; column++) {
@@ -205,121 +198,6 @@ public class GridPanel extends javax.swing.JPanel {
         this.controlGrid[8][8] = txtCell88;
     }
 
-    /* David's change B begins */
-    private void enforce() {
-        enforceValidNumbers(txtCell00);
-        enforceValidNumbers(txtCell01);
-        enforceValidNumbers(txtCell02);
-        enforceValidNumbers(txtCell03);
-        enforceValidNumbers(txtCell04);
-        enforceValidNumbers(txtCell05);
-        enforceValidNumbers(txtCell06);
-        enforceValidNumbers(txtCell07);
-        enforceValidNumbers(txtCell08);
-
-        enforceValidNumbers(txtCell10);
-        enforceValidNumbers(txtCell11);
-        enforceValidNumbers(txtCell12);
-        enforceValidNumbers(txtCell13);
-        enforceValidNumbers(txtCell14);
-        enforceValidNumbers(txtCell15);
-        enforceValidNumbers(txtCell16);
-        enforceValidNumbers(txtCell17);
-        enforceValidNumbers(txtCell18);
-
-        enforceValidNumbers(txtCell20);
-        enforceValidNumbers(txtCell21);
-        enforceValidNumbers(txtCell22);
-        enforceValidNumbers(txtCell23);
-        enforceValidNumbers(txtCell24);
-        enforceValidNumbers(txtCell25);
-        enforceValidNumbers(txtCell26);
-        enforceValidNumbers(txtCell27);
-        enforceValidNumbers(txtCell28);
-
-        enforceValidNumbers(txtCell30);
-        enforceValidNumbers(txtCell31);
-        enforceValidNumbers(txtCell32);
-        enforceValidNumbers(txtCell33);
-        enforceValidNumbers(txtCell34);
-        enforceValidNumbers(txtCell35);
-        enforceValidNumbers(txtCell36);
-        enforceValidNumbers(txtCell37);
-        enforceValidNumbers(txtCell38);
-
-        enforceValidNumbers(txtCell40);
-        enforceValidNumbers(txtCell41);
-        enforceValidNumbers(txtCell42);
-        enforceValidNumbers(txtCell43);
-        enforceValidNumbers(txtCell44);
-        enforceValidNumbers(txtCell45);
-        enforceValidNumbers(txtCell46);
-        enforceValidNumbers(txtCell47);
-        enforceValidNumbers(txtCell48);
-
-        enforceValidNumbers(txtCell50);
-        enforceValidNumbers(txtCell51);
-        enforceValidNumbers(txtCell52);
-        enforceValidNumbers(txtCell53);
-        enforceValidNumbers(txtCell54);
-        enforceValidNumbers(txtCell55);
-        enforceValidNumbers(txtCell56);
-        enforceValidNumbers(txtCell57);
-        enforceValidNumbers(txtCell58);
-
-        enforceValidNumbers(txtCell60);
-        enforceValidNumbers(txtCell61);
-        enforceValidNumbers(txtCell62);
-        enforceValidNumbers(txtCell63);
-        enforceValidNumbers(txtCell64);
-        enforceValidNumbers(txtCell65);
-        enforceValidNumbers(txtCell66);
-        enforceValidNumbers(txtCell67);
-        enforceValidNumbers(txtCell68);
-
-        enforceValidNumbers(txtCell70);
-        enforceValidNumbers(txtCell71);
-        enforceValidNumbers(txtCell72);
-        enforceValidNumbers(txtCell73);
-        enforceValidNumbers(txtCell74);
-        enforceValidNumbers(txtCell75);
-        enforceValidNumbers(txtCell76);
-        enforceValidNumbers(txtCell77);
-        enforceValidNumbers(txtCell78);
-
-        enforceValidNumbers(txtCell80);
-        enforceValidNumbers(txtCell81);
-        enforceValidNumbers(txtCell82);
-        enforceValidNumbers(txtCell83);
-        enforceValidNumbers(txtCell84);
-        enforceValidNumbers(txtCell85);
-        enforceValidNumbers(txtCell86);
-        enforceValidNumbers(txtCell87);
-        enforceValidNumbers(txtCell88);
-    }
-    /* David's change B ends */
-
-    /* David's change C begins */
-    private void enforceValidNumbers(final JTextField jtf) {
-
-        jtf.addKeyListener(new KeyAdapter() {
-            public void keyReleased(KeyEvent e) {
-                JTextField textField = (JTextField) e.getSource();
-                String text = textField.getText();
-                try {
-                    int n = Integer.parseInt(jtf.getText());
-                    if (n < 1 || n > 9) {
-                        throw new NumberFormatException(); //FIXME: Prefer not to use an exception unless necessary. Just clear the textbox.
-                    }
-                } catch (NumberFormatException ex) {
-                    jtf.setText("");
-                }
-
-            }
-        });
-    }
-    /* David's change C ends */
-
     private void markGivenCell(Cell cell) {
         HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(
                 Color.green);
@@ -365,15 +243,16 @@ public class GridPanel extends javax.swing.JPanel {
         this.selectedCell = null;
     }
 
-    private void clearGrid() {
+    private void clearGrid(boolean isClearHighlight) {
         clearSelectedCell();
 
         for (int row = 0; row < 9; row++) {
             for (int column = 0; column < 9; column++) {
-                this.controlGrid[row][column].setText("");
-                Highlighter hilite = this.controlGrid[row][column]
-                        .getHighlighter();
-                hilite.removeAllHighlights();
+            	if (isClearHighlight) {
+					Highlighter hilite = this.controlGrid[row][column]
+							.getHighlighter();
+					hilite.removeAllHighlights();					
+				}
             }
         }
     }

@@ -47,7 +47,7 @@ public class CellGrid implements BinarySerializable {
 	public void copyValues(CellGrid gridToCopy) {
 		for (int rowIndex = 0; rowIndex < 9; rowIndex++) {
 			for (int columnIndex = 0; columnIndex < 9; columnIndex++) {
-				m_cells[rowIndex][columnIndex] = new Cell(gridToCopy.getCell(rowIndex,columnIndex));
+				m_cells[rowIndex][columnIndex] = new Cell(gridToCopy.getCell(rowIndex, columnIndex));
 			}
 		}
 	}
