@@ -42,6 +42,32 @@ public class BoardTests {
 		assertFalse(testBoard.puzzleIsSolved());
 	}
 	
+	public void canGetCellsThatAreIncorrect() {
+		//UC12
+		Puzzle puzzle = TestPuzzles.getEasyPuzzle();
+		Board testBoard = new Board();
+		testBoard.Initialize(puzzle);
+		
+		//Set some user-defined cells incorrect
+		Cell openCell1 = testBoard.getOpenCells().get(0);
+		int solutionValue1 = getCorrespondingCellFromSolution(testBoard, openCell1).getNumber();
+		int invalidNumber1 = (solutionValue1 < 9) ? solutionValue1 + 1 : solutionValue1 - 1; 
+		openCell1.setNumber(invalidNumber1);
+
+		Cell openCell2 = testBoard.getOpenCells().get(0);
+		int solutionValue2 = getCorrespondingCellFromSolution(testBoard, openCell2).getNumber();
+		int invalidNumber2 = (solutionValue2 < 9) ? solutionValue2 + 1 : solutionValue2 - 1; 
+		openCell2.setNumber(invalidNumber2);
+		
+		//Get the incorrect cells. 
+		Set<Cell> retrievedIncorrectCells = testBoard.getIncorrectCells();
+		
+		//Verify it contains the incorrect cells
+		assertEquals(2, retrievedIncorrectCells.size());
+		assertTrue(retrievedIncorrectCells.contains(openCell1));
+		assertTrue(retrievedIncorrectCells.contains(openCell2));
+	}
+	
 	@Test //For UC4 extension 2a1
 	public void canGetCellsThatViolateConstraints() {
 		Puzzle puzzle = TestPuzzles.getEasyPuzzle();

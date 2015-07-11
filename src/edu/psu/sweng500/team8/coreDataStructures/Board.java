@@ -11,6 +11,7 @@ import java.util.Set;
  * constraints
  */
 public class Board {
+	//TODO: Remove m_ to be consistent with java style
 	private CellGrid m_grid = new CellGrid(); // The actual 9x9 grid of cells
 	private Row[] m_rows = new Row[9]; // Abstraction of rows
 	private Column[] m_columns = new Column[9]; // Abstraction of columns
@@ -128,6 +129,25 @@ public class Board {
 		return duplicateCells;
 	}
 	
+	public Set<Cell> getIncorrectCells() {
+		//Get the cells that do not match the solution
+		Set<Cell> incorrectCells = new HashSet<Cell>();
+		CellGrid solutionGrid = m_currentPuzzle.getSolution();
+		for (int row = 0; row < 9; row++) {
+			for (int column = 0; column < 9; column++) {
+				Cell localCell = getCell(row, column);
+				if (!localCell.hasNumber())
+					continue; //Skip empty cells
+				
+				Cell solutionCell = solutionGrid.getCell(row, column);
+				if (localCell.getNumber() != solutionCell.getNumber())
+					incorrectCells.add(localCell);
+			}
+		}
+		
+		return incorrectCells;
+	}
+	
 	private Set<Cell> getCellsViolatingConstraint(Constraint constraint) {
 		
 		//Build a map of the numbers with cells containing that number
@@ -135,15 +155,7 @@ public class Board {
 		List<Cell> cells = constraint.getCells();
 		for (Cell cell : cells) {
 			int cellNumber = cell.getNumber();
-			
-			/**
-			 * FIXME - This is JAVA 8 functionality and doesn't exist on Java 7
-			 * If default value should be null, get(cellNumber) will yeild the same result
-			 */
-			//Set<Cell> cellsWithSameNumber = numbersToCells.getOrDefault(cellNumber, null);
 			Set<Cell> cellsWithSameNumber = numbersToCells.get(cellNumber);
-			
-			
 			
 			if (cellsWithSameNumber == null)
 			{
