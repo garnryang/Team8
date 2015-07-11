@@ -106,6 +106,14 @@ public class GridPanel extends javax.swing.JPanel {
         }
     }
     
+    public void clearHighlightedIncorrectCells() {
+    	for (JTextField cellTextBox : this.highlightedIncorrectCells) {
+    		cellTextBox.getHighlighter().removeAllHighlights();
+    	}
+    	
+    	this.highlightedIncorrectCells.clear();
+    }
+    
     private void initializeGrid() {
         this.controlGrid[0][0] = txtCell00;
         this.controlGrid[0][1] = txtCell01;
@@ -226,14 +234,6 @@ public class GridPanel extends javax.swing.JPanel {
         } catch (BadLocationException e) {
             e.printStackTrace();
         }
-    }
-    
-    private void clearHighlightedIncorrectCells() {
-    	for (JTextField cellTextBox : this.highlightedIncorrectCells) {
-    		cellTextBox.getHighlighter().removeAllHighlights();
-    	}
-    	
-    	this.highlightedIncorrectCells.clear();
     }
     
     private void clearSelectedCell() {

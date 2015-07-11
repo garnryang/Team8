@@ -1,5 +1,7 @@
 package edu.psu.sweng500.team8.play;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import edu.psu.sweng500.team8.coreDataStructures.Board;
@@ -19,17 +21,19 @@ public class GameSession {
 	// private Player player;
 	private ActionManager actionManager;
 	
+	private List<CellChangedListener> cellChangedListeners = new ArrayList<CellChangedListener>();
+	
 	public GameSession(Puzzle puzzle) {
 		this.board = new Board();
-		board.Initialize(puzzle);
+		this.board.Initialize(puzzle);
 		
-		actionManager = new ActionManager();
+		this.actionManager = new ActionManager();
 	}
 	
 	//DEPRECATED. TODO: Remove
 	public GameSession(Board board) {
 		this.board = board;
-		actionManager = new ActionManager();
+		this.actionManager = new ActionManager();
 	}
 	
 	public Board getGameBoard() {
@@ -39,6 +43,15 @@ public class GameSession {
 	public void enterNumber(Cell currentCell, int number) {
 		enterNumber(currentCell, number, false);
 	}
+	
+	public void subscribeForCellChanges(CellChangedListener listener) {
+		this.cellChangedListeners.add(listener);
+	}
+	
+	public void unsubscribeForCellChanges(CellChangedListener listener) {
+		this.cellChangedListeners.remove(listener);
+	}
+	
 	/**
 	 * Enter a number to given cellCoordinates
 	 * If we do basic validation before calling this method, number can be an Integer
@@ -58,6 +71,10 @@ public class GameSession {
 	 * @param cell
 	 * @param number
 	 */
+	//(JN): The string to integer conversion should be done at the UI level. 
+	//For the validation of a number 1-9, I don't really care if it goes here or the UI. 
+	//Suggest validating on the UI and handling it gracefully (without throwing exceptions). 
+	//If it makes it to here, then throw an exception because it should not happen.
 	public void enterNumber(Cell currentCell, int number, boolean isHint) {
 
 		/* We don't have to clear empty cell */
@@ -81,7 +98,10 @@ public class GameSession {
 				updatePencilMark(currentCell, number);
 			}
 			
-			actionManager.addAction(sudokuAction);			
+			actionManager.addAction(sudokuAction);	
+			
+			//TODO: Unit test this
+			fireCellNumberChanged(currentCell, number);
 		}
 	}
 	
@@ -113,7 +133,7 @@ public class GameSession {
 		
 		/* keep track of the last action*/
 		SudokuAction sudokuAction = new SudokuAction(new CellGrid(board.getCellGrid()));
-		
+		//FIXME: Add sudokuAction to the action manager?
 		Set<Integer> pencilMarks = currentCell.getPencilMarks();
 		
 		if (isEnter) {
@@ -181,5 +201,11 @@ public class GameSession {
 
 	public void doUndo() {
 		actionManager.doUndo(board.getCellGrid());		
+	}
+	
+	private void fireCellNumberChanged(Cell cell, int newNumber) {
+		for (CellChangedListener listener : this.cellChangedListeners) {
+			listener.cellChanged(cell, newNumber);
+		}
 	}
 }

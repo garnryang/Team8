@@ -12,6 +12,7 @@ import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
+import edu.psu.sweng500.team8.play.CellChangedListener;
 import edu.psu.sweng500.team8.play.GameSession;
 import edu.psu.sweng500.team8.puzzleGenerator.PuzzleRepository;
 import edu.psu.sweng500.team8.solver.HintGenerator;
@@ -26,7 +27,7 @@ import edu.psu.sweng500.team8.solver.HintInfo;
  *
  * @author cliff_000
  */
-public class SudokuGUI extends javax.swing.JFrame {
+public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener {
 
 	private PuzzleRepository puzzleRepo = new PuzzleRepository(); //Not sure if there is a better place to put this
         /* we need to keep track of the current game */
@@ -50,6 +51,13 @@ public class SudokuGUI extends javax.swing.JFrame {
 	
 	public void clearMessage() {
 		lblMessage.setText("");
+	}
+	
+	@Override
+	public void cellChanged(Cell cell, int newNumber) {
+		//Cell number changed. Clear the message and any highlighted incorrect numbers.
+		clearMessage();
+		this.gameBoard.clearHighlightedIncorrectCells();
 	}
 	
 	/**
@@ -335,6 +343,7 @@ public class SudokuGUI extends javax.swing.JFrame {
 
 		Puzzle puzzle = this.puzzleRepo.getPuzzle(difficulty);
 		this.gameSession = new GameSession(puzzle);
+		this.gameSession.subscribeForCellChanges(this);
 		this.gameBoard.populatePanel(gameSession.getGameBoard().getCellGrid(),
 				gameSession);
 		this.pencilMarkGridPanel.populate(gameSession);
