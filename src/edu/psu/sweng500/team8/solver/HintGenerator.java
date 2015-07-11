@@ -20,7 +20,8 @@ public final class HintGenerator {
 		Cell filledCell = ConstraintSolver.tryToFillACellWithOnlyOneAvailableNumber(board);
 		
 		return (filledCell != null) ? 
-				new HintInfo(filledCell, "This cell's value must be " + filledCell.getNumber() + " because it is the only number that can fit in this cell") : 
+				new HintInfo(filledCell, "This cell's value must be " + filledCell.getNumber() 
+						+ " because all the other numbers have already been used in the same row, column, and/or block") : 
 				null;
 	}
 	
@@ -28,7 +29,9 @@ public final class HintGenerator {
 		Cell filledCell = ConstraintSolver.tryToFillACellWithOnlyOneValidLocationForTheNumber(board);
 		
 		return (filledCell != null) ? 
-				new HintInfo(filledCell, "This cell's value must be " + filledCell.getNumber() + " because it is the only cell where this number can fit") :
+				new HintInfo(filledCell, "This cell's value must be " + filledCell.getNumber() + 
+						" because it is the only cell in the row, column, and/or block where this number can go "
+						+ "without violating Sudoku constraints") :
 				null;
 	}
 }

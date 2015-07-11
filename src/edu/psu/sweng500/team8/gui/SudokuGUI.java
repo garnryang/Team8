@@ -17,6 +17,10 @@ import edu.psu.sweng500.team8.play.GameSession;
 import edu.psu.sweng500.team8.puzzleGenerator.PuzzleRepository;
 import edu.psu.sweng500.team8.solver.HintGenerator;
 import edu.psu.sweng500.team8.solver.HintInfo;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JTextArea;
 
 /*
  * To change this template, choose Tools | Templates
@@ -46,11 +50,11 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 	}
 
 	public void setMessage(String message) {
-		lblMessage.setText(message);
+		this.txtAreaMessage.setText(message);
 	}
 	
 	public void clearMessage() {
-		lblMessage.setText("");
+		this.txtAreaMessage.setText("");
 	}
 	
 	@Override
@@ -87,7 +91,6 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
         pencilMarkGridPanel = new PencilMarkGridPanel();
         btnHint = new javax.swing.JButton();
         pencilMarkButton = new JToggleButton();
-        lblMessage = new javax.swing.JLabel();
         btnCheck = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -180,90 +183,91 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
             }
         });
         
+        txtAreaMessage = new JTextArea();
+        txtAreaMessage.setWrapStyleWord(true);
+        txtAreaMessage.setLineWrap(true);
+        txtAreaMessage.setEditable(false);
+        
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(lblMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE))
-                        .addComponent(gameBoard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(pencilMarkGridPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnNewGame)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(radMedium, javax.swing.GroupLayout.Alignment.TRAILING))
-                            .addComponent(radHard)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel2)
-                                .addComponent(radEasy))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(4, 4, 4)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jButton14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(btnUndo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnRedo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel3)
-                                        .addComponent(pencilMarkButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnHint, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButton11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnCheck, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                        .addGap(18, 18, 18))))
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addContainerGap()
+        			.addGroup(layout.createParallelGroup(Alignment.LEADING)
+        				.addComponent(gameBoard, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(pencilMarkGridPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        				.addGroup(layout.createSequentialGroup()
+        					.addGap(10)
+        					.addComponent(txtAreaMessage, GroupLayout.PREFERRED_SIZE, 480, GroupLayout.PREFERRED_SIZE)))
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addGroup(layout.createParallelGroup(Alignment.LEADING)
+        				.addGroup(layout.createParallelGroup(Alignment.LEADING)
+        					.addComponent(jLabel1, Alignment.TRAILING)
+        					.addComponent(radMedium, Alignment.TRAILING))
+        				.addComponent(radHard)
+        				.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+        					.addComponent(jLabel2)
+        					.addComponent(radEasy))
+        				.addGroup(layout.createSequentialGroup()
+        					.addGap(4)
+        					.addGroup(layout.createParallelGroup(Alignment.LEADING, false)
+        						.addComponent(jButton14, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        						.addComponent(btnUndo, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        						.addComponent(btnRedo, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        						.addComponent(jLabel3)
+        						.addComponent(btnHint, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        						.addComponent(jButton11, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        						.addComponent(jButton10, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        						.addComponent(btnCheck, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        						.addComponent(pencilMarkButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        						.addComponent(btnNewGame, Alignment.TRAILING))))
+        			.addGap(18))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(13, 13, 13)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(radEasy)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(radMedium)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(radHard)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel3)
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(pencilMarkButton)
-                        .addGap(19, 19, 19)
-                        .addComponent(btnCheck)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnHint)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnUndo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnRedo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton14)
-                        .addGap(18, 18, 18))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(gameBoard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(pencilMarkGridPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(5, 5, 5)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnNewGame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblMessage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+        	layout.createParallelGroup(Alignment.TRAILING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addGroup(layout.createParallelGroup(Alignment.LEADING)
+        				.addGroup(layout.createSequentialGroup()
+        					.addComponent(jLabel1)
+        					.addGap(13)
+        					.addComponent(jLabel2)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(radEasy)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(radMedium)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(radHard)
+        					.addPreferredGap(ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
+        					.addComponent(jLabel3)
+        					.addGap(25)
+        					.addComponent(pencilMarkButton)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(btnCheck)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(btnHint)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(jButton10)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(jButton11)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(btnUndo)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(btnRedo)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(jButton14)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(btnNewGame))
+        				.addGroup(layout.createSequentialGroup()
+        					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        					.addComponent(gameBoard, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        					.addGroup(layout.createParallelGroup(Alignment.LEADING)
+        						.addComponent(pencilMarkGridPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        						.addGroup(layout.createSequentialGroup()
+        							.addPreferredGap(ComponentPlacement.UNRELATED)
+        							.addComponent(txtAreaMessage, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)))))
+        			.addGap(42))
         );
+        getContentPane().setLayout(layout);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -418,10 +422,10 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel lblMessage;
     private javax.swing.JRadioButton radEasy;
     private javax.swing.JRadioButton radHard;
     private javax.swing.JRadioButton radMedium;
+    private javax.swing.JTextArea txtAreaMessage;
     // End of variables declaration//GEN-END:variables
     
     private JToggleButton pencilMarkButton;
