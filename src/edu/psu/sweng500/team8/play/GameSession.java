@@ -36,7 +36,9 @@ public class GameSession {
 		return board;
 	}
 	
-	
+	public void enterNumber(Cell currentCell, int number) {
+		enterNumber(currentCell, number, false);
+	}
 	/**
 	 * Enter a number to given cellCoordinates
 	 * If we do basic validation before calling this method, number can be an Integer
@@ -56,39 +58,54 @@ public class GameSession {
 	 * @param cell
 	 * @param number
 	 */
-	public void enterNumber(Cell currentCell, int number) {
+	public void enterNumber(Cell currentCell, int number, boolean isHint) {
+
+		/* We don't have to clear empty cell */
+		if (0 != currentCell.getNumber() || 0 != number) {
+
+			/* TODO - this is a tricky part that may require refactoring later */
+			if (isHint) {
+				// Assuming hint will only populate empty cell 
+				currentCell.clearNumber();				
+			}
+			
+			/* keep track of the last action */
+			SudokuAction sudokuAction = new SudokuAction(new CellGrid(
+					board.getCellGrid()));
+
+			if (number == 0) {
+				currentCell.clearNumber();
+				currentCell.getPencilMarks().clear();
+			} else {
+				currentCell.setNumber(number);
+				updatePencilMark(currentCell, number);
+			}
+			
+			actionManager.addAction(sudokuAction);			
+		}
+	}
+	
+	private void updatePencilMark(Cell currentCell, int number) {
 		
-		/* keep track of the last action*/
-		SudokuAction sudokuAction = new SudokuAction(new CellGrid(board.getCellGrid()));
-		
-		boolean isDelete = false;
-		
-		if (number == 0) {
-			isDelete = true;			
+		currentCell.getPencilMarks().clear();
+
+		/* Delete PencilMark for the same row/column/block */
+		for (Cell eachCell : this.board.getCellConstraints(currentCell).getRow().getCells()) {
+			enterPencilMark(eachCell, number, false);
 		}
 		
-		if (isDelete) {
-			currentCell.clearNumber();
-		} else {
-			currentCell.setNumber(number);	
+		for (Cell eachCell : this.board.getCellConstraints(currentCell).getColumn().getCells()) {
+			enterPencilMark(eachCell, number, false);
 		}
 		
-		/* FIXME - PencilMarkManager updating/wiping out PencilMark number matching entered number */
-		if (!isDelete) {
-			for (int i = 0; i < 9; i++) {
-				for (int j = 0; j < 9; j++) {
-					Cell eachCell = this.getGameBoard().getCellGrid().getCell(i, j);
-					enterPencilMark(eachCell, number, false);
-				}
-			}			
+		for (Cell eachCell : this.board.getCellConstraints(currentCell).getBlock().getCells()) {
+			enterPencilMark(eachCell, number, false);
 		}
-		
-		actionManager.addAction(sudokuAction);
 	}
 
 	
 	/**
-	 * TODO implement
+	 * TODO implement redo/undo - if needed
 	 * @param currentCell
 	 * @param number
 	 */

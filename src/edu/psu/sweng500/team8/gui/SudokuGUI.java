@@ -5,10 +5,12 @@ import java.io.IOException;
 
 import javax.swing.AbstractAction;
 import javax.swing.GroupLayout;
+import javax.swing.JToggleButton;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout.Group;
 import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
@@ -19,8 +21,6 @@ import edu.psu.sweng500.team8.play.GameSession;
 import edu.psu.sweng500.team8.puzzleGenerator.PuzzleRepository;
 import edu.psu.sweng500.team8.solver.HintGenerator;
 import edu.psu.sweng500.team8.solver.HintInfo;
-
-import javax.swing.JOptionPane;
 
 /*
  * To change this template, choose Tools | Templates
@@ -57,109 +57,6 @@ public class SudokuGUI extends javax.swing.JFrame {
 		lblMessage.setText("");
 	}
 	
-	private void arrangeLayout() {
-		GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-
-		Group difficultyRadioButtonGroup = layout
-				.createParallelGroup(Alignment.TRAILING);
-		difficultyRadioButtonGroup.addComponent(jLabel2); // difficulty
-		difficultyRadioButtonGroup.addComponent(radEasy);
-		difficultyRadioButtonGroup.addComponent(radMedium);
-		difficultyRadioButtonGroup.addComponent(radHard);
-
-		Group difficultyRadioButtonContainer = layout.createSequentialGroup();
-		difficultyRadioButtonContainer.addGap(4);
-		difficultyRadioButtonContainer.addGroup(difficultyRadioButtonGroup);
-
-		Group actionButtonGroup = layout.createParallelGroup(Alignment.LEADING);
-		actionButtonGroup.addComponent(jLabel3); // option
-		actionButtonGroup.addComponent(btnUndo);
-		actionButtonGroup.addComponent(btnRedo);
-		actionButtonGroup.addComponent(jButton11);
-		actionButtonGroup.addComponent(jButton10);
-		actionButtonGroup.addComponent(jButton14);
-
-		Group actionButtonContainer = layout.createSequentialGroup();
-		actionButtonContainer.addGap(4);
-		actionButtonContainer.addGroup(actionButtonGroup);
-
-		ParallelGroup menuGroup = layout.createParallelGroup(Alignment.LEADING);
-		menuGroup.addComponent(jLabel1, Alignment.TRAILING); // menu
-
-		javax.swing.GroupLayout.Group menuContainer = layout
-				.createParallelGroup(Alignment.LEADING);
-		menuContainer.addGroup(menuGroup);
-		menuContainer.addGroup(difficultyRadioButtonContainer);
-		menuContainer.addGroup(actionButtonContainer);
-		menuContainer.addGap(18);
-
-		/**/
-		SequentialGroup menuContainer_seq = layout.createSequentialGroup();
-		menuContainer_seq.addGroup(menuContainer);
-
-		SequentialGroup newGameMenuGroup = layout.createSequentialGroup();
-		newGameMenuGroup.addComponent(btnNewGame); // new game
-		newGameMenuGroup.addContainerGap();
-
-		javax.swing.GroupLayout.Group menuNnewGame = layout
-				.createParallelGroup(Alignment.TRAILING);
-		menuNnewGame.addGroup(newGameMenuGroup);
-		menuNnewGame.addGroup(menuContainer_seq);
-
-		/**/
-
-		SequentialGroup mainGroup = layout.createSequentialGroup();
-		mainGroup.addContainerGap();
-		mainGroup.addComponent(gameBoard, GroupLayout.PREFERRED_SIZE,
-				GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE);
-		mainGroup.addPreferredGap(ComponentPlacement.RELATED,
-				GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE);
-		mainGroup.addGroup(menuNnewGame);
-
-		/**/
-		Group parallelGroup = layout.createParallelGroup(Alignment.LEADING);
-		parallelGroup.addGroup(mainGroup);
-		layout.setHorizontalGroup(parallelGroup);
-
-		/**/
-		Group virticalGroup = layout.createParallelGroup(Alignment.TRAILING);
-
-		SequentialGroup sg = layout.createSequentialGroup();
-		sg.addComponent(jLabel1);
-		sg.addGap(13);
-		sg.addComponent(jLabel2);
-		sg.addPreferredGap(ComponentPlacement.RELATED);
-		sg.addComponent(radEasy);
-		sg.addPreferredGap(ComponentPlacement.RELATED);
-		sg.addComponent(radMedium);
-		sg.addPreferredGap(ComponentPlacement.RELATED);
-		sg.addComponent(radHard);
-		sg.addPreferredGap(ComponentPlacement.RELATED, 229, Short.MAX_VALUE)
-				.addComponent(jLabel3);
-		sg.addPreferredGap(ComponentPlacement.RELATED);
-		sg.addComponent(jButton10);
-		sg.addPreferredGap(ComponentPlacement.RELATED);
-		sg.addComponent(jButton11);
-		sg.addPreferredGap(ComponentPlacement.RELATED);
-		sg.addComponent(btnUndo);
-		sg.addPreferredGap(ComponentPlacement.RELATED);
-		sg.addComponent(btnRedo);
-		sg.addPreferredGap(ComponentPlacement.RELATED);
-		sg.addComponent(jButton14).addGap(18).addComponent(btnNewGame);
-		sg.addContainerGap();
-
-		SequentialGroup sg2 = layout.createSequentialGroup();
-		sg2.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE);
-		sg2.addComponent(gameBoard, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE);
-		sg2.addGap(41);
-
-		virticalGroup.addGroup(sg);
-		virticalGroup.addGroup(sg2);
-		layout.setVerticalGroup(virticalGroup);
-
-		getContentPane().setLayout(layout);
-	}
-	
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is always
@@ -184,7 +81,9 @@ public class SudokuGUI extends javax.swing.JFrame {
         btnNewGame = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         gameBoard = new edu.psu.sweng500.team8.gui.GridPanel();
+        pencilMarkGridPanel = new PencilMarkGridPanel();
         btnHint = new javax.swing.JButton();
+        pencilMarkButton = new JToggleButton();
         lblMessage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -259,7 +158,17 @@ public class SudokuGUI extends javax.swing.JFrame {
                 btnHintActionPerformed(evt);
             }
         });
+        
+        pencilMarkButton.setText("Pencil Mark");
+        pencilMarkButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	pencilMarkMode(evt);
+            }
+        });
 
+        gameBoard.setVisible(true);
+        pencilMarkGridPanel.setVisible(false);
+        
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -270,7 +179,8 @@ public class SudokuGUI extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(lblMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE))
-                    .addComponent(gameBoard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(gameBoard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pencilMarkGridPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -293,6 +203,7 @@ public class SudokuGUI extends javax.swing.JFrame {
                                         .addComponent(btnUndo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(btnRedo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel3)
+                                        .addComponent(pencilMarkButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(btnHint, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jButton11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
@@ -315,6 +226,8 @@ public class SudokuGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(pencilMarkButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnHint)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton10)
@@ -330,6 +243,7 @@ public class SudokuGUI extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(gameBoard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pencilMarkGridPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(5, 5, 5)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnNewGame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -349,8 +263,10 @@ public class SudokuGUI extends javax.swing.JFrame {
         if (hint != null) {
         	CellCoordinates coordinates = hint.GetCell().getCoordinates();
             this.gameBoard.selectCell(coordinates.getRowIndex(), coordinates.getColumnIndex());
+            /* Any numbered entered should go through gameSession.enterNumber method for other business logics */
+            this.gameSession.enterNumber(hint.GetCell(), hint.GetCell().getNumber(), true);
             this.gameBoard.setSelectedCellNumber(hint.GetCell().getNumber());
-            setMessage(hint.GetExplanation());
+			setMessage(hint.GetExplanation());
         }
     }//GEN-LAST:event_btnHintActionPerformed
 
@@ -404,8 +320,27 @@ public class SudokuGUI extends javax.swing.JFrame {
 		this.gameSession = new GameSession(puzzle);
 		this.gameBoard.populatePanel(gameSession.getGameBoard().getCellGrid(),
 				gameSession);
+		this.pencilMarkGridPanel.populate(gameSession);
+		
 	}// GEN-LAST:event_btnNewGameActionPerformed
 
+    private void pencilMarkMode(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHintActionPerformed
+
+    	if (this.gameSession == null)
+    		return;
+
+    	if (this.pencilMarkButton.isSelected()) {
+    		System.out.println("CLICKED");
+    		this.gameBoard.setVisible(false);
+    		this.pencilMarkGridPanel.setVisible(true);
+    		this.pencilMarkGridPanel.refresh();
+    	} else {
+    		System.out.println("UNCLICKED");
+    		this.gameBoard.setVisible(true);
+    		this.pencilMarkGridPanel.setVisible(false);
+    	}
+    }
+	
 	/**
      * @param args the command line arguments
 	 */
@@ -449,6 +384,7 @@ public class SudokuGUI extends javax.swing.JFrame {
     private javax.swing.JButton btnUndo;
     private javax.swing.ButtonGroup buttonGroup1;
     private edu.psu.sweng500.team8.gui.GridPanel gameBoard;
+    private PencilMarkGridPanel pencilMarkGridPanel;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton14;
@@ -460,6 +396,9 @@ public class SudokuGUI extends javax.swing.JFrame {
     private javax.swing.JRadioButton radHard;
     private javax.swing.JRadioButton radMedium;
     // End of variables declaration//GEN-END:variables
+    
+    private JToggleButton pencilMarkButton;
+    
 	private class SwingAction extends AbstractAction {
 		public SwingAction() {
 			putValue(NAME, "SwingAction");

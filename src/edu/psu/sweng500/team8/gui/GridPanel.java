@@ -18,9 +18,9 @@ import javax.swing.text.Highlighter;
 import javax.swing.text.Highlighter.HighlightPainter;
 
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
+import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
-import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
 import edu.psu.sweng500.team8.play.GameSession;
 
 public class GridPanel extends javax.swing.JPanel {
@@ -34,15 +34,19 @@ public class GridPanel extends javax.swing.JPanel {
 	 * Creates new form GridPanel
 	 */
 	public GridPanel() {
+		
 		initComponents();
 		initializeGrid();
-		/* David's change A begins */
-		enforce();
-		/* David's change A ends */
+		
+		/* No longer using enforce method.
+		 * See populatePanel and CustomKeyListner */
+		// /* David's change A begins */
+		// enforce();
+		// /* David's change A ends */
 	}
 
 	public void populatePanel(CellGrid grid, GameSession gameSession) {
-		clearGrid();
+		clearGrid(true);
 
 		this.gameSession = gameSession;
 
@@ -63,6 +67,7 @@ public class GridPanel extends javax.swing.JPanel {
 				/* Scott's change A begins */
 				this.controlGrid[row][column]
 						.addKeyListener(new CustomKeyListener(cell, gameSession));
+				this.controlGrid[row][column].setFocusable(true);
 				/* Scott's change A ends */
 
 			}
@@ -81,6 +86,10 @@ public class GridPanel extends javax.swing.JPanel {
 		}
 	
 	/* David's change B begins */
+	/**
+	 * @deprecated See CustomKeyListner
+	 * @TODO delete this method
+	 */
 	public void enforce() {
 		enforceValidNumbers(txtCell00);
 		enforceValidNumbers(txtCell01);
@@ -175,6 +184,11 @@ public class GridPanel extends javax.swing.JPanel {
 	/* David's change B ends */
 	
 	/* David's change C begins */
+	/**
+	 * @deprecated See CustomKeyListner
+	 * @TODO delete this method
+	 * @param jtf
+	 */
 	public void enforceValidNumbers(final JTextField jtf) {
 
 		jtf.addKeyListener(new KeyAdapter() {
@@ -197,7 +211,7 @@ public class GridPanel extends javax.swing.JPanel {
 
 	/* Scott's change B begins */
 	public void refreshPanel() {
-		clearGrid();
+		clearGrid(false);
 
 		for (int row = 0; row < 9; row++) {
 			for (int column = 0; column < 9; column++) {
@@ -310,6 +324,10 @@ public class GridPanel extends javax.swing.JPanel {
 		HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(
 				Color.green);
 
+		/* TODO - THIS MAY NOT BE THE BEST PLACE TO HAVE THIS SET BUT I NEED THIS TO MAKE PENCIL MARK WORKING
+		 * DO NOT FORGET REVISIT AND UPDATE ValueType logic */
+		cell.setType(ValueType.Given);
+		
 		CellCoordinates coordinates = cell.getCoordinates();
 		try {
 			this.controlGrid[coordinates.getRowIndex()][coordinates.getColumnIndex()].getHighlighter()
@@ -325,15 +343,18 @@ public class GridPanel extends javax.swing.JPanel {
 		}
 		this.selectedCell = null;
 	}
-	private void clearGrid() {
+	
+	private void clearGrid(boolean isClearHighlight) {
 		clearSelectedCell();
 		
 		for (int row = 0; row < 9; row++) {
 			for (int column = 0; column < 9; column++) {
-				this.controlGrid[row][column].setText("");				
-				Highlighter hilite = this.controlGrid[row][column]
-						.getHighlighter();
-				hilite.removeAllHighlights();
+				this.controlGrid[row][column].setText("");
+				if (isClearHighlight) {
+					Highlighter hilite = this.controlGrid[row][column]
+							.getHighlighter();
+					hilite.removeAllHighlights();					
+				}
 			}
 		}
 	}
