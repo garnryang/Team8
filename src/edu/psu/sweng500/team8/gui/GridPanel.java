@@ -8,6 +8,7 @@ package edu.psu.sweng500.team8.gui;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JTextField;
@@ -29,6 +30,7 @@ import java.util.Set;
 public class GridPanel extends javax.swing.JPanel {
 
     private JTextField[][] controlGrid = new JTextField[9][9];
+    private KeyListener[][] keyListeners = new KeyListener[9][9]; 
     private GameSession gameSession;
     private JTextField selectedCell;
     private static final Border SELECTED_BORDER = BorderFactory.createLineBorder(Color.blue, 3);
@@ -51,18 +53,23 @@ public class GridPanel extends javax.swing.JPanel {
         for (int row = 0; row < 9; row++) {
             for (int column = 0; column < 9; column++) {
                 Cell cell = grid.getCell(row, column);
+                
+                JTextField cellTextBox = this.controlGrid[row][column];
+                cellTextBox.setEditable(true); //Need to set Editable first to set the number
                 if (cell.hasNumber()) {
-                    this.controlGrid[row][column].setText(Integer.toString(cell.getNumber()));
+                	cellTextBox.setText(Integer.toString(cell.getNumber()));
 
                     markGivenCell(cell);
                 }
-
-                /* Scott's change A begins */
-                this.controlGrid[row][column]
-                        .addKeyListener(new CustomKeyListener(cell, gameSession));
-                this.controlGrid[row][column].setFocusable(true);
-				/* Scott's change A ends */
-
+                
+                cellTextBox.setFocusable(true);
+                
+                //Subscribe a key listener
+                if (this.keyListeners[row][column] != null) {
+                	cellTextBox.removeKeyListener(this.keyListeners[row][column]);
+                }
+                this.keyListeners[row][column] = new CustomKeyListener(cell, gameSession);
+                cellTextBox.addKeyListener(this.keyListeners[row][column]);
             }
         }
     }
@@ -79,13 +86,13 @@ public class GridPanel extends javax.swing.JPanel {
         this.selectedCell.setBorder(SELECTED_BORDER);
     }
 
-    /* Scott's change B begins */
     public void refreshPanel() {
         clearGrid(false);
 
+        CellGrid grid = this.gameSession.getGameBoard().getCellGrid();
         for (int row = 0; row < 9; row++) {
             for (int column = 0; column < 9; column++) {
-                Cell cell = this.gameSession.getGameBoard().getCellGrid().getCell(row, column);
+                Cell cell = grid.getCell(row, column);
                 if (cell.hasNumber()) {
                     this.controlGrid[row][column].setText(Integer.toString(cell
                             .getNumber()));
@@ -97,7 +104,6 @@ public class GridPanel extends javax.swing.JPanel {
             }
         }
     }
-    /* Scott's change B ends */
 
     public void highlightIncorrectCells(Set<Cell> incorrectCells) {
     	clearHighlightedIncorrectCells();
@@ -112,6 +118,16 @@ public class GridPanel extends javax.swing.JPanel {
     	}
     	
     	this.highlightedIncorrectCells.clear();
+    }
+    
+    public void disableEditing() {
+    	for (int row = 0; row < 9; row++) {
+            for (int column = 0; column < 9; column++) {
+                JTextField cellTextBox = this.controlGrid[row][column];
+                cellTextBox.setEditable(false);
+                cellTextBox.setFocusable(false);
+            } 
+    	}
     }
     
     private void initializeGrid() {
@@ -205,7 +221,7 @@ public class GridPanel extends javax.swing.JPanel {
         this.controlGrid[8][7] = txtCell87;
         this.controlGrid[8][8] = txtCell88;
     }
-
+    
     private void markGivenCell(Cell cell) {
         HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(
                 Color.green);
@@ -248,10 +264,10 @@ public class GridPanel extends javax.swing.JPanel {
 
         for (int row = 0; row < 9; row++) {
             for (int column = 0; column < 9; column++) {
+            	JTextField cellTextBox = this.controlGrid[row][column];
+            	cellTextBox.setText("");
             	if (isClearHighlight) {
-					Highlighter hilite = this.controlGrid[row][column]
-							.getHighlighter();
-					hilite.removeAllHighlights();					
+					cellTextBox.getHighlighter().removeAllHighlights();					
 				}
             }
         }

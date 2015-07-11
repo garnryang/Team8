@@ -8,6 +8,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
 import javax.swing.JToggleButton;
 
+import edu.psu.sweng500.team8.coreDataStructures.Board;
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
@@ -17,6 +18,7 @@ import edu.psu.sweng500.team8.play.GameSession;
 import edu.psu.sweng500.team8.puzzleGenerator.PuzzleRepository;
 import edu.psu.sweng500.team8.solver.HintGenerator;
 import edu.psu.sweng500.team8.solver.HintInfo;
+
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -62,6 +64,16 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 		//Cell number changed. Clear the message and any highlighted incorrect numbers.
 		clearMessage();
 		this.gameBoard.clearHighlightedIncorrectCells();
+		
+		Board board = this.gameSession.getGameBoard();
+		if (!board.hasOpenCells()) {
+			//Check the board against the solution
+			if (board.getIncorrectCells().isEmpty()) {
+				//Player won the game
+				this.gameBoard.disableEditing();
+				setMessage("You won! Start a new game to play again.");
+			}
+		}
 	}
 	
 	/**
@@ -337,6 +349,7 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 	}
 
 	private void btnNewGameActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnNewGameActionPerformed
+		setMessage("");
 		DifficultyLevel difficulty;
 		if (radEasy.isSelected())
 			difficulty = DifficultyLevel.Easy;
