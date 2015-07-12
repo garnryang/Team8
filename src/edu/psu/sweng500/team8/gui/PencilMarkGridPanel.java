@@ -6,7 +6,6 @@
 package edu.psu.sweng500.team8.gui;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;

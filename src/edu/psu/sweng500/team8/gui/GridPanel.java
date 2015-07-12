@@ -8,6 +8,7 @@ package edu.psu.sweng500.team8.gui;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JTextField;
@@ -23,348 +24,261 @@ import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 import edu.psu.sweng500.team8.play.GameSession;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class GridPanel extends javax.swing.JPanel {
-	private JTextField[][] controlGrid = new JTextField[9][9];
-	private GameSession gameSession;
-	private JTextField selectedCell;
-	private static final Border SELECTED_BORDER = BorderFactory.createLineBorder(Color.blue, 3);
-	private static final Border DEFAULT_BORDER = BorderFactory.createLineBorder(Color.black, 1);
-	
-	/**
-	 * Creates new form GridPanel
-	 */
-	public GridPanel() {
-		
-		initComponents();
-		initializeGrid();
-		
-		/* No longer using enforce method.
-		 * See populatePanel and CustomKeyListner */
-		// /* David's change A begins */
-		// enforce();
-		// /* David's change A ends */
-	}
 
-	public void populatePanel(CellGrid grid, GameSession gameSession) {
-		clearGrid(true);
+    private JTextField[][] controlGrid = new JTextField[9][9];
+    private KeyListener[][] keyListeners = new KeyListener[9][9]; 
+    private GameSession gameSession;
+    private JTextField selectedCell;
+    private static final Border SELECTED_BORDER = BorderFactory.createLineBorder(Color.blue, 3);
+    private static final Border DEFAULT_BORDER = BorderFactory.createLineBorder(Color.black, 1);
+    private Set<JTextField> highlightedIncorrectCells = new HashSet<JTextField>();
+    
+    /**
+     * Creates new form GridPanel
+     */
+    public GridPanel() {
+        initComponents();
+        initializeGrid();
+    }
 
-		this.gameSession = gameSession;
+    public void populatePanel(CellGrid grid, GameSession gameSession) {
+        clearGrid(true); //FIXME: Remove argument
 
-		for (int row = 0; row < 9; row++) {
-			for (int column = 0; column < 9; column++) {
-				Cell cell = grid.getCell(row, column);
-				if (cell.hasNumber()) {
-					this.controlGrid[row][column].setText(Integer.toString(cell.getNumber()));
+        this.gameSession = gameSession;
 
-					markGivenCell(cell);
-					
-					/* David's change D begins*/
-					this.controlGrid[row][column].setEditable(false);
-					/* David's change D ends*/
+        for (int row = 0; row < 9; row++) {
+            for (int column = 0; column < 9; column++) {
+                Cell cell = grid.getCell(row, column);
+                
+                JTextField cellTextBox = this.controlGrid[row][column];
+                cellTextBox.setEditable(true); //Need to set Editable first to set the number
+                if (cell.hasNumber()) {
+                	cellTextBox.setText(Integer.toString(cell.getNumber()));
 
+                    markGivenCell(cell);
+                }
+                
+                cellTextBox.setFocusable(true);
+                
+                //Subscribe a key listener
+                if (this.keyListeners[row][column] != null) {
+                	cellTextBox.removeKeyListener(this.keyListeners[row][column]);
+                }
+                this.keyListeners[row][column] = new CustomKeyListener(cell, gameSession);
+                cellTextBox.addKeyListener(this.keyListeners[row][column]);
+            }
+        }
+    }
+
+    public void setSelectedCellNumber(int number) {
+        if (this.selectedCell != null) {
+            this.selectedCell.setText(Integer.toString(number));
+        }
+    }
+
+    public void selectCell(int row, int column) {
+        clearSelectedCell();
+        this.selectedCell = this.controlGrid[row][column];
+        this.selectedCell.setBorder(SELECTED_BORDER);
+    }
+
+    public void refreshPanel() {
+        clearGrid(false);
+
+        CellGrid grid = this.gameSession.getGameBoard().getCellGrid();
+        for (int row = 0; row < 9; row++) {
+            for (int column = 0; column < 9; column++) {
+                Cell cell = grid.getCell(row, column);
+                if (cell.hasNumber()) {
+                    this.controlGrid[row][column].setText(Integer.toString(cell
+                            .getNumber()));
+
+                    if (cell.getType() == ValueType.Given) {
+                        markGivenCell(cell);
+                    }
+                }
+            }
+        }
+    }
+
+    public void highlightIncorrectCells(Set<Cell> incorrectCells) {
+    	clearHighlightedIncorrectCells();
+    	for (Cell incorrectCell : incorrectCells) {
+            markIncorrectCell(incorrectCell);
+        }
+    }
+    
+    public void clearHighlightedIncorrectCells() {
+    	for (JTextField cellTextBox : this.highlightedIncorrectCells) {
+    		cellTextBox.getHighlighter().removeAllHighlights();
+    	}
+    	
+    	this.highlightedIncorrectCells.clear();
+    }
+    
+    public void disableEditing() {
+    	for (int row = 0; row < 9; row++) {
+            for (int column = 0; column < 9; column++) {
+                JTextField cellTextBox = this.controlGrid[row][column];
+                cellTextBox.setEditable(false);
+                cellTextBox.setFocusable(false);
+            } 
+    	}
+    }
+    
+    private void initializeGrid() {
+        this.controlGrid[0][0] = txtCell00;
+        this.controlGrid[0][1] = txtCell01;
+        this.controlGrid[0][2] = txtCell02;
+        this.controlGrid[0][3] = txtCell03;
+        this.controlGrid[0][4] = txtCell04;
+        this.controlGrid[0][5] = txtCell05;
+        this.controlGrid[0][6] = txtCell06;
+        this.controlGrid[0][7] = txtCell07;
+        this.controlGrid[0][8] = txtCell08;
+
+        this.controlGrid[1][0] = txtCell10;
+        this.controlGrid[1][1] = txtCell11;
+        this.controlGrid[1][2] = txtCell12;
+        this.controlGrid[1][3] = txtCell13;
+        this.controlGrid[1][4] = txtCell14;
+        this.controlGrid[1][5] = txtCell15;
+        this.controlGrid[1][6] = txtCell16;
+        this.controlGrid[1][7] = txtCell17;
+        this.controlGrid[1][8] = txtCell18;
+
+        this.controlGrid[2][0] = txtCell20;
+        this.controlGrid[2][1] = txtCell21;
+        this.controlGrid[2][2] = txtCell22;
+        this.controlGrid[2][3] = txtCell23;
+        this.controlGrid[2][4] = txtCell24;
+        this.controlGrid[2][5] = txtCell25;
+        this.controlGrid[2][6] = txtCell26;
+        this.controlGrid[2][7] = txtCell27;
+        this.controlGrid[2][8] = txtCell28;
+
+        this.controlGrid[3][0] = txtCell30;
+        this.controlGrid[3][1] = txtCell31;
+        this.controlGrid[3][2] = txtCell32;
+        this.controlGrid[3][3] = txtCell33;
+        this.controlGrid[3][4] = txtCell34;
+        this.controlGrid[3][5] = txtCell35;
+        this.controlGrid[3][6] = txtCell36;
+        this.controlGrid[3][7] = txtCell37;
+        this.controlGrid[3][8] = txtCell38;
+
+        this.controlGrid[4][0] = txtCell40;
+        this.controlGrid[4][1] = txtCell41;
+        this.controlGrid[4][2] = txtCell42;
+        this.controlGrid[4][3] = txtCell43;
+        this.controlGrid[4][4] = txtCell44;
+        this.controlGrid[4][5] = txtCell45;
+        this.controlGrid[4][6] = txtCell46;
+        this.controlGrid[4][7] = txtCell47;
+        this.controlGrid[4][8] = txtCell48;
+
+        this.controlGrid[5][0] = txtCell50;
+        this.controlGrid[5][1] = txtCell51;
+        this.controlGrid[5][2] = txtCell52;
+        this.controlGrid[5][3] = txtCell53;
+        this.controlGrid[5][4] = txtCell54;
+        this.controlGrid[5][5] = txtCell55;
+        this.controlGrid[5][6] = txtCell56;
+        this.controlGrid[5][7] = txtCell57;
+        this.controlGrid[5][8] = txtCell58;
+
+        this.controlGrid[6][0] = txtCell60;
+        this.controlGrid[6][1] = txtCell61;
+        this.controlGrid[6][2] = txtCell62;
+        this.controlGrid[6][3] = txtCell63;
+        this.controlGrid[6][4] = txtCell64;
+        this.controlGrid[6][5] = txtCell65;
+        this.controlGrid[6][6] = txtCell66;
+        this.controlGrid[6][7] = txtCell67;
+        this.controlGrid[6][8] = txtCell68;
+
+        this.controlGrid[7][0] = txtCell70;
+        this.controlGrid[7][1] = txtCell71;
+        this.controlGrid[7][2] = txtCell72;
+        this.controlGrid[7][3] = txtCell73;
+        this.controlGrid[7][4] = txtCell74;
+        this.controlGrid[7][5] = txtCell75;
+        this.controlGrid[7][6] = txtCell76;
+        this.controlGrid[7][7] = txtCell77;
+        this.controlGrid[7][8] = txtCell78;
+
+        this.controlGrid[8][0] = txtCell80;
+        this.controlGrid[8][1] = txtCell81;
+        this.controlGrid[8][2] = txtCell82;
+        this.controlGrid[8][3] = txtCell83;
+        this.controlGrid[8][4] = txtCell84;
+        this.controlGrid[8][5] = txtCell85;
+        this.controlGrid[8][6] = txtCell86;
+        this.controlGrid[8][7] = txtCell87;
+        this.controlGrid[8][8] = txtCell88;
+    }
+    
+    private void markGivenCell(Cell cell) {
+        HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(
+                Color.green);
+
+        CellCoordinates coordinates = cell.getCoordinates();
+        try {
+            this.controlGrid[coordinates.getRowIndex()][coordinates.getColumnIndex()].getHighlighter()
+                    .addHighlight(0, 3, painter); //(JN): What is the significance of 0,3?
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void markIncorrectCell(Cell cell) {
+        HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(
+                Color.red);
+
+        CellCoordinates coordinates = cell.getCoordinates();
+        try {
+        	JTextField cellTextBox = this.controlGrid[coordinates.getRowIndex()][coordinates.getColumnIndex()];
+        	cellTextBox.getHighlighter().addHighlight(0, 3, painter); //(JN): What is the significance of 0,3?
+        	//For some reason, the highlight doesn't take effect until it loses focus, so unfortunately we have to force a repaint here
+        	cellTextBox.repaint(); 
+        	
+        	this.highlightedIncorrectCells.add(cellTextBox);
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void clearSelectedCell() {
+        if (this.selectedCell != null) {
+            this.selectedCell.setBorder(DEFAULT_BORDER);
+        }
+        this.selectedCell = null;
+    }
+
+    private void clearGrid(boolean isClearHighlight) {
+        clearSelectedCell();
+
+        for (int row = 0; row < 9; row++) {
+            for (int column = 0; column < 9; column++) {
+            	JTextField cellTextBox = this.controlGrid[row][column];
+            	cellTextBox.setText("");
+            	if (isClearHighlight) {
+					cellTextBox.getHighlighter().removeAllHighlights();					
 				}
-			
-				/* Scott's change A begins */
-				this.controlGrid[row][column]
-						.addKeyListener(new CustomKeyListener(cell, gameSession));
-				this.controlGrid[row][column].setFocusable(true);
-				/* Scott's change A ends */
+            }
+        }
+    }
 
-			}
-		}
-	}
-
-	public void setSelectedCellNumber(int number) {
-		if (this.selectedCell != null)
-			this.selectedCell.setText(Integer.toString(number));
-	}
-	
-	public void selectCell(int row, int column) {
-		clearSelectedCell();
-		this.selectedCell = this.controlGrid[row][column];
-		this.selectedCell.setBorder(SELECTED_BORDER);
-		}
-	
-	/* David's change B begins */
-	/**
-	 * @deprecated See CustomKeyListner
-	 * @TODO delete this method
-	 */
-	public void enforce() {
-		enforceValidNumbers(txtCell00);
-		enforceValidNumbers(txtCell01);
-		enforceValidNumbers(txtCell02);
-		enforceValidNumbers(txtCell03);
-		enforceValidNumbers(txtCell04);
-		enforceValidNumbers(txtCell05);
-		enforceValidNumbers(txtCell06);
-		enforceValidNumbers(txtCell07);
-		enforceValidNumbers(txtCell08);
-
-		enforceValidNumbers(txtCell10);
-		enforceValidNumbers(txtCell11);
-		enforceValidNumbers(txtCell12);
-		enforceValidNumbers(txtCell13);
-		enforceValidNumbers(txtCell14);
-		enforceValidNumbers(txtCell15);
-		enforceValidNumbers(txtCell16);
-		enforceValidNumbers(txtCell17);
-		enforceValidNumbers(txtCell18);
-
-		enforceValidNumbers(txtCell20);
-		enforceValidNumbers(txtCell21);
-		enforceValidNumbers(txtCell22);
-		enforceValidNumbers(txtCell23);
-		enforceValidNumbers(txtCell24);
-		enforceValidNumbers(txtCell25);
-		enforceValidNumbers(txtCell26);
-		enforceValidNumbers(txtCell27);
-		enforceValidNumbers(txtCell28);
-
-		enforceValidNumbers(txtCell30);
-		enforceValidNumbers(txtCell31);
-		enforceValidNumbers(txtCell32);
-		enforceValidNumbers(txtCell33);
-		enforceValidNumbers(txtCell34);
-		enforceValidNumbers(txtCell35);
-		enforceValidNumbers(txtCell36);
-		enforceValidNumbers(txtCell37);
-		enforceValidNumbers(txtCell38);
-
-		enforceValidNumbers(txtCell40);
-		enforceValidNumbers(txtCell41);
-		enforceValidNumbers(txtCell42);
-		enforceValidNumbers(txtCell43);
-		enforceValidNumbers(txtCell44);
-		enforceValidNumbers(txtCell45);
-		enforceValidNumbers(txtCell46);
-		enforceValidNumbers(txtCell47);
-		enforceValidNumbers(txtCell48);
-
-		enforceValidNumbers(txtCell50);
-		enforceValidNumbers(txtCell51);
-		enforceValidNumbers(txtCell52);
-		enforceValidNumbers(txtCell53);
-		enforceValidNumbers(txtCell54);
-		enforceValidNumbers(txtCell55);
-		enforceValidNumbers(txtCell56);
-		enforceValidNumbers(txtCell57);
-		enforceValidNumbers(txtCell58);
-
-		enforceValidNumbers(txtCell60);
-		enforceValidNumbers(txtCell61);
-		enforceValidNumbers(txtCell62);
-		enforceValidNumbers(txtCell63);
-		enforceValidNumbers(txtCell64);
-		enforceValidNumbers(txtCell65);
-		enforceValidNumbers(txtCell66);
-		enforceValidNumbers(txtCell67);
-		enforceValidNumbers(txtCell68);
-
-		enforceValidNumbers(txtCell70);
-		enforceValidNumbers(txtCell71);
-		enforceValidNumbers(txtCell72);
-		enforceValidNumbers(txtCell73);
-		enforceValidNumbers(txtCell74);
-		enforceValidNumbers(txtCell75);
-		enforceValidNumbers(txtCell76);
-		enforceValidNumbers(txtCell77);
-		enforceValidNumbers(txtCell78);
-
-		enforceValidNumbers(txtCell80);
-		enforceValidNumbers(txtCell81);
-		enforceValidNumbers(txtCell82);
-		enforceValidNumbers(txtCell83);
-		enforceValidNumbers(txtCell84);
-		enforceValidNumbers(txtCell85);
-		enforceValidNumbers(txtCell86);
-		enforceValidNumbers(txtCell87);
-		enforceValidNumbers(txtCell88);
-	}
-	/* David's change B ends */
-	
-	/* David's change C begins */
-	/**
-	 * @deprecated See CustomKeyListner
-	 * @TODO delete this method
-	 * @param jtf
-	 */
-	public void enforceValidNumbers(final JTextField jtf) {
-
-		jtf.addKeyListener(new KeyAdapter() {
-			public void keyReleased(KeyEvent e) {
-				JTextField textField = (JTextField) e.getSource();
-				String text = textField.getText();
-				try {
-					int n = Integer.parseInt(jtf.getText());
-					if (n < 1 || n > 9) {
-						throw new NumberFormatException(); //FIXME: Prefer not to use an exception unless necessary. Just clear the textbox.
-					}
-				} catch (NumberFormatException ex) {
-					jtf.setText("");
-				}
-
-			}
-		});
-	}
-	/* David's change C ends */
-
-	/* Scott's change B begins */
-	public void refreshPanel() {
-		clearGrid(false);
-
-		for (int row = 0; row < 9; row++) {
-			for (int column = 0; column < 9; column++) {
-				Cell cell = this.gameSession.getGameBoard().getCellGrid().getCell(row, column);
-				if (cell.hasNumber()) {
-					this.controlGrid[row][column].setText(Integer.toString(cell
-							.getNumber()));
-					
-					if (cell.getType() == ValueType.Given)
-						markGivenCell(cell);
-				}
-			}
-		}
-	}
-	/* Scott's change B ends */
-
-	private void initializeGrid() {
-		this.controlGrid[0][0] = txtCell00;
-		this.controlGrid[0][1] = txtCell01;
-		this.controlGrid[0][2] = txtCell02;
-		this.controlGrid[0][3] = txtCell03;
-		this.controlGrid[0][4] = txtCell04;
-		this.controlGrid[0][5] = txtCell05;
-		this.controlGrid[0][6] = txtCell06;
-		this.controlGrid[0][7] = txtCell07;
-		this.controlGrid[0][8] = txtCell08;
-
-		this.controlGrid[1][0] = txtCell10;
-		this.controlGrid[1][1] = txtCell11;
-		this.controlGrid[1][2] = txtCell12;
-		this.controlGrid[1][3] = txtCell13;
-		this.controlGrid[1][4] = txtCell14;
-		this.controlGrid[1][5] = txtCell15;
-		this.controlGrid[1][6] = txtCell16;
-		this.controlGrid[1][7] = txtCell17;
-		this.controlGrid[1][8] = txtCell18;
-
-		this.controlGrid[2][0] = txtCell20;
-		this.controlGrid[2][1] = txtCell21;
-		this.controlGrid[2][2] = txtCell22;
-		this.controlGrid[2][3] = txtCell23;
-		this.controlGrid[2][4] = txtCell24;
-		this.controlGrid[2][5] = txtCell25;
-		this.controlGrid[2][6] = txtCell26;
-		this.controlGrid[2][7] = txtCell27;
-		this.controlGrid[2][8] = txtCell28;
-
-		this.controlGrid[3][0] = txtCell30;
-		this.controlGrid[3][1] = txtCell31;
-		this.controlGrid[3][2] = txtCell32;
-		this.controlGrid[3][3] = txtCell33;
-		this.controlGrid[3][4] = txtCell34;
-		this.controlGrid[3][5] = txtCell35;
-		this.controlGrid[3][6] = txtCell36;
-		this.controlGrid[3][7] = txtCell37;
-		this.controlGrid[3][8] = txtCell38;
-
-		this.controlGrid[4][0] = txtCell40;
-		this.controlGrid[4][1] = txtCell41;
-		this.controlGrid[4][2] = txtCell42;
-		this.controlGrid[4][3] = txtCell43;
-		this.controlGrid[4][4] = txtCell44;
-		this.controlGrid[4][5] = txtCell45;
-		this.controlGrid[4][6] = txtCell46;
-		this.controlGrid[4][7] = txtCell47;
-		this.controlGrid[4][8] = txtCell48;
-
-		this.controlGrid[5][0] = txtCell50;
-		this.controlGrid[5][1] = txtCell51;
-		this.controlGrid[5][2] = txtCell52;
-		this.controlGrid[5][3] = txtCell53;
-		this.controlGrid[5][4] = txtCell54;
-		this.controlGrid[5][5] = txtCell55;
-		this.controlGrid[5][6] = txtCell56;
-		this.controlGrid[5][7] = txtCell57;
-		this.controlGrid[5][8] = txtCell58;
-
-		this.controlGrid[6][0] = txtCell60;
-		this.controlGrid[6][1] = txtCell61;
-		this.controlGrid[6][2] = txtCell62;
-		this.controlGrid[6][3] = txtCell63;
-		this.controlGrid[6][4] = txtCell64;
-		this.controlGrid[6][5] = txtCell65;
-		this.controlGrid[6][6] = txtCell66;
-		this.controlGrid[6][7] = txtCell67;
-		this.controlGrid[6][8] = txtCell68;
-
-		this.controlGrid[7][0] = txtCell70;
-		this.controlGrid[7][1] = txtCell71;
-		this.controlGrid[7][2] = txtCell72;
-		this.controlGrid[7][3] = txtCell73;
-		this.controlGrid[7][4] = txtCell74;
-		this.controlGrid[7][5] = txtCell75;
-		this.controlGrid[7][6] = txtCell76;
-		this.controlGrid[7][7] = txtCell77;
-		this.controlGrid[7][8] = txtCell78;
-
-		this.controlGrid[8][0] = txtCell80;
-		this.controlGrid[8][1] = txtCell81;
-		this.controlGrid[8][2] = txtCell82;
-		this.controlGrid[8][3] = txtCell83;
-		this.controlGrid[8][4] = txtCell84;
-		this.controlGrid[8][5] = txtCell85;
-		this.controlGrid[8][6] = txtCell86;
-		this.controlGrid[8][7] = txtCell87;
-		this.controlGrid[8][8] = txtCell88;
-	}
-
-	private void markGivenCell(Cell cell) {
-		HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(
-				Color.green);
-
-		/* TODO - THIS MAY NOT BE THE BEST PLACE TO HAVE THIS SET BUT I NEED THIS TO MAKE PENCIL MARK WORKING
-		 * DO NOT FORGET REVISIT AND UPDATE ValueType logic */
-		cell.setType(ValueType.Given);
-		
-		CellCoordinates coordinates = cell.getCoordinates();
-		try {
-			this.controlGrid[coordinates.getRowIndex()][coordinates.getColumnIndex()].getHighlighter()
-			.addHighlight(0, 3, painter); //(JN): What is the significance of 0,3?
-		} catch (BadLocationException e) {
-			e.printStackTrace();
-		}
-	}
-		
-	private void clearSelectedCell() {
-		if (this.selectedCell != null) {
-			this.selectedCell.setBorder(DEFAULT_BORDER);
-		}
-		this.selectedCell = null;
-	}
-	
-	private void clearGrid(boolean isClearHighlight) {
-		clearSelectedCell();
-		
-		for (int row = 0; row < 9; row++) {
-			for (int column = 0; column < 9; column++) {
-				this.controlGrid[row][column].setText("");
-				if (isClearHighlight) {
-					Highlighter hilite = this.controlGrid[row][column]
-							.getHighlighter();
-					hilite.removeAllHighlights();					
-				}
-			}
-		}
-	}
-	
-	/**
-	 * This method is called from within the constructor to initialize the form.
-	 * WARNING: Do NOT modify this code. The content of this method is always
-	 * regenerated by the Form Editor.
-	 */
-	@SuppressWarnings("unchecked")
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -1298,19 +1212,21 @@ public class GridPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txtCell88;
     // End of variables declaration//GEN-END:variables
 
-	/**
-	 * for testing only
-	 * @return
-	 */
-	public JTextField[][] getControlGrid() {
-		return this.controlGrid;
-	}
+    /**
+     * for testing only
+     *
+     * @return
+     */
+    public JTextField[][] getControlGrid() {
+        return this.controlGrid;
+    }
 
-	/**
-	 * for testing only
-	 * @return
-	 */
-	public GameSession getGameSession() {
-		return this.gameSession;
-	}
+    /**
+     * for testing only
+     *
+     * @return
+     */
+    public GameSession getGameSession() {
+        return this.gameSession;
+    }
 }

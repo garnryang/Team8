@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import edu.psu.sweng500.team8.coreDataStructures.Board;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
+import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
 import edu.psu.sweng500.team8.puzzleGenerator.SolutionGenerator;
 
 public class SolutionGeneratorTests {
@@ -32,6 +33,7 @@ public class SolutionGeneratorTests {
 				for (int j = 0; j < 9; j++) {
 					Assert.assertTrue("Must not be zero (0)",
 							cellGrid.getCell(i, j).getNumber() != 0);
+					Assert.assertEquals(ValueType.Given, cellGrid.getCell(i, j).getType());
 					// System.out.println(cellGrid.getCell(i, j).getNumber());
 				}
 			}

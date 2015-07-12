@@ -33,10 +33,10 @@ public final class PuzzleGenerator {
 		do {
 			newPuzzle = tryGeneratePuzzle(solutionGrid, numCellsToClear);
 		} while (!hasUniqueSolution(newPuzzle));
-		
+
 		newPuzzle.setDifficulty(difficulty);
 		return newPuzzle;
-		}
+	}
 
 	private static Puzzle tryGeneratePuzzle(CellGrid solution, int numCellsToClear) {
 		Puzzle puzzle = new Puzzle(solution, solution);
@@ -45,7 +45,6 @@ public final class PuzzleGenerator {
 		List<Integer> numbersToRemove = new ArrayList<Integer>(81);
 		for (int i = 0; i < 81; i++) {
 			numbersToRemove.add(i);
-			
 		}
 
 		Collections.shuffle(numbersToRemove);

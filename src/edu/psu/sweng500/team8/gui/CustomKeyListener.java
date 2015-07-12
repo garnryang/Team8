@@ -29,6 +29,8 @@ public class CustomKeyListener extends KeyAdapter implements KeyListener {
 	 * We could differentiate number keys and some other valid keys such as delete, backspace, arrow, etc.
 	 * to give them a specific bahavior to be handled so we don't have users accidentally delete entered number by pressing an arrow key 
 	 * Please share your ideas on how we can improve this */
+	//(JN): Use the actual text box text as David did -- this will handle the Delete/arrow keys. I changed this.
+	//An enhancement idea would be to use the arrow keys to select adjacent cells (e.g. right arrow moves one cell to the right)
 	public void keyReleased(KeyEvent keyEvent) {
 
 		JTextField textField = (JTextField) keyEvent.getSource();
@@ -39,12 +41,10 @@ public class CustomKeyListener extends KeyAdapter implements KeyListener {
 			int enteredNumber = Integer.parseInt(text);
 
 			if (enteredNumber < 1 || enteredNumber > 9) {
-				gameSession.enterNumber(this.cell, 0);
+				this.gameSession.enterNumber(this.cell, 0);
 				textField.setText("");
 			} else {
-				gameSession
-						.enterNumber(this.cell, Integer.parseInt(String
-								.valueOf(keyEvent.getKeyChar())));
+				this.gameSession.enterNumber(this.cell, enteredNumber);
 			}
 
 		} catch (NumberFormatException ex) {
