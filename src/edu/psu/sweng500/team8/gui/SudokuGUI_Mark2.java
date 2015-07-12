@@ -31,7 +31,7 @@ import edu.psu.sweng500.team8.solver.HintInfo;
  *
  * @author cliff_000
  */
-public class SudokuGUI extends javax.swing.JFrame {
+public class SudokuGUI_Mark2 extends javax.swing.JFrame {
 
 	private PuzzleRepository puzzleRepo = new PuzzleRepository(); //Not sure if there is a better place to put this
         /* we need to keep track of the current game */
@@ -40,7 +40,7 @@ public class SudokuGUI extends javax.swing.JFrame {
 	/**
 	 * Creates new form SudokuGUI
 	 */
-	public SudokuGUI() {
+	public SudokuGUI_Mark2() {
 		try {
 			this.puzzleRepo.initialize();
 		} catch (IOException e) {
@@ -80,8 +80,9 @@ public class SudokuGUI extends javax.swing.JFrame {
         jButton14 = new javax.swing.JButton();
         btnNewGame = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        gameBoard = new edu.psu.sweng500.team8.gui.GridPanel();
-        pencilMarkGridPanel = new PencilMarkGridPanel();
+//        gameBoard = new edu.psu.sweng500.team8.gui.GridPanel();
+        gameBoard = new BoardGUI();
+//        pencilMarkGridPanel = new PencilMarkGridPanel();
         btnHint = new javax.swing.JButton();
         pencilMarkButton = new JToggleButton();
         lblMessage = new javax.swing.JLabel();
@@ -166,8 +167,8 @@ public class SudokuGUI extends javax.swing.JFrame {
             }
         });
 
-        gameBoard.setVisible(true);
-        pencilMarkGridPanel.setVisible(false);
+//        gameBoard.setVisible(true);
+//        pencilMarkGridPanel.setVisible(false);
         
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -179,8 +180,7 @@ public class SudokuGUI extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(lblMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE))
-                        .addComponent(gameBoard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(pencilMarkGridPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(gameBoard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -242,8 +242,7 @@ public class SudokuGUI extends javax.swing.JFrame {
                         .addGap(18, 18, 18))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(gameBoard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(pencilMarkGridPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(gameBoard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)                        
                         .addGap(5, 5, 5)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnNewGame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -262,22 +261,21 @@ public class SudokuGUI extends javax.swing.JFrame {
         HintInfo hint = HintGenerator.getHint(this.gameSession.getGameBoard());
         if (hint != null) {
         	CellCoordinates coordinates = hint.getCell().getCoordinates();
-            this.gameBoard.selectCell(coordinates.getRowIndex(), coordinates.getColumnIndex());
-            /* Any numbered entered should go through gameSession.enterNumber method for other business logics */
+        	this.gameBoard.updateSelectedCellFromHint(coordinates, hint.getCell().getNumber());
+        	/* Any numbered entered should go through gameSession.enterNumber method for other business logics */
             this.gameSession.enterNumber(hint.getCell(), hint.getCell().getNumber(), true);
-            this.gameBoard.setSelectedCellNumber(hint.getCell().getNumber());
-			setMessage(hint.getExplanation());
+            setMessage(hint.getExplanation());
         }
     }//GEN-LAST:event_btnHintActionPerformed
 
     private void doUndo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doUndo
     	this.gameSession.doUndo();
-		this.gameBoard.refreshPanel();
+		this.gameBoard.populatePanel(gameSession, true);
     }//GEN-LAST:event_doUndo
 
     private void doRedo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doRedo
     	this.gameSession.doRedo();
-		this.gameBoard.refreshPanel();
+		this.gameBoard.populatePanel(gameSession, true);
     }//GEN-LAST:event_doRedo
 
 	private void radEasyActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_radEasyActionPerformed
@@ -318,10 +316,7 @@ public class SudokuGUI extends javax.swing.JFrame {
 
 		Puzzle puzzle = this.puzzleRepo.getPuzzle(difficulty);
 		this.gameSession = new GameSession(puzzle);
-		this.gameBoard.populatePanel(gameSession.getGameBoard().getCellGrid(),
-				gameSession);
-		this.pencilMarkGridPanel.populate(gameSession);
-		
+		this.gameBoard.populatePanel(gameSession, false);
 	}// GEN-LAST:event_btnNewGameActionPerformed
 
     private void pencilMarkMode(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHintActionPerformed
@@ -330,14 +325,9 @@ public class SudokuGUI extends javax.swing.JFrame {
     		return;
 
     	if (this.pencilMarkButton.isSelected()) {
-    		System.out.println("CLICKED");
-    		this.gameBoard.setVisible(false);
-    		this.pencilMarkGridPanel.setVisible(true);
-    		this.pencilMarkGridPanel.refresh();
+    		this.gameBoard.populatePencilMark(gameSession);
     	} else {
-    		System.out.println("UNCLICKED");
-    		this.gameBoard.setVisible(true);
-    		this.pencilMarkGridPanel.setVisible(false);
+    		this.gameBoard.populatePanel(gameSession, true);
     	}
     }
 	
@@ -358,13 +348,13 @@ public class SudokuGUI extends javax.swing.JFrame {
 				}
 			}
 		} catch (ClassNotFoundException ex) {
-			java.util.logging.Logger.getLogger(SudokuGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			java.util.logging.Logger.getLogger(SudokuGUI_Mark2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SudokuGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SudokuGUI_Mark2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SudokuGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SudokuGUI_Mark2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SudokuGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SudokuGUI_Mark2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		}
 		// </editor-fold>
 
@@ -372,7 +362,7 @@ public class SudokuGUI extends javax.swing.JFrame {
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				new SudokuGUI().setVisible(true);
+				new SudokuGUI_Mark2().setVisible(true);
 			}
 		});
 	}
@@ -383,7 +373,8 @@ public class SudokuGUI extends javax.swing.JFrame {
     private javax.swing.JButton btnRedo;
     private javax.swing.JButton btnUndo;
     private javax.swing.ButtonGroup buttonGroup1;
-    private edu.psu.sweng500.team8.gui.GridPanel gameBoard;
+//    private edu.psu.sweng500.team8.gui.GridPanel gameBoard;
+    private BoardGUI gameBoard;
     private PencilMarkGridPanel pencilMarkGridPanel;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -398,13 +389,4 @@ public class SudokuGUI extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     
     private JToggleButton pencilMarkButton;
-    
-	private class SwingAction extends AbstractAction {
-		public SwingAction() {
-			putValue(NAME, "SwingAction");
-			putValue(SHORT_DESCRIPTION, "Some short description");
-		}
-		public void actionPerformed(ActionEvent e) {
-		}
-	}
-}
+ }

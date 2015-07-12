@@ -17,7 +17,7 @@ public class ActionManager {
 	}
 
 	public void addAction(SudokuAction sudokuAction) {
-		this.sudokuActionStack.add(sudokuAction);
+		this.sudokuActionStack.push(sudokuAction);
 	}
 
 	/**
@@ -31,11 +31,12 @@ public class ActionManager {
 		 */
 		
 		if (!sudokuActionStack.isEmpty()) {
+			
 			SudokuAction lastAction = sudokuActionStack.pop(); 
 			CellGrid previousCellGrid = lastAction.getCellGrid(); 
 			
 			SudokuAction undoAction = new SudokuAction(new CellGrid(currentCellGridFromBoard));
-			sudokuActionStackForUndo.add(undoAction);
+			sudokuActionStackForUndo.push(undoAction);
 			
 			currentCellGridFromBoard.copyValues(previousCellGrid);
 		}
@@ -52,7 +53,7 @@ public class ActionManager {
 			CellGrid previousCellGrid = lastActionUndone.getCellGrid();
 			
 			SudokuAction redoAction = new SudokuAction(new CellGrid(currentCellGridFromBoard));
-			sudokuActionStack.add(redoAction);
+			sudokuActionStack.push(redoAction);
 
 			currentCellGridFromBoard.copyValues(previousCellGrid);
 		}

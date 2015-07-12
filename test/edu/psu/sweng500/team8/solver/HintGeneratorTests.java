@@ -11,7 +11,7 @@ import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
 
 public class HintGeneratorTests {
 	@Test
-	public void canGetHintWhenACellHasOnlyOneAvailableNumber() {
+	public void cangetHintWhenACellHasOnlyOneAvailableNumber() {
 		Puzzle testPuzzle = getPuzzleWithCellWithOnlyOneAvailableNumber();
 		Board testBoard = new Board();
 		testBoard.Initialize(testPuzzle);
@@ -19,18 +19,18 @@ public class HintGeneratorTests {
 		HintInfo hint = HintGenerator.getHint(testBoard);
 		
 		assertTrue(hint != null);
-		Cell filledCell = hint.GetCell();
+		Cell filledCell = hint.getCell();
 		assertEquals(0, filledCell.getCoordinates().getRowIndex());
 		assertEquals(6, filledCell.getCoordinates().getColumnIndex());
 		assertEquals(3, filledCell.getNumber());
 		
 		//This can change. Made something up for now.
 		String expectedExplanation = "This cell's value must be 3 because it is the only number that can fit in this cell";
-		assertEquals(expectedExplanation, hint.GetExplanation());
+		assertEquals(expectedExplanation, hint.getExplanation());
 	}
 	
 	@Test
-	public void canGetHintWhenThereIsOnlyOneCellWhereANumberCanFit() {
+	public void cangetHintWhenThereIsOnlyOneCellWhereANumberCanFit() {
 		Puzzle testPuzzle = getPuzzleWhereANumberCanOnlyFitInOneCell();
 		
 		Board testBoard = new Board();
@@ -41,14 +41,14 @@ public class HintGeneratorTests {
 		HintInfo hint = HintGenerator.getHint(testBoard);
 		
 		assertTrue(hint != null);
-		Cell filledCell = hint.GetCell();
+		Cell filledCell = hint.getCell();
 		assertEquals(4, filledCell.getCoordinates().getRowIndex());
 		assertEquals(2, filledCell.getCoordinates().getColumnIndex());
 		assertEquals(4, filledCell.getNumber());
 		
 		//This can change. Made something up for now.
 		String expectedExplanation = "This cell's value must be 4 because it is the only cell where this number can fit";
-		assertEquals(expectedExplanation, hint.GetExplanation());
+		assertEquals(expectedExplanation, hint.getExplanation());
 	}
 	
 	/** 

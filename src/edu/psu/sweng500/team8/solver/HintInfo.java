@@ -11,11 +11,11 @@ public class HintInfo {
 		m_explanation = explanation;
 	}
 	
-	public Cell GetCell() {
+	public Cell getCell() {
 		return m_filledCell;
 	}
 	
-	public String GetExplanation() {
+	public String getExplanation() {
 		return m_explanation;
 	}
 }

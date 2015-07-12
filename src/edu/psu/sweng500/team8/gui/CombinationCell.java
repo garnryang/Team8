@@ -16,7 +16,7 @@ import edu.psu.sweng500.team8.play.GameSession;
 
 public class CombinationCell extends javax.swing.JPanel {
 	
-	private final static int PENCIL_MARK_SIZE = 18;
+	private final static int PENCIL_MARK_SIZE = 16;
 	private final static int PENCIL_MARk_TEXT_SIZE = 15;
 	private final static Color PENCIL_MARK_COLOR = Color.BLACK;
 	private final static Color PENCIL_MARK_BACKGROUND_COLOR = Color.WHITE;
@@ -27,18 +27,12 @@ public class CombinationCell extends javax.swing.JPanel {
 
 		this.cell = cell;
 		this.gameSession = gameSession;
-		
-		setPreferredSize(new Dimension(PENCIL_MARK_SIZE*3, PENCIL_MARK_SIZE*3));
-		setBorder(null);
-		setAlignmentY(Component.TOP_ALIGNMENT);
-		setAlignmentX(Component.LEFT_ALIGNMENT);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		setLayout(gridBagLayout);
 		
 		//==
 		JToggleButton tglbtnNewToggleButton_1 = new JToggleButton("1");
 		tglbtnNewToggleButton_1.setFont(new Font("Tahoma", Font.PLAIN, PENCIL_MARk_TEXT_SIZE));
-		tglbtnNewToggleButton_1.setMargin(new Insets(0, 0, 0, 0));
 		tglbtnNewToggleButton_1.setForeground(PENCIL_MARK_COLOR);
 		tglbtnNewToggleButton_1.setUI(new PencilMarkButtonUI());
 		tglbtnNewToggleButton_1.setBackground(PENCIL_MARK_BACKGROUND_COLOR);
@@ -229,16 +223,11 @@ public class CombinationCell extends javax.swing.JPanel {
 	
 	private void buttonAction(ActionEvent actionEvent) {
 		JToggleButton button = (JToggleButton) actionEvent.getSource();
+		
 		if (button.isSelected()) {
-			gameSession.enterPencilMark(this.cell, Integer.parseInt(button.getText()), true);
-			
-			System.out.println("SELECTED " + button.getText());
-			System.out.println("CURRENT MARKS: " + this.cell.getPencilMarks());
+			gameSession.enterPencilMark(this.cell, Integer.parseInt(button.getText()), true);			
 		} else {
 			gameSession.enterPencilMark(this.cell, Integer.parseInt(button.getText()), false);
-			
-			System.out.println("UNSELECTED " + button.getText());
-			System.out.println("CURRENT MARKS: " + this.cell.getPencilMarks());
 		}
 	}
 }
