@@ -6,30 +6,26 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 import edu.psu.sweng500.team8.play.GameSession;
 
 public class BoardGUI extends JPanel {
-
+	
 	private static final int BOARD_SIZE = 486;
-
 	private BlockGUI[][] blocks;
 	private GameSession gameSession;
-	
 	private CellGUI selectedCell;
+	private Set<CellGUI> highlightedIncorrectCells = new HashSet<CellGUI>();
 	
-//	private int selectedRowIndex;
-//	private int selectedColumnIndex;
-
 	public BoardGUI() {
-
-//		selectedRowIndex = -1;
-//		selectedColumnIndex = -1;
 		
 		setPreferredSize(new Dimension(BOARD_SIZE, BOARD_SIZE));
 		setMaximumSize(new Dimension(BOARD_SIZE, BOARD_SIZE));
@@ -230,4 +226,36 @@ public class BoardGUI extends JPanel {
 		
 		currentPencilMarkDisplayCell.mouseClicked();
 	}
+	
+	/**/
+	public void highlightIncorrectCells(Set<Cell> incorrectCells) {
+    	clearHighlightedIncorrectCells();
+    	for (Cell incorrectCell : incorrectCells) {
+            markIncorrectCell(incorrectCell);
+        }
+    }
+	
+	public void clearHighlightedIncorrectCells() {
+    	for (CellGUI eachCell : this.highlightedIncorrectCells) {
+    		eachCell.clearIncorrectCellMark();    		
+    	}
+    	
+    	this.highlightedIncorrectCells.clear();
+    }
+    
+    public void disableEditing() {
+    	
+    	for (int row = 0; row < 3; row++) {
+            for (int column = 0; column < 3; column++) {
+        		blocks[row][column].disableEditing();
+            } 
+    	}
+    }
+    
+    private void markIncorrectCell(Cell cell) {
+        CellCoordinates coordinates = cell.getCoordinates();
+      	CellGUI currentCell = blocks[coordinates.getBlockIndex()/3][coordinates.getBlockIndex()%3].getSelectedCell(coordinates);
+       	currentCell.markIncorrectCell();
+       	this.highlightedIncorrectCells.add(currentCell);
+    }
 }

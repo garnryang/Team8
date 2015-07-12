@@ -22,6 +22,7 @@ import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter.HighlightPainter;
 
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
+import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
 import edu.psu.sweng500.team8.play.GameSession;
 
@@ -347,13 +348,6 @@ public class CellGUI extends JPanel {
 		HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(
 				Color.green);
 
-		/*
-		 * TODO - THIS MAY NOT BE THE BEST PLACE TO HAVE THIS SET BUT I NEED
-		 * THIS TO MAKE PENCIL MARK WORKING DO NOT FORGET REVISIT AND UPDATE
-		 * ValueType logic
-		 */
-		cell.setType(ValueType.Given);
-
 		try {
 			// (JN): What is the significance of 0,3?
 			this.numberInputField.getHighlighter().addHighlight(0, 3, painter);
@@ -493,5 +487,27 @@ public class CellGUI extends JPanel {
 		 this.numberInputCell.setVisible(true);
 		 selectCell();
 		 this.numberInputField.requestFocus();
+	}
+	
+	public void markIncorrectCell() {
+        HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(
+                Color.red);
+        try {
+        	this.numberInputField.getHighlighter().addHighlight(0, 3, painter); //(JN): What is the significance of 0,3?
+        	// For some reason, the highlight doesn't take effect until it loses focus, so unfortunately we have to force a repaint here
+        	this.numberInputField.repaint(); 
+        	// this.highlightedIncorrectCells.add(cellTextBox);
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
+    }
+	
+	public void clearIncorrectCellMark() {
+		this.numberInputField.getHighlighter().removeAllHighlights();
+	}
+
+	public void disableEditing() {
+		this.numberInputField.setFocusable(false);
+		this.numberInputField.setEditable(false);
 	}
 }

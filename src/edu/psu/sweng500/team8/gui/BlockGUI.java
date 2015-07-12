@@ -149,11 +149,16 @@ public class BlockGUI extends JPanel {
 		cells[2][2].populatePencilMark(block.getCell(8), gameSession);
 	}
 	
-//	public void updateSelectedCellFromHint(CellCoordinates cellCoordinates, int number) {
-//		cells[cellCoordinates.getRowIndex()%3][cellCoordinates.getColumnIndex()%3].updateSelectedCellFromHint(number);
-//	}
-	
 	public CellGUI getSelectedCell(CellCoordinates cellCoordinates) {
 		return cells[cellCoordinates.getRowIndex()%3][cellCoordinates.getColumnIndex()%3];
+	}
+	
+	public void disableEditing() {
+		
+		for (int row = 0; row < 3; row++) {
+            for (int column = 0; column < 3; column++) {
+        		cells[row][column].disableEditing();
+            } 
+    	}
 	}
 }
