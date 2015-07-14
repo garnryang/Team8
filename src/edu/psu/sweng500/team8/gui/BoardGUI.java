@@ -18,162 +18,77 @@ import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 import edu.psu.sweng500.team8.play.GameSession;
 
 public class BoardGUI extends JPanel {
-	
+
 	private static final int BOARD_SIZE = 486;
 	private BlockGUI[][] blocks;
 	private GameSession gameSession;
 	private CellGUI selectedCell;
 	private Set<CellGUI> highlightedIncorrectCells = new HashSet<CellGUI>();
-	
-	public BoardGUI() {
-		
-		setPreferredSize(new Dimension(BOARD_SIZE, BOARD_SIZE));
-		setMaximumSize(new Dimension(BOARD_SIZE, BOARD_SIZE));
-		setMinimumSize(new Dimension(BOARD_SIZE, BOARD_SIZE));
 
-		blocks = new BlockGUI[3][3];
+	public BoardGUI() {
+
+		this.setPreferredSize(new Dimension(BOARD_SIZE, BOARD_SIZE));
+		this.setMaximumSize(new Dimension(BOARD_SIZE, BOARD_SIZE));
+		this.setMinimumSize(new Dimension(BOARD_SIZE, BOARD_SIZE));
+
+		this.blocks = new BlockGUI[3][3];
 
 		GridBagConstraints gridBagConstraints;
-		setBorder(javax.swing.BorderFactory
-				.createLineBorder(new java.awt.Color(0, 0, 0)));
 		setLayout(new java.awt.GridBagLayout());
 
-		blocks[0][0] = new BlockGUI();
-		gridBagConstraints = new GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-//		gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 0);
-		add(blocks[0][0], gridBagConstraints);
-
-		blocks[0][1] = new BlockGUI();
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-//		gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 0);
-		add(blocks[0][1], gridBagConstraints);
-
-		blocks[0][2] = new BlockGUI();
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-//		gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 0);
-		add(blocks[0][2], gridBagConstraints);
-
-		blocks[1][0] = new BlockGUI();
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-//		gridBagConstraints.insets = new java.awt.Insets(0, 1, 0, 0);
-		add(blocks[1][0], gridBagConstraints);
-
-		blocks[1][1] = new BlockGUI();
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-		add(blocks[1][1], gridBagConstraints);
-
-		blocks[1][2] = new BlockGUI();
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-//		gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 1);
-		add(blocks[1][2], gridBagConstraints);
-
-		blocks[2][0] = new BlockGUI();
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-//		gridBagConstraints.insets = new java.awt.Insets(0, 1, 1, 0);
-		add(blocks[2][0], gridBagConstraints);
-
-		blocks[2][1] = new BlockGUI();
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-//		gridBagConstraints.insets = new java.awt.Insets(0, 0, 1, 0);
-		add(blocks[2][1], gridBagConstraints);
-
-		blocks[2][2] = new BlockGUI();
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-//		gridBagConstraints.insets = new java.awt.Insets(0, 0, 1, 1);
-		add(blocks[2][2], gridBagConstraints);
+		for (int rowIndex = 0; rowIndex < 3; rowIndex++) {
+			for (int columnIndex = 0; columnIndex < 3; columnIndex++) {
+				this.blocks[rowIndex][columnIndex] = new BlockGUI();
+				gridBagConstraints = new GridBagConstraints();
+				gridBagConstraints.gridx = columnIndex;
+				gridBagConstraints.gridy = rowIndex;
+				gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+				add(this.blocks[rowIndex][columnIndex], gridBagConstraints);
+			}
+		}
 	}
 
 	public void populatePanel(GameSession gameSession, boolean isRefresh) {
 
 		this.gameSession = gameSession;
 		this.selectedCell = null;
+		
+		for (int blockIndex = 0; blockIndex < 9; blockIndex++) {
+			int rowIndex = blockIndex / 3;
+			int columnIndex = blockIndex % 3;
 
-		blocks[0][0].populate(gameSession.getGameBoard().getBlock(0),
-				gameSession, isRefresh, buildFocusAdapter(), buildMouseAdapter());
-		blocks[0][1].populate(gameSession.getGameBoard().getBlock(1),
-				gameSession, isRefresh, buildFocusAdapter(), buildMouseAdapter());
-		blocks[0][2].populate(gameSession.getGameBoard().getBlock(2),
-				gameSession, isRefresh, buildFocusAdapter(), buildMouseAdapter());
-
-		blocks[1][0].populate(gameSession.getGameBoard().getBlock(3),
-				gameSession, isRefresh, buildFocusAdapter(), buildMouseAdapter());
-		blocks[1][1].populate(gameSession.getGameBoard().getBlock(4),
-				gameSession, isRefresh, buildFocusAdapter(), buildMouseAdapter());
-		blocks[1][2].populate(gameSession.getGameBoard().getBlock(5),
-				gameSession, isRefresh, buildFocusAdapter(), buildMouseAdapter());
-
-		blocks[2][0].populate(gameSession.getGameBoard().getBlock(6),
-				gameSession, isRefresh, buildFocusAdapter(), buildMouseAdapter());
-		blocks[2][1].populate(gameSession.getGameBoard().getBlock(7),
-				gameSession, isRefresh, buildFocusAdapter(), buildMouseAdapter());
-		blocks[2][2].populate(gameSession.getGameBoard().getBlock(8),
-				gameSession, isRefresh, buildFocusAdapter(), buildMouseAdapter());
+			this.blocks[rowIndex][columnIndex].populate(gameSession
+					.getGameBoard().getBlock(blockIndex), gameSession,
+					isRefresh, buildFocusAdapter(), buildMouseAdapter());
+		}
 	}
-	
+
 	public void populatePencilMark(GameSession gameSession) {
 
 		this.gameSession = gameSession;
 
-		blocks[0][0].populatePencilMark(gameSession.getGameBoard().getBlock(0),
-				gameSession);
-		blocks[0][1].populatePencilMark(gameSession.getGameBoard().getBlock(1),
-				gameSession);
-		blocks[0][2].populatePencilMark(gameSession.getGameBoard().getBlock(2),
-				gameSession);
+		for (int blockIndex = 0; blockIndex < 9; blockIndex++) {
+			int rowIndex = blockIndex / 3;
+			int columnIndex = blockIndex % 3;
 
-		blocks[1][0].populatePencilMark(gameSession.getGameBoard().getBlock(3),
-				gameSession);
-		blocks[1][1].populatePencilMark(gameSession.getGameBoard().getBlock(4),
-				gameSession);
-		blocks[1][2].populatePencilMark(gameSession.getGameBoard().getBlock(5),
-				gameSession);
-
-		blocks[2][0].populatePencilMark(gameSession.getGameBoard().getBlock(6),
-				gameSession);
-		blocks[2][1].populatePencilMark(gameSession.getGameBoard().getBlock(7),
-				gameSession);
-		blocks[2][2].populatePencilMark(gameSession.getGameBoard().getBlock(8),
-				gameSession);
-	}
-
-	public void updateSelectedCellFromHint(CellCoordinates cellCoordinates, int number) {
-		
-		if (null != selectedCell) {
-			/* existing selection, clear it */
-			selectedCell.unselect();			
+			this.blocks[rowIndex][columnIndex].populatePencilMark(gameSession
+					.getGameBoard().getBlock(blockIndex), gameSession);
 		}
-		
-		selectedCell = blocks[cellCoordinates.getBlockIndex()/3][cellCoordinates.getBlockIndex()%3].getSelectedCell(cellCoordinates);
-		selectedCell.updateSelectedCellFromHint(number);
 	}
-	
+
+	public void updateSelectedCellFromHint(CellCoordinates cellCoordinates,
+			int number) {
+
+		if (null != this.selectedCell) {
+			/* existing selection, clear it */
+			this.selectedCell.unselect();
+		}
+
+		this.selectedCell = this.blocks[cellCoordinates.getBlockIndex() / 3][cellCoordinates
+				.getBlockIndex() % 3].getSelectedCell(cellCoordinates);
+		this.selectedCell.updateSelectedCellFromHint(number);
+	}
+
 	private FocusAdapter buildFocusAdapter() {
 
 		return new FocusAdapter() {
@@ -186,14 +101,14 @@ public class BoardGUI extends JPanel {
 			}
 		};
 	}
-	
+
 	private void cellGainedFocus(FocusEvent focusEvent) {
-		CellGUI newSelectedCell = (CellGUI) ((JTextField) focusEvent.getSource())
-				.getParent().getParent();
-		
+		CellGUI newSelectedCell = (CellGUI) ((JTextField) focusEvent
+				.getSource()).getParent().getParent();
+
 		if (null != this.selectedCell) {
 			/* existing selection, clear it */
-			this.selectedCell.unselect();			
+			this.selectedCell.unselect();
 		}
 
 		this.selectedCell = newSelectedCell;
@@ -204,8 +119,8 @@ public class BoardGUI extends JPanel {
 		CellGUI unselectedCell = (CellGUI) ((JTextField) focusEvent.getSource())
 				.getParent().getParent();
 		unselectedCell.cellLostFocus(focusEvent);
-	}	
-	
+	}
+
 	private MouseAdapter buildMouseAdapter() {
 		return new MouseAdapter() {
 			@Override
@@ -214,48 +129,55 @@ public class BoardGUI extends JPanel {
 			}
 		};
 	}
-	
+
 	private void mouseClickedTask(MouseEvent mouseEvent) {
 		if (null != this.selectedCell) {
 			/* existing selection, clear it */
-			this.selectedCell.unselect();			
+			this.selectedCell.unselect();
 		}
-		
-		CellGUI currentPencilMarkDisplayCell = (CellGUI)((JPanel)(((JLabel)(mouseEvent.getSource())).getParent())).getParent();
+
+		CellGUI currentPencilMarkDisplayCell = (CellGUI) ((JPanel) (((JLabel) (mouseEvent
+				.getSource())).getParent())).getParent();
 		this.selectedCell = currentPencilMarkDisplayCell;
-		
-		currentPencilMarkDisplayCell.mouseClicked();
+
+		currentPencilMarkDisplayCell.switchtoNumberInput();
 	}
-	
+
 	/**/
 	public void highlightIncorrectCells(Set<Cell> incorrectCells) {
-    	clearHighlightedIncorrectCells();
-    	for (Cell incorrectCell : incorrectCells) {
-            markIncorrectCell(incorrectCell);
-        }
-    }
-	
+		clearHighlightedIncorrectCells();
+		for (Cell incorrectCell : incorrectCells) {
+			this.markIncorrectCell(incorrectCell);
+		}
+	}
+
 	public void clearHighlightedIncorrectCells() {
-    	for (CellGUI eachCell : this.highlightedIncorrectCells) {
-    		eachCell.clearIncorrectCellMark();    		
-    	}
-    	
-    	this.highlightedIncorrectCells.clear();
-    }
-    
-    public void disableEditing() {
-    	
-    	for (int row = 0; row < 3; row++) {
-            for (int column = 0; column < 3; column++) {
-        		blocks[row][column].disableEditing();
-            } 
-    	}
-    }
-    
-    private void markIncorrectCell(Cell cell) {
-        CellCoordinates coordinates = cell.getCoordinates();
-      	CellGUI currentCell = blocks[coordinates.getBlockIndex()/3][coordinates.getBlockIndex()%3].getSelectedCell(coordinates);
-       	currentCell.markIncorrectCell();
-       	this.highlightedIncorrectCells.add(currentCell);
-    }
+		for (CellGUI eachCell : this.highlightedIncorrectCells) {
+			eachCell.clearIncorrectCellMark();
+		}
+
+		this.highlightedIncorrectCells.clear();
+	}
+
+	public void disableEditing() {
+		
+		if (null != selectedCell) {
+			selectedCell.unselect();
+			selectedCell = null;
+		}
+		
+		for (int row = 0; row < 3; row++) {
+			for (int column = 0; column < 3; column++) {
+				this.blocks[row][column].disableEditing();
+			}
+		}
+	}
+
+	private void markIncorrectCell(Cell cell) {
+		CellCoordinates coordinates = cell.getCoordinates();
+		CellGUI currentCell = this.blocks[coordinates.getBlockIndex() / 3][coordinates
+				.getBlockIndex() % 3].getSelectedCell(coordinates);
+		currentCell.markIncorrectCell();
+		this.highlightedIncorrectCells.add(currentCell);
+	}
 }

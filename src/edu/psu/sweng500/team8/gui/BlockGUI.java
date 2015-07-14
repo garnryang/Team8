@@ -1,164 +1,109 @@
 package edu.psu.sweng500.team8.gui;
 
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.FocusAdapter;
+import java.awt.event.MouseAdapter;
 
 import javax.swing.JPanel;
 
 import edu.psu.sweng500.team8.coreDataStructures.Block;
-import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 import edu.psu.sweng500.team8.play.GameSession;
 
-import javax.swing.border.LineBorder;
-
-import java.awt.Color;
-import java.awt.event.FocusAdapter;
-import java.awt.event.MouseAdapter;
-
 public class BlockGUI extends JPanel {
-	
 
-	private static final int BLOCK_SIZE = 162; 
-	
+	private static final int BLOCK_SIZE = 162;
+
 	private CellGUI[][] cells;
-	
+
 	public BlockGUI() {
-		
-		setPreferredSize(new java.awt.Dimension(BLOCK_SIZE, BLOCK_SIZE));
-		setMaximumSize(new java.awt.Dimension(BLOCK_SIZE, BLOCK_SIZE));
-		setMinimumSize(new java.awt.Dimension(BLOCK_SIZE, BLOCK_SIZE));
-		
-		cells = new CellGUI[3][3];
+
+		this.cells = new CellGUI[3][3];
+		this.setPreferredSize(new java.awt.Dimension(BLOCK_SIZE, BLOCK_SIZE));
+		this.setMaximumSize(new java.awt.Dimension(BLOCK_SIZE, BLOCK_SIZE));
+		this.setMinimumSize(new java.awt.Dimension(BLOCK_SIZE, BLOCK_SIZE));
+		this.setLayout(new GridBagLayout());
 
 		GridBagConstraints gridBagConstraints;
-		setBorder(new LineBorder(new Color(0, 0, 0), 0));
-		setLayout(new java.awt.GridBagLayout());
-		
-		cells[0][0] = new CellGUI();
-		
-		gridBagConstraints = new GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-		add(cells[0][0], gridBagConstraints);
 
-		cells[0][1] = new CellGUI();
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-		add(cells[0][1], gridBagConstraints);
-
-		cells[0][2] = new CellGUI();
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-		add(cells[0][2], gridBagConstraints);
-
-		cells[1][0] = new CellGUI();
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-//		gridBagConstraints.insets = new java.awt.Insets(0, 1, 0, 0);
-		add(cells[1][0], gridBagConstraints);
-
-		cells[1][1] = new CellGUI();
-//		cells[1][1].setMaximumSize(new java.awt.Dimension(CELL_SIZE, CELL_SIZE));
-//		cells[1][1].setMinimumSize(new java.awt.Dimension(CELL_SIZE, CELL_SIZE));
-//		cells[1][1].setPreferredSize(new java.awt.Dimension(CELL_SIZE, CELL_SIZE));
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-		add(cells[1][1], gridBagConstraints);
-
-		cells[1][2] = new CellGUI();
-//		cells[1][2].setMaximumSize(new java.awt.Dimension(CELL_SIZE, CELL_SIZE));
-//		cells[1][2].setMinimumSize(new java.awt.Dimension(CELL_SIZE, CELL_SIZE));
-//		cells[1][2].setPreferredSize(new java.awt.Dimension(CELL_SIZE, CELL_SIZE));
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-//		gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 1);
-		add(cells[1][2], gridBagConstraints);
-
-		cells[2][0] = new CellGUI();
-//		cells[2][0].setMaximumSize(new java.awt.Dimension(CELL_SIZE, CELL_SIZE));
-//		cells[2][0].setMinimumSize(new java.awt.Dimension(CELL_SIZE, CELL_SIZE));
-//		cells[2][0].setPreferredSize(new java.awt.Dimension(CELL_SIZE, CELL_SIZE));
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-//		gridBagConstraints.insets = new java.awt.Insets(0, 1, 1, 0);
-		add(cells[2][0], gridBagConstraints);
-
-		cells[2][1] = new CellGUI();
-//		cells[2][1].setMaximumSize(new java.awt.Dimension(CELL_SIZE, CELL_SIZE));
-//		cells[2][1].setMinimumSize(new java.awt.Dimension(CELL_SIZE, CELL_SIZE));
-//		cells[2][1].setPreferredSize(new java.awt.Dimension(CELL_SIZE, CELL_SIZE));
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-//		gridBagConstraints.insets = new java.awt.Insets(0, 0, 1, 0);
-		add(cells[2][1], gridBagConstraints);
-
-		cells[2][2] = new CellGUI();
-//		cells[2][2].setMaximumSize(new java.awt.Dimension(CELL_SIZE, CELL_SIZE));
-//		cells[2][2].setMinimumSize(new java.awt.Dimension(CELL_SIZE, CELL_SIZE));
-//		cells[2][2].setPreferredSize(new java.awt.Dimension(CELL_SIZE, CELL_SIZE));
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-//		gridBagConstraints.insets = new java.awt.Insets(0, 0, 1, 1);
-		add(cells[2][2], gridBagConstraints);
-	}	
-	
-	public void populate(Block block, GameSession gameSession, boolean isRefresh, FocusAdapter focusAdapter, MouseAdapter mouseAdapter) {
-		
-		cells[0][0].populate(block.getCell(0), gameSession, isRefresh, focusAdapter, mouseAdapter);
-		cells[0][1].populate(block.getCell(1), gameSession, isRefresh, focusAdapter, mouseAdapter);
-		cells[0][2].populate(block.getCell(2), gameSession, isRefresh, focusAdapter, mouseAdapter);
-		
-		cells[1][0].populate(block.getCell(3), gameSession, isRefresh, focusAdapter, mouseAdapter);
-		cells[1][1].populate(block.getCell(4), gameSession, isRefresh, focusAdapter, mouseAdapter);
-		cells[1][2].populate(block.getCell(5), gameSession, isRefresh, focusAdapter, mouseAdapter);
-		
-		cells[2][0].populate(block.getCell(6), gameSession, isRefresh, focusAdapter, mouseAdapter);
-		cells[2][1].populate(block.getCell(7), gameSession, isRefresh, focusAdapter, mouseAdapter);
-		cells[2][2].populate(block.getCell(8), gameSession, isRefresh, focusAdapter, mouseAdapter);
+		for (int rowIndex = 0; rowIndex < 3; rowIndex++) {
+			for (int columnIndex = 0; columnIndex < 3; columnIndex++) {
+				this.cells[rowIndex][columnIndex] = new CellGUI();
+				gridBagConstraints = new GridBagConstraints();
+				gridBagConstraints.gridx = columnIndex;
+				gridBagConstraints.gridy = rowIndex;
+				gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+				this.add(this.cells[rowIndex][columnIndex], gridBagConstraints);
+			}
+		}
 	}
-	
+
+	/**
+	 * 
+	 * iterate through each contained CellGUI and populate Given/User-defined
+	 * numbers
+	 * 
+	 * @param block
+	 * @param gameSession
+	 * @param isRefresh
+	 * @param focusAdapter
+	 * @param mouseAdapter
+	 * 
+	 */
+	public void populate(Block block, GameSession gameSession,
+			boolean isRefresh, FocusAdapter focusAdapter,
+			MouseAdapter mouseAdapter) {
+
+		for (int cellIndex = 0; cellIndex < 9; cellIndex++) {
+			int rowIndex = cellIndex / 3;
+			int columnIndex = cellIndex % 3;
+			this.cells[rowIndex][columnIndex].populate(
+					block.getCell(cellIndex), gameSession, isRefresh,
+					focusAdapter, mouseAdapter);
+		}
+	}
+
+	/**
+	 * 
+	 * iterate through each contained CellGUI and populate Pencil Mark
+	 * 
+	 * @param block
+	 * @param gameSession
+	 * 
+	 */
 	public void populatePencilMark(Block block, GameSession gameSession) {
-		
-		cells[0][0].populatePencilMark(block.getCell(0), gameSession);
-		cells[0][1].populatePencilMark(block.getCell(1), gameSession);
-		cells[0][2].populatePencilMark(block.getCell(2), gameSession);
-		
-		cells[1][0].populatePencilMark(block.getCell(3), gameSession);
-		cells[1][1].populatePencilMark(block.getCell(4), gameSession);
-		cells[1][2].populatePencilMark(block.getCell(5), gameSession);
-		
-		cells[2][0].populatePencilMark(block.getCell(6), gameSession);
-		cells[2][1].populatePencilMark(block.getCell(7), gameSession);
-		cells[2][2].populatePencilMark(block.getCell(8), gameSession);
+
+		for (int cellIndex = 0; cellIndex < 9; cellIndex++) {
+			int rowIndex = cellIndex / 3;
+			int columnIndex = cellIndex % 3;
+			this.cells[rowIndex][columnIndex].populatePencilMark(
+					block.getCell(cellIndex), gameSession);
+		}
 	}
-	
+
+	/**
+	 * 
+	 * @param cellCoordinates
+	 * @return CellGUI according to given cellCoordinates
+	 * 
+	 */
 	public CellGUI getSelectedCell(CellCoordinates cellCoordinates) {
-		return cells[cellCoordinates.getRowIndex()%3][cellCoordinates.getColumnIndex()%3];
+
+		int rowIndex = cellCoordinates.getRowIndex() % 3;
+		int columnIndex = cellCoordinates.getColumnIndex() % 3;
+		return this.cells[rowIndex][columnIndex];
 	}
-	
+
+	/**
+	 * disable editing for contained CellGUI
+	 */
 	public void disableEditing() {
-		
-		for (int row = 0; row < 3; row++) {
-            for (int column = 0; column < 3; column++) {
-        		cells[row][column].disableEditing();
-            } 
-    	}
+
+		for (int rowIndex = 0; rowIndex < 3; rowIndex++) {
+			for (int columnIndex = 0; columnIndex < 3; columnIndex++) {
+				this.cells[rowIndex][columnIndex].disableEditing();
+			}
+		}
 	}
 }

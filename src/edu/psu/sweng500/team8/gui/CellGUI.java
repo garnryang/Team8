@@ -8,58 +8,60 @@ import java.awt.GridBagLayout;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter.HighlightPainter;
 
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
-import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
 import edu.psu.sweng500.team8.play.GameSession;
 
 public class CellGUI extends JPanel {
 
-	private GameSession gameSession;
-	private JPanel numberInputCell;
-	private JTextField numberInputField;
-
-	private JPanel pencilMarkInputCell;
-
-	private static int NUMBER_SIZE = 16;
-	private static int CELL_SIZE = 54;
+	private static final int NUMBER_SIZE = 16;
+	private static final int CELL_SIZE = 54;
 	private static final Border SELECTED_BORDER = BorderFactory
 			.createLineBorder(Color.blue, 3);
 	private static final Border DEFAULT_BORDER = BorderFactory
 			.createLineBorder(Color.black, 1);
+	private static final Dimension CELL_DIMENSION = new Dimension(CELL_SIZE,
+			CELL_SIZE);
+	private static final Dimension NUMBER_DIMENSION = new Dimension(
+			NUMBER_SIZE, NUMBER_SIZE);
+	private static final HighlightPainter GIVEN_NUMBER_PAINTER = new DefaultHighlighter.DefaultHighlightPainter(
+			Color.green);
+	private static final HighlightPainter INCORRECT_NUMBER_PAINTER = new DefaultHighlighter.DefaultHighlightPainter(
+			Color.red);
+
+	private GameSession gameSession;
 	private Cell cell;
 
-	private MouseAdapter mouseAdapter;
-	
-	/* Pencil Mark Display */
+	private JPanel numberInputCell;
+	private JTextField numberInputField;
+	private JPanel pencilMarkInputCell;
 	private JPanel pencilMarkDisplayCell;
 	private JLabel[][] pencilMarkDisplay;
 
+	private MouseAdapter mouseAdapter;
+
 	public CellGUI() {
 
-		setMaximumSize(new Dimension(CELL_SIZE, CELL_SIZE));
-		setMinimumSize(new Dimension(CELL_SIZE, CELL_SIZE));
-		setPreferredSize(new Dimension(CELL_SIZE, CELL_SIZE));
+		this.setMaximumSize(CELL_DIMENSION);
+		this.setMinimumSize(CELL_DIMENSION);
+		this.setPreferredSize(CELL_DIMENSION);
+		this.setLayout(new GridBagLayout());
 
-		setBorder(new LineBorder(new Color(0, 0, 0), 0));
-		setLayout(new java.awt.GridBagLayout());
-
-		initPencilMarkDisplayCell();
-		initNumberInputCell();
-		initPencilMarkInputCell();
+		this.initPencilMarkDisplayCell();
+		this.initNumberInputCell();
+		this.initPencilMarkInputCell();
 	}
 
 	public void populatePencilMark(Cell cell, GameSession gameSession) {
@@ -68,19 +70,20 @@ public class CellGUI extends JPanel {
 		this.pencilMarkDisplayCell.setVisible(false);
 		this.pencilMarkInputCell.setVisible(true);
 
-		pencilMarkInputCell.removeAll();
+		this.pencilMarkInputCell.removeAll();
 		if (cell.hasNumber()) {
-			pencilMarkInputCell.setLayout(new BorderLayout());
-			pencilMarkInputCell.setBorder(null);
-			pencilMarkInputCell.add(buildReadOnlyTextField(cell));
+			this.pencilMarkInputCell.setLayout(new BorderLayout());
+			this.pencilMarkInputCell.setBorder(null);
+			this.pencilMarkInputCell.add(buildReadOnlyTextField(cell));
 		} else {
-			pencilMarkInputCell.setLayout(new GridBagLayout());
-			pencilMarkInputCell.setBorder(DEFAULT_BORDER);
-			pencilMarkInputCell.add(buildPencilMarkInputField(cell));
+			this.pencilMarkInputCell.setLayout(new GridBagLayout());
+			this.pencilMarkInputCell.setBorder(DEFAULT_BORDER);
+			this.pencilMarkInputCell.add(buildPencilMarkInputField(cell));
 		}
 	}
 
-	public void populate(Cell cell, GameSession gameSession, boolean isRefresh, FocusAdapter focusAdapter, MouseAdapter mouseAdapter) {
+	public void populate(Cell cell, GameSession gameSession, boolean isRefresh,
+			FocusAdapter focusAdapter, MouseAdapter mouseAdapter) {
 
 		this.gameSession = gameSession;
 		this.cell = cell;
@@ -88,12 +91,13 @@ public class CellGUI extends JPanel {
 
 		/* Clear */
 		this.numberInputField.setText("");
-		this.numberInputField.addKeyListener(new CustomKeyListener(
-				cell, gameSession));
+		this.numberInputField.addKeyListener(new CustomKeyListener(cell,
+				gameSession));
 
 		if (!isRefresh) {
 			this.numberInputField.getHighlighter().removeAllHighlights();
 			this.numberInputField.addFocusListener(focusAdapter);
+			this.numberInputField.setBorder(DEFAULT_BORDER);
 		}
 
 		if (cell.hasNumber()) {
@@ -125,265 +129,126 @@ public class CellGUI extends JPanel {
 	}
 
 	private void initPencilMarkInputCell() {
-		pencilMarkInputCell = new JPanel();
-		pencilMarkInputCell
-				.setPreferredSize(new Dimension(CELL_SIZE, CELL_SIZE));
-		pencilMarkInputCell.setMinimumSize(new Dimension(CELL_SIZE, CELL_SIZE));
-		pencilMarkInputCell.setMaximumSize(new Dimension(CELL_SIZE, CELL_SIZE));
-		pencilMarkInputCell.setVisible(false);
-		add(pencilMarkInputCell);
+		this.pencilMarkInputCell = new JPanel();
+		this.pencilMarkInputCell.setPreferredSize(new Dimension(CELL_SIZE,
+				CELL_SIZE));
+		this.pencilMarkInputCell.setMinimumSize(new Dimension(CELL_SIZE,
+				CELL_SIZE));
+		this.pencilMarkInputCell.setMaximumSize(new Dimension(CELL_SIZE,
+				CELL_SIZE));
+		this.pencilMarkInputCell.setVisible(false);
+		this.add(this.pencilMarkInputCell);
 	}
 
 	private void initNumberInputCell() {
-		numberInputCell = new JPanel();
-		numberInputCell.setPreferredSize(new Dimension(CELL_SIZE, CELL_SIZE));
-		numberInputCell.setMinimumSize(new Dimension(CELL_SIZE, CELL_SIZE));
-		numberInputCell.setMaximumSize(new Dimension(CELL_SIZE, CELL_SIZE));
-		numberInputCell.setVisible(true);
+		this.numberInputCell = new JPanel();
+		this.numberInputCell.setPreferredSize(new Dimension(CELL_SIZE,
+				CELL_SIZE));
+		this.numberInputCell
+				.setMinimumSize(new Dimension(CELL_SIZE, CELL_SIZE));
+		this.numberInputCell
+				.setMaximumSize(new Dimension(CELL_SIZE, CELL_SIZE));
+		this.numberInputCell.setVisible(true);
 
-		numberInputCell.setLayout(new BorderLayout());
+		this.numberInputCell.setLayout(new BorderLayout());
 
-		add(numberInputCell);
-		numberInputField = new JTextField();
-		numberInputField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-		numberInputField.setBorder(DEFAULT_BORDER);
+		this.add(this.numberInputCell);
+		this.numberInputField = new JTextField();
+		this.numberInputField
+				.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+		this.numberInputField.setBorder(DEFAULT_BORDER);
 
-		numberInputCell.add(numberInputField);
+		this.numberInputCell.add(this.numberInputField);
 	}
 
 	/* TODO - This can be either combined with CombinationCell or its own class */
 	private void initPencilMarkDisplayCell() {
-		pencilMarkDisplayCell = new JPanel();
-		pencilMarkDisplayCell.setPreferredSize(new Dimension(CELL_SIZE,
-				CELL_SIZE));
-		pencilMarkDisplayCell
-				.setMinimumSize(new Dimension(CELL_SIZE, CELL_SIZE));
-		pencilMarkDisplayCell
-				.setMaximumSize(new Dimension(CELL_SIZE, CELL_SIZE));
 
-		pencilMarkDisplayCell.setVisible(false);
-
-		add(pencilMarkDisplayCell);
-
-		pencilMarkDisplay = new JLabel[3][3];
+		this.pencilMarkDisplay = new JLabel[3][3];
+		this.pencilMarkDisplayCell = new JPanel();
+		this.pencilMarkDisplayCell.setPreferredSize(CELL_DIMENSION);
+		this.pencilMarkDisplayCell.setMinimumSize(CELL_DIMENSION);
+		this.pencilMarkDisplayCell.setMaximumSize(CELL_DIMENSION);
+		this.pencilMarkDisplayCell.setLayout(new GridBagLayout());
+		this.pencilMarkDisplayCell.setBorder(DEFAULT_BORDER);
+		this.pencilMarkDisplayCell.setVisible(false);
+		this.add(this.pencilMarkDisplayCell);
 
 		GridBagConstraints gridBagConstraints;
-		pencilMarkDisplayCell.setLayout(new java.awt.GridBagLayout());
-		pencilMarkDisplayCell.setBorder(DEFAULT_BORDER);
 
-		pencilMarkDisplay[0][0] = new JLabel();
-		pencilMarkDisplay[0][0]
-				.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		pencilMarkDisplay[0][0].setText("1");
-		pencilMarkDisplay[0][0].setMaximumSize(new java.awt.Dimension(
-				NUMBER_SIZE, NUMBER_SIZE));
-		pencilMarkDisplay[0][0].setMinimumSize(new java.awt.Dimension(
-				NUMBER_SIZE, NUMBER_SIZE));
-		pencilMarkDisplay[0][0].setPreferredSize(new java.awt.Dimension(
-				NUMBER_SIZE, NUMBER_SIZE));
-		pencilMarkDisplay[0][0].setVisible(false);
-		
-		
-		gridBagConstraints = new GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-		// gridBagConstraints.insets = new java.awt.Insets(1, 1, 0, 0);
-		pencilMarkDisplayCell.add(pencilMarkDisplay[0][0], gridBagConstraints);
+		for (int rowIndex = 0; rowIndex < 3; rowIndex++) {
+			for (int columnIndex = 0; columnIndex < 3; columnIndex++) {
 
-		pencilMarkDisplay[0][1] = new JLabel();
-		pencilMarkDisplay[0][1]
-				.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		pencilMarkDisplay[0][1].setText("2");
-		pencilMarkDisplay[0][1].setMaximumSize(new java.awt.Dimension(
-				NUMBER_SIZE, NUMBER_SIZE));
-		pencilMarkDisplay[0][1].setMinimumSize(new java.awt.Dimension(
-				NUMBER_SIZE, NUMBER_SIZE));
-		pencilMarkDisplay[0][1].setPreferredSize(new java.awt.Dimension(
-				NUMBER_SIZE, NUMBER_SIZE));
-		pencilMarkDisplay[0][1].setVisible(false);
-		
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-		// gridBagConstraints.insets = new java.awt.Insets(1, 0, 0, 0);
-		pencilMarkDisplayCell.add(pencilMarkDisplay[0][1], gridBagConstraints);
+				JLabel numberLabel = new JLabel();
+				numberLabel.setHorizontalAlignment(SwingConstants.CENTER);
+				numberLabel.setMaximumSize(NUMBER_DIMENSION);
+				numberLabel.setMinimumSize(NUMBER_DIMENSION);
+				numberLabel.setPreferredSize(NUMBER_DIMENSION);
 
-		pencilMarkDisplay[0][2] = new JLabel();
-		pencilMarkDisplay[0][2]
-				.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		pencilMarkDisplay[0][2].setText("3");
-		pencilMarkDisplay[0][2].setMaximumSize(new java.awt.Dimension(
-				NUMBER_SIZE, NUMBER_SIZE));
-		pencilMarkDisplay[0][2].setMinimumSize(new java.awt.Dimension(
-				NUMBER_SIZE, NUMBER_SIZE));
-		pencilMarkDisplay[0][2].setPreferredSize(new java.awt.Dimension(
-				NUMBER_SIZE, NUMBER_SIZE));
-		pencilMarkDisplay[0][2].setVisible(false);
-		
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-		// gridBagConstraints.insets = new java.awt.Insets(1, 0, 0, 1);
-		pencilMarkDisplayCell.add(pencilMarkDisplay[0][2], gridBagConstraints);
+				gridBagConstraints = new GridBagConstraints();
+				gridBagConstraints.gridx = columnIndex;
+				gridBagConstraints.gridy = rowIndex;
+				gridBagConstraints.anchor = GridBagConstraints.NORTHWEST;
 
-		pencilMarkDisplay[1][0] = new JLabel();
-		pencilMarkDisplay[1][0]
-				.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		pencilMarkDisplay[1][0].setText("4");
-		pencilMarkDisplay[1][0].setMaximumSize(new java.awt.Dimension(
-				NUMBER_SIZE, NUMBER_SIZE));
-		pencilMarkDisplay[1][0].setMinimumSize(new java.awt.Dimension(
-				NUMBER_SIZE, NUMBER_SIZE));
-		pencilMarkDisplay[1][0].setPreferredSize(new java.awt.Dimension(
-				NUMBER_SIZE, NUMBER_SIZE));
-		pencilMarkDisplay[1][0].setVisible(false);
-		
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-		// gridBagConstraints.insets = new java.awt.Insets(0, 1, 0, 0);
-		pencilMarkDisplayCell.add(pencilMarkDisplay[1][0], gridBagConstraints);
-
-		pencilMarkDisplay[1][1] = new JLabel();
-		pencilMarkDisplay[1][1]
-				.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		pencilMarkDisplay[1][1].setText("5");
-		pencilMarkDisplay[1][1].setMaximumSize(new java.awt.Dimension(
-				NUMBER_SIZE, NUMBER_SIZE));
-		pencilMarkDisplay[1][1].setMinimumSize(new java.awt.Dimension(
-				NUMBER_SIZE, NUMBER_SIZE));
-		pencilMarkDisplay[1][1].setPreferredSize(new java.awt.Dimension(
-				NUMBER_SIZE, NUMBER_SIZE));
-		pencilMarkDisplay[1][1].setVisible(false);
-		
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-		pencilMarkDisplayCell.add(pencilMarkDisplay[1][1], gridBagConstraints);
-
-		pencilMarkDisplay[1][2] = new JLabel();
-		pencilMarkDisplay[1][2]
-				.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		pencilMarkDisplay[1][2].setText("6");
-		pencilMarkDisplay[1][2].setMaximumSize(new java.awt.Dimension(
-				NUMBER_SIZE, NUMBER_SIZE));
-		pencilMarkDisplay[1][2].setMinimumSize(new java.awt.Dimension(
-				NUMBER_SIZE, NUMBER_SIZE));
-		pencilMarkDisplay[1][2].setPreferredSize(new java.awt.Dimension(
-				NUMBER_SIZE, NUMBER_SIZE));
-		pencilMarkDisplay[1][2].setVisible(false);
-		
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-		// gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 1);
-		pencilMarkDisplayCell.add(pencilMarkDisplay[1][2], gridBagConstraints);
-
-		pencilMarkDisplay[2][0] = new JLabel();
-		pencilMarkDisplay[2][0]
-				.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		pencilMarkDisplay[2][0].setText("7");
-		pencilMarkDisplay[2][0].setMaximumSize(new java.awt.Dimension(
-				NUMBER_SIZE, NUMBER_SIZE));
-		pencilMarkDisplay[2][0].setMinimumSize(new java.awt.Dimension(
-				NUMBER_SIZE, NUMBER_SIZE));
-		pencilMarkDisplay[2][0].setPreferredSize(new java.awt.Dimension(
-				NUMBER_SIZE, NUMBER_SIZE));
-		pencilMarkDisplay[2][0].setVisible(false);
-		
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-		// gridBagConstraints.insets = new java.awt.Insets(0, 1, 1, 0);
-		pencilMarkDisplayCell.add(pencilMarkDisplay[2][0], gridBagConstraints);
-
-		pencilMarkDisplay[2][1] = new JLabel();
-		pencilMarkDisplay[2][1]
-				.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		pencilMarkDisplay[2][1].setText("8");
-		pencilMarkDisplay[2][1].setMaximumSize(new java.awt.Dimension(
-				NUMBER_SIZE, NUMBER_SIZE));
-		pencilMarkDisplay[2][1].setMinimumSize(new java.awt.Dimension(
-				NUMBER_SIZE, NUMBER_SIZE));
-		pencilMarkDisplay[2][1].setPreferredSize(new java.awt.Dimension(
-				NUMBER_SIZE, NUMBER_SIZE));
-		pencilMarkDisplay[2][1].setVisible(false);
-		
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-		// gridBagConstraints.insets = new java.awt.Insets(0, 0, 1, 0);
-		pencilMarkDisplayCell.add(pencilMarkDisplay[2][1], gridBagConstraints);
-
-		pencilMarkDisplay[2][2] = new JLabel();
-		pencilMarkDisplay[2][2]
-				.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		pencilMarkDisplay[2][2].setText("9");
-		pencilMarkDisplay[2][2].setMaximumSize(new java.awt.Dimension(
-				NUMBER_SIZE, NUMBER_SIZE));
-		pencilMarkDisplay[2][2].setMinimumSize(new java.awt.Dimension(
-				NUMBER_SIZE, NUMBER_SIZE));
-		pencilMarkDisplay[2][2].setPreferredSize(new java.awt.Dimension(
-				NUMBER_SIZE, NUMBER_SIZE));
-		pencilMarkDisplay[2][2].setVisible(false);
-		
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-		// gridBagConstraints.insets = new java.awt.Insets(0, 0, 1, 1);
-		pencilMarkDisplayCell.add(pencilMarkDisplay[2][2], gridBagConstraints);
-	}
-
-
-	private void markGivenCell() {
-		HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(
-				Color.green);
-
-		try {
-			// (JN): What is the significance of 0,3?
-			this.numberInputField.getHighlighter().addHighlight(0, 3, painter);
-		} catch (BadLocationException e) {
-			e.printStackTrace();
-			/* TODO - ignore or handle ? */
+				this.pencilMarkDisplayCell.add(numberLabel, gridBagConstraints);
+				this.pencilMarkDisplay[rowIndex][columnIndex] = numberLabel;
+			}
 		}
 	}
 
-	private void selectCell(CellGUI selectedCell) {
+	/**
+	 * Utility method to mark current CellGUI's JTextField
+	 */
+	private void markGivenCell() {
 
-		selectedCell.numberInputField.setBorder(SELECTED_BORDER);
-
-		selectedCell.numberInputCell.setVisible(true);
-		selectedCell.pencilMarkDisplayCell.setVisible(false);
-		selectedCell.pencilMarkInputCell.setVisible(false);
+		try {
+			// (JN): What is the significance of 0,3?
+			this.numberInputField.getHighlighter().addHighlight(0, 3,
+					GIVEN_NUMBER_PAINTER);
+		} catch (BadLocationException e) {
+			/* TODO - handle properly */
+			e.printStackTrace();
+		}
 	}
-	
+
+	/**
+	 * Update numberInputField's border to SELECTED_BORDER
+	 * 
+	 */
 	public void selectCell() {
-		selectCell(this);
+
+		this.numberInputField.setBorder(SELECTED_BORDER);
 	}
-	
+
+	/**
+	 * 
+	 * set number to numberInputField, make numberInputCell visible, and select
+	 * the cell
+	 * 
+	 * @param number
+	 * 
+	 */
 	public void updateSelectedCellFromHint(int number) {
 		this.numberInputField.setText(Integer.toString(number));
-		selectCell(this);
+
+		this.numberInputCell.setVisible(true);
+		this.pencilMarkDisplayCell.setVisible(false);
+		this.pencilMarkInputCell.setVisible(false);
+
+		this.selectCell();
 	}
 
+	/**
+	 * Update numberInputField's border to DEFAULT_BORDER
+	 */
 	public void unselect() {
+
 		this.numberInputField.setBorder(DEFAULT_BORDER);
 	}
 
 	private JTextField buildReadOnlyTextField(Cell cell) {
 		JTextField textField = new JTextField();
 		textField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-		// textField.setBorder(javax.swing.BorderFactory.createLineBorder(new
-		// java.awt.Color(0, 0, 0)));
 		textField.setBorder(DEFAULT_BORDER);
 		textField.setEditable(false);
 		textField.setText(Integer.toString(cell.getNumber()));
@@ -415,7 +280,8 @@ public class CellGUI extends JPanel {
 				.getCellConstraints(cell).getUsedNumbers()) {
 			((JToggleButton) combinationCell.getComponent(usedNumber - 1))
 					.setEnabled(false);
-			((JToggleButton) combinationCell.getComponent(usedNumber - 1)).setText("");;
+			((JToggleButton) combinationCell.getComponent(usedNumber - 1))
+					.setText("");
 		}
 
 		for (int k = 1; k <= 9; k++) {
@@ -430,19 +296,19 @@ public class CellGUI extends JPanel {
 
 		return combinationCell;
 	}
-	
+
 	public void cellLostFocus(FocusEvent focusEvent) {
 
 		CellGUI selectedCell = this;
 
 		if (null != focusEvent) {
-			if (focusEvent.getSource() instanceof JTextField) {
-				selectedCell = (CellGUI) ((JTextField) focusEvent.getSource())
-						.getParent().getParent();
-			} else {
-				/* */
-				System.out.println("This is not possible yet");
-			}
+			// if (focusEvent.getSource() instanceof JTextField) {
+			selectedCell = (CellGUI) ((JTextField) focusEvent.getSource())
+					.getParent().getParent();
+			// } else {
+			// /* */
+			// System.err.println("This is not supported.");
+			// }
 		}
 
 		selectedCell.numberInputField.setBorder(DEFAULT_BORDER);
@@ -468,44 +334,62 @@ public class CellGUI extends JPanel {
 					int rowIndex = ((i - 1) / 3);
 					int columnIndex = ((i - 1) % 3);
 
-					pencilMarkDisplay[rowIndex][columnIndex].setVisible(true);
-					pencilMarkDisplay[rowIndex][columnIndex].addMouseListener(mouseAdapter);
-					
+					this.pencilMarkDisplay[rowIndex][columnIndex]
+							.setVisible(true);
+					this.pencilMarkDisplay[rowIndex][columnIndex]
+							.addMouseListener(this.mouseAdapter);
+
 					if (this.cell.getPencilMarks().contains(i)) {
-						pencilMarkDisplay[rowIndex][columnIndex].setText(String.valueOf(i));
+						this.pencilMarkDisplay[rowIndex][columnIndex]
+								.setText(String.valueOf(i));
 					} else {
-						pencilMarkDisplay[rowIndex][columnIndex].setText("");
+						this.pencilMarkDisplay[rowIndex][columnIndex]
+								.setText("");
 					}
 				}
 			}
 		}
 	}
 
-	public void mouseClicked() {
-		 /* switch from Pencil Mark display mode to number input mode */
-		 this.pencilMarkDisplayCell.setVisible(false);
-		 this.numberInputCell.setVisible(true);
-		 selectCell();
-		 this.numberInputField.requestFocus();
+	/**
+	 * 
+	 * switch from Pencil Mark display mode to number input mode, select
+	 * CellGUI, and set focus to numberInputField so any previous set can be
+	 * lost
+	 */
+	public void switchtoNumberInput() {
+
+		this.pencilMarkDisplayCell.setVisible(false);
+		this.numberInputCell.setVisible(true);
+		this.selectCell();
+		this.numberInputField.requestFocus();
 	}
-	
+
+	/**
+	 * mark CellGUI for incorrect number
+	 */
 	public void markIncorrectCell() {
-        HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(
-                Color.red);
-        try {
-        	this.numberInputField.getHighlighter().addHighlight(0, 3, painter); //(JN): What is the significance of 0,3?
-        	// For some reason, the highlight doesn't take effect until it loses focus, so unfortunately we have to force a repaint here
-        	this.numberInputField.repaint(); 
-        	// this.highlightedIncorrectCells.add(cellTextBox);
-        } catch (BadLocationException e) {
-            e.printStackTrace();
-        }
-    }
-	
+
+		try {
+			this.numberInputField.getHighlighter().addHighlight(0, 3,
+					INCORRECT_NUMBER_PAINTER);
+			this.numberInputField.repaint();
+		} catch (BadLocationException e) {
+			/* TODO - handle properly */
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * remove marks from CellGUI
+	 */
 	public void clearIncorrectCellMark() {
 		this.numberInputField.getHighlighter().removeAllHighlights();
 	}
 
+	/**
+	 * disable this CellGUI from being edited
+	 */
 	public void disableEditing() {
 		this.numberInputField.setFocusable(false);
 		this.numberInputField.setEditable(false);

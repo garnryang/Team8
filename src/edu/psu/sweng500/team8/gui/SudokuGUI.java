@@ -30,7 +30,7 @@ import javax.swing.JTextArea;
  */
 
 /**
- *
+ * @deprecated See edu.psu.sweng500.team8.gui.SudokuGUI_Mark2
  * @author cliff_000
  */
 public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener {
