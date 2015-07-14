@@ -298,6 +298,9 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
             this.gameBoard.setSelectedCellNumber(hint.getNumber());
 			setMessage(hint.getExplanation());
         }
+        else {
+        	setMessage("Sorry, no hint available");
+        }
     }//GEN-LAST:event_btnHintActionPerformed
 
     private void doUndo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doUndo

@@ -45,8 +45,11 @@ class ConstraintSolver implements Solver {
 		//Check for cells where there is only one available number
 		Cell mostConstrainedCell = CommonSolverMethods.getMostConstrainedCell(board);
 
+		if (mostConstrainedCell == null) //Can be null if board is full for hint generator
+			return null;
+		
 		Set<Integer> availableNumbers = board.getCellConstraints(mostConstrainedCell).getAvailableNumbers();
-		if (availableNumbers.size() > 1)
+		if (availableNumbers.size() != 1) //Can be 0 for hint generator if there is an error
 			return null;
 
 		//Sweet, there's only 1 available number, so the number is obvious
