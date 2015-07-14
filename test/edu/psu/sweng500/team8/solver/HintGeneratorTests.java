@@ -26,7 +26,7 @@ public class HintGeneratorTests {
 		
 		//This can change. Made something up for now.
 		String expectedExplanation = "This cell's value must be 3 because "+
-			"all the other numbers have already been used in the same row, column, and/or block";
+			"all the other numbers have already been used in the same row, column, and/or block.";
 		assertEquals(expectedExplanation, hint.getExplanation());
 	}
 	
@@ -49,7 +49,7 @@ public class HintGeneratorTests {
 		
 		//This can change. Made something up for now.
 		String expectedExplanation = "This cell's value must be 4 because " +
-				"it is the only cell in the row, column, and/or block where this number can go without violating Sudoku constraints";
+				"it is the only cell in the row, column, and/or block where this number can go without violating Sudoku constraints.";
 		assertEquals(expectedExplanation, hint.getExplanation());
 	}
 	

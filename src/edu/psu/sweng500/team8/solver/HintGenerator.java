@@ -26,7 +26,7 @@ public final class HintGenerator {
 		int number = filledCell.getNumber();
 		filledCell.clearNumber();
 		return new HintInfo(filledCell, number, "This cell's value must be " + number
-				+ " because all the other numbers have already been used in the same row, column, and/or block");
+				+ " because all the other numbers have already been used in the same row, column, and/or block.");
 	}
 	
 	private static HintInfo tryToFillACellWithOnlyOneValidLocationForTheNumber(Board board) {
@@ -40,6 +40,6 @@ public final class HintGenerator {
 		filledCell.clearNumber();
 		return new HintInfo(filledCell, number, "This cell's value must be " + number + 
 				" because it is the only cell in the row, column, and/or block where this number can go "
-				+ "without violating Sudoku constraints");
+				+ "without violating Sudoku constraints.");
 	}
 }
