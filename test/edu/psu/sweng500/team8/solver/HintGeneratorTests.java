@@ -22,10 +22,11 @@ public class HintGeneratorTests {
 		Cell filledCell = hint.getCell();
 		assertEquals(0, filledCell.getCoordinates().getRowIndex());
 		assertEquals(6, filledCell.getCoordinates().getColumnIndex());
-		assertEquals(3, filledCell.getNumber());
+		assertEquals(3, hint.getNumber());
 		
 		//This can change. Made something up for now.
-		String expectedExplanation = "This cell's value must be 3 because it is the only number that can fit in this cell";
+		String expectedExplanation = "This cell's value must be 3 because "+
+			"all the other numbers have already been used in the same row, column, and/or block.";
 		assertEquals(expectedExplanation, hint.getExplanation());
 	}
 	
@@ -44,10 +45,11 @@ public class HintGeneratorTests {
 		Cell filledCell = hint.getCell();
 		assertEquals(4, filledCell.getCoordinates().getRowIndex());
 		assertEquals(2, filledCell.getCoordinates().getColumnIndex());
-		assertEquals(4, filledCell.getNumber());
+		assertEquals(4, hint.getNumber());
 		
 		//This can change. Made something up for now.
-		String expectedExplanation = "This cell's value must be 4 because it is the only cell where this number can fit";
+		String expectedExplanation = "This cell's value must be 4 because " +
+				"it is the only cell in the row, column, and/or block where this number can go without violating Sudoku constraints.";
 		assertEquals(expectedExplanation, hint.getExplanation());
 	}
 	
