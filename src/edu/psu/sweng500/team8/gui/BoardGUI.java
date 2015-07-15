@@ -51,7 +51,12 @@ public class BoardGUI extends JPanel {
 	public void populatePanel(GameSession gameSession, boolean isRefresh) {
 
 		this.gameSession = gameSession;
-		this.selectedCell = null;
+		
+		if (null != this.selectedCell) {
+			/* existing selection, clear it */
+			this.selectedCell.unselect();
+			this.selectedCell = null;
+		}
 		
 		for (int blockIndex = 0; blockIndex < 9; blockIndex++) {
 			int rowIndex = blockIndex / 3;
@@ -66,7 +71,13 @@ public class BoardGUI extends JPanel {
 	public void populatePencilMark(GameSession gameSession) {
 
 		this.gameSession = gameSession;
-
+		
+		if (null != this.selectedCell) {
+			/* existing selection, clear it */
+			this.selectedCell.unselect();
+			this.selectedCell = null;
+		}
+		
 		for (int blockIndex = 0; blockIndex < 9; blockIndex++) {
 			int rowIndex = blockIndex / 3;
 			int columnIndex = blockIndex % 3;
