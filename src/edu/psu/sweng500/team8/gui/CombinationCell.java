@@ -8,11 +8,16 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.play.GameSession;
 
+/**
+ * @deprecated
+ *
+ */
 public class CombinationCell extends javax.swing.JPanel {
 
 	private final static int PENCIL_MARK_SIZE = 16;

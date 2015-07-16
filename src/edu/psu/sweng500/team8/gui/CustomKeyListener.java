@@ -48,15 +48,34 @@ public class CustomKeyListener extends KeyAdapter implements KeyListener {
 			int enteredNumber = Integer.parseInt(text);
 
 			if (enteredNumber < 1 || enteredNumber > 9) {
-				this.gameSession.enterNumber(this.cell, 0);
-				textField.setText("");
+
+				if (this.gameSession.isPencilMarkMode()) {
+					this.gameSession.enterPencilMark(this.cell, 0, false);
+					textField.setText("");
+				} else {
+					this.gameSession.enterNumber(this.cell, 0);
+					textField.setText("");
+				}
+
 			} else {
-				this.gameSession.enterNumber(this.cell, enteredNumber);
+
+				if (this.gameSession.isPencilMarkMode()) {
+					this.gameSession.enterPencilMark(this.cell, enteredNumber,
+							true);
+				} else {
+					this.gameSession.enterNumber(this.cell, enteredNumber);
+				}
 			}
 
 		} catch (NumberFormatException ex) {
-			this.gameSession.enterNumber(this.cell, 0);
-			textField.setText("");
+
+			if (this.gameSession.isPencilMarkMode()) {
+				this.gameSession.enterPencilMark(this.cell, 0, false);
+				textField.setText("");
+			} else {
+				this.gameSession.enterNumber(this.cell, 0);
+				textField.setText("");
+			}
 		}
 	}
 }

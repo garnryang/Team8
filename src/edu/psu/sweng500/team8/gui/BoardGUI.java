@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -43,7 +44,7 @@ public class BoardGUI extends JPanel {
 		this.blocks = new BlockGUI[3][3];
 
 		GridBagConstraints gridBagConstraints;
-		setLayout(new java.awt.GridBagLayout());
+		this.setLayout(new java.awt.GridBagLayout());
 
 		for (int rowIndex = 0; rowIndex < 3; rowIndex++) {
 			for (int columnIndex = 0; columnIndex < 3; columnIndex++) {
@@ -57,7 +58,8 @@ public class BoardGUI extends JPanel {
 		}
 	}
 
-	public void populatePanel(GameSession gameSession, boolean isRefresh) {
+	public void populatePanel(GameSession gameSession, boolean isRefresh,
+			boolean isPencilMarkMode) {
 
 		this.gameSession = gameSession;
 
@@ -73,7 +75,8 @@ public class BoardGUI extends JPanel {
 
 			this.blocks[rowIndex][columnIndex].populate(gameSession
 					.getGameBoard().getBlock(blockIndex), gameSession,
-					isRefresh, buildFocusAdapter(), buildMouseAdapter());
+					isRefresh, buildFocusAdapter(), buildMouseAdapter(),
+					isPencilMarkMode);
 		}
 	}
 
@@ -139,6 +142,18 @@ public class BoardGUI extends JPanel {
 		CellGUI unselectedCell = (CellGUI) ((JTextField) focusEvent.getSource())
 				.getParent().getParent();
 		unselectedCell.cellLostFocus(focusEvent);
+	}
+
+	public void mouseClickedTaskForNumberInput(MouseEvent mouseEvent) {
+
+		/* a cell must be selected/focused before mouse number input can work */
+		if (null == this.selectedCell) {
+			/* nothing happens */
+			return;
+		}
+
+		String keyValue = ((JButton) mouseEvent.getSource()).getText();
+		this.selectedCell.setNumberToCell(keyValue);
 	}
 
 	private MouseAdapter buildMouseAdapter() {
@@ -210,7 +225,7 @@ public class BoardGUI extends JPanel {
 	public void refreshPencilMarkDisplayOnRelatedCells(Cell cell) {
 
 		Map<CellCoordinates, Boolean> updatedCells = new HashMap<CellCoordinates, Boolean>();
-		updatedCells.put(cell.getCoordinates(), Boolean.TRUE);
+		// updatedCells.put(cell.getCoordinates(), Boolean.TRUE);
 
 		List<Cell> blockCells = this.gameSession.getGameBoard()
 				.getCellConstraints(cell).getBlock().getCells();

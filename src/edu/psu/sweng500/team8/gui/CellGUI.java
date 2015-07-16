@@ -52,6 +52,8 @@ public class CellGUI extends JPanel {
 
 	private MouseAdapter mouseAdapter;
 
+	private boolean isPencilMarkMode;
+
 	public CellGUI() {
 
 		this.setMaximumSize(CELL_DIMENSION);
@@ -66,28 +68,55 @@ public class CellGUI extends JPanel {
 
 	public void populatePencilMark(Cell cell, GameSession gameSession) {
 
-		this.numberInputCell.setVisible(false);
-		this.pencilMarkDisplayCell.setVisible(false);
-		this.pencilMarkInputCell.setVisible(true);
-
-		this.pencilMarkInputCell.removeAll();
-		if (cell.hasNumber()) {
-			this.pencilMarkInputCell.setLayout(new BorderLayout());
-			this.pencilMarkInputCell.setBorder(null);
-			this.pencilMarkInputCell.add(buildReadOnlyTextField(cell));
-		} else {
-			this.pencilMarkInputCell.setLayout(new GridBagLayout());
-			this.pencilMarkInputCell.setBorder(DEFAULT_BORDER);
-			this.pencilMarkInputCell.add(buildPencilMarkInputField(cell));
-		}
+		// this.numberInputCell.setVisible(false);
+		// this.pencilMarkDisplayCell.setVisible(false);
+		// this.pencilMarkInputCell.setVisible(true);
+		//
+		// this.pencilMarkInputCell.removeAll();
+		// if (cell.hasNumber()) {
+		// this.pencilMarkInputCell.setLayout(new BorderLayout());
+		// this.pencilMarkInputCell.setBorder(null);
+		// this.pencilMarkInputCell.add(buildReadOnlyTextField(cell));
+		// } else {
+		// this.pencilMarkInputCell.setLayout(new GridBagLayout());
+		// this.pencilMarkInputCell.setBorder(null);
+		//
+		//
+		//
+		// JTextField textField = new JTextField();
+		// textField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+		// textField.setBorder(DEFAULT_BORDER);
+		// textField.setEditable(true);
+		// textField.setText(Integer.toString(cell.getNumber()));
+		//
+		// if (ValueType.Given.equals(cell.getType())) {
+		// HighlightPainter painter = new
+		// DefaultHighlighter.DefaultHighlightPainter(
+		// Color.green);
+		//
+		// try {
+		// textField.getHighlighter().addHighlight(0, 3, painter);
+		// } catch (BadLocationException e) {
+		// /* TODO - better error handling */
+		// e.printStackTrace();
+		// }
+		// }
+		//
+		//
+		//
+		//
+		// this.pencilMarkInputCell.add(buildPencilMarkInputField(cell));
+		// }
 	}
 
 	public void populate(Cell cell, GameSession gameSession, boolean isRefresh,
-			FocusAdapter focusAdapter, MouseAdapter mouseAdapter) {
+			FocusAdapter focusAdapter, MouseAdapter mouseAdapter,
+			boolean isPencilMarkMode) {
 
 		this.gameSession = gameSession;
 		this.cell = cell;
 		this.mouseAdapter = mouseAdapter;
+		this.isPencilMarkMode = isPencilMarkMode;
 
 		/* Clear */
 		this.numberInputField.setText("");
@@ -110,6 +139,16 @@ public class CellGUI extends JPanel {
 				markGivenCell();
 				this.numberInputField.setEditable(false);
 				this.numberInputField.setFocusable(false);
+			}
+
+			if (isPencilMarkMode) {
+				this.numberInputField.setEditable(false);
+				this.numberInputField.setFocusable(false);
+			} else {
+				if (!ValueType.Given.equals(cell.getType())) {
+					this.numberInputField.setEditable(true);
+					this.numberInputField.setFocusable(true);
+				}
 			}
 
 		} else {
@@ -238,6 +277,19 @@ public class CellGUI extends JPanel {
 		this.selectCell();
 	}
 
+	public void setNumberToCell(String number) {
+
+		if (isPencilMarkMode) {
+			/* number clikced during pencil mark mode */
+			this.gameSession.enterPencilMark(this.cell,
+					Integer.parseInt(number), true); // FIXME - toggle
+		} else {
+			this.numberInputField.setText(number);
+			int numberInt = Integer.parseInt(number);
+			this.gameSession.enterNumber(this.cell, numberInt);
+		}
+	}
+
 	/**
 	 * Update numberInputField's border to DEFAULT_BORDER
 	 */
@@ -269,30 +321,31 @@ public class CellGUI extends JPanel {
 	}
 
 	private CombinationCell buildPencilMarkInputField(Cell cell) {
+
 		CombinationCell combinationCell = new CombinationCell(cell,
 				this.gameSession);
 
-		/*
-		 * disable any number used according to the cellConstraints for given
-		 * cell
-		 */
-		for (int usedNumber : this.gameSession.getGameBoard()
-				.getCellConstraints(cell).getUsedNumbers()) {
-			((JToggleButton) combinationCell.getComponent(usedNumber - 1))
-					.setEnabled(false);
-			((JToggleButton) combinationCell.getComponent(usedNumber - 1))
-					.setText("");
-		}
-
-		for (int k = 1; k <= 9; k++) {
-			if (cell.getPencilMarks().contains(k)) {
-				((JToggleButton) combinationCell.getComponent(k - 1))
-						.setSelected(true);
-			} else {
-				((JToggleButton) combinationCell.getComponent(k - 1))
-						.setSelected(false);
-			}
-		}
+		// /*
+		// * disable any number used according to the cellConstraints for given
+		// * cell
+		// */
+		// for (int usedNumber : this.gameSession.getGameBoard()
+		// .getCellConstraints(cell).getUsedNumbers()) {
+		// ((JToggleButton) combinationCell.getComponent(usedNumber - 1))
+		// .setEnabled(false);
+		// ((JToggleButton) combinationCell.getComponent(usedNumber - 1))
+		// .setText("");
+		// }
+		//
+		// for (int k = 1; k <= 9; k++) {
+		// if (cell.getPencilMarks().contains(k)) {
+		// ((JToggleButton) combinationCell.getComponent(k - 1))
+		// .setSelected(true);
+		// } else {
+		// ((JToggleButton) combinationCell.getComponent(k - 1))
+		// .setSelected(false);
+		// }
+		// }
 
 		return combinationCell;
 	}
@@ -407,6 +460,11 @@ public class CellGUI extends JPanel {
 			this.pencilMarkDisplayCell.setVisible(false);
 			this.pencilMarkInputCell.setVisible(false);
 		} else {
+
+			this.numberInputCell.setVisible(false);
+			this.pencilMarkDisplayCell.setVisible(true);
+			this.pencilMarkInputCell.setVisible(false);
+
 			/*
 			 * This cell either got its pencil mark updated or the pencil mark
 			 * is the same regardless, we can simply re-populate pencil mark

@@ -16,10 +16,10 @@ import edu.psu.sweng500.team8.play.GameSession;
 
 public class BlockGUI extends JPanel {
 
-	private static final int BLOCK_SIZE = 162+2;
+	private static final int BLOCK_SIZE = 162 + 2;
 	private static final Border DEFAULT_BORDER = BorderFactory
 			.createLineBorder(Color.BLACK, 2);
-	
+
 	private CellGUI[][] cells;
 
 	public BlockGUI() {
@@ -59,14 +59,14 @@ public class BlockGUI extends JPanel {
 	 */
 	public void populate(Block block, GameSession gameSession,
 			boolean isRefresh, FocusAdapter focusAdapter,
-			MouseAdapter mouseAdapter) {
+			MouseAdapter mouseAdapter, boolean isPencilMarkMode) {
 
 		for (int cellIndex = 0; cellIndex < 9; cellIndex++) {
 			int rowIndex = cellIndex / 3;
 			int columnIndex = cellIndex % 3;
 			this.cells[rowIndex][columnIndex].populate(
 					block.getCell(cellIndex), gameSession, isRefresh,
-					focusAdapter, mouseAdapter);
+					focusAdapter, mouseAdapter, isPencilMarkMode);
 		}
 	}
 

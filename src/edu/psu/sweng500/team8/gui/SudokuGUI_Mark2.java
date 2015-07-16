@@ -1,5 +1,8 @@
 package edu.psu.sweng500.team8.gui;
 
+import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.Set;
 
@@ -20,6 +23,8 @@ import edu.psu.sweng500.team8.play.GameSession;
 import edu.psu.sweng500.team8.puzzleGenerator.PuzzleRepository;
 import edu.psu.sweng500.team8.solver.HintGenerator;
 import edu.psu.sweng500.team8.solver.HintInfo;
+
+import javax.swing.JPanel;
 
 /**
  *
@@ -55,6 +60,13 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 
 	@Override
 	public void cellChanged(Cell cell, int newNumber) {
+
+		if (newNumber < 0) {
+			/* pencil mark change */
+			this.gameBoard.refreshPencilMarkDisplayOnRelatedCells(cell);
+			return;
+		}
+
 		/*
 		 * Cell number changed. Clear the message and any highlighted incorrect
 		 * numbers.
@@ -205,6 +217,8 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 		txtAreaMessage.setLineWrap(true);
 		txtAreaMessage.setEditable(false);
 
+		numberInputPad = new NumberButtonGUI();
+
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
 				getContentPane());
 		layout.setHorizontalGroup(layout
@@ -233,22 +247,34 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 										layout.createParallelGroup(
 												Alignment.LEADING)
 												.addGroup(
-														layout.createParallelGroup(
-																Alignment.LEADING)
+														layout.createSequentialGroup()
+																.addGroup(
+																		layout.createParallelGroup(
+																				Alignment.LEADING)
+																				.addGroup(
+																						layout.createParallelGroup(
+																								Alignment.LEADING)
+																								.addComponent(
+																										jLabel1,
+																										Alignment.TRAILING)
+																								.addComponent(
+																										radMedium,
+																										Alignment.TRAILING))
+																				.addComponent(
+																						radHard)
+																				.addGroup(
+																						layout.createParallelGroup(
+																								Alignment.TRAILING)
+																								.addComponent(
+																										jLabel2)
+																								.addComponent(
+																										radEasy)))
+																.addGap(34)
 																.addComponent(
-																		jLabel1,
-																		Alignment.TRAILING)
-																.addComponent(
-																		radMedium,
-																		Alignment.TRAILING))
-												.addComponent(radHard)
-												.addGroup(
-														layout.createParallelGroup(
-																Alignment.TRAILING)
-																.addComponent(
-																		jLabel2)
-																.addComponent(
-																		radEasy))
+																		numberInputPad,
+																		GroupLayout.PREFERRED_SIZE,
+																		170,
+																		GroupLayout.PREFERRED_SIZE))
 												.addGroup(
 														layout.createSequentialGroup()
 																.addGap(4)
@@ -301,7 +327,7 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 																				.addComponent(
 																						btnNewGame,
 																						Alignment.TRAILING))))
-								.addGap(18)));
+								.addGap(27)));
 		layout.setVerticalGroup(layout
 				.createParallelGroup(Alignment.TRAILING)
 				.addGroup(
@@ -330,7 +356,7 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 																		radHard)
 																.addPreferredGap(
 																		ComponentPlacement.RELATED,
-																		147,
+																		157,
 																		Short.MAX_VALUE)
 																.addComponent(
 																		jLabel3)
@@ -379,20 +405,24 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 																		GroupLayout.PREFERRED_SIZE,
 																		GroupLayout.DEFAULT_SIZE,
 																		GroupLayout.PREFERRED_SIZE)
-																.addGroup(
-																		layout.createParallelGroup(
-																				Alignment.LEADING)
-																				.addGroup(
-																						layout.createSequentialGroup()
-																								.addPreferredGap(
-																										ComponentPlacement.UNRELATED)
-																								.addComponent(
-																										txtAreaMessage,
-																										GroupLayout.PREFERRED_SIZE,
-																										45,
-																										GroupLayout.PREFERRED_SIZE)))))
-								.addGap(42)));
+																.addPreferredGap(
+																		ComponentPlacement.UNRELATED)
+																.addComponent(
+																		txtAreaMessage,
+																		GroupLayout.PREFERRED_SIZE,
+																		45,
+																		GroupLayout.PREFERRED_SIZE)))
+								.addGap(42))
+				.addGroup(
+						Alignment.LEADING,
+						layout.createSequentialGroup()
+								.addGap(11)
+								.addComponent(numberInputPad,
+										GroupLayout.PREFERRED_SIZE, 164,
+										GroupLayout.PREFERRED_SIZE)
+								.addContainerGap()));
 		getContentPane().setLayout(layout);
+		getContentPane().setPreferredSize(new Dimension(800, 600));
 
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
@@ -424,19 +454,19 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 		}
 
 		setMessage(message);
-	}// GEN-LAST:event_btnHintActionPerformed
+	}
 
 	private void doUndo(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_doUndo
-		setMessage("");
+		this.setMessage("");
 		this.gameSession.doUndo();
-		this.gameBoard.populatePanel(gameSession, true);
-	}// GEN-LAST:event_doUndo
+		this.gameBoard.populatePanel(gameSession, true, false);
+	}
 
 	private void doRedo(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_doRedo
-		setMessage("");
+		this.setMessage("");
 		this.gameSession.doRedo();
-		this.gameBoard.populatePanel(gameSession, true);
-	}// GEN-LAST:event_doRedo
+		this.gameBoard.populatePanel(gameSession, true, false);
+	}
 
 	private void btnCheckActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCheckActionPerformed
 		if (this.gameSession == null)
@@ -446,7 +476,7 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 				.getIncorrectCells();
 		String message = (incorrectCells.isEmpty()) ? "All values are correct so far!"
 				: "";
-		setMessage(message);
+		this.setMessage(message);
 		this.gameBoard.highlightIncorrectCells(incorrectCells);
 
 	}// GEN-LAST:event_btnCheckActionPerformed
@@ -479,19 +509,23 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 	}
 
 	private void btnNewGameActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnNewGameActionPerformed
-		setMessage("");
-		DifficultyLevel difficulty;
-		if (radEasy.isSelected())
+		this.setMessage("");
+
+		DifficultyLevel difficulty = null;
+
+		if (radEasy.isSelected()) {
 			difficulty = DifficultyLevel.Easy;
-		else if (radMedium.isSelected())
+		} else if (radMedium.isSelected()) {
 			difficulty = DifficultyLevel.Medium;
-		else
+		} else {
 			difficulty = DifficultyLevel.Hard;
+		}
 
 		Puzzle puzzle = this.puzzleRepo.getPuzzle(difficulty);
 		this.gameSession = new GameSession(puzzle);
 		this.gameSession.subscribeForCellChanges(this);
-		this.gameBoard.populatePanel(gameSession, false);
+		this.gameBoard.populatePanel(gameSession, false, false);
+		this.numberInputPad.init(buildNumberInputMouseAdapter());
 
 		this.btnSave.setEnabled(true);
 		this.btnHint.setEnabled(true);
@@ -500,26 +534,22 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 		this.btnUndo.setEnabled(true);
 		this.pencilMarkButton.setEnabled(true);
 
-	}// GEN-LAST:event_btnNewGameActionPerformed
+	}
 
 	private void pencilMarkMode(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnHintActionPerformed
 
-		if (this.gameSession == null)
+		if (this.gameSession == null) {
 			return;
-
-		if (this.pencilMarkButton.isSelected()) {
-			this.btnHint.setEnabled(false);
-			this.btnRedo.setEnabled(false);
-			this.btnUndo.setEnabled(false);
-			this.btnCheck.setEnabled(false);
-			this.gameBoard.populatePencilMark(gameSession);
-		} else {
-			this.btnHint.setEnabled(true);
-			this.btnRedo.setEnabled(true);
-			this.btnUndo.setEnabled(true);
-			this.btnCheck.setEnabled(true);
-			this.gameBoard.populatePanel(gameSession, true);
 		}
+
+		boolean isPencilMarkMode = this.pencilMarkButton.isSelected();
+
+		this.gameSession.setPencilMarkMode(isPencilMarkMode);
+		this.btnHint.setEnabled(!isPencilMarkMode);
+		this.btnRedo.setEnabled(!isPencilMarkMode);
+		this.btnUndo.setEnabled(!isPencilMarkMode);
+		this.btnCheck.setEnabled(!isPencilMarkMode);
+		this.gameBoard.populatePanel(gameSession, true, isPencilMarkMode);
 	}
 
 	/**
@@ -589,4 +619,14 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 	// End of variables declaration//GEN-END:variables
 
 	private JToggleButton pencilMarkButton;
+	private NumberButtonGUI numberInputPad;
+
+	private MouseAdapter buildNumberInputMouseAdapter() {
+		return new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent mouseEvent) {
+				gameBoard.mouseClickedTaskForNumberInput(mouseEvent);
+			}
+		};
+	}
 }
