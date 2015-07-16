@@ -419,7 +419,6 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 	         return;
 	      }catch(ClassNotFoundException c)
 	      {
-	         System.out.println("Employee class not found");
 	         c.printStackTrace();
 	         return;
 	      }
@@ -464,7 +463,8 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 		            switch(result){
 		                case JOptionPane.YES_OPTION:
 		                    fc.approveSelection();
-		                   // savePuzzle(path);
+		                    savePuzzle(path);
+		                    gameBoard.remarkGivenCells(this.gameSession.getGameBoard().getCellGrid());
 		                    return;
 		                case JOptionPane.NO_OPTION:
 		                    return;
@@ -476,8 +476,7 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 		            }
 		        }
 		        fc.approveSelection();
-		        savePuzzle(path);
-		        
+		        savePuzzle(path);		        
 		        gameBoard.remarkGivenCells(this.gameSession.getGameBoard().getCellGrid());
 		      }
 			}
