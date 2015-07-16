@@ -19,8 +19,6 @@ public class GameSession  implements Serializable{
 	
 	private static final long serialVersionUID = 7878878;
 	private Board board = new Board();
-	/* TODO - Do we want to have a player class? */
-	// private Player player;
 	private ActionManager actionManager;
 	
 	private List<CellChangedListener> cellChangedListeners = new ArrayList<CellChangedListener>();
@@ -40,10 +38,6 @@ public class GameSession  implements Serializable{
 	
 	public Board getGameBoard() {
 		return board;
-	}
-	
-	public void enterNumber(Cell currentCell, int number) {
-		enterNumber(currentCell, number, false);
 	}
 	
 	public void subscribeForCellChanges(CellChangedListener listener) {
@@ -77,17 +71,10 @@ public class GameSession  implements Serializable{
 	//For the validation of a number 1-9, I don't really care if it goes here or the UI. 
 	//Suggest validating on the UI and handling it gracefully (without throwing exceptions). 
 	//If it makes it to here, then throw an exception because it should not happen.
-	public void enterNumber(Cell currentCell, int number, boolean isHint) {
+	public void enterNumber(Cell currentCell, int number) {
 
 		/* We don't have to clear empty cell */
 		if (0 != currentCell.getNumber() || 0 != number) {
-
-			/* TODO - this is a tricky part that may require refactoring later */
-			if (isHint) {
-				// Assuming hint will only populate empty cell 
-				currentCell.clearNumber();				
-			}
-			
 			/* keep track of the last action */
 			SudokuAction sudokuAction = new SudokuAction(new CellGrid(
 					board.getCellGrid()));

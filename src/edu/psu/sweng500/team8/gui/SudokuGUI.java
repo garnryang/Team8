@@ -48,7 +48,12 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 	private PuzzleRepository puzzleRepo = new PuzzleRepository(); //Not sure if there is a better place to put this
         /* we need to keep track of the current game */
 	private GameSession gameSession;
+
     private Board board;    
+
+    private static final String WIN_MESSAGE = "You won! Start a new game to play again.";
+    
+
 	/**
 	 * Creates new form SudokuGUI
 	 */
@@ -86,6 +91,17 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 				setMessage("You won! Start a new game to play again.");
 			}
 		}
+		if (gameIsComplete()) {
+			//Player won the game
+			this.gameBoard.disableEditing();
+			setMessage(WIN_MESSAGE);
+
+		}
+	}
+	
+	private boolean gameIsComplete() {
+		Board board = this.gameSession.getGameBoard();
+		return (!board.hasOpenCells() && board.getIncorrectCells().isEmpty());
 	}
 	
 	/**
@@ -312,22 +328,34 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
     		return;
     	
         HintInfo hint = HintGenerator.getHint(this.gameSession.getGameBoard());
+        
+        String message = "Sorry, no hint available";
         if (hint != null) {
-        	CellCoordinates coordinates = hint.GetCell().getCoordinates();
+        	CellCoordinates coordinates = hint.getCell().getCoordinates();
             this.gameBoard.selectCell(coordinates.getRowIndex(), coordinates.getColumnIndex());
             /* Any numbered entered should go through gameSession.enterNumber method for other business logics */
-            this.gameSession.enterNumber(hint.GetCell(), hint.GetCell().getNumber(), true);
-            this.gameBoard.setSelectedCellNumber(hint.GetCell().getNumber());
-			setMessage(hint.GetExplanation());
+            this.gameSession.enterNumber(hint.getCell(), hint.getNumber());
+            this.gameBoard.setSelectedCellNumber(hint.getNumber());
+            
+            message = hint.getExplanation();
+            if (gameIsComplete()) {
+            	//If hint resulted in completing the game, add the Win message and disable editing.
+            	this.gameBoard.disableEditing();
+            	message += " " + WIN_MESSAGE;
+            }
         }
+        
+        setMessage(message);
     }//GEN-LAST:event_btnHintActionPerformed
 
     private void doUndo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doUndo
+    	setMessage("");
     	this.gameSession.doUndo();
 		this.gameBoard.refreshPanel();
     }//GEN-LAST:event_doUndo
 
     private void doRedo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doRedo
+    	setMessage("");
     	this.gameSession.doRedo();
 		this.gameBoard.refreshPanel();
     }//GEN-LAST:event_doRedo
