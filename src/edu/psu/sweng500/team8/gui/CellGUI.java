@@ -394,4 +394,45 @@ public class CellGUI extends JPanel {
 		this.numberInputField.setFocusable(false);
 		this.numberInputField.setEditable(false);
 	}
+
+	public void refreshPencilMarkDisplay() {
+		if (this.cell.getPencilMarks().isEmpty()) {
+			/*
+			 * If this cell had a number, we don't have to worry about doing
+			 * anything If this cell got its last pencil mark deleted, we need
+			 * to make sure number cell is displayed now. Simply enabling number
+			 * input cell and disabling others is enough
+			 */
+			this.numberInputCell.setVisible(true);
+			this.pencilMarkDisplayCell.setVisible(false);
+			this.pencilMarkInputCell.setVisible(false);
+		} else {
+			/*
+			 * This cell either got its pencil mark updated or the pencil mark
+			 * is the same regardless, we can simply re-populate pencil mark
+			 * display cell
+			 */
+
+			/*
+			 * TODO - take this logic out as a separate method as it is being
+			 * used in other places
+			 */
+			for (int i = 1; i <= 9; i++) {
+
+				int rowIndex = ((i - 1) / 3);
+				int columnIndex = ((i - 1) % 3);
+
+				this.pencilMarkDisplay[rowIndex][columnIndex].setVisible(true);
+				this.pencilMarkDisplay[rowIndex][columnIndex]
+						.addMouseListener(this.mouseAdapter);
+
+				if (this.cell.getPencilMarks().contains(i)) {
+					this.pencilMarkDisplay[rowIndex][columnIndex]
+							.setText(String.valueOf(i));
+				} else {
+					this.pencilMarkDisplay[rowIndex][columnIndex].setText("");
+				}
+			}
+		}
+	}
 }
