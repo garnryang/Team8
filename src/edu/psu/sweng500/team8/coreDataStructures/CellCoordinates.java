@@ -1,6 +1,8 @@
 package edu.psu.sweng500.team8.coreDataStructures;
 
-public class CellCoordinates {
+import java.io.Serializable;
+
+public class CellCoordinates  implements Serializable {
 	private int m_rowIndex;
 	private int m_columnIndex;
 	

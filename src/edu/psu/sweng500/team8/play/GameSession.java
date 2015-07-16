@@ -1,5 +1,6 @@
 package edu.psu.sweng500.team8.play;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -14,8 +15,9 @@ import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
  * If we are going to use Board class for operations, this class is not needed and we can move operations from this class to Board class
  * How are we going to response back to UI when redo/undo happens? Are we going to simply update board/grid and let UI call refresh?
  */
-public class GameSession {
+public class GameSession  implements Serializable{
 	
+	private static final long serialVersionUID = 7878878;
 	private Board board = new Board();
 	/* TODO - Do we want to have a player class? */
 	// private Player player;

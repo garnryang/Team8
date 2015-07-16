@@ -1,5 +1,6 @@
 package edu.psu.sweng500.team8.coreDataStructures;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,7 +11,7 @@ import java.util.Set;
  * Data holder and controller for a Sudoku grid Used to validate game
  * constraints
  */
-public class Board {
+public class Board  implements Serializable{
 	//TODO: Remove m_ to be consistent with java style
 	private CellGrid m_grid = new CellGrid(); // The actual 9x9 grid of cells
 	private Row[] m_rows = new Row[9]; // Abstraction of rows

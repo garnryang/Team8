@@ -1,5 +1,6 @@
 package edu.psu.sweng500.team8.coreDataStructures;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -10,7 +11,7 @@ import java.util.Set;
  * Represents a Sudoku constraint where the numbers 1-9 are permitted only once
  * Base class for row, column, and block
  */
-public abstract class Constraint {
+public abstract class Constraint  implements Serializable{
 
 	public final Set<Integer> getUsedNumbers() {
 		Set<Integer> usedNumbers = new HashSet<Integer>();

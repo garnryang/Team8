@@ -1,7 +1,14 @@
 package edu.psu.sweng500.team8.gui;
 
 import java.awt.event.ActionEvent;
+import java.io.File;
+//import java.io.FileFilter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Set;
 
 import javax.swing.AbstractAction;
@@ -13,6 +20,7 @@ import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
+import edu.psu.sweng500.team8.coreDataStructures.SavePackage;
 import edu.psu.sweng500.team8.play.CellChangedListener;
 import edu.psu.sweng500.team8.play.GameSession;
 import edu.psu.sweng500.team8.puzzleGenerator.PuzzleRepository;
@@ -21,8 +29,10 @@ import edu.psu.sweng500.team8.solver.HintInfo;
 
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
+import javax.swing.JOptionPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextArea;
+import javax.swing.filechooser.FileFilter;
 
 /*
  * To change this template, choose Tools | Templates
@@ -38,7 +48,7 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 	private PuzzleRepository puzzleRepo = new PuzzleRepository(); //Not sure if there is a better place to put this
         /* we need to keep track of the current game */
 	private GameSession gameSession;
-        
+    private Board board;    
 	/**
 	 * Creates new form SudokuGUI
 	 */
@@ -65,7 +75,9 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 		clearMessage();
 		this.gameBoard.clearHighlightedIncorrectCells();
 		
-		Board board = this.gameSession.getGameBoard();
+		this.board = this.gameSession.getGameBoard();
+		
+		
 		if (!board.hasOpenCells()) {
 			//Check the board against the solution
 			if (board.getIncorrectCells().isEmpty()) {
@@ -132,6 +144,16 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
         jLabel2.setText("Difficulty");
 
         jButton10.setText("Save");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	try {
+					jButton10ActionPerformed(evt);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            }
+        });
 
         jButton11.setText("Load");
         jButton11.addActionListener(new java.awt.event.ActionListener() {
@@ -332,12 +354,162 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 	private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton11ActionPerformed
 		// TODO add your handling code here:
 		// Create a file chooser
+		
 		final JFileChooser fc = new JFileChooser();
-		// In response to a button click:
+		fc.setFileFilter(new FileFilter()
+        {
+           @Override
+           public boolean accept(File file)
+           {
+              return (file.getName().toUpperCase().endsWith(".SUDOKU") || file.isDirectory());
+           }
+
+           @Override
+           public String getDescription()
+           {
+              return "Sudoku files";
+           }
+        });
+		
+		fc.setAcceptAllFileFilterUsed(false);
 		int returnVal = fc.showOpenDialog(getComponent(0));
 
+		if(returnVal == JFileChooser.APPROVE_OPTION){
+		
+			SavePackage savePackage = null;
+	      try
+	      {
+	         FileInputStream fileIn = new FileInputStream(fc.getSelectedFile().getAbsolutePath());
+	         ObjectInputStream in = new ObjectInputStream(fileIn);
+	         savePackage = (SavePackage) in.readObject();
+	         in.close();
+	         fileIn.close();
+	         this.loadSession(savePackage);
+	      }catch(IOException i)
+	      {
+	         i.printStackTrace();
+	         return;
+	      }catch(ClassNotFoundException c)
+	      {
+	         System.out.println("Employee class not found");
+	         c.printStackTrace();
+	         return;
+	      }
+		}
+		
 	}// GEN-LAST:event_jButton11ActionPerformed
+	
 
+	
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) throws FileNotFoundException {
+		
+		
+		final JFileChooser fc = new JFileChooser();
+
+		fc.setFileFilter(new FileFilter()
+        {
+           @Override
+           public boolean accept(File file)
+           {
+              return (file.getName().toUpperCase().endsWith(".SUDOKU") || file.isDirectory());
+           }
+
+           @Override
+           public String getDescription()
+           {
+              return "Sudoku files";
+           }
+        });
+		
+		fc.setAcceptAllFileFilterUsed(false);
+		
+		int returnVal = fc.showSaveDialog(getComponent(0));;
+		
+		if(returnVal == JFileChooser.APPROVE_OPTION){
+			
+
+				File f = fc.getSelectedFile();
+				String path = f.getAbsolutePath();
+				
+				if(f.exists()){
+		            int result = JOptionPane.showConfirmDialog(this,"The file exists, overwrite?","Existing file",JOptionPane.YES_NO_CANCEL_OPTION);
+		            switch(result){
+		                case JOptionPane.YES_OPTION:
+		                    fc.approveSelection();
+		                   // savePuzzle(path);
+		                    return;
+		                case JOptionPane.NO_OPTION:
+		                    return;
+		                case JOptionPane.CLOSED_OPTION:
+		                    return;
+		                case JOptionPane.CANCEL_OPTION:
+		                    fc.cancelSelection();
+		                    return;
+		            }
+		        }
+		        fc.approveSelection();
+		        savePuzzle(path);
+		        
+		        gameBoard.remarkGivenCells(this.gameSession.getGameBoard().getCellGrid());
+		      }
+			}
+			
+    private void savePuzzle(String path){
+		try
+	      {
+		
+			if(!path.toLowerCase().endsWith(".sudoku")){
+				path = path + ".sudoku";
+			}
+			
+			SavePackage savePackage = new SavePackage();
+			savePackage.setCellGrid(this.gameSession.getGameBoard().getCellGrid());
+			savePackage.setPuzzle(this.gameSession.getGameBoard().getCurrentPuzzle());
+			savePackage.setControlGrid(this.gameBoard.getControlGrid());
+	         FileOutputStream fileOut =
+	         new FileOutputStream(path);
+	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
+	         
+	         out.writeObject(savePackage);
+	         out.close();
+	         fileOut.close();
+
+	      }catch(IOException i)
+	      {
+	          i.printStackTrace();
+	      }
+
+    }
+	
+	private void loadSession(SavePackage savePackage){
+		//this.gameBoard.populatePanel(gameSession.getGameBoard().getCellGrid(), gameSession);
+		
+		Puzzle puzzle = savePackage.getPuzzle();
+		
+		setMessage("");
+		DifficultyLevel difficulty;
+		if (puzzle.getDifficulty() == DifficultyLevel.Easy){
+			radEasy.setSelected(true);			
+		}
+		
+		else if (puzzle.getDifficulty() == DifficultyLevel.Medium){
+			radMedium.setSelected(true);			
+		}
+		
+		else{
+			radHard.setSelected(true);
+		}
+				
+		this.gameSession = new GameSession(puzzle);
+		this.gameSession.subscribeForCellChanges(this);
+		
+		GridPanel gameBoard = new GridPanel(savePackage.getControlGrid());
+		//this.gameBoard = gameBoard;
+		
+		this.gameBoard.populatePanel(savePackage.getCellGrid(),	gameSession);
+		this.pencilMarkGridPanel.populate(gameSession);
+	}	
+    
 	private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton14ActionPerformed
 		// TODO add your handling code here:
 		openHelp();

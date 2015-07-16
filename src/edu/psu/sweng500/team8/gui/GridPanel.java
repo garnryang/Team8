@@ -44,6 +44,12 @@ public class GridPanel extends javax.swing.JPanel {
         initComponents();
         initializeGrid();
     }
+    
+    public GridPanel(JTextField[][] controlGrid){
+    	this.controlGrid = controlGrid;
+        initComponents();
+        initializeGrid();
+    }
 
     public void populatePanel(CellGrid grid, GameSession gameSession) {
         clearGrid(true); //FIXME: Remove argument
@@ -58,8 +64,14 @@ public class GridPanel extends javax.swing.JPanel {
                 cellTextBox.setEditable(true); //Need to set Editable first to set the number
                 if (cell.hasNumber()) {
                 	cellTextBox.setText(Integer.toString(cell.getNumber()));
-
-                    markGivenCell(cell);
+	                
+                	if(cell.getType() == ValueType.Given){
+	                	markGivenCell(cell);
+	                	
+	                	CellCoordinates coordinates = cell.getCoordinates();
+	                	this.controlGrid[coordinates.getRowIndex()][coordinates.getColumnIndex()].setEditable(false);
+	                }
+                    
                 }
                 
                 cellTextBox.setFocusable(true);
@@ -72,6 +84,23 @@ public class GridPanel extends javax.swing.JPanel {
                 cellTextBox.addKeyListener(this.keyListeners[row][column]);
             }
         }
+    }
+    
+    public void remarkGivenCells(CellGrid grid){
+    	
+             for (int row = 0; row < 9; row++) {
+                for (int column = 0; column < 9; column++) {
+                    Cell cell = grid.getCell(row, column);
+    	                
+                    	if(cell.getType() == ValueType.Given){
+    	                	markGivenCell(cell);
+    	                	CellCoordinates coordinates = cell.getCoordinates();
+    	                	this.controlGrid[coordinates.getRowIndex()][coordinates.getColumnIndex()].setEditable(false);
+    	                }
+                        
+                    }
+                }
+             
     }
 
     public void setSelectedCellNumber(int number) {
@@ -266,6 +295,7 @@ public class GridPanel extends javax.swing.JPanel {
             for (int column = 0; column < 9; column++) {
             	JTextField cellTextBox = this.controlGrid[row][column];
             	cellTextBox.setText("");
+            	cellTextBox.setEditable(true);
             	if (isClearHighlight) {
 					cellTextBox.getHighlighter().removeAllHighlights();					
 				}

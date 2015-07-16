@@ -1,10 +1,11 @@
 package edu.psu.sweng500.team8.io;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 /** Interface for objects that are serializable in binary format
  */
-public interface BinarySerializable {
+public interface BinarySerializable  extends Serializable{
 	/** Save the object to the stream
 	 * @param type Type of serialization. If this is not needed for the object, just ignore it
 	 * @param stream Binary stream to write to
