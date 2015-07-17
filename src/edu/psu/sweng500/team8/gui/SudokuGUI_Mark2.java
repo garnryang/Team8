@@ -459,13 +459,13 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 	private void doUndo(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_doUndo
 		this.setMessage("");
 		this.gameSession.doUndo();
-		this.gameBoard.populatePanel(gameSession, true, false);
+		this.gameBoard.populatePanel(this.gameSession, true, false, this.numberInputPad);
 	}
 
 	private void doRedo(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_doRedo
 		this.setMessage("");
 		this.gameSession.doRedo();
-		this.gameBoard.populatePanel(gameSession, true, false);
+		this.gameBoard.populatePanel(this.gameSession, true, false, this.numberInputPad);
 	}
 
 	private void btnCheckActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCheckActionPerformed
@@ -524,8 +524,9 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 		Puzzle puzzle = this.puzzleRepo.getPuzzle(difficulty);
 		this.gameSession = new GameSession(puzzle);
 		this.gameSession.subscribeForCellChanges(this);
-		this.gameBoard.populatePanel(gameSession, false, false);
-		this.numberInputPad.init(buildNumberInputMouseAdapter());
+		this.numberInputPad.init(buildNumberInputMouseAdapter(), this.gameSession);
+		this.gameBoard.populatePanel(gameSession, false, false, this.numberInputPad);
+		
 
 		this.btnSave.setEnabled(true);
 		this.btnHint.setEnabled(true);
@@ -549,7 +550,7 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 		this.btnRedo.setEnabled(!isPencilMarkMode);
 		this.btnUndo.setEnabled(!isPencilMarkMode);
 		this.btnCheck.setEnabled(!isPencilMarkMode);
-		this.gameBoard.populatePanel(gameSession, true, isPencilMarkMode);
+		this.gameBoard.populatePanel(gameSession, true, isPencilMarkMode, this.numberInputPad);
 	}
 
 	/**

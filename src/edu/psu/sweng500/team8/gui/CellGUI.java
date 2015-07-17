@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -66,47 +67,46 @@ public class CellGUI extends JPanel {
 		this.initPencilMarkInputCell();
 	}
 
+	/**
+	 * @deprecated
+	 * @param cell
+	 * @param gameSession
+	 */
 	public void populatePencilMark(Cell cell, GameSession gameSession) {
 
-		// this.numberInputCell.setVisible(false);
-		// this.pencilMarkDisplayCell.setVisible(false);
-		// this.pencilMarkInputCell.setVisible(true);
-		//
-		// this.pencilMarkInputCell.removeAll();
-		// if (cell.hasNumber()) {
-		// this.pencilMarkInputCell.setLayout(new BorderLayout());
-		// this.pencilMarkInputCell.setBorder(null);
-		// this.pencilMarkInputCell.add(buildReadOnlyTextField(cell));
-		// } else {
-		// this.pencilMarkInputCell.setLayout(new GridBagLayout());
-		// this.pencilMarkInputCell.setBorder(null);
-		//
-		//
-		//
-		// JTextField textField = new JTextField();
-		// textField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-		// textField.setBorder(DEFAULT_BORDER);
-		// textField.setEditable(true);
-		// textField.setText(Integer.toString(cell.getNumber()));
-		//
-		// if (ValueType.Given.equals(cell.getType())) {
-		// HighlightPainter painter = new
-		// DefaultHighlighter.DefaultHighlightPainter(
-		// Color.green);
-		//
-		// try {
-		// textField.getHighlighter().addHighlight(0, 3, painter);
-		// } catch (BadLocationException e) {
-		// /* TODO - better error handling */
-		// e.printStackTrace();
-		// }
-		// }
-		//
-		//
-		//
-		//
-		// this.pencilMarkInputCell.add(buildPencilMarkInputField(cell));
-		// }
+		this.numberInputCell.setVisible(false);
+		this.pencilMarkDisplayCell.setVisible(false);
+		this.pencilMarkInputCell.setVisible(true);
+
+		this.pencilMarkInputCell.removeAll();
+		if (cell.hasNumber()) {
+			this.pencilMarkInputCell.setLayout(new BorderLayout());
+			this.pencilMarkInputCell.setBorder(null);
+			this.pencilMarkInputCell.add(buildReadOnlyTextField(cell));
+		} else {
+			this.pencilMarkInputCell.setLayout(new GridBagLayout());
+			this.pencilMarkInputCell.setBorder(null);
+
+			JTextField textField = new JTextField();
+			textField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+			textField.setBorder(DEFAULT_BORDER);
+			textField.setEditable(true);
+			textField.setText(Integer.toString(cell.getNumber()));
+
+			if (ValueType.Given.equals(cell.getType())) {
+				HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(
+						Color.green);
+
+				try {
+					textField.getHighlighter().addHighlight(0, 3, painter);
+				} catch (BadLocationException e) {
+					/* TODO - better error handling */
+					e.printStackTrace();
+				}
+			}
+
+			this.pencilMarkInputCell.add(buildPencilMarkInputField(cell));
+		}
 	}
 
 	public void populate(Cell cell, GameSession gameSession, boolean isRefresh,
@@ -277,16 +277,38 @@ public class CellGUI extends JPanel {
 		this.selectCell();
 	}
 
-	public void setNumberToCell(String number) {
+	public void setNumberToCell(MouseEvent mouseEvent) {
 
+		JToggleButton theClickedButton = ((JToggleButton) mouseEvent.getSource());
+		String keyValue = theClickedButton.getText();
+		boolean isSelcted= theClickedButton.isSelected();
+		JPanel numberPad = (JPanel)theClickedButton.getParent();
+		
+		
 		if (isPencilMarkMode) {
-			/* number clikced during pencil mark mode */
+			/* number clicked during pencil mark mode */
 			this.gameSession.enterPencilMark(this.cell,
-					Integer.parseInt(number), true); // FIXME - toggle
+					Integer.parseInt(keyValue), isSelcted);
 		} else {
-			this.numberInputField.setText(number);
-			int numberInt = Integer.parseInt(number);
-			this.gameSession.enterNumber(this.cell, numberInt);
+			
+			/* If in normal mode, multiple-selection should not be allowed 
+			 * unselect other buttons 
+			 * there is a better way of doing this, but this is a hack */
+			for (int index = 0; index < 9; index++) {
+				JToggleButton eachButton = (JToggleButton) numberPad.getComponent(index);
+				if (!eachButton.getText().equals(theClickedButton.getText())) {
+					eachButton.setSelected(false);
+				}
+			}
+			
+			if (isSelcted) {
+				this.numberInputField.setText(keyValue);
+				int numberInt = Integer.parseInt(keyValue);
+				this.gameSession.enterNumber(this.cell, numberInt);				
+			} else {
+				this.numberInputField.setText("");
+				this.gameSession.enterNumber(this.cell, 0);
+			}
 		}
 	}
 
@@ -320,32 +342,37 @@ public class CellGUI extends JPanel {
 		return textField;
 	}
 
+	/**
+	 * @deprecated
+	 * @param cell
+	 * @return
+	 */
 	private CombinationCell buildPencilMarkInputField(Cell cell) {
 
 		CombinationCell combinationCell = new CombinationCell(cell,
 				this.gameSession);
 
-		// /*
-		// * disable any number used according to the cellConstraints for given
-		// * cell
-		// */
-		// for (int usedNumber : this.gameSession.getGameBoard()
-		// .getCellConstraints(cell).getUsedNumbers()) {
-		// ((JToggleButton) combinationCell.getComponent(usedNumber - 1))
-		// .setEnabled(false);
-		// ((JToggleButton) combinationCell.getComponent(usedNumber - 1))
-		// .setText("");
-		// }
-		//
-		// for (int k = 1; k <= 9; k++) {
-		// if (cell.getPencilMarks().contains(k)) {
-		// ((JToggleButton) combinationCell.getComponent(k - 1))
-		// .setSelected(true);
-		// } else {
-		// ((JToggleButton) combinationCell.getComponent(k - 1))
-		// .setSelected(false);
-		// }
-		// }
+		/*
+		 * disable any number used according to the cellConstraints for given
+		 * cell
+		 */
+		for (int usedNumber : this.gameSession.getGameBoard()
+				.getCellConstraints(cell).getUsedNumbers()) {
+			((JToggleButton) combinationCell.getComponent(usedNumber - 1))
+					.setEnabled(false);
+			((JToggleButton) combinationCell.getComponent(usedNumber - 1))
+					.setText("");
+		}
+
+		for (int k = 1; k <= 9; k++) {
+			if (cell.getPencilMarks().contains(k)) {
+				((JToggleButton) combinationCell.getComponent(k - 1))
+						.setSelected(true);
+			} else {
+				((JToggleButton) combinationCell.getComponent(k - 1))
+						.setSelected(false);
+			}
+		}
 
 		return combinationCell;
 	}
@@ -492,5 +519,9 @@ public class CellGUI extends JPanel {
 				}
 			}
 		}
+	}
+
+	public Cell getCell() {
+		return this.cell;
 	}
 }
