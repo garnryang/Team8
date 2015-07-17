@@ -27,6 +27,11 @@ import edu.psu.sweng500.team8.play.GameSession;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * @deprecated See edu.psu.sweng500.team8.gui.BoardGUI
+ * 
+ *
+ */
 public class GridPanel extends javax.swing.JPanel {
 
     private JTextField[][] controlGrid = new JTextField[9][9];
@@ -45,12 +50,6 @@ public class GridPanel extends javax.swing.JPanel {
         initializeGrid();
     }
     
-    public GridPanel(JTextField[][] controlGrid){
-    	this.controlGrid = controlGrid;
-        initComponents();
-        initializeGrid();
-    }
-
     public void populatePanel(CellGrid grid, GameSession gameSession) {
         clearGrid(true); //FIXME: Remove argument
 
@@ -65,17 +64,20 @@ public class GridPanel extends javax.swing.JPanel {
                 if (cell.hasNumber()) {
                 	cellTextBox.setText(Integer.toString(cell.getNumber()));
 	                
-                	if(cell.getType() == ValueType.Given){
-	                	markGivenCell(cell);
+                	/* David's Additional Code A */
+                	//if(cell.getType() == ValueType.Given){
+	                markGivenCell(cell);
 	                	
-	                	CellCoordinates coordinates = cell.getCoordinates();
-	                	this.controlGrid[coordinates.getRowIndex()][coordinates.getColumnIndex()].setEditable(false);
-	                }
+	                //	CellCoordinates coordinates = cell.getCoordinates();
+	                //	this.controlGrid[coordinates.getRowIndex()][coordinates.getColumnIndex()].setEditable(false);
+	                //}
+	                /* David's Additional Code A */
                     
                 }
                 
                 cellTextBox.setFocusable(true);
                 
+                /* TODO - What's the use case for keyListners array? */
                 //Subscribe a key listener
                 if (this.keyListeners[row][column] != null) {
                 	cellTextBox.removeKeyListener(this.keyListeners[row][column]);
@@ -86,6 +88,10 @@ public class GridPanel extends javax.swing.JPanel {
         }
     }
     
+    /**
+     * WHAT IS THE PURPOSE OF THIS?
+     * @param grid
+     */
     public void remarkGivenCells(CellGrid grid){
     	
              for (int row = 0; row < 9; row++) {
@@ -295,7 +301,9 @@ public class GridPanel extends javax.swing.JPanel {
             for (int column = 0; column < 9; column++) {
             	JTextField cellTextBox = this.controlGrid[row][column];
             	cellTextBox.setText("");
-            	cellTextBox.setEditable(true);
+            	/* David's Additional Code B */
+//            	cellTextBox.setEditable(true);
+            	/* David's Additional Code B */
             	if (isClearHighlight) {
 					cellTextBox.getHighlighter().removeAllHighlights();					
 				}

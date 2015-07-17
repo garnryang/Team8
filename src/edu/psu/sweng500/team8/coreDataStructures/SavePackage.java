@@ -2,22 +2,24 @@ package edu.psu.sweng500.team8.coreDataStructures;
 
 import java.io.Serializable;
 
-import javax.swing.JTextField;
+public class SavePackage implements Serializable {
 
-public class SavePackage  implements Serializable {
-	private CellGrid m_cellGrid;
-	private Puzzle m_puzzle;	
-	
+	private CellGrid cellGrid;
+	private Puzzle puzzle;
+
 	public CellGrid getCellGrid() {
-		return m_cellGrid;
+		return cellGrid;
 	}
-	public void setCellGrid(CellGrid m_cellGrid) {
-		this.m_cellGrid = m_cellGrid;
+
+	public void setCellGrid(CellGrid cellGrid) {
+		this.cellGrid = cellGrid;
 	}
+
 	public Puzzle getPuzzle() {
-		return m_puzzle;
+		return puzzle;
 	}
-	public void setPuzzle(Puzzle m_puzzle) {
-		this.m_puzzle = m_puzzle;
+
+	public void setPuzzle(Puzzle puzzle) {
+		this.puzzle = puzzle;
 	}
 }

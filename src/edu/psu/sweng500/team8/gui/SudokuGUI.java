@@ -11,13 +11,19 @@ import java.io.ObjectOutputStream;
 import java.util.Set;
 
 import javax.swing.AbstractAction;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JFileChooser;
-import javax.swing.JTextField;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.filechooser.FileFilter;
 
 import edu.psu.sweng500.team8.coreDataStructures.Board;
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
+import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
 import edu.psu.sweng500.team8.coreDataStructures.SavePackage;
@@ -27,20 +33,13 @@ import edu.psu.sweng500.team8.puzzleGenerator.PuzzleRepository;
 import edu.psu.sweng500.team8.solver.HintGenerator;
 import edu.psu.sweng500.team8.solver.HintInfo;
 
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.GroupLayout;
-import javax.swing.JOptionPane;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JTextArea;
-import javax.swing.filechooser.FileFilter;
-
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
 /**
- *
+ * @deprecated See edu.psu.sweng500.team8.gui.SudokuGUI_Mark2
  * @author cliff_000
  */
 public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener {
@@ -49,7 +48,10 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
         /* we need to keep track of the current game */
 	private GameSession gameSession;
 
-    private Board board;    
+	/* We have gameSession for this... */
+	/* David's Additional Code C */
+//    private Board board;    
+	/* David's Additional Code C */
 
     private static final String WIN_MESSAGE = "You won! Start a new game to play again.";
     
@@ -78,19 +80,24 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 	public void cellChanged(Cell cell, int newNumber) {
 		//Cell number changed. Clear the message and any highlighted incorrect numbers.
 		clearMessage();
-		gameBoard.clearHighlightedIncorrectCells();
+		this.gameBoard.clearHighlightedIncorrectCells();
 		
-		board = gameSession.getGameBoard();
+		/* Dvid's Additional Code D */
+		// board = gameSession.getGameBoard();
+		/* Dvid's Additional Code D */
 		
 		
-		if (!board.hasOpenCells()) {
-			//Check the board against the solution
-			if (board.getIncorrectCells().isEmpty()) {
-				//Player won the game
-				this.gameBoard.disableEditing();
-				setMessage("You won! Start a new game to play again.");
-			}
-		}
+		/* Dvid's Additional Code E */
+//		if (!board.hasOpenCells()) {
+//			//Check the board against the solution
+//			if (board.getIncorrectCells().isEmpty()) {
+//				//Player won the game
+//				this.gameBoard.disableEditing();
+//				setMessage("You won! Start a new game to play again.");
+//			}
+//		}
+		/* Dvid's Additional Code E */
+		
 		if (gameIsComplete()) {
 			//Player won the game
 			this.gameBoard.disableEditing();
@@ -334,6 +341,7 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
         	CellCoordinates coordinates = hint.getCell().getCoordinates();
             this.gameBoard.selectCell(coordinates.getRowIndex(), coordinates.getColumnIndex());
             /* Any numbered entered should go through gameSession.enterNumber method for other business logics */
+
             this.gameSession.enterNumber(hint.getCell(), hint.getNumber());
             this.gameBoard.setSelectedCellNumber(hint.getNumber());
             
@@ -379,9 +387,10 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 		// TODO add your handling code here:
 	}// GEN-LAST:event_radHardActionPerformed
 
+	/**
+	 * LOAD Action
+	 */
 	private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton11ActionPerformed
-		// TODO add your handling code here:
-		// Create a file chooser
 		
 		final JFileChooser fc = new JFileChooser();
 		fc.setFileFilter(new FileFilter(){
@@ -419,57 +428,63 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 	}// GEN-LAST:event_jButton11ActionPerformed
 	
 
-	
+	/**
+	 * SAVE Action
+	 */
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) throws FileNotFoundException {
-		
-		
+
 		final JFileChooser fc = new JFileChooser();
 
-		fc.setFileFilter(new FileFilter(){
-           @Override
-           public boolean accept(File file){
-              return (file.getName().toUpperCase().endsWith(".SUDOKU") || file.isDirectory());
-           }
-
-           @Override
-           public String getDescription(){
-              return "Sudoku files";
-           }
-        });
-		
-		fc.setAcceptAllFileFilterUsed(false);
-		
-		int returnVal = fc.showSaveDialog(getComponent(0));;
-		
-		if(returnVal == JFileChooser.APPROVE_OPTION){
-			
-
-				File f = fc.getSelectedFile();
-				String path = f.getAbsolutePath();
-				
-				if(f.exists()){
-		            int result = JOptionPane.showConfirmDialog(this,"The file exists, overwrite?","Existing file",JOptionPane.YES_NO_CANCEL_OPTION);
-		            switch(result){
-		                case JOptionPane.YES_OPTION:
-		                    fc.approveSelection();
-		                    savePuzzle(path);
-		                    gameBoard.remarkGivenCells(this.gameSession.getGameBoard().getCellGrid());
-		                    return;
-		                case JOptionPane.NO_OPTION:
-		                    return;
-		                case JOptionPane.CLOSED_OPTION:
-		                    return;
-		                case JOptionPane.CANCEL_OPTION:
-		                    fc.cancelSelection();
-		                    return;
-		            }
-		        }
-		        fc.approveSelection();
-		        savePuzzle(path);		        
-		        gameBoard.remarkGivenCells(this.gameSession.getGameBoard().getCellGrid());
-		        this.pencilMarkGridPanel.populate(gameSession);
-		      }
+		fc.setFileFilter(new FileFilter() {
+			@Override
+			public boolean accept(File file) {
+				return (file.getName().toUpperCase().endsWith(".SUDOKU") || file
+						.isDirectory());
 			}
+
+			@Override
+			public String getDescription() {
+				return "Sudoku files";
+			}
+		});
+
+		fc.setAcceptAllFileFilterUsed(false);
+
+		int returnVal = fc.showSaveDialog(getComponent(0));
+		;
+
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+
+			File f = fc.getSelectedFile();
+			String path = f.getAbsolutePath();
+
+			if (f.exists()) {
+				int result = JOptionPane.showConfirmDialog(this,
+						"The file exists, overwrite?", "Existing file",
+						JOptionPane.YES_NO_CANCEL_OPTION);
+				switch (result) {
+				case JOptionPane.YES_OPTION:
+					fc.approveSelection();
+					savePuzzle(path);
+					gameBoard.remarkGivenCells(this.gameSession.getGameBoard()
+							.getCellGrid());
+					return;
+				case JOptionPane.NO_OPTION:
+					return;
+				case JOptionPane.CLOSED_OPTION:
+					return;
+				case JOptionPane.CANCEL_OPTION:
+					fc.cancelSelection();
+					return;
+				}
+			}
+			fc.approveSelection();
+			savePuzzle(path);
+			gameBoard.remarkGivenCells(this.gameSession.getGameBoard()
+					.getCellGrid());
+			this.pencilMarkGridPanel.populate(gameSession);
+		}
+	}
 			
     private void savePuzzle(String path){
 		try{
@@ -494,26 +509,26 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
     }
 	
 	private void loadSession(SavePackage savePackage){		
+		
 		Puzzle puzzle = savePackage.getPuzzle();
 		
-		setMessage("");
-		DifficultyLevel difficulty;
-		if (puzzle.getDifficulty() == DifficultyLevel.Easy){
+		DifficultyLevel difficulty = puzzle.getDifficulty();
+		if (difficulty == DifficultyLevel.Easy){
 			radEasy.setSelected(true);			
-		}		
-		else if (puzzle.getDifficulty() == DifficultyLevel.Medium){
+		} else if (difficulty == DifficultyLevel.Medium){
 			radMedium.setSelected(true);			
-		}		
-		else{
+		} else{
 			radHard.setSelected(true);
 		}
-				
-		this.gameSession = new GameSession(puzzle);
+		
+		CellGrid cellGrdi = savePackage.getCellGrid();
+		
+		//Puzzle puzzle = this.puzzleRepo.getPuzzle(difficulty);
+		this.gameSession = new GameSession(puzzle, cellGrdi);
 		this.gameSession.subscribeForCellChanges(this);
 		
-		GridPanel gameBoard = new GridPanel(new JTextField[9][9]);		
-		
-		this.gameBoard.populatePanel(savePackage.getCellGrid(),	gameSession);
+		this.gameBoard.populatePanel(gameSession.getGameBoard().getCellGrid(),
+				gameSession);
 		this.pencilMarkGridPanel.populate(gameSession);
 	}	
     
@@ -538,7 +553,7 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 			difficulty = DifficultyLevel.Hard;
 
 		Puzzle puzzle = this.puzzleRepo.getPuzzle(difficulty);
-		this.gameSession = new GameSession(puzzle);
+		this.gameSession = new GameSession(puzzle, null);
 		this.gameSession.subscribeForCellChanges(this);
 		this.gameBoard.populatePanel(gameSession.getGameBoard().getCellGrid(),
 				gameSession);

@@ -16,7 +16,7 @@ public class Block extends Constraint {
 		m_blockIndex = blockIndex;
 	}
 	
-	protected Cell getCell(int index) {
+	public Cell getCell(int index) {
 		//Base row index is the (block index / 3) (truncated) * 3
 		//Row within the block is index / 3 (truncated)
 		int rowIndex = (m_blockIndex / 3) * 3 + index / 3;

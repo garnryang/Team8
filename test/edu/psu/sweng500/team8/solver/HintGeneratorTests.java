@@ -11,10 +11,10 @@ import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
 
 public class HintGeneratorTests {
 	@Test
-	public void canGetHintWhenACellHasOnlyOneAvailableNumber() {
+	public void cangetHintWhenACellHasOnlyOneAvailableNumber() {
 		Puzzle testPuzzle = getPuzzleWithCellWithOnlyOneAvailableNumber();
 		Board testBoard = new Board();
-		testBoard.Initialize(testPuzzle);
+		testBoard.initialize(testPuzzle, null);
 		
 		HintInfo hint = HintGenerator.getHint(testBoard);
 		
@@ -31,11 +31,11 @@ public class HintGeneratorTests {
 	}
 	
 	@Test
-	public void canGetHintWhenThereIsOnlyOneCellWhereANumberCanFit() {
+	public void cangetHintWhenThereIsOnlyOneCellWhereANumberCanFit() {
 		Puzzle testPuzzle = getPuzzleWhereANumberCanOnlyFitInOneCell();
 		
 		Board testBoard = new Board();
-		testBoard.Initialize(testPuzzle);
+		testBoard.initialize(testPuzzle, null);
 		
 		SolverFactory.getSolverThatTriesConstraintsFirst().findUniqueSolutionOrNull(testBoard);
 		

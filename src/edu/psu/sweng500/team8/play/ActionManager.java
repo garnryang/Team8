@@ -18,7 +18,7 @@ public class ActionManager  implements Serializable {
 	}
 
 	public void addAction(SudokuAction sudokuAction) {
-		this.sudokuActionStack.add(sudokuAction);
+		this.sudokuActionStack.push(sudokuAction);
 	}
 
 	/**
@@ -32,11 +32,12 @@ public class ActionManager  implements Serializable {
 		 */
 		
 		if (!sudokuActionStack.isEmpty()) {
+			
 			SudokuAction lastAction = sudokuActionStack.pop(); 
 			CellGrid previousCellGrid = lastAction.getCellGrid(); 
 			
 			SudokuAction undoAction = new SudokuAction(new CellGrid(currentCellGridFromBoard));
-			sudokuActionStackForUndo.add(undoAction);
+			sudokuActionStackForUndo.push(undoAction);
 			
 			currentCellGridFromBoard.copyValues(previousCellGrid);
 		}
@@ -53,7 +54,7 @@ public class ActionManager  implements Serializable {
 			CellGrid previousCellGrid = lastActionUndone.getCellGrid();
 			
 			SudokuAction redoAction = new SudokuAction(new CellGrid(currentCellGridFromBoard));
-			sudokuActionStack.add(redoAction);
+			sudokuActionStack.push(redoAction);
 
 			currentCellGridFromBoard.copyValues(previousCellGrid);
 		}

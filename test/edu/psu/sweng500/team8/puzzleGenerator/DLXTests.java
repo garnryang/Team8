@@ -16,7 +16,7 @@ public class DLXTests {
 		CellGrid expectedSolution = testPuzzle.getSolution();
 
 		Board boardToSolve = new Board();
-		boardToSolve.Initialize(testPuzzle);
+		boardToSolve.initialize(testPuzzle, null);
 		DLX solver = new DLX(boardToSolve.getCellGrid());
 		
 		int numSolutions = solver.Solve();
@@ -33,7 +33,7 @@ public class DLXTests {
 		CellGrid expectedSolution = testPuzzle.getSolution();
 
 		Board boardToSolve = new Board();
-		boardToSolve.Initialize(testPuzzle);
+		boardToSolve.initialize(testPuzzle, null);
 		DLX solver = new DLX(boardToSolve.getCellGrid());
 		
 		int numSolutions = solver.Solve();
@@ -48,7 +48,7 @@ public class DLXTests {
 		CellGrid expectedSolution = testPuzzle.getSolution();
 
 		Board boardToSolve = new Board();
-		boardToSolve.Initialize(testPuzzle);
+		boardToSolve.initialize(testPuzzle, null);
 		DLX solver = new DLX(boardToSolve.getCellGrid());
 		
 		int numSolutions = solver.Solve();
@@ -62,7 +62,7 @@ public class DLXTests {
 		Puzzle testPuzzle = TestPuzzles.getPuzzleWithMultipleSolutions();
 
 		Board boardToSolve = new Board();
-		boardToSolve.Initialize(testPuzzle);
+		boardToSolve.initialize(testPuzzle, null);
 		DLX solver = new DLX(boardToSolve.getCellGrid());
 		
 		int numSolutions = solver.Solve();

@@ -16,7 +16,7 @@ public class PencilMarkManagerTests {
 		//Initialize the board with a puzzle
 		Puzzle testPuzzle = TestPuzzles.getEasyPuzzle();
 		Board testBoard = new Board();
-		testBoard.Initialize(testPuzzle);
+		testBoard.initialize(testPuzzle, null);
 		PencilMarkManager pencilMarkManager = new PencilMarkManager(testBoard);
 		
 		//Pick a cell to add pencil marks
@@ -34,7 +34,7 @@ public class PencilMarkManagerTests {
 		//Initialize the board with a puzzle
 		Puzzle testPuzzle = TestPuzzles.getEasyPuzzle();
 		Board testBoard = new Board();
-		testBoard.Initialize(testPuzzle);
+		testBoard.initialize(testPuzzle, null);
 		PencilMarkManager pencilMarkManager = new PencilMarkManager(testBoard);
 		
 		//Pick a cell to add pencil marks

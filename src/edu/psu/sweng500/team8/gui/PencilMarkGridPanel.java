@@ -19,6 +19,11 @@ import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
 import edu.psu.sweng500.team8.play.GameSession;
 
+/**
+ * @deprecated See edu.psu.sweng500.team8.gui.CellGUI
+ *
+ *
+ */
 public class PencilMarkGridPanel extends javax.swing.JPanel {
 
 	private static final int CELL_SIZE = 18*3;
