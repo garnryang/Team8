@@ -17,7 +17,7 @@ import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
  */
 public class GameSession  implements Serializable{
 	
-	private static final long serialVersionUID = 7878878;
+	private static final long serialVersionUID = 071615;
 	private Board board = new Board();
 	private ActionManager actionManager;
 	

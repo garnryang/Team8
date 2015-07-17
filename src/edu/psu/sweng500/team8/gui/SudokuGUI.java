@@ -13,6 +13,7 @@ import java.util.Set;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
+import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 
 import edu.psu.sweng500.team8.coreDataStructures.Board;
@@ -478,21 +479,18 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 		        fc.approveSelection();
 		        savePuzzle(path);		        
 		        gameBoard.remarkGivenCells(this.gameSession.getGameBoard().getCellGrid());
+		        this.pencilMarkGridPanel.populate(gameSession);
 		      }
 			}
 			
     private void savePuzzle(String path){
-		try
-	      {
-		
+		try{
 			if(!path.toLowerCase().endsWith(".sudoku")){
 				path = path + ".sudoku";
-			}
-			
+			}			
 			SavePackage savePackage = new SavePackage();
 			savePackage.setCellGrid(this.gameSession.getGameBoard().getCellGrid());
-			savePackage.setPuzzle(this.gameSession.getGameBoard().getCurrentPuzzle());
-			savePackage.setControlGrid(this.gameBoard.getControlGrid());
+			savePackage.setPuzzle(this.gameSession.getGameBoard().getCurrentPuzzle());			
 	         FileOutputStream fileOut =
 	         new FileOutputStream(path);
 	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -530,8 +528,7 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 		this.gameSession = new GameSession(puzzle);
 		this.gameSession.subscribeForCellChanges(this);
 		
-		GridPanel gameBoard = new GridPanel(savePackage.getControlGrid());
-		//this.gameBoard = gameBoard;
+		GridPanel gameBoard = new GridPanel(new JTextField[9][9]);		
 		
 		this.gameBoard.populatePanel(savePackage.getCellGrid(),	gameSession);
 		this.pencilMarkGridPanel.populate(gameSession);

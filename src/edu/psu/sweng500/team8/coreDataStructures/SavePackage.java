@@ -6,8 +6,7 @@ import javax.swing.JTextField;
 
 public class SavePackage  implements Serializable {
 	private CellGrid m_cellGrid;
-	private Puzzle m_puzzle;
-	private JTextField[][] m_controlGrid;
+	private Puzzle m_puzzle;	
 	
 	public CellGrid getCellGrid() {
 		return m_cellGrid;
@@ -20,11 +19,5 @@ public class SavePackage  implements Serializable {
 	}
 	public void setPuzzle(Puzzle m_puzzle) {
 		this.m_puzzle = m_puzzle;
-	}
-	public JTextField[][] getControlGrid() {
-		return m_controlGrid;
-	}
-	public void setControlGrid(JTextField[][] m_controlGrid) {
-		this.m_controlGrid = m_controlGrid;
 	}
 }
