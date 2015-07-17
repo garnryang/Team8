@@ -11,15 +11,16 @@ import org.junit.Test;
 
 import edu.psu.sweng500.team8.coreDataStructures.Board;
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
-import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
+import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
 
 public class GameSessionTests {
 
 	@Test
 	public void testUndo_1_Action() {
 		
-		Board board = new Board();
-		GameSession gameSession = new GameSession(board);
+		
+		Puzzle puzzle = new Puzzle();
+		GameSession gameSession = new GameSession(puzzle, null);
 		
 		Cell cell = gameSession.getGameBoard().getCell(0, 0);
 		gameSession.enterNumber(cell, 8);
@@ -37,8 +38,8 @@ public class GameSessionTests {
 	@Test
 	public void testUndo_0_Action() {
 		
-		Board board = new Board();
-		GameSession gameSession = new GameSession(board);
+		Puzzle puzzle = new Puzzle();
+		GameSession gameSession = new GameSession(puzzle, null);
 		
 		gameSession.doUndo();
 		Board boardAfterUndo = gameSession.refresh();
@@ -49,8 +50,8 @@ public class GameSessionTests {
 	@Test
 	public void testUndo_2_Action() {
 		
-		Board board = new Board();
-		GameSession gameSession = new GameSession(board);
+		Puzzle puzzle = new Puzzle();
+		GameSession gameSession = new GameSession(puzzle, null);
 		
 		Cell cell_1 = gameSession.getGameBoard().getCell(0, 0);
 		gameSession.enterNumber(cell_1, 8);
@@ -82,8 +83,8 @@ public class GameSessionTests {
 	@Test
 	public void testRedo_1_Action() {
 		
-		Board board = new Board();
-		GameSession gameSession = new GameSession(board);
+		Puzzle puzzle = new Puzzle();
+		GameSession gameSession = new GameSession(puzzle, null);
 		
 		Cell cell = gameSession.getGameBoard().getCell(0, 0);
 		gameSession.enterNumber(cell, 8);
@@ -106,8 +107,8 @@ public class GameSessionTests {
 	@Test
 	public void testRedo_0_Action() {
 		
-		Board board = new Board();
-		GameSession gameSession = new GameSession(board);
+		Puzzle puzzle = new Puzzle();
+		GameSession gameSession = new GameSession(puzzle, null);
 		
 		Cell cell = gameSession.getGameBoard().getCell(0, 0);
 		gameSession.enterNumber(cell, 8);
@@ -125,8 +126,8 @@ public class GameSessionTests {
 	@Test
 	public void testRedo_2_Action() {
 		
-		Board board = new Board();
-		GameSession gameSession = new GameSession(board);
+		Puzzle puzzle = new Puzzle();
+		GameSession gameSession = new GameSession(puzzle, null);
 		
 		Cell cell = gameSession.getGameBoard().getCell(0, 0);
 		gameSession.enterNumber(cell, 8);
@@ -172,22 +173,22 @@ public class GameSessionTests {
 	
 	@Test
 	public void testHelp_About() {
-		Board board = new Board();
-		GameSession gameSession = new GameSession(board);
+		Puzzle puzzle = new Puzzle();
+		GameSession gameSession = new GameSession(puzzle, null);
 		Assert.assertNotNull(gameSession.getHelp(HelpType.ABOUT));
 	}
 	
 	@Test
 	public void testHelp_Hint() {
-		Board board = new Board();
-		GameSession gameSession = new GameSession(board);
+		Puzzle puzzle = new Puzzle();
+		GameSession gameSession = new GameSession(puzzle, null);
 		Assert.assertNotNull(gameSession.getHelp(HelpType.HINT));
 	}
 	
 	@Test
 	public void testHelp_Rules() {
-		Board board = new Board();
-		GameSession gameSession = new GameSession(board);
+		Puzzle puzzle = new Puzzle();
+		GameSession gameSession = new GameSession(puzzle, null);
 		Assert.assertNotNull(gameSession.getHelp(HelpType.RULES));
 		
 	}
@@ -195,8 +196,8 @@ public class GameSessionTests {
 	@Test
 	public void testDoSave() {
 		String saveFile = "save01";
-		Board board = new Board();
-		GameSession gameSession = new GameSession(board);
+		Puzzle puzzle = new Puzzle();
+		GameSession gameSession = new GameSession(puzzle, null);
 		gameSession.doSave(saveFile);
 		
 		/* The simplest implementation would be persisting a game as a 81 character String on a text file. 
@@ -228,8 +229,8 @@ public class GameSessionTests {
 	@Test
 	public void testDoLoad() {
 		String saveFile = "save01";
-		Board board = new Board();
-		GameSession gameSession = new GameSession(board);
+		Puzzle puzzle = new Puzzle();
+		GameSession gameSession = new GameSession(puzzle, null);
 		
 		/* enter 8 at 0,0 */
 		Cell cell = gameSession.getGameBoard().getCell(0, 0);

@@ -73,6 +73,7 @@ public class BlockGUI extends JPanel {
 	/**
 	 * 
 	 * iterate through each contained CellGUI and populate Pencil Mark
+	 * 
 	 * @deprecated
 	 * @param block
 	 * @param gameSession

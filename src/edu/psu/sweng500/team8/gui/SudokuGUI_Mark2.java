@@ -1,30 +1,39 @@
 package edu.psu.sweng500.team8.gui;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Set;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.filechooser.FileFilter;
 
 import edu.psu.sweng500.team8.coreDataStructures.Board;
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
+import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
+import edu.psu.sweng500.team8.coreDataStructures.SavePackage;
 import edu.psu.sweng500.team8.play.CellChangedListener;
 import edu.psu.sweng500.team8.play.GameSession;
 import edu.psu.sweng500.team8.puzzleGenerator.PuzzleRepository;
 import edu.psu.sweng500.team8.solver.HintGenerator;
 import edu.psu.sweng500.team8.solver.HintInfo;
-
-import javax.swing.JPanel;
 
 /**
  *
@@ -142,35 +151,45 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 			}
 		});
 
-		jLabel2.setText("Difficulty");
+		this.jLabel2.setText("Difficulty");
 
 		this.btnSave.setText("Save");
 		this.btnSave.setEnabled(false);
+		this.btnSave.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				try {
+					btnSaveActionPerformed(evt);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 
-		btnLoad.setText("Load");
-		btnLoad.addActionListener(new java.awt.event.ActionListener() {
+		this.btnLoad.setText("Load");
+		this.btnLoad.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnLoadActionPerformed(evt);
 			}
 		});
 
-		btnUndo.setText("Undo");
-		btnUndo.setEnabled(false);
-		btnUndo.addActionListener(new java.awt.event.ActionListener() {
+		this.btnUndo.setText("Undo");
+		this.btnUndo.setEnabled(false);
+		this.btnUndo.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				doUndo(evt);
 			}
 		});
 
-		btnRedo.setText("Redo");
-		btnRedo.setEnabled(false);
-		btnRedo.addActionListener(new java.awt.event.ActionListener() {
+		this.btnRedo.setText("Redo");
+		this.btnRedo.setEnabled(false);
+		this.btnRedo.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				doRedo(evt);
 			}
 		});
 
-		jButton14.setText("Help");
+		this.jButton14.setText("Help");
 		jButton14.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jButton14ActionPerformed(evt);
@@ -459,13 +478,15 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 	private void doUndo(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_doUndo
 		this.setMessage("");
 		this.gameSession.doUndo();
-		this.gameBoard.populatePanel(this.gameSession, true, false, this.numberInputPad);
+		this.gameBoard.populatePanel(this.gameSession, true, false,
+				this.numberInputPad);
 	}
 
 	private void doRedo(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_doRedo
 		this.setMessage("");
 		this.gameSession.doRedo();
-		this.gameBoard.populatePanel(this.gameSession, true, false, this.numberInputPad);
+		this.gameBoard.populatePanel(this.gameSession, true, false,
+				this.numberInputPad);
 	}
 
 	private void btnCheckActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCheckActionPerformed
@@ -489,14 +510,174 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 		// TODO add your handling code here:
 	}// GEN-LAST:event_radHardActionPerformed
 
-	private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnLoadActionPerformed
-		// TODO add your handling code here:
-		// Create a file chooser
+	/**
+	 * LOAD Action
+	 * 
+	 * @param evt
+	 */
+	private void btnLoadActionPerformed(ActionEvent evt) {
+
 		final JFileChooser fc = new JFileChooser();
-		// In response to a button click:
+		fc.setFileFilter(new FileFilter() {
+			@Override
+			public boolean accept(File file) {
+				return (file.getName().toUpperCase().endsWith(".SUDOKU") || file
+						.isDirectory());
+			}
+
+			@Override
+			public String getDescription() {
+				return "Sudoku files";
+			}
+		});
+
+		fc.setAcceptAllFileFilterUsed(false);
 		int returnVal = fc.showOpenDialog(getComponent(0));
 
-	}// GEN-LAST:event_btnLoadActionPerformed
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+
+			SavePackage savePackage = null;
+			try {
+				FileInputStream fileIn = new FileInputStream(fc
+						.getSelectedFile().getAbsolutePath());
+				ObjectInputStream in = new ObjectInputStream(fileIn);
+				savePackage = (SavePackage) in.readObject();
+				in.close();
+				fileIn.close();
+
+				Puzzle puzzle = savePackage.getPuzzle();
+
+				DifficultyLevel difficulty = puzzle.getDifficulty();
+				if (difficulty == DifficultyLevel.Easy) {
+					radEasy.setSelected(true);
+				} else if (difficulty == DifficultyLevel.Medium) {
+					radMedium.setSelected(true);
+				} else {
+					radHard.setSelected(true);
+				}
+
+				CellGrid cellGrid = savePackage.getCellGrid();
+
+				this.loadSession(puzzle, cellGrid);
+
+				/* We need to populate non given cells */
+
+			} catch (IOException i) {
+				i.printStackTrace();
+			} catch (ClassNotFoundException c) {
+				c.printStackTrace();
+			}
+		}
+	}
+
+	/**
+	 * SAVE Action
+	 * 
+	 * @param evt
+	 * @throws FileNotFoundException
+	 */
+	private void btnSaveActionPerformed(ActionEvent evt)
+			throws FileNotFoundException {
+
+		final JFileChooser fc = new JFileChooser();
+
+		fc.setFileFilter(new FileFilter() {
+			@Override
+			public boolean accept(File file) {
+				return (file.getName().toUpperCase().endsWith(".SUDOKU") || file
+						.isDirectory());
+			}
+
+			@Override
+			public String getDescription() {
+				return "Sudoku files";
+			}
+		});
+
+		fc.setAcceptAllFileFilterUsed(false);
+
+		int returnVal = fc.showSaveDialog(getComponent(0));
+
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+
+			File f = fc.getSelectedFile();
+			String path = f.getAbsolutePath();
+
+			if (f.exists()) {
+				int result = JOptionPane.showConfirmDialog(this,
+						"The file exists, overwrite?", "Existing file",
+						JOptionPane.YES_NO_CANCEL_OPTION);
+
+				switch (result) {
+				case JOptionPane.YES_OPTION:
+					fc.approveSelection();
+					savePuzzle(path);
+					/* Why do we need to remark given cells ?? */
+					// gameBoard.remarkGivenCells(this.gameSession.getGameBoard()
+					// .getCellGrid());
+					return;
+				case JOptionPane.NO_OPTION:
+					return;
+				case JOptionPane.CLOSED_OPTION:
+					return;
+				case JOptionPane.CANCEL_OPTION:
+					fc.cancelSelection();
+					return;
+				}
+			}
+
+			fc.approveSelection();
+			savePuzzle(path);
+			/* Why do we need to remark given cells ?? */
+			// gameBoard.remarkGivenCells(this.gameSession.getGameBoard()
+			// .getCellGrid());
+			/* Why do we need to re- populate ?? */
+			// this.pencilMarkGridPanel.populate(gameSession);
+		}
+	}
+
+	private void savePuzzle(String path) {
+		try {
+
+			if (!path.toLowerCase().endsWith(".sudoku")) {
+				path = path + ".sudoku";
+			}
+
+			SavePackage savePackage = new SavePackage();
+			savePackage.setCellGrid(this.gameSession.getGameBoard()
+					.getCellGrid());
+			savePackage.setPuzzle(this.gameSession.getGameBoard()
+					.getCurrentPuzzle());
+
+			FileOutputStream fileOut = new FileOutputStream(path);
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+
+			out.writeObject(savePackage);
+			out.close();
+			fileOut.close();
+
+		} catch (IOException i) {
+			i.printStackTrace();
+		}
+	}
+
+	private void loadSession(Puzzle puzzle, CellGrid overloadedCellGrid) {
+
+		this.gameSession = new GameSession(puzzle, overloadedCellGrid);
+
+		this.gameSession.subscribeForCellChanges(this);
+		this.numberInputPad.init(buildNumberInputMouseAdapter(),
+				this.gameSession);
+		this.gameBoard.populatePanel(gameSession, false, false,
+				this.numberInputPad);
+
+		this.btnSave.setEnabled(true);
+		this.btnHint.setEnabled(true);
+		this.btnCheck.setEnabled(true);
+		this.btnRedo.setEnabled(true);
+		this.btnUndo.setEnabled(true);
+		this.pencilMarkButton.setEnabled(true);
+	}
 
 	private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton14ActionPerformed
 		// TODO add your handling code here:
@@ -522,19 +703,8 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 		}
 
 		Puzzle puzzle = this.puzzleRepo.getPuzzle(difficulty);
-		this.gameSession = new GameSession(puzzle);
-		this.gameSession.subscribeForCellChanges(this);
-		this.numberInputPad.init(buildNumberInputMouseAdapter(), this.gameSession);
-		this.gameBoard.populatePanel(gameSession, false, false, this.numberInputPad);
-		
 
-		this.btnSave.setEnabled(true);
-		this.btnHint.setEnabled(true);
-		this.btnCheck.setEnabled(true);
-		this.btnRedo.setEnabled(true);
-		this.btnUndo.setEnabled(true);
-		this.pencilMarkButton.setEnabled(true);
-
+		loadSession(puzzle, null);
 	}
 
 	private void pencilMarkMode(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnHintActionPerformed
@@ -550,7 +720,8 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 		this.btnRedo.setEnabled(!isPencilMarkMode);
 		this.btnUndo.setEnabled(!isPencilMarkMode);
 		this.btnCheck.setEnabled(!isPencilMarkMode);
-		this.gameBoard.populatePanel(gameSession, true, isPencilMarkMode, this.numberInputPad);
+		this.gameBoard.populatePanel(gameSession, true, isPencilMarkMode,
+				this.numberInputPad);
 	}
 
 	/**

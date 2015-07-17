@@ -1,5 +1,6 @@
 package edu.psu.sweng500.team8.play;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -16,24 +17,19 @@ import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
  * response back to UI when redo/undo happens? Are we going to simply update
  * board/grid and let UI call refresh?
  */
-public class GameSession {
+public class GameSession implements Serializable {
 
+	private static final long serialVersionUID = 071615;
 	private Board board = new Board();
 	private ActionManager actionManager;
 	private boolean isPencilMarkMode = false;
 
 	private List<CellChangedListener> cellChangedListeners = new ArrayList<CellChangedListener>();
 
-	public GameSession(Puzzle puzzle) {
+	public GameSession(Puzzle puzzle, CellGrid overloadCellGrid) {
 		this.board = new Board();
-		this.board.Initialize(puzzle);
+		this.board.initialize(puzzle, overloadCellGrid);
 
-		this.actionManager = new ActionManager();
-	}
-
-	// DEPRECATED. TODO: Remove
-	public GameSession(Board board) {
-		this.board = board;
 		this.actionManager = new ActionManager();
 	}
 

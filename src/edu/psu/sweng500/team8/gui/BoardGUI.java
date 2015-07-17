@@ -14,11 +14,9 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JToggleButton;
 import javax.swing.border.Border;
 
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
@@ -35,7 +33,7 @@ public class BoardGUI extends JPanel {
 	private CellGUI selectedCell;
 	private Set<CellGUI> highlightedIncorrectCells = new HashSet<CellGUI>();
 	private NumberButtonGUI numberInputPad;
-	
+
 	public BoardGUI() {
 
 		this.setPreferredSize(new Dimension(BOARD_SIZE, BOARD_SIZE));
@@ -143,9 +141,9 @@ public class BoardGUI extends JPanel {
 
 		this.selectedCell = newSelectedCell;
 		this.selectedCell.selectCell();
-		
+
 		this.numberInputPad.updateForFocusedCell(this.selectedCell.getCell());
-		
+
 	}
 
 	private void cellLostFocus(FocusEvent focusEvent) {

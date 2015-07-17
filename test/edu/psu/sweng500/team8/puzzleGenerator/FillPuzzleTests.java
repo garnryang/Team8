@@ -17,6 +17,11 @@ import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
 import edu.psu.sweng500.team8.gui.GridPanel;
 import edu.psu.sweng500.team8.play.GameSession;
 
+/**
+ * FIXME - GridPanel is deprecated
+ * @author J
+ *
+ */
 public class FillPuzzleTests {
 
 	@Test
@@ -26,7 +31,7 @@ public class FillPuzzleTests {
 		DifficultyLevel difficulty = DifficultyLevel.Easy;
 		PuzzleRepository puzzleRepo = new PuzzleRepository(); 
 		Puzzle puzzle = puzzleRepo.getPuzzle(difficulty);
-		GameSession newGame = new GameSession(puzzle);
+		GameSession newGame = new GameSession(puzzle, null);
 		GridPanel gridPanel = new GridPanel();
 		gridPanel.populatePanel(newGame.getGameBoard().getCellGrid(), newGame);
 
@@ -75,7 +80,7 @@ public class FillPuzzleTests {
 		DifficultyLevel difficulty = DifficultyLevel.Easy;
 		PuzzleRepository puzzleRepo = new PuzzleRepository(); 
 		Puzzle puzzle = puzzleRepo.getPuzzle(difficulty);
-		GameSession newGame = new GameSession(puzzle);
+		GameSession newGame = new GameSession(puzzle, null);
 		GridPanel gridPanel = new GridPanel();
 		gridPanel.populatePanel(newGame.getGameBoard().getCellGrid(), newGame);
 
@@ -126,7 +131,7 @@ public class FillPuzzleTests {
 		DifficultyLevel difficulty = DifficultyLevel.Easy;
 		PuzzleRepository puzzleRepo = new PuzzleRepository(); 
 		Puzzle puzzle = puzzleRepo.getPuzzle(difficulty);
-		GameSession newGame = new GameSession(puzzle);
+		GameSession newGame = new GameSession(puzzle, null);
 		GridPanel gridPanel = new GridPanel();
 		gridPanel.populatePanel(newGame.getGameBoard().getCellGrid(), newGame);
 

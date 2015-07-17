@@ -62,7 +62,7 @@ public final class PuzzleGenerator {
 
 	private static boolean hasUniqueSolution(Puzzle puzzle) {
 		Board puzzleBoard = new Board();
-		puzzleBoard.Initialize(puzzle);
+		puzzleBoard.initialize(puzzle, null);
 		Solver solver = SolverFactory.getSolverThatTriesConstraintsFirst();
 		CellGrid solution = solver.findUniqueSolutionOrNull(puzzleBoard);
 		

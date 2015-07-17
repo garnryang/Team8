@@ -47,7 +47,6 @@ public class CellGUI extends JPanel {
 
 	private JPanel numberInputCell;
 	private JTextField numberInputField;
-	private JPanel pencilMarkInputCell;
 	private JPanel pencilMarkDisplayCell;
 	private JLabel[][] pencilMarkDisplay;
 
@@ -73,40 +72,6 @@ public class CellGUI extends JPanel {
 	 * @param gameSession
 	 */
 	public void populatePencilMark(Cell cell, GameSession gameSession) {
-
-		this.numberInputCell.setVisible(false);
-		this.pencilMarkDisplayCell.setVisible(false);
-		this.pencilMarkInputCell.setVisible(true);
-
-		this.pencilMarkInputCell.removeAll();
-		if (cell.hasNumber()) {
-			this.pencilMarkInputCell.setLayout(new BorderLayout());
-			this.pencilMarkInputCell.setBorder(null);
-			this.pencilMarkInputCell.add(buildReadOnlyTextField(cell));
-		} else {
-			this.pencilMarkInputCell.setLayout(new GridBagLayout());
-			this.pencilMarkInputCell.setBorder(null);
-
-			JTextField textField = new JTextField();
-			textField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-			textField.setBorder(DEFAULT_BORDER);
-			textField.setEditable(true);
-			textField.setText(Integer.toString(cell.getNumber()));
-
-			if (ValueType.Given.equals(cell.getType())) {
-				HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(
-						Color.green);
-
-				try {
-					textField.getHighlighter().addHighlight(0, 3, painter);
-				} catch (BadLocationException e) {
-					/* TODO - better error handling */
-					e.printStackTrace();
-				}
-			}
-
-			this.pencilMarkInputCell.add(buildPencilMarkInputField(cell));
-		}
 	}
 
 	public void populate(Cell cell, GameSession gameSession, boolean isRefresh,
@@ -132,13 +97,14 @@ public class CellGUI extends JPanel {
 		if (cell.hasNumber()) {
 			this.numberInputCell.setVisible(true);
 			this.pencilMarkDisplayCell.setVisible(false);
-			this.pencilMarkInputCell.setVisible(false);
 			this.numberInputField.setText(Integer.toString(cell.getNumber()));
 
 			if (!isRefresh) {
-				markGivenCell();
-				this.numberInputField.setEditable(false);
-				this.numberInputField.setFocusable(false);
+				if (ValueType.Given.equals(cell.getType())) {
+					markGivenCell();
+					this.numberInputField.setEditable(false);
+					this.numberInputField.setFocusable(false);
+				}
 			}
 
 			if (isPencilMarkMode) {
@@ -154,7 +120,6 @@ public class CellGUI extends JPanel {
 		} else {
 
 			this.pencilMarkDisplayCell.setVisible(false);
-			this.pencilMarkInputCell.setVisible(false);
 
 			if (cell.getPencilMarks().isEmpty()) {
 				this.numberInputCell.setVisible(true);
@@ -167,16 +132,10 @@ public class CellGUI extends JPanel {
 		}
 	}
 
+	/**
+	 * @deprecated
+	 */
 	private void initPencilMarkInputCell() {
-		this.pencilMarkInputCell = new JPanel();
-		this.pencilMarkInputCell.setPreferredSize(new Dimension(CELL_SIZE,
-				CELL_SIZE));
-		this.pencilMarkInputCell.setMinimumSize(new Dimension(CELL_SIZE,
-				CELL_SIZE));
-		this.pencilMarkInputCell.setMaximumSize(new Dimension(CELL_SIZE,
-				CELL_SIZE));
-		this.pencilMarkInputCell.setVisible(false);
-		this.add(this.pencilMarkInputCell);
 	}
 
 	private void initNumberInputCell() {
@@ -272,39 +231,41 @@ public class CellGUI extends JPanel {
 
 		this.numberInputCell.setVisible(true);
 		this.pencilMarkDisplayCell.setVisible(false);
-		this.pencilMarkInputCell.setVisible(false);
 
 		this.selectCell();
 	}
 
 	public void setNumberToCell(MouseEvent mouseEvent) {
 
-		JToggleButton theClickedButton = ((JToggleButton) mouseEvent.getSource());
+		JToggleButton theClickedButton = ((JToggleButton) mouseEvent
+				.getSource());
 		String keyValue = theClickedButton.getText();
-		boolean isSelcted= theClickedButton.isSelected();
-		JPanel numberPad = (JPanel)theClickedButton.getParent();
-		
-		
+		boolean isSelcted = theClickedButton.isSelected();
+		JPanel numberPad = (JPanel) theClickedButton.getParent();
+
 		if (isPencilMarkMode) {
 			/* number clicked during pencil mark mode */
 			this.gameSession.enterPencilMark(this.cell,
 					Integer.parseInt(keyValue), isSelcted);
 		} else {
-			
-			/* If in normal mode, multiple-selection should not be allowed 
-			 * unselect other buttons 
-			 * there is a better way of doing this, but this is a hack */
+
+			/*
+			 * If in normal mode, multiple-selection should not be allowed
+			 * unselect other buttons there is a better way of doing this, but
+			 * this is a hack
+			 */
 			for (int index = 0; index < 9; index++) {
-				JToggleButton eachButton = (JToggleButton) numberPad.getComponent(index);
+				JToggleButton eachButton = (JToggleButton) numberPad
+						.getComponent(index);
 				if (!eachButton.getText().equals(theClickedButton.getText())) {
 					eachButton.setSelected(false);
 				}
 			}
-			
+
 			if (isSelcted) {
 				this.numberInputField.setText(keyValue);
 				int numberInt = Integer.parseInt(keyValue);
-				this.gameSession.enterNumber(this.cell, numberInt);				
+				this.gameSession.enterNumber(this.cell, numberInt);
 			} else {
 				this.numberInputField.setText("");
 				this.gameSession.enterNumber(this.cell, 0);
@@ -397,18 +358,15 @@ public class CellGUI extends JPanel {
 			/* Number */
 			selectedCell.numberInputCell.setVisible(true);
 			selectedCell.pencilMarkDisplayCell.setVisible(false);
-			selectedCell.pencilMarkInputCell.setVisible(false);
 		} else {
 			if (this.cell.getPencilMarks().isEmpty()) {
 				/* Nothing */
 				selectedCell.numberInputCell.setVisible(true);
 				selectedCell.pencilMarkDisplayCell.setVisible(false);
-				selectedCell.pencilMarkInputCell.setVisible(false);
 			} else {
 				/* Pencil Marks */
 				selectedCell.numberInputCell.setVisible(false);
 				selectedCell.pencilMarkDisplayCell.setVisible(true);
-				selectedCell.pencilMarkInputCell.setVisible(false);
 				for (int i = 1; i <= 9; i++) {
 
 					int rowIndex = ((i - 1) / 3);
@@ -485,12 +443,10 @@ public class CellGUI extends JPanel {
 			 */
 			this.numberInputCell.setVisible(true);
 			this.pencilMarkDisplayCell.setVisible(false);
-			this.pencilMarkInputCell.setVisible(false);
 		} else {
 
 			this.numberInputCell.setVisible(false);
 			this.pencilMarkDisplayCell.setVisible(true);
-			this.pencilMarkInputCell.setVisible(false);
 
 			/*
 			 * This cell either got its pencil mark updated or the pencil mark

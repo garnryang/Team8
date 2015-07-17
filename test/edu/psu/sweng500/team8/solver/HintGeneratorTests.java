@@ -14,7 +14,7 @@ public class HintGeneratorTests {
 	public void cangetHintWhenACellHasOnlyOneAvailableNumber() {
 		Puzzle testPuzzle = getPuzzleWithCellWithOnlyOneAvailableNumber();
 		Board testBoard = new Board();
-		testBoard.Initialize(testPuzzle);
+		testBoard.initialize(testPuzzle, null);
 		
 		HintInfo hint = HintGenerator.getHint(testBoard);
 		
@@ -35,7 +35,7 @@ public class HintGeneratorTests {
 		Puzzle testPuzzle = getPuzzleWhereANumberCanOnlyFitInOneCell();
 		
 		Board testBoard = new Board();
-		testBoard.Initialize(testPuzzle);
+		testBoard.initialize(testPuzzle, null);
 		
 		SolverFactory.getSolverThatTriesConstraintsFirst().findUniqueSolutionOrNull(testBoard);
 		

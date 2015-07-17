@@ -1,11 +1,12 @@
 package edu.psu.sweng500.team8.play;
 
+import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 
-public class ActionManager {
+public class ActionManager  implements Serializable {
 
 	/* If limit the size, we need a custom implementation */
 	private Deque<SudokuAction> sudokuActionStack;
