@@ -2,7 +2,6 @@ package edu.psu.sweng500.team8.gui;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
-//import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -79,9 +78,9 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 	public void cellChanged(Cell cell, int newNumber) {
 		//Cell number changed. Clear the message and any highlighted incorrect numbers.
 		clearMessage();
-		this.gameBoard.clearHighlightedIncorrectCells();
+		gameBoard.clearHighlightedIncorrectCells();
 		
-		this.board = this.gameSession.getGameBoard();
+		board = gameSession.getGameBoard();
 		
 		
 		if (!board.hasOpenCells()) {
@@ -385,17 +384,14 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 		// Create a file chooser
 		
 		final JFileChooser fc = new JFileChooser();
-		fc.setFileFilter(new FileFilter()
-        {
+		fc.setFileFilter(new FileFilter(){
            @Override
-           public boolean accept(File file)
-           {
+           public boolean accept(File file){
               return (file.getName().toUpperCase().endsWith(".SUDOKU") || file.isDirectory());
            }
 
            @Override
-           public String getDescription()
-           {
+           public String getDescription(){
               return "Sudoku files";
            }
         });
@@ -406,22 +402,17 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 		if(returnVal == JFileChooser.APPROVE_OPTION){
 		
 			SavePackage savePackage = null;
-	      try
-	      {
+	      try{
 	         FileInputStream fileIn = new FileInputStream(fc.getSelectedFile().getAbsolutePath());
 	         ObjectInputStream in = new ObjectInputStream(fileIn);
 	         savePackage = (SavePackage) in.readObject();
 	         in.close();
 	         fileIn.close();
 	         this.loadSession(savePackage);
-	      }catch(IOException i)
-	      {
-	         i.printStackTrace();
-	         return;
-	      }catch(ClassNotFoundException c)
-	      {
+	      }catch(IOException i){
+	         i.printStackTrace();	         
+	      }catch(ClassNotFoundException c){
 	         c.printStackTrace();
-	         return;
 	      }
 		}
 		
@@ -434,17 +425,14 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 		
 		final JFileChooser fc = new JFileChooser();
 
-		fc.setFileFilter(new FileFilter()
-        {
+		fc.setFileFilter(new FileFilter(){
            @Override
-           public boolean accept(File file)
-           {
+           public boolean accept(File file){
               return (file.getName().toUpperCase().endsWith(".SUDOKU") || file.isDirectory());
            }
 
            @Override
-           public String getDescription()
-           {
+           public String getDescription(){
               return "Sudoku files";
            }
         });
@@ -499,28 +487,23 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 	         out.close();
 	         fileOut.close();
 
-	      }catch(IOException i)
-	      {
+	      }catch(IOException i){
 	          i.printStackTrace();
 	      }
 
     }
 	
-	private void loadSession(SavePackage savePackage){
-		//this.gameBoard.populatePanel(gameSession.getGameBoard().getCellGrid(), gameSession);
-		
+	private void loadSession(SavePackage savePackage){		
 		Puzzle puzzle = savePackage.getPuzzle();
 		
 		setMessage("");
 		DifficultyLevel difficulty;
 		if (puzzle.getDifficulty() == DifficultyLevel.Easy){
 			radEasy.setSelected(true);			
-		}
-		
+		}		
 		else if (puzzle.getDifficulty() == DifficultyLevel.Medium){
 			radMedium.setSelected(true);			
-		}
-		
+		}		
 		else{
 			radHard.setSelected(true);
 		}
