@@ -14,6 +14,11 @@ import edu.psu.sweng500.team8.coreDataStructures.Block;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 import edu.psu.sweng500.team8.play.GameSession;
 
+/**
+ * This is for Cliff's merge exercise.
+ * This comment shall be updated later or deleted
+ *
+ */
 public class BlockGUI extends JPanel {
 
 	private static final int BLOCK_SIZE = 162 + 2;
