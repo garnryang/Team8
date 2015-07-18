@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="ThirdPartyDeps/junit-4.12.jar"/>
 	<classpathentry kind="lib" path="ThirdPartyDeps/mockito-all-1.9.5.jar"/>
 	<classpathentry kind="lib" path="ThirdPartyDeps/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="ThirdPartyDeps/swt.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
