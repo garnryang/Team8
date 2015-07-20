@@ -38,6 +38,7 @@ import edu.psu.sweng500.team8.solver.HintGenerator;
 import edu.psu.sweng500.team8.solver.HintInfo;
 
 import javax.swing.JLabel;
+import javax.swing.UIManager;
 
 /**
  *
@@ -637,7 +638,7 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager
 					.getInstalledLookAndFeels()) {
 				if ("Nimbus".equals(info.getName())) {
-					javax.swing.UIManager.setLookAndFeel(info.getClassName());
+					javax.swing.UIManager.setLookAndFeel("com.jtattoo.plaf.texture.TextureLookAndFeel");
 					break;
 				}
 			}
