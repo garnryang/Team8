@@ -2,7 +2,9 @@ package edu.psu.sweng500.team8.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
+import java.awt.Image;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
@@ -14,6 +16,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -22,6 +25,28 @@ import javax.swing.border.Border;
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 import edu.psu.sweng500.team8.play.GameSession;
+
+@SuppressWarnings("serial")
+class BackgroundPanel extends JPanel
+{
+  Image image;
+  public BackgroundPanel()
+  {
+    try
+    {
+      image = javax.imageio.ImageIO.read(new java.net.URL(getClass().getResource("/blossom01.png"), "/blossom01.png"));
+    }
+    catch (Exception e) { /*handled in paintComponent()*/ }
+  }
+
+  @Override
+  protected void paintComponent(Graphics g)
+  {
+    super.paintComponent(g); 
+    if (image != null)
+      g.drawImage(image, 0,0,this.getWidth(),this.getHeight(),this);
+  }
+}
 
 public class BoardGUI extends JPanel {
 
@@ -33,15 +58,15 @@ public class BoardGUI extends JPanel {
 	private CellGUI selectedCell;
 	private Set<CellGUI> highlightedIncorrectCells = new HashSet<CellGUI>();
 	private NumberButtonGUI numberInputPad;
-
+	
 	public BoardGUI() {
 
 		this.setPreferredSize(new Dimension(BOARD_SIZE, BOARD_SIZE));
 		this.setMaximumSize(new Dimension(BOARD_SIZE, BOARD_SIZE));
 		this.setMinimumSize(new Dimension(BOARD_SIZE, BOARD_SIZE));
 		this.setBorder(DEFAULT_BORDER);
-
-		this.blocks = new BlockGUI[3][3];
+				
+				this.blocks = new BlockGUI[3][3];
 
 		GridBagConstraints gridBagConstraints;
 		this.setLayout(new java.awt.GridBagLayout());
@@ -278,4 +303,6 @@ public class BoardGUI extends JPanel {
 			}
 		}
 	}
+	
+
 }

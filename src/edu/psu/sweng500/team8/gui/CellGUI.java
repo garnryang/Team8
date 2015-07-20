@@ -26,6 +26,8 @@ import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
 import edu.psu.sweng500.team8.play.GameSession;
 
 public class CellGUI extends JPanel {
+	
+	
 
 	private static final int NUMBER_SIZE = 16;
 	private static final int CELL_SIZE = 54;
@@ -64,6 +66,7 @@ public class CellGUI extends JPanel {
 		this.initPencilMarkDisplayCell();
 		this.initNumberInputCell();
 		this.initPencilMarkInputCell();
+		
 	}
 
 	/**

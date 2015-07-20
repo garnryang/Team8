@@ -14,11 +14,7 @@ import edu.psu.sweng500.team8.coreDataStructures.Block;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 import edu.psu.sweng500.team8.play.GameSession;
 
-/**
- * This is for Cliff's merge exercise.
- * This comment shall be updated later or deleted
- *
- */
+
 public class BlockGUI extends JPanel {
 
 	private static final int BLOCK_SIZE = 162 + 2;
@@ -26,15 +22,19 @@ public class BlockGUI extends JPanel {
 			.createLineBorder(Color.BLACK, 2);
 
 	private CellGUI[][] cells;
+	
 
 	public BlockGUI() {
-
-		this.cells = new CellGUI[3][3];
+		setOpaque(false);
+		
+				this.cells = new CellGUI[3][3];
 		this.setPreferredSize(new java.awt.Dimension(BLOCK_SIZE, BLOCK_SIZE));
 		this.setMaximumSize(new java.awt.Dimension(BLOCK_SIZE, BLOCK_SIZE));
 		this.setMinimumSize(new java.awt.Dimension(BLOCK_SIZE, BLOCK_SIZE));
 		this.setLayout(new GridBagLayout());
 		this.setBorder(DEFAULT_BORDER);
+		
+		
 
 		GridBagConstraints gridBagConstraints;
 
@@ -65,6 +65,7 @@ public class BlockGUI extends JPanel {
 	public void populate(Block block, GameSession gameSession,
 			boolean isRefresh, FocusAdapter focusAdapter,
 			MouseAdapter mouseAdapter, boolean isPencilMarkMode) {
+		
 
 		for (int cellIndex = 0; cellIndex < 9; cellIndex++) {
 			int rowIndex = cellIndex / 3;
