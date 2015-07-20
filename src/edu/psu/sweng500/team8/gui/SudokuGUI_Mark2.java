@@ -39,6 +39,7 @@ import edu.psu.sweng500.team8.solver.HintInfo;
 
 import javax.swing.JLabel;
 import javax.swing.UIManager;
+import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 /**
  *
@@ -56,6 +57,7 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 	 * Creates new form SudokuGUI
 	 */
 	public SudokuGUI_Mark2() {
+		setTitle("Lion Sudoku");
 		try {
 			this.puzzleRepo.initialize();
 		} catch (IOException e) {
@@ -661,6 +663,10 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 
 	private JToggleButton pencilMarkButton;
 	private NumberButtonGUI numberInputPad;
+	/**
+	 * @wbp.nonvisual location=381,9
+	 */
+	private final JLabel label_1 = DefaultComponentFactory.getInstance().createTitle("New JGoodies title");
 
 	private MouseAdapter buildNumberInputMouseAdapter() {
 		return new MouseAdapter() {
