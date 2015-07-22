@@ -227,12 +227,13 @@ public class CellGUI extends JPanel {
 	 * 
 	 */
 	public void updateSelectedCellFromHint(int number) {
-		this.numberInputField.setText(Integer.toString(number));
+		if (number != 0)
+			this.numberInputField.setText(Integer.toString(number));
 
 		this.numberInputCell.setVisible(true);
 		this.pencilMarkDisplayCell.setVisible(false);
 
-		this.selectCell();
+		selectCell();
 	}
 
 	public void setNumberToCell(MouseEvent mouseEvent) {

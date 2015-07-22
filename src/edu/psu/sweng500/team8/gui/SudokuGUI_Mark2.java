@@ -461,7 +461,8 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 
 			this.gameBoard.updateSelectedCellFromHint(coordinates,
 					hint.getNumber());
-			this.gameSession.enterNumber(hint.getCell(), hint.getNumber());
+			if (hint.getNumber() != 0)
+				this.gameSession.enterNumber(hint.getCell(), hint.getNumber());
 
 			message = hint.getExplanation();
 			if (gameIsComplete()) {
