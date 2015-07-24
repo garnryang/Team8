@@ -112,7 +112,7 @@ public class CellGUI extends JPanel {
 				this.numberInputField.setFocusable(false);
 			} else {
 				if (!ValueType.Given.equals(cell.getType())) {
-					this.numberInputField.setEditable(true);
+					this.numberInputField.setEditable(false); //set to false to kill the cursor
 					this.numberInputField.setFocusable(true);
 				}
 			}
@@ -123,7 +123,7 @@ public class CellGUI extends JPanel {
 
 			if (cell.getPencilMarks().isEmpty()) {
 				this.numberInputCell.setVisible(true);
-				this.numberInputField.setEditable(true);
+				this.numberInputField.setEditable(false); //set to false to kill the cursor
 				this.numberInputField.setFocusable(true);
 
 			} else {
