@@ -37,12 +37,9 @@ import edu.psu.sweng500.team8.solver.HintInfo;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 
-/**
- *
- */
-public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
-		CellChangedListener {
-
+public class SudokuGUI_Mark2 extends javax.swing.JFrame implements CellChangedListener {
+	private static final long serialVersionUID = 1L; //Not really necessary since we're not serializing the UI, but just to keep Java happy...
+	
 	/* Not sure if there is a better place to put this */
 	private PuzzleRepository puzzleRepo = new PuzzleRepository();
 	/* we need to keep track of the current game */

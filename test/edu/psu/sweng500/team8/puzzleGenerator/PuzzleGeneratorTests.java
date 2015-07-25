@@ -2,14 +2,17 @@ package edu.psu.sweng500.team8.puzzleGenerator;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
-
+import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 
+import edu.psu.sweng500.team8.coreDataStructures.Board;
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
 import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
+import edu.psu.sweng500.team8.solver.Solver;
+import edu.psu.sweng500.team8.solver.SolverFactory;
 
 public class PuzzleGeneratorTests {
 
@@ -81,12 +84,12 @@ public class PuzzleGeneratorTests {
 
 	@Test //For UC1 Step3
 	public void testsforOneSolution(){
-		CellGrid puzzleGrid = PuzzleGenerator.makePuzzle(DifficultyLevel.Easy).getCopyOfCellGrid();
+		Puzzle puzzle = PuzzleGenerator.makePuzzle(DifficultyLevel.Easy);
 		
-		DLX dlx = new DLX(puzzleGrid);
-		int numSolutions = dlx.Solve();
-		
-		assertTrue(numSolutions == 1);
+		Board puzzleBoard = new Board();
+		puzzleBoard.initialize(puzzle, null);
+		Solver solver = SolverFactory.getSolverThatTriesConstraintsFirst();
+		assertNotNull(solver.findUniqueSolutionOrNull(puzzleBoard));
 	}
 	
 	//FIXME: Complete this test. 

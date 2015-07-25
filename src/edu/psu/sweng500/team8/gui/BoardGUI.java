@@ -24,7 +24,7 @@ import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 import edu.psu.sweng500.team8.play.GameSession;
 
 public class BoardGUI extends JPanel {
-
+	private static final long serialVersionUID = 1L; //Not really necessary since we're not serializing the UI, but just to keep Java happy...
 	private static final int BOARD_SIZE = 486 + 10;
 	private static final Border DEFAULT_BORDER = BorderFactory
 			.createLineBorder(Color.BLACK, 2);
@@ -78,29 +78,6 @@ public class BoardGUI extends JPanel {
 					.getGameBoard().getBlock(blockIndex), gameSession,
 					isRefresh, buildFocusAdapter(), buildMouseAdapter(),
 					isPencilMarkMode);
-		}
-	}
-
-	/**
-	 * @deprecated
-	 * @param gameSession
-	 */
-	public void populatePencilMark(GameSession gameSession) {
-
-		this.gameSession = gameSession;
-
-		if (null != this.selectedCell) {
-			/* existing selection, clear it */
-			this.selectedCell.unselect();
-			this.selectedCell = null;
-		}
-
-		for (int blockIndex = 0; blockIndex < 9; blockIndex++) {
-			int rowIndex = blockIndex / 3;
-			int columnIndex = blockIndex % 3;
-
-			this.blocks[rowIndex][columnIndex].populatePencilMark(gameSession
-					.getGameBoard().getBlock(blockIndex), gameSession);
 		}
 	}
 

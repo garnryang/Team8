@@ -3,23 +3,24 @@ package edu.psu.sweng500.team8.coreDataStructures;
 import java.io.Serializable;
 
 public class CellCoordinates  implements Serializable {
-	private int m_rowIndex;
-	private int m_columnIndex;
+	private static final long serialVersionUID = 1L;
+	private int rowIndex;
+	private int columnIndex;
 	
 	public CellCoordinates(int rowIndex, int columnIndex) {
-		m_rowIndex = rowIndex;
-		m_columnIndex = columnIndex;
+		this.rowIndex = rowIndex;
+		this.columnIndex = columnIndex;
 	}
 	
 	public int getRowIndex() {
-		return m_rowIndex;
+		return this.rowIndex;
 	}
 	
 	public int getColumnIndex() {
-		return m_columnIndex;
+		return this.columnIndex;
 	}
 	
 	public int getBlockIndex() {
-		return (m_rowIndex / 3) * 3 + m_columnIndex / 3;
+		return (this.rowIndex / 3) * 3 + this.columnIndex / 3;
 	}
 }
