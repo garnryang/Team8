@@ -81,29 +81,6 @@ public class BoardGUI extends JPanel {
 		}
 	}
 
-	/**
-	 * @deprecated
-	 * @param gameSession
-	 */
-	public void populatePencilMark(GameSession gameSession) {
-
-		this.gameSession = gameSession;
-
-		if (null != this.selectedCell) {
-			/* existing selection, clear it */
-			this.selectedCell.unselect();
-			this.selectedCell = null;
-		}
-
-		for (int blockIndex = 0; blockIndex < 9; blockIndex++) {
-			int rowIndex = blockIndex / 3;
-			int columnIndex = blockIndex % 3;
-
-			this.blocks[rowIndex][columnIndex].populatePencilMark(gameSession
-					.getGameBoard().getBlock(blockIndex), gameSession);
-		}
-	}
-
 	public void updateSelectedCellFromHint(CellCoordinates cellCoordinates,
 			int number) {
 

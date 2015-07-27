@@ -63,15 +63,6 @@ public class CellGUI extends JPanel {
 
 		this.initPencilMarkDisplayCell();
 		this.initNumberInputCell();
-		this.initPencilMarkInputCell();
-	}
-
-	/**
-	 * @deprecated
-	 * @param cell
-	 * @param gameSession
-	 */
-	public void populatePencilMark(Cell cell, GameSession gameSession) {
 	}
 
 	public void populate(Cell cell, GameSession gameSession, boolean isRefresh,
@@ -130,12 +121,6 @@ public class CellGUI extends JPanel {
 				cellLostFocus(null);
 			}
 		}
-	}
-
-	/**
-	 * @deprecated
-	 */
-	private void initPencilMarkInputCell() {
 	}
 
 	private void initNumberInputCell() {
@@ -216,6 +201,7 @@ public class CellGUI extends JPanel {
 	public void selectCell() {
 
 		this.numberInputField.setBorder(SELECTED_BORDER);
+		this.pencilMarkDisplayCell.setBorder(SELECTED_BORDER);
 	}
 
 	/**
@@ -280,8 +266,14 @@ public class CellGUI extends JPanel {
 	public void unselect() {
 
 		this.numberInputField.setBorder(DEFAULT_BORDER);
+		this.pencilMarkDisplayCell.setBorder(DEFAULT_BORDER);
 	}
 
+	/**
+	 * TODO - this method is no longer being referenced
+	 * @param cell
+	 * @return
+	 */
 	private JTextField buildReadOnlyTextField(Cell cell) {
 		JTextField textField = new JTextField();
 		textField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -309,13 +301,8 @@ public class CellGUI extends JPanel {
 		CellGUI selectedCell = this;
 
 		if (null != focusEvent) {
-			// if (focusEvent.getSource() instanceof JTextField) {
 			selectedCell = (CellGUI) ((JTextField) focusEvent.getSource())
 					.getParent().getParent();
-			// } else {
-			// /* */
-			// System.err.println("This is not supported.");
-			// }
 		}
 
 		selectedCell.numberInputField.setBorder(DEFAULT_BORDER);

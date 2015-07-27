@@ -72,25 +72,6 @@ public class BlockGUI extends JPanel {
 
 	/**
 	 * 
-	 * iterate through each contained CellGUI and populate Pencil Mark
-	 * 
-	 * @deprecated
-	 * @param block
-	 * @param gameSession
-	 * 
-	 */
-	public void populatePencilMark(Block block, GameSession gameSession) {
-
-		for (int cellIndex = 0; cellIndex < 9; cellIndex++) {
-			int rowIndex = cellIndex / 3;
-			int columnIndex = cellIndex % 3;
-			this.cells[rowIndex][columnIndex].populatePencilMark(
-					block.getCell(cellIndex), gameSession);
-		}
-	}
-
-	/**
-	 * 
 	 * @param cellCoordinates
 	 * @return CellGUI according to given cellCoordinates
 	 * 
