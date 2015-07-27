@@ -5,9 +5,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
-import java.util.Set;
 
-import javax.swing.JButton;
 import javax.swing.JToggleButton;
 
 import edu.psu.sweng500.team8.coreDataStructures.Cell;

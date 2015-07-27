@@ -37,7 +37,7 @@ import edu.psu.sweng500.team8.solver.HintInfo;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 
-public class SudokuGUI_Mark2 extends javax.swing.JFrame implements CellChangedListener {
+public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener {
 	private static final long serialVersionUID = 1L; //Not really necessary since we're not serializing the UI, but just to keep Java happy...
 	
 	/* Not sure if there is a better place to put this */
@@ -49,7 +49,7 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements CellChangedLi
 	/**
 	 * Creates new form SudokuGUI
 	 */
-	public SudokuGUI_Mark2() {
+	public SudokuGUI() {
 		try {
 			this.puzzleRepo.initialize();
 		} catch (IOException e) {
@@ -69,7 +69,7 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements CellChangedLi
 	@Override
 	public void cellChanged(Cell cell, int newNumber) {
 
-		if (newNumber < 0) {
+		if (newNumber < 0) { //FIXME: < 0?? Seems like a hack. Use a different event.
 			/* pencil mark change */
 			this.gameBoard.refreshPencilMarkDisplayOnRelatedCells(cell);
 			return;
@@ -86,12 +86,17 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements CellChangedLi
 			// Player won the game
 			this.gameBoard.disableEditing();
 			setMessage(WIN_MESSAGE);
+			btnCheck.setEnabled(false);
+			btnHint.setEnabled(false);
+			btnUndo.setEnabled(false);
+			btnRedo.setEnabled(false);
 		} else {
 			/*
 			 * issue 225 - related pencil marks should be immediately cleared
 			 * when a cell gets a number
 			 */
 			this.gameBoard.refreshPencilMarkDisplayOnRelatedCells(cell);
+			updateUndoRedoButtonStates();
 		}
 	}
 
@@ -373,6 +378,8 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements CellChangedLi
 		this.gameSession.doUndo();
 		this.gameBoard.populatePanel(this.gameSession, true, false,
 				this.numberInputPad);
+		
+		updateUndoRedoButtonStates();
 	}
 
 	private void doRedo(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_doRedo
@@ -380,6 +387,13 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements CellChangedLi
 		this.gameSession.doRedo();
 		this.gameBoard.populatePanel(this.gameSession, true, false,
 				this.numberInputPad);
+		
+		updateUndoRedoButtonStates();
+	}
+	
+	private void updateUndoRedoButtonStates() {
+		btnUndo.setEnabled(this.gameSession.hasUndoActions());
+		btnRedo.setEnabled(this.gameSession.hasRedoActions());
 	}
 
 	private void btnCheckActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCheckActionPerformed
@@ -567,9 +581,8 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements CellChangedLi
 		this.btnSave.setEnabled(true);
 		this.btnHint.setEnabled(true);
 		this.btnCheck.setEnabled(true);
-		this.btnRedo.setEnabled(true);
-		this.btnUndo.setEnabled(true);
 		this.pencilMarkButton.setEnabled(true);
+		updateUndoRedoButtonStates();
 	}
 
 	private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton14ActionPerformed
@@ -610,8 +623,6 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements CellChangedLi
 
 		this.gameSession.setPencilMarkMode(isPencilMarkMode);
 		this.btnHint.setEnabled(!isPencilMarkMode);
-		this.btnRedo.setEnabled(!isPencilMarkMode);
-		this.btnUndo.setEnabled(!isPencilMarkMode);
 		this.btnCheck.setEnabled(!isPencilMarkMode);
 		this.gameBoard.populatePanel(gameSession, true, isPencilMarkMode,
 				this.numberInputPad);
@@ -640,16 +651,16 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements CellChangedLi
 				}
 			}
 		} catch (ClassNotFoundException ex) {
-			java.util.logging.Logger.getLogger(SudokuGUI_Mark2.class.getName())
+			java.util.logging.Logger.getLogger(SudokuGUI.class.getName())
 					.log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (InstantiationException ex) {
-			java.util.logging.Logger.getLogger(SudokuGUI_Mark2.class.getName())
+			java.util.logging.Logger.getLogger(SudokuGUI.class.getName())
 					.log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (IllegalAccessException ex) {
-			java.util.logging.Logger.getLogger(SudokuGUI_Mark2.class.getName())
+			java.util.logging.Logger.getLogger(SudokuGUI.class.getName())
 					.log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-			java.util.logging.Logger.getLogger(SudokuGUI_Mark2.class.getName())
+			java.util.logging.Logger.getLogger(SudokuGUI.class.getName())
 					.log(java.util.logging.Level.SEVERE, null, ex);
 		}
 		// </editor-fold>
@@ -658,7 +669,7 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements CellChangedLi
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				new SudokuGUI_Mark2().setVisible(true);
+				new SudokuGUI().setVisible(true);
 			}
 		});
 	}
