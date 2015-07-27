@@ -95,14 +95,6 @@ public class GameSession implements Serializable {
 		}
 	}
 
-	// public void enterValue(Cell currentCell, int number) {
-	// if (isPencilMarkMode) {
-	// enterPencilMark(currentCell, number, true);
-	// } else {
-	// enterNumber(currentCell, number);
-	// }
-	// }
-
 	private void updatePencilMark(Cell currentCell, int number) {
 
 		currentCell.getPencilMarks().clear();
@@ -125,7 +117,6 @@ public class GameSession implements Serializable {
 	}
 
 	/**
-	 * TODO implement redo/undo - if needed
 	 * 
 	 * @param currentCell
 	 * @param number
@@ -135,7 +126,7 @@ public class GameSession implements Serializable {
 		/* keep track of the last action */
 		SudokuAction sudokuAction = new SudokuAction(new CellGrid(
 				board.getCellGrid()));
-		// FIXME: Add sudokuAction to the action manager?
+
 		Set<Integer> pencilMarks = currentCell.getPencilMarks();
 
 		if (0 == number) {
@@ -148,6 +139,8 @@ public class GameSession implements Serializable {
 			}
 		}
 
+		actionManager.addAction(sudokuAction);
+		
 		fireCellNumberChanged(currentCell, -1);
 	}
 
