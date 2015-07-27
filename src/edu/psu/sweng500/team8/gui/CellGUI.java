@@ -433,4 +433,12 @@ public class CellGUI extends JPanel {
 	public Cell getCell() {
 		return this.cell;
 	}
+	
+	/**
+	 * public for testing
+	 * @return
+	 */
+	public JTextField getNumberInputField() {
+		return this.numberInputField;
+	}
 }

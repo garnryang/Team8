@@ -1,11 +1,15 @@
 package edu.psu.sweng500.team8.puzzleGenerator;
 
-import static org.junit.Assert.assertFalse;
-
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -14,7 +18,10 @@ import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
+import edu.psu.sweng500.team8.gui.BoardGUI;
+import edu.psu.sweng500.team8.gui.CellGUI;
 import edu.psu.sweng500.team8.gui.GridPanel;
+import edu.psu.sweng500.team8.gui.NumberButtonGUI;
 import edu.psu.sweng500.team8.play.GameSession;
 
 /**
@@ -28,16 +35,27 @@ public class FillPuzzleTests {
 	// UC3 Steps 1&2&3
 	public void playerEntersNumber() {
 
+		NumberButtonGUI numberButtonGUI = new NumberButtonGUI();
+		
 		DifficultyLevel difficulty = DifficultyLevel.Easy;
 		PuzzleRepository puzzleRepo = new PuzzleRepository(); 
 		Puzzle puzzle = puzzleRepo.getPuzzle(difficulty);
 		GameSession newGame = new GameSession(puzzle, null);
-		GridPanel gridPanel = new GridPanel();
-		gridPanel.populatePanel(newGame.getGameBoard().getCellGrid(), newGame);
+		
+		final BoardGUI gridPanel = new BoardGUI();
+		
+		numberButtonGUI.init(new MouseAdapter() {
 
-		CellGrid gridLogic = gridPanel.getGameSession().getGameBoard()
-				.getCellGrid();
-		JTextField[][] gridGUI = gridPanel.getControlGrid();
+			@Override
+			public void mouseReleased(MouseEvent mouseEvent) {
+				
+				gridPanel.mouseClickedTaskForNumberInput(mouseEvent);
+			}
+		}, newGame);
+		
+		gridPanel.populatePanel(newGame, false, false, numberButtonGUI);
+
+		CellGrid gridLogic = newGame.getGameBoard().getCellGrid();
 
 		int row = -1;
 		int column = -1;
@@ -62,31 +80,45 @@ public class FillPuzzleTests {
 		Assert.assertNotEquals(-1, column);
 		Assert.assertEquals(0, gridLogic.getCell(row, column).getNumber());
 		
-		JTextField cellGUI = gridGUI[row][column];
+		CellGUI cellGUI = gridPanel.findCorresdpondingCellGUI(new Cell(row, column));
+		FocusEvent focusEvent = new FocusEvent(cellGUI.getNumberInputField(), FocusEvent.FOCUS_GAINED);
+		FocusListener[] focusListeners = cellGUI.getNumberInputField().getFocusListeners();
+		focusListeners[2].focusGained(focusEvent); // manually found out 
 		
-		KeyListener[] keyListeners = cellGUI.getKeyListeners();
 		
-		KeyEvent ke = new KeyEvent (cellGUI, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_9, '9');//(char) KeyEvent.VK_9);
-		keyListeners[0].keyTyped(ke);
+		JToggleButton numberNineButton = (JToggleButton)numberButtonGUI.getComponent(8);
+		MouseEvent mouseEvent = new MouseEvent(numberNineButton, MouseEvent.MOUSE_RELEASED, 0l, 0, 0, 0, 1, false);
+		MouseListener[] mouseListeners = numberNineButton.getMouseListeners();
+		numberNineButton.setSelected(true);
+		mouseListeners[1].mouseReleased(mouseEvent);
 		
 		Assert.assertEquals(9, gridLogic.getCell(row, column).getNumber());
-
 	}
 
 	@Test
 	// UC3 Step 4
 	public void systemClearsAnyPenciledinValuesInTheSquare() {
 		
+		NumberButtonGUI numberButtonGUI = new NumberButtonGUI();
+		
 		DifficultyLevel difficulty = DifficultyLevel.Easy;
 		PuzzleRepository puzzleRepo = new PuzzleRepository(); 
 		Puzzle puzzle = puzzleRepo.getPuzzle(difficulty);
 		GameSession newGame = new GameSession(puzzle, null);
-		GridPanel gridPanel = new GridPanel();
-		gridPanel.populatePanel(newGame.getGameBoard().getCellGrid(), newGame);
+		final BoardGUI gridPanel = new BoardGUI();
+		
+		numberButtonGUI.init(new MouseAdapter() {
 
-		CellGrid gridLogic = gridPanel.getGameSession().getGameBoard()
-				.getCellGrid();
-		JTextField[][] gridGUI = gridPanel.getControlGrid();
+			@Override
+			public void mouseReleased(MouseEvent mouseEvent) {
+				
+				gridPanel.mouseClickedTaskForNumberInput(mouseEvent);
+			}
+		}, newGame);
+		
+		gridPanel.populatePanel(newGame, false, false, numberButtonGUI);
+
+		CellGrid gridLogic = newGame.getGameBoard().getCellGrid();
 
 		int row = -1;
 		int column = -1;
@@ -109,14 +141,20 @@ public class FillPuzzleTests {
 
 		Assert.assertNotEquals(-1, row);
 		Assert.assertNotEquals(-1, column);
-		Assert.assertEquals(0, gridLogic.getCell(row, column).getNumber());
-
-		JTextField cellGUI = gridGUI[row][column];
 		
-		KeyListener[] keyListeners = cellGUI.getKeyListeners();
+		Cell cell = gridLogic.getCell(row, column);
+		cell.getPencilMarks().add(9);
 		
-		KeyEvent ke = new KeyEvent (cellGUI, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_9, '9');//(char) KeyEvent.VK_9);
-		keyListeners[0].keyTyped(ke);
+		CellGUI cellGUI = gridPanel.findCorresdpondingCellGUI(new Cell(row, column));
+		FocusEvent focusEvent = new FocusEvent(cellGUI.getNumberInputField(), FocusEvent.FOCUS_GAINED);
+		FocusListener[] focusListeners = cellGUI.getNumberInputField().getFocusListeners();
+		focusListeners[2].focusGained(focusEvent); // manually found out 
+		
+		JToggleButton numberNineButton = (JToggleButton)numberButtonGUI.getComponent(8);
+		MouseEvent mouseEvent = new MouseEvent(numberNineButton, MouseEvent.MOUSE_RELEASED, 0l, 0, 0, 0, 1, false);
+		MouseListener[] mouseListeners = numberNineButton.getMouseListeners();
+		numberNineButton.setSelected(true);
+		mouseListeners[1].mouseReleased(mouseEvent);
 		
 		Assert.assertTrue(gridLogic.getCell(row, column).getPencilMarks().isEmpty());
 	}
