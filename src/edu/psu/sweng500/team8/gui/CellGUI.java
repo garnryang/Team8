@@ -245,8 +245,9 @@ public class CellGUI extends JPanel {
 
 		if (isPencilMarkMode) {
 			/* number clicked during pencil mark mode */
-			this.gameSession.enterPencilMark(this.cell,
-					Integer.parseInt(keyValue), isSelcted);
+			int numberInt = Integer.parseInt(keyValue);
+			this.gameSession.enterPencilMark(this.cell, numberInt, isSelcted);
+			
 		} else {
 
 			/*
@@ -301,41 +302,6 @@ public class CellGUI extends JPanel {
 		}
 
 		return textField;
-	}
-
-	/**
-	 * @deprecated
-	 * @param cell
-	 * @return
-	 */
-	private CombinationCell buildPencilMarkInputField(Cell cell) {
-
-		CombinationCell combinationCell = new CombinationCell(cell,
-				this.gameSession);
-
-		/*
-		 * disable any number used according to the cellConstraints for given
-		 * cell
-		 */
-		for (int usedNumber : this.gameSession.getGameBoard()
-				.getCellConstraints(cell).getUsedNumbers()) {
-			((JToggleButton) combinationCell.getComponent(usedNumber - 1))
-					.setEnabled(false);
-			((JToggleButton) combinationCell.getComponent(usedNumber - 1))
-					.setText("");
-		}
-
-		for (int k = 1; k <= 9; k++) {
-			if (cell.getPencilMarks().contains(k)) {
-				((JToggleButton) combinationCell.getComponent(k - 1))
-						.setSelected(true);
-			} else {
-				((JToggleButton) combinationCell.getComponent(k - 1))
-						.setSelected(false);
-			}
-		}
-
-		return combinationCell;
 	}
 
 	public void cellLostFocus(FocusEvent focusEvent) {

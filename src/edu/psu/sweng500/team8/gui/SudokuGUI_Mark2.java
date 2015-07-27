@@ -691,8 +691,10 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 
 	private MouseAdapter buildNumberInputMouseAdapter() {
 		return new MouseAdapter() {
+
 			@Override
-			public void mouseClicked(MouseEvent mouseEvent) {
+			public void mouseReleased(MouseEvent mouseEvent) {
+				
 				gameBoard.mouseClickedTaskForNumberInput(mouseEvent);
 			}
 		};
