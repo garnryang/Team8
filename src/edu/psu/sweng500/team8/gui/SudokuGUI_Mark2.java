@@ -176,7 +176,7 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 		});
 
 		this.btnUndo.setText("Undo");
-		this.btnUndo.setEnabled(false);
+//		this.btnUndo.setEnabled(false);
 		this.btnUndo.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				doUndo(evt);
@@ -184,7 +184,7 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 		});
 
 		this.btnRedo.setText("Redo");
-		this.btnRedo.setEnabled(false);
+//		this.btnRedo.setEnabled(false);
 		this.btnRedo.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				doRedo(evt);
@@ -569,8 +569,8 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 		this.btnSave.setEnabled(true);
 		this.btnHint.setEnabled(true);
 		this.btnCheck.setEnabled(true);
-		this.btnRedo.setEnabled(true);
-		this.btnUndo.setEnabled(true);
+//		this.btnRedo.setEnabled(true);
+//		this.btnUndo.setEnabled(true);
 		this.pencilMarkButton.setEnabled(true);
 	}
 
@@ -612,8 +612,8 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 
 		this.gameSession.setPencilMarkMode(isPencilMarkMode);
 		this.btnHint.setEnabled(!isPencilMarkMode);
-		this.btnRedo.setEnabled(!isPencilMarkMode);
-		this.btnUndo.setEnabled(!isPencilMarkMode);
+//		this.btnRedo.setEnabled(!isPencilMarkMode);
+//		this.btnUndo.setEnabled(!isPencilMarkMode);
 		this.btnCheck.setEnabled(!isPencilMarkMode);
 		this.gameBoard.populatePanel(gameSession, true, isPencilMarkMode,
 				this.numberInputPad);
@@ -691,8 +691,10 @@ public class SudokuGUI_Mark2 extends javax.swing.JFrame implements
 
 	private MouseAdapter buildNumberInputMouseAdapter() {
 		return new MouseAdapter() {
+
 			@Override
-			public void mouseClicked(MouseEvent mouseEvent) {
+			public void mouseReleased(MouseEvent mouseEvent) {
+				
 				gameBoard.mouseClickedTaskForNumberInput(mouseEvent);
 			}
 		};

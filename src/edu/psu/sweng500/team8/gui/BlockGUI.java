@@ -14,11 +14,6 @@ import edu.psu.sweng500.team8.coreDataStructures.Block;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 import edu.psu.sweng500.team8.play.GameSession;
 
-/**
- * This is for Cliff's merge exercise.
- * This comment shall be updated later or deleted
- *
- */
 public class BlockGUI extends JPanel {
 
 	private static final int BLOCK_SIZE = 162 + 2;
@@ -72,25 +67,6 @@ public class BlockGUI extends JPanel {
 			this.cells[rowIndex][columnIndex].populate(
 					block.getCell(cellIndex), gameSession, isRefresh,
 					focusAdapter, mouseAdapter, isPencilMarkMode);
-		}
-	}
-
-	/**
-	 * 
-	 * iterate through each contained CellGUI and populate Pencil Mark
-	 * 
-	 * @deprecated
-	 * @param block
-	 * @param gameSession
-	 * 
-	 */
-	public void populatePencilMark(Block block, GameSession gameSession) {
-
-		for (int cellIndex = 0; cellIndex < 9; cellIndex++) {
-			int rowIndex = cellIndex / 3;
-			int columnIndex = cellIndex % 3;
-			this.cells[rowIndex][columnIndex].populatePencilMark(
-					block.getCell(cellIndex), gameSession);
 		}
 	}
 

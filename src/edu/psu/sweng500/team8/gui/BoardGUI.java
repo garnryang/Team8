@@ -81,29 +81,6 @@ public class BoardGUI extends JPanel {
 		}
 	}
 
-	/**
-	 * @deprecated
-	 * @param gameSession
-	 */
-	public void populatePencilMark(GameSession gameSession) {
-
-		this.gameSession = gameSession;
-
-		if (null != this.selectedCell) {
-			/* existing selection, clear it */
-			this.selectedCell.unselect();
-			this.selectedCell = null;
-		}
-
-		for (int blockIndex = 0; blockIndex < 9; blockIndex++) {
-			int rowIndex = blockIndex / 3;
-			int columnIndex = blockIndex % 3;
-
-			this.blocks[rowIndex][columnIndex].populatePencilMark(gameSession
-					.getGameBoard().getBlock(blockIndex), gameSession);
-		}
-	}
-
 	public void updateSelectedCellFromHint(CellCoordinates cellCoordinates,
 			int number) {
 
@@ -166,7 +143,7 @@ public class BoardGUI extends JPanel {
 	private MouseAdapter buildMouseAdapter() {
 		return new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent mouseEvent) {
+			public void mouseReleased(MouseEvent mouseEvent) {
 				mouseClickedTask(mouseEvent);
 			}
 		};
@@ -222,7 +199,12 @@ public class BoardGUI extends JPanel {
 		this.highlightedIncorrectCells.add(currentCell);
 	}
 
-	private CellGUI findCorresdpondingCellGUI(Cell cell) {
+	/**
+	 * made public for unit testing 
+	 * @param cell
+	 * @return
+	 */
+	public CellGUI findCorresdpondingCellGUI(Cell cell) {
 		CellCoordinates coordinates = cell.getCoordinates();
 		return this.blocks[coordinates.getBlockIndex() / 3][coordinates
 				.getBlockIndex() % 3].getSelectedCell(coordinates);
