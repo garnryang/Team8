@@ -26,7 +26,8 @@ import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
 import edu.psu.sweng500.team8.play.GameSession;
 
 public class CellGUI extends JPanel {
-
+	private static final long serialVersionUID = 1L; //Not really necessary since we're not serializing the UI, but just to keep Java happy...
+	
 	private static final int NUMBER_SIZE = 16;
 	private static final int CELL_SIZE = 54;
 	private static final Border SELECTED_BORDER = BorderFactory
@@ -201,7 +202,6 @@ public class CellGUI extends JPanel {
 	public void selectCell() {
 
 		this.numberInputField.setBorder(SELECTED_BORDER);
-		this.pencilMarkDisplayCell.setBorder(SELECTED_BORDER);
 	}
 
 	/**
@@ -213,12 +213,13 @@ public class CellGUI extends JPanel {
 	 * 
 	 */
 	public void updateSelectedCellFromHint(int number) {
-		this.numberInputField.setText(Integer.toString(number));
+		if (number != 0)
+			this.numberInputField.setText(Integer.toString(number));
 
 		this.numberInputCell.setVisible(true);
 		this.pencilMarkDisplayCell.setVisible(false);
 
-		this.selectCell();
+		selectCell();
 	}
 
 	public void setNumberToCell(MouseEvent mouseEvent) {
@@ -231,9 +232,8 @@ public class CellGUI extends JPanel {
 
 		if (isPencilMarkMode) {
 			/* number clicked during pencil mark mode */
-			int numberInt = Integer.parseInt(keyValue);
-			this.gameSession.enterPencilMark(this.cell, numberInt, isSelcted);
-			
+			this.gameSession.enterPencilMark(this.cell,
+					Integer.parseInt(keyValue), isSelcted);
 		} else {
 
 			/*
@@ -266,34 +266,6 @@ public class CellGUI extends JPanel {
 	public void unselect() {
 
 		this.numberInputField.setBorder(DEFAULT_BORDER);
-		this.pencilMarkDisplayCell.setBorder(DEFAULT_BORDER);
-	}
-
-	/**
-	 * TODO - this method is no longer being referenced
-	 * @param cell
-	 * @return
-	 */
-	private JTextField buildReadOnlyTextField(Cell cell) {
-		JTextField textField = new JTextField();
-		textField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-		textField.setBorder(DEFAULT_BORDER);
-		textField.setEditable(false);
-		textField.setText(Integer.toString(cell.getNumber()));
-
-		if (ValueType.Given.equals(cell.getType())) {
-			HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(
-					Color.green);
-
-			try {
-				textField.getHighlighter().addHighlight(0, 3, painter);
-			} catch (BadLocationException e) {
-				/* TODO - better error handling */
-				e.printStackTrace();
-			}
-		}
-
-		return textField;
 	}
 
 	public void cellLostFocus(FocusEvent focusEvent) {
@@ -301,8 +273,13 @@ public class CellGUI extends JPanel {
 		CellGUI selectedCell = this;
 
 		if (null != focusEvent) {
+			// if (focusEvent.getSource() instanceof JTextField) {
 			selectedCell = (CellGUI) ((JTextField) focusEvent.getSource())
 					.getParent().getParent();
+			// } else {
+			// /* */
+			// System.err.println("This is not supported.");
+			// }
 		}
 
 		selectedCell.numberInputField.setBorder(DEFAULT_BORDER);
@@ -432,13 +409,5 @@ public class CellGUI extends JPanel {
 
 	public Cell getCell() {
 		return this.cell;
-	}
-	
-	/**
-	 * public for testing
-	 * @return
-	 */
-	public JTextField getNumberInputField() {
-		return this.numberInputField;
 	}
 }

@@ -26,6 +26,7 @@ import edu.psu.sweng500.team8.gui.GridPanel;
 import edu.psu.sweng500.team8.gui.NumberButtonGUI;
 import edu.psu.sweng500.team8.play.GameSession;
 
+//FIXME: these should be in a gui test project, not puzzle generator
 /**
  * FIXME - GridPanel is deprecated
  * 

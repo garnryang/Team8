@@ -17,34 +17,35 @@ public class Cell implements BinarySerializable {
 		Given, UserDefined
 	}
 
-	private CellCoordinates m_coordinates;
-	private int m_currentValue = 0;
-	private ValueType m_type = ValueType.UserDefined;
-	private Set<Integer> m_pencilMarks = new HashSet<Integer>();
+	private static final long serialVersionUID = 1L;
+	private CellCoordinates coordinates;
+	private int currentValue = 0;
+	private ValueType type = ValueType.UserDefined;
+	private Set<Integer> pencilMarks = new HashSet<Integer>();
 
 	public Cell() {
 		this(0, 0); // Some default coordinates
 	}
 
 	public Cell(int rowIndex, int columnIndex) {
-		m_coordinates = new CellCoordinates(rowIndex, columnIndex);
+		this.coordinates = new CellCoordinates(rowIndex, columnIndex);
 	}
 
 	public Cell(Cell cellToCopy) {
-		m_coordinates = new CellCoordinates(
-				cellToCopy.m_coordinates.getRowIndex(),
-				cellToCopy.m_coordinates.getColumnIndex());
-		m_currentValue = cellToCopy.m_currentValue;
-		m_type = cellToCopy.m_type;
-		m_pencilMarks.addAll(cellToCopy.m_pencilMarks);
+		this.coordinates = new CellCoordinates(
+				cellToCopy.coordinates.getRowIndex(),
+				cellToCopy.coordinates.getColumnIndex());
+		this.currentValue = cellToCopy.currentValue;
+		this.type = cellToCopy.type;
+		this.pencilMarks.addAll(cellToCopy.pencilMarks);
 	}
 
 	public CellCoordinates getCoordinates() {
-		return m_coordinates;
+		return this.coordinates;
 	}
 
 	public int getNumber() {
-		return m_currentValue;
+		return this.currentValue;
 	}
 
 	public void setNumber(int value) throws IllegalArgumentException {
@@ -52,27 +53,27 @@ public class Cell implements BinarySerializable {
 			throw new IllegalArgumentException(
 					"Value must be a digit from 1 to 9. To clear, use the clearNumber function.");
 
-		m_currentValue = value;
+		this.currentValue = value;
 	}
 
 	public ValueType getType() {
-		return m_type;
+		return this.type;
 	}
 
 	public void setType(ValueType type) {
-		m_type = type;
+		this.type = type;
 	}
 
 	public boolean hasNumber() {
-		return m_currentValue != 0;
+		return this.currentValue != 0;
 	}
 
 	public void clearNumber() {
-		m_currentValue = 0;
+		this.currentValue = 0;
 	}
 
 	public Set<Integer> getPencilMarks() {
-		return m_pencilMarks;
+		return this.pencilMarks;
 	}
 
 	/** Note: assumes row/column indices have been initialized */
@@ -82,11 +83,9 @@ public class Cell implements BinarySerializable {
 		 * To save disk space, instead of writing the value type, save given
 		 * numbers as negative. Can change this later if needed.
 		 */
-		int number = (m_type == ValueType.UserDefined) ? m_currentValue
-				: -m_currentValue;
+		int number = (this.type == ValueType.UserDefined) ? this.currentValue
+				: -this.currentValue;
 		stream.writeInt(number);
-
-		// TODO: Pencil marks
 	}
 
 	@Override
@@ -99,12 +98,10 @@ public class Cell implements BinarySerializable {
 		 */
 		if (number > 0) {
 			setNumber(number);
-			m_type = ValueType.UserDefined;
+			this.type = ValueType.UserDefined;
 		} else if (number < 0) {
 			setNumber(-number);
-			m_type = ValueType.Given;
+			this.type = ValueType.Given;
 		}
-
-		// TODO: Pencil marks
 	}
 }

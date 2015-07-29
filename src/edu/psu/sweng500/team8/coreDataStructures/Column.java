@@ -1,18 +1,19 @@
 package edu.psu.sweng500.team8.coreDataStructures;
 
 /** Represents a vertical column in the 9x9 Sudoku Grid
- * The block index and sub-indices are used to determine the actual cells in the 9x9 grid
+ * The column index and sub-indices are used to determine the actual cells in the 9x9 grid
  */
 public class Column extends Constraint {
-	private CellGrid m_grid;
-	private int m_columnIndex;
+	private static final long serialVersionUID = 1L;
+	private CellGrid grid;
+	private int columnIndex;
 	
 	public Column(CellGrid grid, int columnIndex) {
-		m_grid = grid;
-		m_columnIndex = columnIndex;
+		this.grid = grid;
+		this.columnIndex = columnIndex;
 	}
 	
 	protected Cell getCell(int index) {
-		return m_grid.getCell(index, m_columnIndex);
+		return this.grid.getCell(index, this.columnIndex);
 	}
 }

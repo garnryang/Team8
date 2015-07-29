@@ -1,25 +1,27 @@
 package edu.psu.sweng500.team8.puzzleGenerator;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 
+import edu.psu.sweng500.team8.coreDataStructures.Board;
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
-import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
+import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
+import edu.psu.sweng500.team8.solver.Solver;
+import edu.psu.sweng500.team8.solver.SolverFactory;
 
 public class PuzzleGeneratorTests {
 
 	@Test //For UC1 Step1
 	public void testsGeneratedSolutionfor4SudokuConstraints() {
 				
+		//FIXME: What is this test actually verifying? Seems to only be checking the first row,
+		//and the constraint checks are incorrect
+		
 		CellGrid grid = SolutionGenerator.generateSolution();
 		
 		//check for all cells occupied
@@ -28,56 +30,39 @@ public class PuzzleGeneratorTests {
 			assertTrue(cellToTest > 0 && cellToTest < 10);
 		}
 		
-		//check for row constraint
-		for(int j = 0; j < 9; j++) {
-			Map<Integer, Boolean> rowCheck = new HashMap<Integer, Boolean>();
-			for(int i = 0; i < 9; i++){
-				int cellToTest = grid.getCell(j, i).getNumber();
-				
-				Boolean existing = rowCheck.get(cellToTest);
-				if (null != existing) {
-					Assert.fail("Numbers should be unique in each row");
-				}				
-				rowCheck.put(cellToTest, Boolean.TRUE);
+		//check for row constraint 
+		for(int j = 0; j < 9; j++)
+		{
+			boolean test = false;
+			for(int i = 0; i<9; i++){
+				int cellToTest = grid.getCell(0, i).getNumber();
+				if(cellToTest == j) test = true;
 			}
+			assertTrue(test);
 		}
 		
 		//check for column constraint
-		for(int j = 0; j < 9; j++) {
-			Map<Integer, Boolean> columnCheck = new HashMap<Integer, Boolean>();
-			for(int i = 0; i < 9; i++){
-				int cellToTest = grid.getCell(i, j).getNumber();
-				
-				Boolean existing = columnCheck.get(cellToTest);
-				if (null != existing) {
-					Assert.fail("Numbers should be unique in each column");
-				}				
-				columnCheck.put(cellToTest, Boolean.TRUE);
+		for(int j = 0; j < 9; j++)
+		{
+			boolean test = false;
+			for(int i = 0; i<9; i++){
+				int cellToTest = grid.getCell(i, 0).getNumber();
+				if(cellToTest == j) test = true;
 			}
+			assertTrue(test);
 		}
 		
 		//check for box constraint
-		for(int i = 0; i < 9; i++) { // block index
-			
-			int blockRow = i%3; // 0 1 2 
-			int blockColumn = i/3; // 0 1 2 
-			
-			Map<Integer, Boolean> blockCheck = new HashMap<Integer, Boolean>();
-			
-			for (int j = 0; j < 3; j++) {
-				int a = blockRow*3 + j; //012; 345; 678
-				
-				for (int k = 0; k < 3; k++) {
-					int b = blockColumn*3 + k; //012; 345; 678
-					
-					int cellToTest = grid.getCell(a, b).getNumber();
-					
-					Boolean existing = blockCheck.get(cellToTest);
-					if (null != existing) {
-						Assert.fail("Numbers should be unique in each column");
-					}				
-					blockCheck.put(cellToTest, Boolean.TRUE);
-				}
+		for(int j = 0; j < 9; j++)
+		{
+			for(int z = 0; z < 3; z++)
+			{
+				boolean test = false;
+				for(int i = 0; i<3; i++){
+					int cellToTest = grid.getCell(i, z).getNumber();
+					if(cellToTest == j) test = true;
+				}			
+			assertTrue(test);
 			}
 		}
 	}
@@ -99,12 +84,12 @@ public class PuzzleGeneratorTests {
 
 	@Test //For UC1 Step3
 	public void testsforOneSolution(){
-		CellGrid puzzleGrid = PuzzleGenerator.makePuzzle(DifficultyLevel.Easy).getCopyOfCellGrid();
+		Puzzle puzzle = PuzzleGenerator.makePuzzle(DifficultyLevel.Easy);
 		
-		DLX dlx = new DLX(puzzleGrid);
-		int numSolutions = dlx.Solve();
-		
-		assertTrue(numSolutions == 1);
+		Board puzzleBoard = new Board();
+		puzzleBoard.initialize(puzzle, null);
+		Solver solver = SolverFactory.getSolverThatTriesConstraintsFirst();
+		assertNotNull(solver.findUniqueSolutionOrNull(puzzleBoard));
 	}
 	
 	//FIXME: Complete this test. 
@@ -114,7 +99,7 @@ public class PuzzleGeneratorTests {
 		assertTrue(test == 36); 
 	}
 	
-	@Test //For UC1 Step4
+	@Test
 	public void makePuzzleSetsPuzzleDifficulty() {
 		Puzzle puzzle = PuzzleGenerator.makePuzzle(DifficultyLevel.Easy);
 		assertEquals(DifficultyLevel.Easy, puzzle.getDifficulty());

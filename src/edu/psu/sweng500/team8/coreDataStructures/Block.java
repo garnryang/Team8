@@ -5,9 +5,10 @@ package edu.psu.sweng500.team8.coreDataStructures;
  * 0 1 2
  * 3 4 5
  * 6 7 8
- * The block index and sub-indicies are used to determine the actual cells in the 9x9 grid
+ * The block index and sub-indices are used to determine the actual cells in the 9x9 grid
  */
 public class Block extends Constraint {
+	private static final long serialVersionUID = 1L;
 	private CellGrid m_grid;
 	private int m_blockIndex;
 	

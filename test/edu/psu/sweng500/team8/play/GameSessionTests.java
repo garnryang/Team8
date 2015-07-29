@@ -226,6 +226,7 @@ public class GameSessionTests {
 		Assert.fail("Not Implemented to verify the functionality");
 	}
 	
+	//FIXME: Update this test. There are unused values.
 	@Test
 	public void testDoLoad() {
 		String saveFile = "save01";

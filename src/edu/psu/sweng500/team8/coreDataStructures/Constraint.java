@@ -12,7 +12,8 @@ import java.util.Set;
  * Base class for row, column, and block
  */
 public abstract class Constraint  implements Serializable{
-
+	private static final long serialVersionUID = 1L;
+	
 	public final Set<Integer> getUsedNumbers() {
 		Set<Integer> usedNumbers = new HashSet<Integer>();
 		
