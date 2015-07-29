@@ -14,7 +14,7 @@ public class HintGeneratorTests {
 	public void cangetHintWhenACellHasOnlyOneAvailableNumber() {
 		Puzzle testPuzzle = getPuzzleWithCellWithOnlyOneAvailableNumber();
 		Board testBoard = new Board();
-		testBoard.initialize(testPuzzle, null);
+		testBoard.initialize(testPuzzle);
 		
 		HintInfo hint = HintGenerator.getHint(testBoard);
 		
@@ -35,7 +35,7 @@ public class HintGeneratorTests {
 		Puzzle testPuzzle = getPuzzleWhereANumberCanOnlyFitInOneCell();
 		
 		Board testBoard = new Board();
-		testBoard.initialize(testPuzzle, null);
+		testBoard.initialize(testPuzzle);
 		
 		SolverFactory.getSolverThatTriesConstraintsFirst().findUniqueSolutionOrNull(testBoard);
 		

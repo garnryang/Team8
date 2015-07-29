@@ -34,7 +34,9 @@ import edu.psu.sweng500.team8.play.GameSession;
 import edu.psu.sweng500.team8.puzzleGenerator.PuzzleRepository;
 import edu.psu.sweng500.team8.solver.HintGenerator;
 import edu.psu.sweng500.team8.solver.HintInfo;
+
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 
 public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener {
@@ -45,7 +47,8 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 	/* we need to keep track of the current game */
 	private GameSession gameSession;
 	private static final String WIN_MESSAGE = "You won! Start a new game to play again.";
-
+	private static final String NO_HINT_MESSAGE = "Sorry, no hint available.";
+	
 	/**
 	 * Creates new form SudokuGUI
 	 */
@@ -68,13 +71,6 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 
 	@Override
 	public void cellChanged(Cell cell, int newNumber) {
-
-		if (newNumber < 0) { //FIXME: < 0?? Seems like a hack. Use a different event.
-			/* pencil mark change */
-			this.gameBoard.refreshPencilMarkDisplayOnRelatedCells(cell);
-			return;
-		}
-
 		/*
 		 * Cell number changed. Clear the message and any highlighted incorrect
 		 * numbers.
@@ -98,6 +94,10 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 			this.gameBoard.refreshPencilMarkDisplayOnRelatedCells(cell);
 			updateUndoRedoButtonStates();
 		}
+	}
+	
+	public void pencilMarksChanged(Cell cell, Set<Integer> newPencilMarks) {
+		this.gameBoard.refreshPencilMarkDisplayOnRelatedCells(cell);
 	}
 
 	private boolean gameIsComplete() {
@@ -136,11 +136,6 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 		buttonGroup1.add(radEasy);
 		radEasy.setSelected(true);
 		radEasy.setText("Easy");
-		radEasy.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				radEasyActionPerformed(evt);
-			}
-		});
 
 		jLabel1.setText("Menu");
 
@@ -149,11 +144,6 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 
 		buttonGroup1.add(radHard);
 		radHard.setText("Hard");
-		radHard.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				radHardActionPerformed(evt);
-			}
-		});
 
 		this.jLabel2.setText("Difficulty");
 
@@ -164,7 +154,6 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 				try {
 					btnSaveActionPerformed(evt);
 				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -351,8 +340,7 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 
 		HintInfo hint = HintGenerator.getHint(this.gameSession.getGameBoard());
 
-		/* TODO - make this message constant */
-		String message = "Sorry, no hint available";
+		String message = NO_HINT_MESSAGE;
 		if (hint != null) {
 			CellCoordinates coordinates = hint.getCell().getCoordinates();
 
@@ -408,14 +396,6 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 		this.gameBoard.highlightIncorrectCells(incorrectCells);
 
 	}// GEN-LAST:event_btnCheckActionPerformed
-
-	private void radEasyActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_radEasyActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_radEasyActionPerformed
-
-	private void radHardActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_radHardActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_radHardActionPerformed
 
 	/**
 	 * LOAD Action
@@ -586,12 +566,11 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 	}
 
 	private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton14ActionPerformed
-		// TODO add your handling code here:
 		openHelp();
 	}// GEN-LAST:event_jButton14ActionPerformed
 
 	private void openHelp() {
-		// TODO Auto-generated method stub
+		//TODO
 
 	}
 

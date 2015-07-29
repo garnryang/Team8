@@ -18,7 +18,7 @@ public class ConstraintSolverTests {
 		CellGrid expectedSolution = testPuzzle.getSolution();
 
 		Board boardToSolve = new Board();
-		boardToSolve.initialize(testPuzzle, null);
+		boardToSolve.initialize(testPuzzle);
 		Solver solver = SolverFactory.getSolverThatTriesConstraintsFirst();
 
 		CellGrid foundSolution = solver.findUniqueSolutionOrNull(boardToSolve);
@@ -35,7 +35,7 @@ public class ConstraintSolverTests {
 		CellGrid expectedSolution = testPuzzle.getSolution();
 
 		Board boardToSolve = new Board();
-		boardToSolve.initialize(testPuzzle, null);
+		boardToSolve.initialize(testPuzzle);
 		Solver solver = SolverFactory.getSolverThatTriesConstraintsFirst();
 
 		CellGrid foundSolution = solver.findUniqueSolutionOrNull(boardToSolve);
@@ -53,7 +53,7 @@ public class ConstraintSolverTests {
 		CellGrid expectedSolution = testPuzzle.getSolution();
 
 		Board boardToSolve = new Board();
-		boardToSolve.initialize(testPuzzle, null);
+		boardToSolve.initialize(testPuzzle);
 		Solver solver = SolverFactory.getSolverThatTriesConstraintsFirst();
 
 		CellGrid foundSolution = solver.findUniqueSolutionOrNull(boardToSolve);
@@ -69,7 +69,7 @@ public class ConstraintSolverTests {
 		Puzzle testPuzzle = TestPuzzles.getPuzzleWithMultipleSolutions();
 
 		Board boardToSolve = new Board();
-		boardToSolve.initialize(testPuzzle, null);
+		boardToSolve.initialize(testPuzzle);
 		Solver solver = SolverFactory.getSolverThatTriesConstraintsFirst();
 
 		CellGrid foundSolution = solver.findUniqueSolutionOrNull(boardToSolve);

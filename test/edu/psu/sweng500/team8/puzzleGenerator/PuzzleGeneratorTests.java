@@ -87,7 +87,7 @@ public class PuzzleGeneratorTests {
 		Puzzle puzzle = PuzzleGenerator.makePuzzle(DifficultyLevel.Easy);
 		
 		Board puzzleBoard = new Board();
-		puzzleBoard.initialize(puzzle, null);
+		puzzleBoard.initialize(puzzle);
 		Solver solver = SolverFactory.getSolverThatTriesConstraintsFirst();
 		assertNotNull(solver.findUniqueSolutionOrNull(puzzleBoard));
 	}

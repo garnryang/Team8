@@ -145,7 +145,6 @@ public class CellGUI extends JPanel {
 		this.numberInputCell.add(this.numberInputField);
 	}
 
-	/* TODO - This can be either combined with CombinationCell or its own class */
 	private void initPencilMarkDisplayCell() {
 
 		this.pencilMarkDisplay = new JLabel[3][3];
@@ -190,7 +189,6 @@ public class CellGUI extends JPanel {
 			this.numberInputField.getHighlighter().addHighlight(0, 3,
 					GIVEN_NUMBER_PAINTER);
 		} catch (BadLocationException e) {
-			/* TODO - handle properly */
 			e.printStackTrace();
 		}
 	}
@@ -343,7 +341,6 @@ public class CellGUI extends JPanel {
 					INCORRECT_NUMBER_PAINTER);
 			this.numberInputField.repaint();
 		} catch (BadLocationException e) {
-			/* TODO - handle properly */
 			e.printStackTrace();
 		}
 	}

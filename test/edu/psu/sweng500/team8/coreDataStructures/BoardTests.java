@@ -28,7 +28,7 @@ public class BoardTests {
 	public void puzzleIsSolvedReturnsFalseWhenBoardIsIncorrect() {
 		Puzzle puzzle = TestPuzzles.getMediumPuzzle();
 		Board testBoard = new Board();
-		testBoard.initialize(puzzle, null);
+		testBoard.initialize(puzzle);
 		
 		//Set one of the user-defined cells incorrect
 		Cell openCell = testBoard.getOpenCells().get(0);
@@ -46,7 +46,7 @@ public class BoardTests {
 		//UC12
 		Puzzle puzzle = TestPuzzles.getEasyPuzzle();
 		Board testBoard = new Board();
-		testBoard.initialize(puzzle, null);
+		testBoard.initialize(puzzle);
 		
 		//Set some user-defined cells incorrect
 		Cell openCell1 = testBoard.getOpenCells().get(0);
@@ -72,7 +72,7 @@ public class BoardTests {
 	public void canGetCellsThatViolateConstraints() {
 		Puzzle puzzle = TestPuzzles.getEasyPuzzle();
 		Board testBoard = new Board();
-		testBoard.initialize(puzzle, null);
+		testBoard.initialize(puzzle);
 		
 		//Set one of the user-defined cells incorrect
 		Cell openCell = testBoard.getOpenCells().get(0);
@@ -101,7 +101,7 @@ public class BoardTests {
 		Board testBoard = new Board();
 		
 		CellGrid boardBeforeInitialize = testBoard.getCellGrid();
-		testBoard.initialize(puzzle, null);
+		testBoard.initialize(puzzle);
 		CellGrid boardAfterInitialize = testBoard.getCellGrid();
 		
 		assertEquals(boardBeforeInitialize, boardAfterInitialize);

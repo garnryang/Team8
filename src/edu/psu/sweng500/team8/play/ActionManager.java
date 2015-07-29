@@ -54,12 +54,10 @@ public class ActionManager {
 		}
 	}
 	
-	//TODO: Unit test
 	public boolean hasUndoActions() {
 		return !this.undoStack.isEmpty();
 	}
 	
-	//TODO: Unit test
 	public boolean hasRedoActions() {
 		return !this.redoStack.isEmpty();
 	}

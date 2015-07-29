@@ -9,8 +9,9 @@ import edu.psu.sweng500.team8.coreDataStructures.CellCoordinatesTests;
 import edu.psu.sweng500.team8.coreDataStructures.CellGridTests;
 import edu.psu.sweng500.team8.coreDataStructures.CellTests;
 import edu.psu.sweng500.team8.coreDataStructures.PuzzleTests;
+import edu.psu.sweng500.team8.gui.FillPuzzleTests;
 import edu.psu.sweng500.team8.play.GameSessionTests;
-import edu.psu.sweng500.team8.puzzleGenerator.FillPuzzleTests;
+
 import edu.psu.sweng500.team8.puzzleGenerator.PuzzleGeneratorTests;
 import edu.psu.sweng500.team8.puzzleGenerator.PuzzleRepositoryTests;
 import edu.psu.sweng500.team8.puzzleGenerator.SolutionGeneratorTests;

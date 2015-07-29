@@ -14,6 +14,7 @@ import edu.psu.sweng500.team8.play.GameSession;
  * 
  *
  */
+//FIXME: I think this is deprecated since we are no longer listening to key events
 public class CustomKeyListener extends KeyAdapter implements KeyListener {
 
 	private Cell cell;
