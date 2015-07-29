@@ -8,7 +8,6 @@ import edu.psu.sweng500.team8.coreDataStructures.CellConstraintsTests;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinatesTests;
 import edu.psu.sweng500.team8.coreDataStructures.CellGridTests;
 import edu.psu.sweng500.team8.coreDataStructures.CellTests;
-import edu.psu.sweng500.team8.coreDataStructures.PencilMarkManagerTests;
 import edu.psu.sweng500.team8.coreDataStructures.PuzzleTests;
 import edu.psu.sweng500.team8.play.GameSessionTests;
 import edu.psu.sweng500.team8.puzzleGenerator.FillPuzzleTests;
@@ -28,7 +27,6 @@ import edu.psu.sweng500.team8.solver.HintGeneratorTests;
    CellCoordinatesTests.class,
    CellGridTests.class,
    CellTests.class,
-   PencilMarkManagerTests.class,
    PuzzleTests.class,
    GameSessionTests.class,
    FillPuzzleTests.class,

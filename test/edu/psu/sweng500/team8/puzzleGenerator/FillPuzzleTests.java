@@ -2,15 +2,10 @@ package edu.psu.sweng500.team8.puzzleGenerator;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.HashMap;
-import java.util.Map;
 
-import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 
 import org.junit.Assert;
@@ -22,7 +17,6 @@ import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
 import edu.psu.sweng500.team8.gui.BoardGUI;
 import edu.psu.sweng500.team8.gui.CellGUI;
-import edu.psu.sweng500.team8.gui.GridPanel;
 import edu.psu.sweng500.team8.gui.NumberButtonGUI;
 import edu.psu.sweng500.team8.play.GameSession;
 

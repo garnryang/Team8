@@ -202,6 +202,7 @@ public class CellGUI extends JPanel {
 	public void selectCell() {
 
 		this.numberInputField.setBorder(SELECTED_BORDER);
+		this.pencilMarkDisplayCell.setBorder(SELECTED_BORDER);
 	}
 
 	/**
@@ -219,7 +220,7 @@ public class CellGUI extends JPanel {
 		this.numberInputCell.setVisible(true);
 		this.pencilMarkDisplayCell.setVisible(false);
 
-		selectCell();
+		this.selectCell();
 	}
 
 	public void setNumberToCell(MouseEvent mouseEvent) {
@@ -232,8 +233,9 @@ public class CellGUI extends JPanel {
 
 		if (isPencilMarkMode) {
 			/* number clicked during pencil mark mode */
-			this.gameSession.enterPencilMark(this.cell,
-					Integer.parseInt(keyValue), isSelcted);
+			int numberInt = Integer.parseInt(keyValue);
+			this.gameSession.enterPencilMark(this.cell, numberInt, isSelcted);
+			
 		} else {
 
 			/*
@@ -266,6 +268,7 @@ public class CellGUI extends JPanel {
 	public void unselect() {
 
 		this.numberInputField.setBorder(DEFAULT_BORDER);
+		this.pencilMarkDisplayCell.setBorder(DEFAULT_BORDER);
 	}
 
 	public void cellLostFocus(FocusEvent focusEvent) {
@@ -273,13 +276,8 @@ public class CellGUI extends JPanel {
 		CellGUI selectedCell = this;
 
 		if (null != focusEvent) {
-			// if (focusEvent.getSource() instanceof JTextField) {
 			selectedCell = (CellGUI) ((JTextField) focusEvent.getSource())
 					.getParent().getParent();
-			// } else {
-			// /* */
-			// System.err.println("This is not supported.");
-			// }
 		}
 
 		selectedCell.numberInputField.setBorder(DEFAULT_BORDER);
@@ -409,5 +407,13 @@ public class CellGUI extends JPanel {
 
 	public Cell getCell() {
 		return this.cell;
+	}
+	
+	/**
+	 * public for testing
+	 * @return
+	 */
+	public JTextField getNumberInputField() {
+		return this.numberInputField;
 	}
 }
