@@ -23,7 +23,7 @@ public class NumberButtonGUI extends javax.swing.JPanel {
 
 	private GameSession gameSession;
 
-	JToggleButton[] buttons = new JToggleButton[9];
+	private JToggleButton[] buttons = new JToggleButton[9];
 
 	public void init(MouseAdapter mouseAdapter, GameSession gameSession) {
 
@@ -48,7 +48,6 @@ public class NumberButtonGUI extends javax.swing.JPanel {
 			numberInputButton.setPreferredSize(BUTTON_DIMENSION);
 			numberInputButton.setMaximumSize(BUTTON_DIMENSION);
 			numberInputButton.setMinimumSize(BUTTON_DIMENSION);
-			// numberInputButton.addActionListener(buildActionListner());
 
 			GridBagConstraints buttonGridBagConstraints = new GridBagConstraints();
 			buttonGridBagConstraints.gridx = (numberIndex - 1) % 3;

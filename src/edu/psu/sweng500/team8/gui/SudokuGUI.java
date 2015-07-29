@@ -701,7 +701,7 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 	private MouseAdapter buildNumberInputMouseAdapter() {
 		return new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent mouseEvent) {
+			public void mouseReleased(MouseEvent mouseEvent) {
 				gameBoard.mouseClickedTaskForNumberInput(mouseEvent);
 			}
 		};

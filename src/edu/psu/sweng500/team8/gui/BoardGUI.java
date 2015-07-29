@@ -143,7 +143,7 @@ public class BoardGUI extends JPanel {
 	private MouseAdapter buildMouseAdapter() {
 		return new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent mouseEvent) {
+			public void mouseReleased(MouseEvent mouseEvent) {
 				mouseClickedTask(mouseEvent);
 			}
 		};
@@ -199,7 +199,12 @@ public class BoardGUI extends JPanel {
 		this.highlightedIncorrectCells.add(currentCell);
 	}
 
-	private CellGUI findCorresdpondingCellGUI(Cell cell) {
+	/**
+	 * made public for unit testing 
+	 * @param cell
+	 * @return
+	 */
+	public CellGUI findCorresdpondingCellGUI(Cell cell) {
 		CellCoordinates coordinates = cell.getCoordinates();
 		return this.blocks[coordinates.getBlockIndex() / 3][coordinates
 				.getBlockIndex() % 3].getSelectedCell(coordinates);
