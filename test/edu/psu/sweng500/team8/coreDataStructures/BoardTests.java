@@ -17,7 +17,7 @@ public class BoardTests {
 	public void puzzleIsSolvedReturnsTrueWhenBoardMatchesSolution() {
 		Puzzle puzzle = TestPuzzles.getMediumPuzzle();
 		Board testBoard = new Board();
-		testBoard.initialize(puzzle, null);
+		testBoard.initialize(puzzle);
 		
 		fillInTheSolution(testBoard);
 		

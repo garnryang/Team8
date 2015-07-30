@@ -62,7 +62,7 @@ public class SolutionGeneratorTests {
 	}
 	
 	/**
-	 * This test is checking to see if Board.populationIteration() method can
+	 * This test is checking to see if SolutionGenerator.generateSolution method can
 	 * generate a board where all the rows are without any duplicates, all the
 	 * columns are without any duplicates, and all the blocks are without any
 	 * duplicates. This test will try to generate a reasonable number of full

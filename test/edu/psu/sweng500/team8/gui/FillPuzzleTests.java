@@ -61,10 +61,6 @@ import edu.psu.sweng500.team8.puzzleGenerator.PuzzleRepository;
 					column = j;
 					break;
 				}
-
-				if (test == 0) {
-					break;
-				}
 			}
 		}
 
@@ -126,10 +122,6 @@ import edu.psu.sweng500.team8.puzzleGenerator.PuzzleRepository;
 				if (test == 0) {
 					row = i;
 					column = j;
-					break;
-				}
-
-				if (test == 0) {
 					break;
 				}
 			}
@@ -199,10 +191,6 @@ import edu.psu.sweng500.team8.puzzleGenerator.PuzzleRepository;
 				if (test == 0) {
 					row = i;
 					column = j;
-					break;
-				}
-
-				if (test == 0) {
 					break;
 				}
 			}
