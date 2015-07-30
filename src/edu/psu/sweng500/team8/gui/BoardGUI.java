@@ -24,7 +24,7 @@ import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 import edu.psu.sweng500.team8.play.GameSession;
 
 public class BoardGUI extends JPanel {
-
+	private static final long serialVersionUID = 1L; //Not really necessary since we're not serializing the UI, but just to keep Java happy...
 	private static final int BOARD_SIZE = 486 + 10;
 	private static final Border DEFAULT_BORDER = BorderFactory
 			.createLineBorder(Color.BLACK, 2);

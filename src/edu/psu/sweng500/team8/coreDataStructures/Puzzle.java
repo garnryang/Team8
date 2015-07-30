@@ -7,13 +7,14 @@ import edu.psu.sweng500.team8.io.BinaryInputStream;
 import edu.psu.sweng500.team8.io.BinaryOutputStream;
 import edu.psu.sweng500.team8.io.BinarySerializable;
 
-public class Puzzle implements BinarySerializable {
+public class Puzzle implements BinarySerializable {	
 	public enum DifficultyLevel {
 		Easy, // 0
 		Medium, // 1
 		Hard // 2
 	}
 
+	private static final long serialVersionUID = 1L;
 	private DifficultyLevel difficulty = DifficultyLevel.Medium;
 	private CellGrid grid = new CellGrid();
 	private CellGrid solution;

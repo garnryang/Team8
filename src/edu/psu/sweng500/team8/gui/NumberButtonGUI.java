@@ -5,16 +5,15 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
-import java.util.Set;
 
-import javax.swing.JButton;
 import javax.swing.JToggleButton;
 
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.play.GameSession;
 
 public class NumberButtonGUI extends javax.swing.JPanel {
-
+	private static final long serialVersionUID = 1L; //Not really necessary since we're not serializing the UI, but just to keep Java happy...
+	
 	private static final int BUTTON_SIZE = 54;
 	private final static int BUTTON_TEXT_SIZE = 40;
 	private final static Font BUTTON_FONT = new Font("Tahoma", Font.PLAIN,
