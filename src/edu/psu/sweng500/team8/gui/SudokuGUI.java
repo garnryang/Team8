@@ -69,11 +69,12 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 	@Override
 	public void cellChanged(Cell cell, int newNumber) {
 
-		if (newNumber < 0) { //FIXME: < 0?? Seems like a hack. Use a different event.
-			/* pencil mark change */
-			this.gameBoard.refreshPencilMarkDisplayOnRelatedCells(cell);
-			return;
-		}
+//		/* FIXME: < 0?? Seems like a hack. Use a different event. */
+//		if (newNumber < 0) { 
+//			/* pencil mark change */
+//			this.gameBoard.refreshPencilMarkDisplayOnRelatedCells(cell);
+//			return;
+//		}
 
 		/*
 		 * Cell number changed. Clear the message and any highlighted incorrect
@@ -376,7 +377,7 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 	private void doUndo(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_doUndo
 		this.setMessage("");
 		this.gameSession.doUndo();
-		this.gameBoard.populatePanel(this.gameSession, true, false,
+		this.gameBoard.populatePanel(this.gameSession, true, this.gameSession.isPencilMarkMode(),
 				this.numberInputPad);
 		
 		updateUndoRedoButtonStates();
@@ -385,7 +386,7 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 	private void doRedo(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_doRedo
 		this.setMessage("");
 		this.gameSession.doRedo();
-		this.gameBoard.populatePanel(this.gameSession, true, false,
+		this.gameBoard.populatePanel(this.gameSession, true, this.gameSession.isPencilMarkMode(),
 				this.numberInputPad);
 		
 		updateUndoRedoButtonStates();

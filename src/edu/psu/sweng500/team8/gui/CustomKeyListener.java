@@ -24,6 +24,9 @@ public class CustomKeyListener extends KeyAdapter implements KeyListener {
 		this.gameSession = gameSession;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	/*
 	 * TODO problem with this approach is any key after a number is entered will
 	 * delete the number We could differentiate number keys and some other valid

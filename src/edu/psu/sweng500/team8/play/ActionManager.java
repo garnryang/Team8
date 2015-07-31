@@ -12,7 +12,17 @@ public class ActionManager {
 	private Deque<SudokuAction> redoStack = new ArrayDeque<SudokuAction>();
 
 	public void addUndoAction(SudokuAction sudokuAction) {
-		this.undoStack.push(sudokuAction);
+		
+		if (!undoStack.isEmpty()) {
+			if (undoStack.peek().equals(sudokuAction)) {
+				/* duplicate call due to cell change listener isseu */
+				/* do not push */
+			} else {
+				this.undoStack.push(sudokuAction);	
+			}
+		} else {
+			this.undoStack.push(sudokuAction);	
+		}
 	}
 
 	/**

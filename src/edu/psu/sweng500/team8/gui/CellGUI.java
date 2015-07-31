@@ -119,7 +119,49 @@ public class CellGUI extends JPanel {
 				this.numberInputField.setFocusable(true);
 
 			} else {
-				cellLostFocus(null);
+				/* Pencil Marks */
+				this.numberInputCell.setVisible(false);
+				this.pencilMarkDisplayCell.setVisible(true);
+				
+				for (int i = 1; i <= 9; i++) {
+					
+					int rowIndex = ((i - 1) / 3);
+					int columnIndex = ((i - 1) % 3);
+
+					this.pencilMarkDisplay[rowIndex][columnIndex]
+							.setVisible(true);
+					this.pencilMarkDisplay[rowIndex][columnIndex]
+							.addMouseListener(this.mouseAdapter);
+
+					if (this.cell.getPencilMarks().contains(i)) {
+						this.pencilMarkDisplay[rowIndex][columnIndex]
+								.setText(String.valueOf(i));
+					} else {
+						this.pencilMarkDisplay[rowIndex][columnIndex]
+								.setText("");
+					}
+				}
+
+//				for (int i = 1; i <= 9; i++) {
+//
+//					int rowIndex = ((i - 1) / 3);
+//					int columnIndex = ((i - 1) % 3);
+//
+//					this.pencilMarkDisplay[rowIndex][columnIndex]
+//							.setVisible(true);
+//					this.pencilMarkDisplay[rowIndex][columnIndex]
+//							.addMouseListener(this.mouseAdapter);
+//
+//					if (this.cell.getPencilMarks().contains(i)) {
+//						this.pencilMarkDisplay[rowIndex][columnIndex]
+//								.setText(String.valueOf(i));
+//					} else {
+//						this.pencilMarkDisplay[rowIndex][columnIndex]
+//								.setText("");
+//					}
+//				}
+				
+				// cellLostFocus(null);
 			}
 		}
 	}
@@ -145,7 +187,6 @@ public class CellGUI extends JPanel {
 		this.numberInputCell.add(this.numberInputField);
 	}
 
-	/* TODO - This can be either combined with CombinationCell or its own class */
 	private void initPencilMarkDisplayCell() {
 
 		this.pencilMarkDisplay = new JLabel[3][3];
@@ -318,7 +359,7 @@ public class CellGUI extends JPanel {
 	}
 
 	/**
-	 * 
+	 * @deprecated
 	 * switch from Pencil Mark display mode to number input mode, select
 	 * CellGUI, and set focus to numberInputField so any previous set can be
 	 * lost
@@ -329,6 +370,18 @@ public class CellGUI extends JPanel {
 		this.numberInputCell.setVisible(true);
 		this.selectCell();
 		this.numberInputField.requestFocus();
+	}
+	
+	/**
+	 * 
+	 * 
+	 */
+	public void pencilMarkSelected() {
+
+//		this.pencilMarkDisplayCell.setVisible(false);
+//		this.numberInputCell.setVisible(true);
+		this.selectCell();
+//		this.numberInputField.requestFocus();
 	}
 
 	/**
