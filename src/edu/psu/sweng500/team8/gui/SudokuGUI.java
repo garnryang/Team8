@@ -445,7 +445,7 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 
 				CellGrid cellGrid = savePackage.getCellGrid();
 
-				this.loadSession(puzzle, cellGrid);
+				loadSession(puzzle, cellGrid);
 
 				/* We need to populate non given cells */
 
@@ -550,7 +550,7 @@ public class SudokuGUI extends javax.swing.JFrame implements CellChangedListener
 
 	private void loadSession(Puzzle puzzle, CellGrid overloadedCellGrid) {
 
-		this.gameSession = new GameSession(puzzle, overloadedCellGrid);
+		this.gameSession = (overloadedCellGrid == null) ? new GameSession(puzzle) : new GameSession(puzzle, overloadedCellGrid);
 
 		this.gameSession.subscribeForCellChanges(this);
 		this.numberInputPad.init(buildNumberInputMouseAdapter(),

@@ -21,7 +21,7 @@ import edu.psu.sweng500.team8.gui.NumberButtonGUI;
 import edu.psu.sweng500.team8.play.GameSession;
 import edu.psu.sweng500.team8.puzzleGenerator.PuzzleRepository;
 
- public class FillPuzzleTests {
+public class FillPuzzleTests {
 
 	@Test
 	// UC3 Steps 1&2&3
