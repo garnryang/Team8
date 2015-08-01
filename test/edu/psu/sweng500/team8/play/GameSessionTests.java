@@ -349,6 +349,9 @@ public class GameSessionTests {
 		Assert.assertEquals(0, cellAfterEnteringNumber.getNumber());
 	}
 	
+	/**
+	 * Raising coverage: unit testing scenario of clearing pencil mark
+	 */
 	@Test
 	public void testUpdatePencilMark() {
 		
@@ -367,5 +370,19 @@ public class GameSessionTests {
 		Board boardAfterPencilMarkClear = gameSession.refresh();
 		Cell cellAfterPencilMarkClear = boardAfterPencilMarkClear.getCell(0, 0);
 		Assert.assertFalse(cellAfterPencilMarkClear.getPencilMarks().contains(TARGET_PENCIL_MARK));
+	}
+	
+	@Test
+	public void testPencilMarkMode() {
+		Puzzle puzzle = new Puzzle();
+		GameSession gameSession = new GameSession(puzzle, null);
+		
+		Assert.assertFalse(gameSession.isPencilMarkMode());
+		
+		gameSession.setPencilMarkMode(true);
+		Assert.assertTrue(gameSession.isPencilMarkMode());
+		
+		gameSession.setPencilMarkMode(false);
+		Assert.assertFalse(gameSession.isPencilMarkMode());
 	}
 }

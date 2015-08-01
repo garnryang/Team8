@@ -100,14 +100,9 @@ public class BoardGUI extends JPanel {
 			public void focusGained(FocusEvent focusEvent) {
 				cellGainedFocus(focusEvent);
 			}
-
-			public void focusLost(FocusEvent focusEvent) {
-				cellLostFocus(focusEvent);
-			}
 		};
 	}
 
-	//SCOTT/
 	private void cellGainedFocus(FocusEvent focusEvent) {
 		CellGUI newSelectedCell = (CellGUI) ((JTextField) focusEvent
 				.getSource()).getParent().getParent();
@@ -122,22 +117,6 @@ public class BoardGUI extends JPanel {
 
 		this.numberInputPad.updateForFocusedCell(this.selectedCell.getCell());
 
-	}
-
-	/**
-	 * 
-	 * cellLostFocus is no longer needed as we manually handle the SelectedCell
-	 * 
-	 * @deprecated
-	 * @param focusEvent
-	 * 
-	 * 
-	 */
-	private void cellLostFocus(FocusEvent focusEvent) {
-		// CellGUI unselectedCell = (CellGUI) ((JTextField)
-		// focusEvent.getSource())
-		// .getParent().getParent();
-		// unselectedCell.cellLostFocus(focusEvent);
 	}
 
 	public void mouseClickedTaskForNumberInput(MouseEvent mouseEvent) {
@@ -173,8 +152,6 @@ public class BoardGUI extends JPanel {
 		CellGUI currentPencilMarkDisplayCell = (CellGUI) ((JPanel) (((JLabel) (mouseEvent
 				.getSource())).getParent())).getParent();
 		this.selectedCell = currentPencilMarkDisplayCell;
-
-//		currentPencilMarkDisplayCell.pencilMarkSelected();
 
 		this.selectedCell.selectCell();
 

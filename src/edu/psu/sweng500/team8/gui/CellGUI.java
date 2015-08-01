@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -51,8 +50,6 @@ public class CellGUI extends JPanel {
 	private JPanel pencilMarkDisplayCell;
 	private JLabel[][] pencilMarkDisplay;
 
-	private MouseAdapter mouseAdapter;
-
 	private boolean isPencilMarkMode;
 
 	public CellGUI() {
@@ -72,7 +69,6 @@ public class CellGUI extends JPanel {
 
 		this.gameSession = gameSession;
 		this.cell = cell;
-		this.mouseAdapter = mouseAdapter;
 		this.isPencilMarkMode = isPencilMarkMode;
 
 		/* Clear */
@@ -84,6 +80,13 @@ public class CellGUI extends JPanel {
 			this.numberInputField.getHighlighter().removeAllHighlights();
 			this.numberInputField.addFocusListener(focusAdapter);
 			this.numberInputField.setBorder(DEFAULT_BORDER);
+
+			for (int rowIndex = 0; rowIndex < 3; rowIndex++) {
+				for (int columnIndex = 0; columnIndex < 3; columnIndex++) {
+					this.pencilMarkDisplay[rowIndex][columnIndex]
+							.addMouseListener(mouseAdapter);		
+				}
+			}
 		}
 
 		if (cell.hasNumber()) {
@@ -130,8 +133,6 @@ public class CellGUI extends JPanel {
 
 					this.pencilMarkDisplay[rowIndex][columnIndex]
 							.setVisible(true);
-					this.pencilMarkDisplay[rowIndex][columnIndex]
-							.addMouseListener(this.mouseAdapter);
 
 					if (this.cell.getPencilMarks().contains(i)) {
 						this.pencilMarkDisplay[rowIndex][columnIndex]
@@ -141,27 +142,6 @@ public class CellGUI extends JPanel {
 								.setText("");
 					}
 				}
-
-//				for (int i = 1; i <= 9; i++) {
-//
-//					int rowIndex = ((i - 1) / 3);
-//					int columnIndex = ((i - 1) % 3);
-//
-//					this.pencilMarkDisplay[rowIndex][columnIndex]
-//							.setVisible(true);
-//					this.pencilMarkDisplay[rowIndex][columnIndex]
-//							.addMouseListener(this.mouseAdapter);
-//
-//					if (this.cell.getPencilMarks().contains(i)) {
-//						this.pencilMarkDisplay[rowIndex][columnIndex]
-//								.setText(String.valueOf(i));
-//					} else {
-//						this.pencilMarkDisplay[rowIndex][columnIndex]
-//								.setText("");
-//					}
-//				}
-				
-				// cellLostFocus(null);
 			}
 		}
 	}
@@ -312,78 +292,6 @@ public class CellGUI extends JPanel {
 		this.pencilMarkDisplayCell.setBorder(DEFAULT_BORDER);
 	}
 
-	public void cellLostFocus(FocusEvent focusEvent) {
-
-		CellGUI selectedCell = this;
-
-		if (null != focusEvent) {
-			selectedCell = (CellGUI) ((JTextField) focusEvent.getSource())
-					.getParent().getParent();
-		}
-
-		selectedCell.numberInputField.setBorder(DEFAULT_BORDER);
-
-		if (this.cell.hasNumber()) {
-			/* Number */
-			selectedCell.numberInputCell.setVisible(true);
-			selectedCell.pencilMarkDisplayCell.setVisible(false);
-		} else {
-			if (this.cell.getPencilMarks().isEmpty()) {
-				/* Nothing */
-				selectedCell.numberInputCell.setVisible(true);
-				selectedCell.pencilMarkDisplayCell.setVisible(false);
-			} else {
-				/* Pencil Marks */
-				selectedCell.numberInputCell.setVisible(false);
-				selectedCell.pencilMarkDisplayCell.setVisible(true);
-				for (int i = 1; i <= 9; i++) {
-
-					int rowIndex = ((i - 1) / 3);
-					int columnIndex = ((i - 1) % 3);
-
-					this.pencilMarkDisplay[rowIndex][columnIndex]
-							.setVisible(true);
-					this.pencilMarkDisplay[rowIndex][columnIndex]
-							.addMouseListener(this.mouseAdapter);
-
-					if (this.cell.getPencilMarks().contains(i)) {
-						this.pencilMarkDisplay[rowIndex][columnIndex]
-								.setText(String.valueOf(i));
-					} else {
-						this.pencilMarkDisplay[rowIndex][columnIndex]
-								.setText("");
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * @deprecated
-	 * switch from Pencil Mark display mode to number input mode, select
-	 * CellGUI, and set focus to numberInputField so any previous set can be
-	 * lost
-	 */
-	public void switchtoNumberInput() {
-
-		this.pencilMarkDisplayCell.setVisible(false);
-		this.numberInputCell.setVisible(true);
-		this.selectCell();
-		this.numberInputField.requestFocus();
-	}
-	
-	/**
-	 * 
-	 * 
-	 */
-	public void pencilMarkSelected() {
-
-//		this.pencilMarkDisplayCell.setVisible(false);
-//		this.numberInputCell.setVisible(true);
-		this.selectCell();
-//		this.numberInputField.requestFocus();
-	}
-
 	/**
 	 * mark CellGUI for incorrect number
 	 */
@@ -445,8 +353,6 @@ public class CellGUI extends JPanel {
 				int columnIndex = ((i - 1) % 3);
 
 				this.pencilMarkDisplay[rowIndex][columnIndex].setVisible(true);
-				this.pencilMarkDisplay[rowIndex][columnIndex]
-						.addMouseListener(this.mouseAdapter);
 
 				if (this.cell.getPencilMarks().contains(i)) {
 					this.pencilMarkDisplay[rowIndex][columnIndex]

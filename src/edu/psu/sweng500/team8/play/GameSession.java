@@ -185,7 +185,12 @@ public class GameSession implements Serializable {
 		}
 	}
 
-	//TODO: why is this state necessary? Should only be in the UI
+	/**
+	 * We need this here because we are using it for numberButtonGUI's behavior change
+	 * as well as undo/redo logic 
+	 * We used to use this for Key-entering-interaction
+	 * @param isPencilMarkMode
+	 */
 	public void setPencilMarkMode(boolean isPencilMarkMode) {
 		this.isPencilMarkMode = isPencilMarkMode;
 
