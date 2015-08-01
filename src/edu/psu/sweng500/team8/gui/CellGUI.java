@@ -373,4 +373,12 @@ public class CellGUI extends JPanel {
 	public JTextField getNumberInputField() {
 		return this.numberInputField;
 	}
+	
+	/**
+	 * public for testing
+	 * @return
+	 */
+	public JPanel getpPencilMarkDisplayCell() {
+		return this.pencilMarkDisplayCell;
+	}
 }
