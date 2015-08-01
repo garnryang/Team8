@@ -43,12 +43,12 @@ public class HintGeneratorTests {
 		
 		assertTrue(hint != null);
 		Cell filledCell = hint.getCell();
-		assertEquals(4, filledCell.getCoordinates().getRowIndex());
-		assertEquals(2, filledCell.getCoordinates().getColumnIndex());
-		assertEquals(4, hint.getNumber());
+		assertEquals(1, filledCell.getCoordinates().getRowIndex());
+		assertEquals(5, filledCell.getCoordinates().getColumnIndex());
+		assertEquals(1, hint.getNumber());
 		
 		//This can change. Made something up for now.
-		String expectedExplanation = "This cell's value must be 4 because " +
+		String expectedExplanation = "This cell's value must be 1 because " +
 				"it is the only cell in the row, column, and/or block where this number can go without violating Sudoku constraints.";
 		assertEquals(expectedExplanation, hint.getExplanation());
 	}

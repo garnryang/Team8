@@ -701,7 +701,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 
 	private void loadSession(Puzzle puzzle, CellGrid overloadedCellGrid) {
 
-		this.gameSession = new GameSession(puzzle, overloadedCellGrid);
+		this.gameSession = (overloadedCellGrid == null) ? new GameSession(puzzle) : new GameSession(puzzle, overloadedCellGrid);
 
 		this.gameSession.subscribeForCellChanges(this);
 		this.numberInputPad.init(buildNumberInputMouseAdapter(),

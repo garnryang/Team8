@@ -17,7 +17,7 @@ public class NumberButtonGUITest {
 		DifficultyLevel difficulty = DifficultyLevel.Easy;
 		PuzzleRepository puzzleRepo = new PuzzleRepository();
 		Puzzle puzzle = puzzleRepo.getPuzzle(difficulty);
-		GameSession gameSession = new GameSession(puzzle, null);
+		GameSession gameSession = new GameSession(puzzle);
 
 		gameSession.setPencilMarkMode(false);
 		
@@ -78,7 +78,7 @@ public class NumberButtonGUITest {
 		DifficultyLevel difficulty = DifficultyLevel.Easy;
 		PuzzleRepository puzzleRepo = new PuzzleRepository();
 		Puzzle puzzle = puzzleRepo.getPuzzle(difficulty);
-		GameSession gameSession = new GameSession(puzzle, null);
+		GameSession gameSession = new GameSession(puzzle);
 
 		gameSession.setPencilMarkMode(true);
 		

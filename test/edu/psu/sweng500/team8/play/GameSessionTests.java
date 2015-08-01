@@ -264,7 +264,7 @@ public class GameSessionTests {
 
 		final int TARGET_PENCIL_MARK = 8;
 		Puzzle puzzle = new Puzzle();
-		GameSession gameSession = new GameSession(puzzle, null);
+		GameSession gameSession = new GameSession(puzzle);
 		
 		Cell cell = gameSession.getGameBoard().getCell(0, 0);
 		gameSession.enterPencilMark(cell, TARGET_PENCIL_MARK, true);
@@ -292,7 +292,7 @@ public class GameSessionTests {
 		
 		final int TARGET_PENCIL_MARK = 7;
 		Puzzle puzzle = new Puzzle();
-		GameSession gameSession = new GameSession(puzzle, null);
+		GameSession gameSession = new GameSession(puzzle);
 		
 		Cell cell = gameSession.getGameBoard().getCell(0, 0);
 		gameSession.enterPencilMark(cell, TARGET_PENCIL_MARK,  true);
@@ -319,7 +319,7 @@ public class GameSessionTests {
 		
 		final int TARGET_NUMBER = 3;
 		Puzzle puzzle = new Puzzle();
-		GameSession gameSession = new GameSession(puzzle, null);
+		GameSession gameSession = new GameSession(puzzle);
 		
 		Cell cell = gameSession.getGameBoard().getCell(0, 0);
 		gameSession.enterNumber(cell, TARGET_NUMBER);
@@ -338,7 +338,7 @@ public class GameSessionTests {
 	public void testEnterNumber_clear_non_existing() {
 		
 		Puzzle puzzle = new Puzzle();
-		GameSession gameSession = new GameSession(puzzle, null);
+		GameSession gameSession = new GameSession(puzzle);
 		
 		Cell cell = gameSession.getGameBoard().getCell(0, 0);
 		Board boardBeforeEnteringNumber = gameSession.getGameBoard();
@@ -357,7 +357,7 @@ public class GameSessionTests {
 		
 		final int TARGET_PENCIL_MARK = 8;
 		Puzzle puzzle = new Puzzle();
-		GameSession gameSession = new GameSession(puzzle, null);
+		GameSession gameSession = new GameSession(puzzle);
 		
 		Cell cell = gameSession.getGameBoard().getCell(0, 0);
 		gameSession.enterPencilMark(cell, TARGET_PENCIL_MARK, true);
@@ -378,7 +378,7 @@ public class GameSessionTests {
 	@Test
 	public void testPencilMarkMode() {
 		Puzzle puzzle = new Puzzle();
-		GameSession gameSession = new GameSession(puzzle, null);
+		GameSession gameSession = new GameSession(puzzle);
 		
 		Assert.assertFalse(gameSession.isPencilMarkMode());
 		
@@ -397,7 +397,7 @@ public class GameSessionTests {
 		
 		final int TARGET_PENCIL_MARK = 8;
 		Puzzle puzzle = new Puzzle();
-		GameSession gameSession = new GameSession(puzzle, null);
+		GameSession gameSession = new GameSession(puzzle);
 		
 		Cell cell = gameSession.getGameBoard().getCell(0, 0);
 		gameSession.enterPencilMark(cell, TARGET_PENCIL_MARK, true);
@@ -415,7 +415,7 @@ public class GameSessionTests {
 		
 		final int TARGET_PENCIL_MARK = 7;
 		Puzzle puzzle = new Puzzle();
-		GameSession gameSession = new GameSession(puzzle, null);
+		GameSession gameSession = new GameSession(puzzle);
 		
 		Cell cell = gameSession.getGameBoard().getCell(0, 0);
 		gameSession.enterPencilMark(cell, TARGET_PENCIL_MARK,  true);

@@ -32,7 +32,7 @@ public class FillPuzzleTests {
 		DifficultyLevel difficulty = DifficultyLevel.Easy;
 		PuzzleRepository puzzleRepo = new PuzzleRepository();
 		Puzzle puzzle = puzzleRepo.getPuzzle(difficulty);
-		GameSession newGame = new GameSession(puzzle, null);
+		GameSession newGame = new GameSession(puzzle);
 
 		final BoardGUI gridPanel = new BoardGUI();
 
@@ -100,7 +100,7 @@ public class FillPuzzleTests {
 		DifficultyLevel difficulty = DifficultyLevel.Easy;
 		PuzzleRepository puzzleRepo = new PuzzleRepository();
 		Puzzle puzzle = puzzleRepo.getPuzzle(difficulty);
-		GameSession newGame = new GameSession(puzzle, null);
+		GameSession newGame = new GameSession(puzzle);
 		final BoardGUI gridPanel = new BoardGUI();
 
 		numberButtonGUI.init(new MouseAdapter() {
@@ -176,7 +176,7 @@ public class FillPuzzleTests {
 		DifficultyLevel difficulty = DifficultyLevel.Easy;
 		PuzzleRepository puzzleRepo = new PuzzleRepository();
 		Puzzle puzzle = puzzleRepo.getPuzzle(difficulty);
-		GameSession newGame = new GameSession(puzzle, null);
+		GameSession newGame = new GameSession(puzzle);
 		final BoardGUI gridPanel = new BoardGUI();
 
 		numberButtonGUI.init(new MouseAdapter() {

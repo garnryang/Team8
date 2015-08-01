@@ -46,13 +46,6 @@ public class PuzzleGeneratorTests {
 		assertNotNull(solver.findUniqueSolutionOrNull(puzzleBoard));
 	}
 	
-	//FIXME: Complete this test. 
-	@Test //For UC1 Step4
-	public void testsForWhetherSystemCategorizes(){
-		int test = DifficultyLevel.Easy.ordinal();
-		assertTrue(test == 36); 
-	}
-	
 	@Test
 	public void makePuzzleSetsPuzzleDifficulty() {
 		Puzzle puzzle = PuzzleGenerator.makePuzzle(DifficultyLevel.Easy);
