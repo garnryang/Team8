@@ -33,6 +33,8 @@ public class BoardGUI extends JPanel {
 	private CellGUI selectedCell;
 	private Set<CellGUI> highlightedIncorrectCells = new HashSet<CellGUI>();
 	private NumberButtonGUI numberInputPad;
+	private MouseAdapter numberPadHandler;
+	private FocusAdapter focusHandler;
 
 	public BoardGUI() {
 
@@ -43,6 +45,18 @@ public class BoardGUI extends JPanel {
 
 		this.blocks = new BlockGUI[3][3];
 
+		this.focusHandler = new FocusAdapter() {
+			public void focusGained(FocusEvent focusEvent) {
+				cellGainedFocus(focusEvent);
+			}
+		};
+		this.numberPadHandler = new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent mouseEvent) {
+				mouseClickedTask(mouseEvent);
+			}
+		};
+		
 		GridBagConstraints gridBagConstraints;
 		this.setLayout(new java.awt.GridBagLayout());
 
@@ -70,7 +84,7 @@ public class BoardGUI extends JPanel {
 
 			this.blocks[rowIndex][columnIndex].populate(gameSession
 					.getGameBoard().getBlock(blockIndex), gameSession,
-					isRefresh, buildFocusAdapter(), buildMouseAdapter(),
+					isRefresh, this.focusHandler, this.numberPadHandler,
 					isPencilMarkMode);
 		}
 	}
@@ -86,15 +100,6 @@ public class BoardGUI extends JPanel {
 		this.selectedCell = this.blocks[cellCoordinates.getBlockIndex() / 3][cellCoordinates
 				.getBlockIndex() % 3].getSelectedCell(cellCoordinates);
 		this.selectedCell.updateSelectedCellFromHint(number);
-	}
-
-	private FocusAdapter buildFocusAdapter() {
-
-		return new FocusAdapter() {
-			public void focusGained(FocusEvent focusEvent) {
-				cellGainedFocus(focusEvent);
-			}
-		};
 	}
 
 	private void cellGainedFocus(FocusEvent focusEvent) {
@@ -122,19 +127,6 @@ public class BoardGUI extends JPanel {
 		}
 
 		this.selectedCell.setNumberToCell(mouseEvent);
-	}
-
-	/**
-	 * This is MouseAdapter for PencilMark Mode where PencilMark exists already
-	 * @return
-	 */
-	private MouseAdapter buildMouseAdapter() {
-		return new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent mouseEvent) {
-				mouseClickedTask(mouseEvent);
-			}
-		};
 	}
 
 	private void mouseClickedTask(MouseEvent mouseEvent) {

@@ -26,24 +26,22 @@ public class FillPuzzleTests {
 	@Test
 	// UC3 Steps 1&2&3
 	public void playerEntersNumber() {
-
 		NumberButtonGUI numberButtonGUI = new NumberButtonGUI();
-
+		
 		DifficultyLevel difficulty = DifficultyLevel.Easy;
 		PuzzleRepository puzzleRepo = new PuzzleRepository();
 		Puzzle puzzle = puzzleRepo.getPuzzle(difficulty);
 		GameSession newGame = new GameSession(puzzle);
-
 		final BoardGUI gridPanel = new BoardGUI();
-
-		numberButtonGUI.init(new MouseAdapter() {
+		numberButtonGUI.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseReleased(MouseEvent mouseEvent) {
 
 				gridPanel.mouseClickedTaskForNumberInput(mouseEvent);
 			}
-		}, newGame);
+		});
+		numberButtonGUI.init(newGame);
 
 		gridPanel.populatePanel(newGame, false, false, numberButtonGUI);
 
@@ -103,14 +101,15 @@ public class FillPuzzleTests {
 		GameSession newGame = new GameSession(puzzle);
 		final BoardGUI gridPanel = new BoardGUI();
 
-		numberButtonGUI.init(new MouseAdapter() {
+		numberButtonGUI.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseReleased(MouseEvent mouseEvent) {
 
 				gridPanel.mouseClickedTaskForNumberInput(mouseEvent);
 			}
-		}, newGame);
+		});
+		numberButtonGUI.init(newGame);
 
 		gridPanel.populatePanel(newGame, false, false, numberButtonGUI);
 
@@ -178,15 +177,15 @@ public class FillPuzzleTests {
 		Puzzle puzzle = puzzleRepo.getPuzzle(difficulty);
 		GameSession newGame = new GameSession(puzzle);
 		final BoardGUI gridPanel = new BoardGUI();
-
-		numberButtonGUI.init(new MouseAdapter() {
+		numberButtonGUI.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseReleased(MouseEvent mouseEvent) {
 
 				gridPanel.mouseClickedTaskForNumberInput(mouseEvent);
 			}
-		}, newGame);
+		});
+		numberButtonGUI.init(newGame);
 
 		gridPanel.populatePanel(newGame, false, false, numberButtonGUI);
 

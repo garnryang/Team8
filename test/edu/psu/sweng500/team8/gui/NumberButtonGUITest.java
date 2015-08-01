@@ -22,7 +22,7 @@ public class NumberButtonGUITest {
 		gameSession.setPencilMarkMode(false);
 		
 		NumberButtonGUI numberButtonGUI = new NumberButtonGUI();
-		numberButtonGUI.init(null, gameSession);
+		numberButtonGUI.init(gameSession);
 		
 		Cell cell = new Cell(1, 1);
 		cell.setNumber(6);
@@ -83,7 +83,7 @@ public class NumberButtonGUITest {
 		gameSession.setPencilMarkMode(true);
 		
 		NumberButtonGUI numberButtonGUI = new NumberButtonGUI();
-		numberButtonGUI.init(null, gameSession);
+		numberButtonGUI.init(gameSession);
 		
 		Cell cell = new Cell(0, 0);
 		cell.getPencilMarks().add(7);
