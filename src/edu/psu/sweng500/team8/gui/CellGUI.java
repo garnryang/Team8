@@ -73,8 +73,6 @@ public class CellGUI extends JPanel {
 
 		/* Clear */
 		this.numberInputField.setText("");
-		this.numberInputField.addKeyListener(new CustomKeyListener(cell,
-				gameSession));
 
 		if (!isRefresh) {
 			this.numberInputField.getHighlighter().removeAllHighlights();
