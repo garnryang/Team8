@@ -58,7 +58,6 @@ public class GameSession implements Serializable {
 		}
 	}
 
-	//FIXME: Clean this up, fix undo/redo, move it to pencil mark manager
 	private void updatePencilMark(Cell currentCell, int number) {
 
 		currentCell.getPencilMarks().clear();
@@ -68,18 +67,19 @@ public class GameSession implements Serializable {
 		while (iterator.hasNext()) {
 			Constraint currentConstraint = iterator.next();
 			for (Cell eachCell : currentConstraint.getCells()) {
-				enterPencilMark(eachCell, number, false);
+				updatePencilMark(eachCell, number, false);
 			}
 		}
 	}
 
-	public void enterPencilMark(Cell currentCell, int number, boolean isEnter) {
+	/**
+	 * Used for all the cases where Pencil Mark should be updated not directly by PencilMark input by user 
+	 * @param currentCell
+	 * @param number
+	 * @param isEnter
+	 */
+	public void updatePencilMark(Cell currentCell, int number, boolean isEnter) {
 
-		// Add the action to the undo stack
-		SudokuAction sudokuAction = new SudokuAction(new CellGrid(
-				board.getCellGrid()));
-		//this.actionManager.addAction(sudokuAction);
-		
 		Set<Integer> pencilMarks = currentCell.getPencilMarks();
 
 		if (0 == number) {
@@ -91,7 +91,22 @@ public class GameSession implements Serializable {
 				pencilMarks.remove(number);
 			}
 		}
+	}
+	
+	/**
+	 * Used for directly entering PencilMark 
+	 * @param currentCell
+	 * @param number
+	 * @param isEnter
+	 */
+	public void enterPencilMark(Cell currentCell, int number, boolean isEnter) {
 
+		SudokuAction sudokuAction = new SudokuAction(new CellGrid(
+				board.getCellGrid()));
+		this.actionManager.addUndoAction(sudokuAction);
+		
+		updatePencilMark(currentCell, number, isEnter);
+		
 		fireCellNumberChanged(currentCell, -1);
 	}
 	
@@ -170,7 +185,12 @@ public class GameSession implements Serializable {
 		}
 	}
 
-	//TODO: why is this state necessary? Should only be in the UI
+	/**
+	 * We need this here because we are using it for numberButtonGUI's behavior change
+	 * as well as undo/redo logic 
+	 * We used to use this for Key-entering-interaction
+	 * @param isPencilMarkMode
+	 */
 	public void setPencilMarkMode(boolean isPencilMarkMode) {
 		this.isPencilMarkMode = isPencilMarkMode;
 

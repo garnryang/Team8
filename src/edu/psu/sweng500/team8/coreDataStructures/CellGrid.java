@@ -5,6 +5,7 @@ import java.io.IOException;
 import edu.psu.sweng500.team8.io.BinaryInputStream;
 import edu.psu.sweng500.team8.io.BinaryOutputStream;
 import edu.psu.sweng500.team8.io.BinarySerializable;
+import edu.psu.sweng500.team8.play.SudokuAction;
 
 /** Raw representation of a 9x9 sudoku board
  * Intended only as a data structure without complex logic
@@ -80,6 +81,29 @@ public class CellGrid implements BinarySerializable {
 				Cell cell = this.cells[rowIndex][columnIndex] = new Cell(rowIndex, columnIndex);
 				cell.load(stream);
 			}
+		}
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+
+		if (null == o) {
+			return false;
+		}
+		
+		if (o instanceof CellGrid) {
+			
+			for (int i = 0; i < 9; i++) {
+				for (int j = 0; j < 9; j++) {
+					if (!this.cells[i][j].equals(((CellGrid)o).cells[i][j])) {
+						return false;
+					}
+				}
+			}
+			
+			return true;
+		} else {
+			return false;
 		}
 	}
 }

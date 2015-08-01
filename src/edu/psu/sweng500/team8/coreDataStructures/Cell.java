@@ -104,4 +104,41 @@ public class Cell implements BinarySerializable {
 			this.type = ValueType.Given;
 		}
 	}
+
+	@Override
+	public boolean equals(Object o) {
+
+		if (null == o) {
+			return false;
+		}
+
+		if (o instanceof Cell) {
+
+			if (this.coordinates.getRowIndex() != ((Cell) o).coordinates
+					.getRowIndex()) {
+				return false;
+			}
+
+			if (this.coordinates.getColumnIndex() != ((Cell) o).coordinates
+					.getColumnIndex()) {
+				return false;
+			}
+
+			if (this.currentValue != ((Cell) o).currentValue) {
+				return false;
+			}
+
+			if (!this.type.equals(((Cell) o).type)) {
+				return false;
+			}
+
+			if (!this.pencilMarks.equals(((Cell) o).pencilMarks)) {
+				return false;
+			}
+
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

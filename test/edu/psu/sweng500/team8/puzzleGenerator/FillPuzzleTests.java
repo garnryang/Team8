@@ -167,11 +167,14 @@ public class FillPuzzleTests {
 				.isEmpty());
 	}
 
+
 	/**
-	 * FIXME I don't know what this is trying to do...
+	 * When a number is entered to a cell, corresponding row, column, and block 
+	 * should have PencilMark updated, so the entered number is removed from PencilMark 
+	 *  	
+	 * UC3 Step 5
 	 */
 	@Test
-	// UC3 Step 5
 	public void systemClearsAnyPenciledinValuesFromRowColumnBoxes() {
 
 		NumberButtonGUI numberButtonGUI = new NumberButtonGUI();

@@ -261,7 +261,27 @@ public class GameSessionTests {
 	 */
 	@Test
 	public void testDoUndo_With_PencilMark() {
-		Assert.fail();
+
+		final int TARGET_PENCIL_MARK = 8;
+		Puzzle puzzle = new Puzzle();
+		GameSession gameSession = new GameSession(puzzle, null);
+		
+		Cell cell = gameSession.getGameBoard().getCell(0, 0);
+		gameSession.enterPencilMark(cell, TARGET_PENCIL_MARK, true);
+		
+		Board boardAfterEnteringPencilMark = gameSession.refresh();
+		Cell cellAfterEnteringPencilMark = boardAfterEnteringPencilMark.getCell(0, 0);
+		Assert.assertTrue(cellAfterEnteringPencilMark.getPencilMarks().contains(TARGET_PENCIL_MARK));	
+		
+		gameSession.doUndo();
+		Board boardAfterUndo = gameSession.refresh();
+		Cell cellAfterUndo = boardAfterUndo.getCell(0, 0);
+		Assert.assertFalse(cellAfterUndo.getPencilMarks().contains(TARGET_PENCIL_MARK));
+		
+		gameSession.doRedo();
+		Board boardAfterRedo = gameSession.refresh();
+		Cell cellAfterRedo = boardAfterRedo.getCell(0, 0);
+		Assert.assertTrue(cellAfterRedo.getPencilMarks().contains(TARGET_PENCIL_MARK));
 	}
 	
 	/**
@@ -269,6 +289,144 @@ public class GameSessionTests {
 	 */
 	@Test
 	public void testDoRedo_With_PencilMark() {
-		Assert.fail();
+		
+		final int TARGET_PENCIL_MARK = 7;
+		Puzzle puzzle = new Puzzle();
+		GameSession gameSession = new GameSession(puzzle, null);
+		
+		Cell cell = gameSession.getGameBoard().getCell(0, 0);
+		gameSession.enterPencilMark(cell, TARGET_PENCIL_MARK,  true);
+		Board boardAfterEnteringPencilMark = gameSession.refresh();
+		Cell cellAfterEnteringNumber = boardAfterEnteringPencilMark.getCell(0, 0);
+		Assert.assertTrue(cellAfterEnteringNumber.getPencilMarks().contains(TARGET_PENCIL_MARK));	
+		
+		gameSession.doUndo();
+		Board boardAfterUndo = gameSession.refresh();
+		Cell cellAfterUndo = boardAfterUndo.getCell(0, 0);
+		Assert.assertFalse(cellAfterUndo.getPencilMarks().contains(TARGET_PENCIL_MARK));
+		
+		gameSession.doRedo();
+		Board boardAfterRedo = gameSession.refresh();
+		Cell cellAfterRedo = boardAfterRedo.getCell(0, 0);
+		Assert.assertTrue(cellAfterRedo.getPencilMarks().contains(TARGET_PENCIL_MARK));
+	}
+
+	/**
+	 * Raising coverage: unit testing scenario of clearing a cell that has a number already
+	 */
+	@Test
+	public void testEnterNumber_clear_existing() {
+		
+		final int TARGET_NUMBER = 3;
+		Puzzle puzzle = new Puzzle();
+		GameSession gameSession = new GameSession(puzzle, null);
+		
+		Cell cell = gameSession.getGameBoard().getCell(0, 0);
+		gameSession.enterNumber(cell, TARGET_NUMBER);
+		Board boardAfterEnteringNumber = gameSession.refresh();
+		Cell cellAfterEnteringNumber = boardAfterEnteringNumber.getCell(0, 0);
+		Assert.assertEquals(TARGET_NUMBER, cellAfterEnteringNumber.getNumber());
+		
+		gameSession.enterNumber(cell, 0);
+		Assert.assertEquals(0, cellAfterEnteringNumber.getNumber());
+	}
+	
+	/**
+	 * Raising coverage: unit testing scenario of clearing a cell that does not have a number
+	 */
+	@Test
+	public void testEnterNumber_clear_non_existing() {
+		
+		Puzzle puzzle = new Puzzle();
+		GameSession gameSession = new GameSession(puzzle, null);
+		
+		Cell cell = gameSession.getGameBoard().getCell(0, 0);
+		Board boardBeforeEnteringNumber = gameSession.refresh();
+		Cell cellAfterEnteringNumber = boardBeforeEnteringNumber.getCell(0, 0);
+		Assert.assertEquals(0, cellAfterEnteringNumber.getNumber());
+		
+		gameSession.enterNumber(cell, 0);
+		Assert.assertEquals(0, cellAfterEnteringNumber.getNumber());
+	}
+	
+	/**
+	 * Raising coverage: unit testing scenario of clearing pencil mark
+	 */
+	@Test
+	public void testUpdatePencilMark() {
+		
+		final int TARGET_PENCIL_MARK = 8;
+		Puzzle puzzle = new Puzzle();
+		GameSession gameSession = new GameSession(puzzle, null);
+		
+		Cell cell = gameSession.getGameBoard().getCell(0, 0);
+		gameSession.enterPencilMark(cell, TARGET_PENCIL_MARK, true);
+		
+		Board boardAfterEnteringPencilMark = gameSession.refresh();
+		Cell cellAfterEnteringPencilMark = boardAfterEnteringPencilMark.getCell(0, 0);
+		Assert.assertTrue(cellAfterEnteringPencilMark.getPencilMarks().contains(TARGET_PENCIL_MARK));	
+		
+		gameSession.updatePencilMark(cellAfterEnteringPencilMark, 0, false);
+		Board boardAfterPencilMarkClear = gameSession.refresh();
+		Cell cellAfterPencilMarkClear = boardAfterPencilMarkClear.getCell(0, 0);
+		Assert.assertFalse(cellAfterPencilMarkClear.getPencilMarks().contains(TARGET_PENCIL_MARK));
+	}
+	
+	/**
+	 * Raising coverage: unit testing scenario of setting and getting pencilMarkMode indicator
+	 */
+	@Test
+	public void testPencilMarkMode() {
+		Puzzle puzzle = new Puzzle();
+		GameSession gameSession = new GameSession(puzzle, null);
+		
+		Assert.assertFalse(gameSession.isPencilMarkMode());
+		
+		gameSession.setPencilMarkMode(true);
+		Assert.assertTrue(gameSession.isPencilMarkMode());
+		
+		gameSession.setPencilMarkMode(false);
+		Assert.assertFalse(gameSession.isPencilMarkMode());
+	}
+	
+	/**
+	 * Raising coverage: unit testing scenario of checking if undoAction is available 
+	 */
+	@Test
+	public void testHasUndoActions() {
+		
+		final int TARGET_PENCIL_MARK = 8;
+		Puzzle puzzle = new Puzzle();
+		GameSession gameSession = new GameSession(puzzle, null);
+		
+		Cell cell = gameSession.getGameBoard().getCell(0, 0);
+		gameSession.enterPencilMark(cell, TARGET_PENCIL_MARK, true);
+		Assert.assertTrue(gameSession.hasUndoActions());
+		
+		gameSession.doUndo();
+		Assert.assertFalse(gameSession.hasUndoActions());
+	}
+	
+	/**
+	 * Raising coverage: unit testing scenario of checking if redoAction is available
+	 */
+	@Test
+	public void testHasRedoActions() {
+		
+		final int TARGET_PENCIL_MARK = 7;
+		Puzzle puzzle = new Puzzle();
+		GameSession gameSession = new GameSession(puzzle, null);
+		
+		Cell cell = gameSession.getGameBoard().getCell(0, 0);
+		gameSession.enterPencilMark(cell, TARGET_PENCIL_MARK,  true);
+		Board boardAfterEnteringPencilMark = gameSession.refresh();
+		Cell cellAfterEnteringNumber = boardAfterEnteringPencilMark.getCell(0, 0);
+		Assert.assertTrue(cellAfterEnteringNumber.getPencilMarks().contains(TARGET_PENCIL_MARK));	
+		
+		gameSession.doUndo();
+		Assert.assertTrue(gameSession.hasRedoActions());
+		
+		gameSession.doRedo();
+		Assert.assertFalse(gameSession.hasRedoActions());
 	}
 }
