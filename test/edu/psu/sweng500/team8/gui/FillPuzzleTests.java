@@ -32,7 +32,7 @@ public class FillPuzzleTests {
 		DifficultyLevel difficulty = DifficultyLevel.Easy;
 		PuzzleRepository puzzleRepo = new PuzzleRepository();
 		Puzzle puzzle = puzzleRepo.getPuzzle(difficulty);
-		GameSession newGame = new GameSession(puzzle);
+		GameSession newGame = new GameSession(puzzle, null);
 
 		final BoardGUI gridPanel = new BoardGUI();
 
@@ -59,6 +59,10 @@ public class FillPuzzleTests {
 				if (test == 0) {
 					row = i;
 					column = j;
+					break;
+				}
+
+				if (test == 0) {
 					break;
 				}
 			}
@@ -96,7 +100,7 @@ public class FillPuzzleTests {
 		DifficultyLevel difficulty = DifficultyLevel.Easy;
 		PuzzleRepository puzzleRepo = new PuzzleRepository();
 		Puzzle puzzle = puzzleRepo.getPuzzle(difficulty);
-		GameSession newGame = new GameSession(puzzle);
+		GameSession newGame = new GameSession(puzzle, null);
 		final BoardGUI gridPanel = new BoardGUI();
 
 		numberButtonGUI.init(new MouseAdapter() {
@@ -122,6 +126,10 @@ public class FillPuzzleTests {
 				if (test == 0) {
 					row = i;
 					column = j;
+					break;
+				}
+
+				if (test == 0) {
 					break;
 				}
 			}
@@ -153,11 +161,14 @@ public class FillPuzzleTests {
 				.isEmpty());
 	}
 
+
 	/**
-	 * FIXME I don't know what this is trying to do...
+	 * When a number is entered to a cell, corresponding row, column, and block 
+	 * should have PencilMark updated, so the entered number is removed from PencilMark 
+	 *  	
+	 * UC3 Step 5
 	 */
 	@Test
-	// UC3 Step 5
 	public void systemClearsAnyPenciledinValuesFromRowColumnBoxes() {
 
 		NumberButtonGUI numberButtonGUI = new NumberButtonGUI();
@@ -165,7 +176,7 @@ public class FillPuzzleTests {
 		DifficultyLevel difficulty = DifficultyLevel.Easy;
 		PuzzleRepository puzzleRepo = new PuzzleRepository();
 		Puzzle puzzle = puzzleRepo.getPuzzle(difficulty);
-		GameSession newGame = new GameSession(puzzle);
+		GameSession newGame = new GameSession(puzzle, null);
 		final BoardGUI gridPanel = new BoardGUI();
 
 		numberButtonGUI.init(new MouseAdapter() {
@@ -191,6 +202,10 @@ public class FillPuzzleTests {
 				if (test == 0) {
 					row = i;
 					column = j;
+					break;
+				}
+
+				if (test == 0) {
 					break;
 				}
 			}

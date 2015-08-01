@@ -100,10 +100,6 @@ public class BoardGUI extends JPanel {
 			public void focusGained(FocusEvent focusEvent) {
 				cellGainedFocus(focusEvent);
 			}
-
-			public void focusLost(FocusEvent focusEvent) {
-				cellLostFocus(focusEvent);
-			}
 		};
 	}
 
@@ -123,12 +119,6 @@ public class BoardGUI extends JPanel {
 
 	}
 
-	private void cellLostFocus(FocusEvent focusEvent) {
-		CellGUI unselectedCell = (CellGUI) ((JTextField) focusEvent.getSource())
-				.getParent().getParent();
-		unselectedCell.cellLostFocus(focusEvent);
-	}
-
 	public void mouseClickedTaskForNumberInput(MouseEvent mouseEvent) {
 
 		/* a cell must be selected/focused before mouse number input can work */
@@ -140,6 +130,10 @@ public class BoardGUI extends JPanel {
 		this.selectedCell.setNumberToCell(mouseEvent);
 	}
 
+	/**
+	 * This is MouseAdapter for PencilMark Mode where PencilMark exists already
+	 * @return
+	 */
 	private MouseAdapter buildMouseAdapter() {
 		return new MouseAdapter() {
 			@Override
@@ -159,7 +153,9 @@ public class BoardGUI extends JPanel {
 				.getSource())).getParent())).getParent();
 		this.selectedCell = currentPencilMarkDisplayCell;
 
-		currentPencilMarkDisplayCell.switchtoNumberInput();
+		this.selectedCell.selectCell();
+
+		this.numberInputPad.updateForFocusedCell(this.selectedCell.getCell());
 	}
 
 	/**/

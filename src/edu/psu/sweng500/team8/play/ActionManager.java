@@ -12,7 +12,19 @@ public class ActionManager {
 	private Deque<SudokuAction> redoStack = new ArrayDeque<SudokuAction>();
 
 	public void addUndoAction(SudokuAction sudokuAction) {
-		this.undoStack.push(sudokuAction);
+
+		/* push sudokuAction only when undoStack is empty OR the top action isn't the same as incoming action */
+		if (undoStack.isEmpty() || !undoStack.peek().equals(sudokuAction)) {
+			this.undoStack.push(sudokuAction);
+		} 
+	}
+	
+	private void addRedoAction(SudokuAction sudokuAction) {
+
+		/* push sudokuAction only when redoStack is empty OR the top action isn't the same as incoming action */
+		if (redoStack.isEmpty() || !redoStack.peek().equals(sudokuAction)) {
+			this.redoStack.push(sudokuAction);
+		}
 	}
 
 	/**
@@ -31,7 +43,7 @@ public class ActionManager {
 			CellGrid previousCellGrid = lastAction.getCellGrid(); 
 			
 			SudokuAction undoAction = new SudokuAction(new CellGrid(currentCellGridFromBoard));
-			redoStack.push(undoAction);
+			addRedoAction(undoAction);
 			
 			currentCellGridFromBoard.copyValues(previousCellGrid);
 		}
@@ -48,7 +60,7 @@ public class ActionManager {
 			CellGrid previousCellGrid = lastActionUndone.getCellGrid();
 			
 			SudokuAction redoAction = new SudokuAction(new CellGrid(currentCellGridFromBoard));
-			undoStack.push(redoAction);
+			addUndoAction(redoAction);
 
 			currentCellGridFromBoard.copyValues(previousCellGrid);
 		}

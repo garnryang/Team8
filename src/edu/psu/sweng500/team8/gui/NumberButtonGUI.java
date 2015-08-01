@@ -24,7 +24,7 @@ public class NumberButtonGUI extends javax.swing.JPanel {
 	private GameSession gameSession;
 
 	private JToggleButton[] buttons = new JToggleButton[9];
-
+	
 	public void init(MouseAdapter mouseAdapter, GameSession gameSession) {
 
 		this.gameSession = gameSession;
@@ -59,7 +59,7 @@ public class NumberButtonGUI extends javax.swing.JPanel {
 	}
 
 	public void updateForFocusedCell(Cell cell) {
-
+		
 		boolean isPencilMarkMode = this.gameSession.isPencilMarkMode();
 
 		/* Clear */
@@ -69,25 +69,9 @@ public class NumberButtonGUI extends javax.swing.JPanel {
 		}
 
 		if (isPencilMarkMode) {
-			/**/
-			if (cell.hasNumber()) {
-
-				if (cell.getPencilMarks().isEmpty()) {
-
-					/*
-					 * On Pencil Mark Mode, if we have a number, we do not allow
-					 * update
-					 */
-					for (int numberIndex = 1; numberIndex <= 9; numberIndex++) {
-						buttons[numberIndex - 1].setEnabled(false);
-					}
-
-					buttons[cell.getNumber() - 1].setSelected(true);
-				} else {
-					throw new RuntimeException(
-							"Cell cannot have both Number and Pencil Marks at the same time.");
-				}
-			} else {
+			/* During PencilMark mode, a Cell with a number cannot be selected/focused.
+			 * Only a cell with no number can be selected/focused. */
+			if (!cell.hasNumber()) {
 
 				/*
 				 * TODO - 
@@ -105,24 +89,25 @@ public class NumberButtonGUI extends javax.swing.JPanel {
 				 * buttons[usedNumber-1].setEnabled(false); }
 				 */
 
+				/* For a cell with no number, any number in PencilMark set is pre-selected */
 				for (int pencilMarked : cell.getPencilMarks()) {
 					buttons[pencilMarked - 1].setSelected(true);
 				}
 			}
 		} else {
-			/**/
-			if (cell.hasNumber()) {
-
-				if (cell.getPencilMarks().isEmpty()) {
+			/* During Normal mode, a Cell with no number does not have to get NumberPad pre-selected */
+			if (cell.hasNumber() && cell.getPencilMarks().isEmpty()) {
 					buttons[cell.getNumber() - 1].setSelected(true);
-				} else {
-					throw new RuntimeException(
-							"Cell cannot have both Number and Pencil Marks at the same time.");
-				}
-			} else {
-				/* On Normal Mode, we only select Number */
 			}
 		}
-
 	}
+
+	/**
+	 * for testing
+	 * @return
+	 */
+	JToggleButton[] getButtons() {
+		return this.buttons;
+	}
+
 }
