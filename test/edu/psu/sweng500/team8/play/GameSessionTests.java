@@ -372,6 +372,9 @@ public class GameSessionTests {
 		Assert.assertFalse(cellAfterPencilMarkClear.getPencilMarks().contains(TARGET_PENCIL_MARK));
 	}
 	
+	/**
+	 * Raising coverage: unit testing scenario of setting and getting pencilMarkMode indicator
+	 */
 	@Test
 	public void testPencilMarkMode() {
 		Puzzle puzzle = new Puzzle();
@@ -384,5 +387,46 @@ public class GameSessionTests {
 		
 		gameSession.setPencilMarkMode(false);
 		Assert.assertFalse(gameSession.isPencilMarkMode());
+	}
+	
+	/**
+	 * Raising coverage: unit testing scenario of checking if undoAction is available 
+	 */
+	@Test
+	public void testHasUndoActions() {
+		
+		final int TARGET_PENCIL_MARK = 8;
+		Puzzle puzzle = new Puzzle();
+		GameSession gameSession = new GameSession(puzzle, null);
+		
+		Cell cell = gameSession.getGameBoard().getCell(0, 0);
+		gameSession.enterPencilMark(cell, TARGET_PENCIL_MARK, true);
+		Assert.assertTrue(gameSession.hasUndoActions());
+		
+		gameSession.doUndo();
+		Assert.assertFalse(gameSession.hasUndoActions());
+	}
+	
+	/**
+	 * Raising coverage: unit testing scenario of checking if redoAction is available
+	 */
+	@Test
+	public void testHasRedoActions() {
+		
+		final int TARGET_PENCIL_MARK = 7;
+		Puzzle puzzle = new Puzzle();
+		GameSession gameSession = new GameSession(puzzle, null);
+		
+		Cell cell = gameSession.getGameBoard().getCell(0, 0);
+		gameSession.enterPencilMark(cell, TARGET_PENCIL_MARK,  true);
+		Board boardAfterEnteringPencilMark = gameSession.refresh();
+		Cell cellAfterEnteringNumber = boardAfterEnteringPencilMark.getCell(0, 0);
+		Assert.assertTrue(cellAfterEnteringNumber.getPencilMarks().contains(TARGET_PENCIL_MARK));	
+		
+		gameSession.doUndo();
+		Assert.assertTrue(gameSession.hasRedoActions());
+		
+		gameSession.doRedo();
+		Assert.assertFalse(gameSession.hasRedoActions());
 	}
 }

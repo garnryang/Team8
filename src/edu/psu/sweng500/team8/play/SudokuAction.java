@@ -24,11 +24,6 @@ public class SudokuAction {
 		return cellGrid;
 	}
 
-	public void setCellGrid(CellGrid cellGrid) {
-		this.cellGrid = cellGrid;
-
-	}
-
 	@Override
 	public boolean equals(Object o) {
 
@@ -37,7 +32,7 @@ public class SudokuAction {
 		}
 		
 		if (o instanceof SudokuAction) {
-			return this.cellGrid.equals((SudokuAction)o);
+			return this.cellGrid.equals(((SudokuAction)o).cellGrid);
 		} else {
 			return false;
 		}
