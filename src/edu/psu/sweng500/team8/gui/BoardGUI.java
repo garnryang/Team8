@@ -64,12 +64,6 @@ public class BoardGUI extends JPanel {
 		this.gameSession = gameSession;
 		this.numberInputPad = numberInputPad;
 
-		if (null != this.selectedCell) {
-			/* existing selection, clear it */
-			this.selectedCell.unselect();
-			this.selectedCell = null;
-		}
-
 		for (int blockIndex = 0; blockIndex < 9; blockIndex++) {
 			int rowIndex = blockIndex / 3;
 			int columnIndex = blockIndex % 3;
