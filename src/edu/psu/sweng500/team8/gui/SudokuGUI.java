@@ -45,8 +45,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	 */
 	private static final long serialVersionUID = 1L;
 
-	/* Not sure if there is a better place to put this */
-	private PuzzleRepository puzzleRepo = new PuzzleRepository();
+	private PuzzleRepository puzzleRepo;
 	/* we need to keep track of the current game */
 	private GameSession gameSession;
 	private static final String WIN_MESSAGE = "You won! Start a new game to play again.";
@@ -54,7 +53,10 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	/**
 	 * Creates new form SudokuGUI
 	 */
-	public SudokuGUI() {
+	public SudokuGUI(PuzzleRepository puzzleRepo) {
+		
+		this.puzzleRepo = puzzleRepo;
+		
 		try {
 			this.puzzleRepo.initialize();
 		} catch (IOException e) {
@@ -795,7 +797,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				new SudokuGUI().setVisible(true);
+				new SudokuGUI(new PuzzleRepository()).setVisible(true);
 			}
 		});
 	}

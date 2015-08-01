@@ -22,7 +22,6 @@ import edu.psu.sweng500.team8.play.GameSession;
 
 //FIXME: these should be in a gui test project, not puzzle generator
 /**
- * FIXME - GridPanel is deprecated
  * 
  * @author J
  *
