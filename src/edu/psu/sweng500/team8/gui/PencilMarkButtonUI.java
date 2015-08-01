@@ -4,6 +4,11 @@ import java.awt.Color;
 
 import javax.swing.plaf.metal.MetalToggleButtonUI;
 
+/**
+ * @deprecated
+ * 
+ *
+ */
 public class PencilMarkButtonUI extends MetalToggleButtonUI {
 
 	@Override

@@ -44,4 +44,34 @@ public class SudokuActionTest {
 		
 		Assert.assertTrue(sudokuAction_a.equals(sudokuAction_b));		
 	}
+	
+	@Test
+	public void testEqualsObject_null() {
+		
+		final int TARGET_NUMBER = 3;
+		final int TARGET_PENCIL_MARK = 8;
+		
+		CellGrid cellGrid_a = new CellGrid();
+		cellGrid_a.getCell(0, 0).setNumber(TARGET_NUMBER);
+		cellGrid_a.getCell(0, 0).getPencilMarks().add(TARGET_PENCIL_MARK);
+		
+		SudokuAction sudokuAction_a = new SudokuAction(cellGrid_a);
+		
+		Assert.assertFalse(sudokuAction_a.equals(null));	
+	}
+	
+	@Test
+	public void testEqualsObject_different_class() {
+		
+		final int TARGET_NUMBER = 3;
+		final int TARGET_PENCIL_MARK = 8;
+		
+		CellGrid cellGrid_a = new CellGrid();
+		cellGrid_a.getCell(0, 0).setNumber(TARGET_NUMBER);
+		cellGrid_a.getCell(0, 0).getPencilMarks().add(TARGET_PENCIL_MARK);
+		
+		SudokuAction sudokuAction_a = new SudokuAction(cellGrid_a);
+		
+		Assert.assertFalse(sudokuAction_a.equals(new Integer(5)));	
+	}
 }
