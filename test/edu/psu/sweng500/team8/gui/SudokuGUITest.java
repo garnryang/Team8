@@ -28,9 +28,7 @@ public class SudokuGUITest {
 	@Test
 	public void testSudokuGUI() {
 		
-		PuzzleRepository mockPuzzleRepo = new PuzzleRepository();
-		
-		SudokuGUI sudokuGUI = new SudokuGUI(mockPuzzleRepo);
+		SudokuGUI sudokuGUI = new SudokuGUI();
 		JPanel mainJPanel = ((JPanel)((JLayeredPane)((JRootPane) sudokuGUI.getComponents()[0]).getComponents()[1]).getComponents()[0]);
 		
 		JRadioButton easyRadioButton = (JRadioButton)mainJPanel.getComponents()[6];
