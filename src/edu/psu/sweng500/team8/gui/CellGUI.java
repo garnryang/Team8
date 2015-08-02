@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.FocusAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -66,9 +65,8 @@ public class CellGUI extends JPanel {
 
 	}
 
-	public void populate(Cell cell, GameSession gameSession, boolean isRefresh,
-			FocusAdapter focusAdapter, MouseAdapter mouseAdapter,
-			boolean isPencilMarkMode) {
+	public void populate(Cell cell, GameSession gameSession, boolean isRefresh, 
+			MouseAdapter mouseAdapter, boolean isPencilMarkMode) {
 
 		this.gameSession = gameSession;
 		this.cell = cell;
@@ -79,7 +77,7 @@ public class CellGUI extends JPanel {
 
 		if (!isRefresh) {
 			this.numberInputField.getHighlighter().removeAllHighlights();
-			this.numberInputField.addFocusListener(focusAdapter);
+			this.numberInputField.addMouseListener(mouseAdapter);
 			this.numberInputField.setBorder(DEFAULT_BORDER);
 
 			for (int rowIndex = 0; rowIndex < 3; rowIndex++) {
