@@ -105,16 +105,17 @@ public class Board implements Serializable {
 		return openCells;
 	}
 
-	//FIXME: Split this into a new overload rather than passing null for overloadCellGrid all the time
-	public void initialize(Puzzle puzzle, CellGrid overloadCellGrid) {
+
+	public void initialize(Puzzle puzzle) {
+
 		// Copy the cells without swapping the cell grid
 		this.grid.copyValues(puzzle.getCopyOfCellGrid());
 		this.currentPuzzle = puzzle;
-
-		if (null != overloadCellGrid) {
-			this.grid.copyValues(overloadCellGrid);
-		}
-		/**/
+	}
+	
+	public void initialize(Puzzle puzzle, CellGrid overloadCellGrid) {
+		this.grid.copyValues(overloadCellGrid);
+		this.currentPuzzle = puzzle;
 	}
 
 	public Puzzle getCurrentPuzzle() {

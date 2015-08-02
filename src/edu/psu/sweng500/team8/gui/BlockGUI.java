@@ -82,7 +82,7 @@ public class BlockGUI extends JPanel {
 	 * @return CellGUI according to given cellCoordinates
 	 * 
 	 */
-	public CellGUI getSelectedCell(CellCoordinates cellCoordinates) {
+	public CellGUI getCell(CellCoordinates cellCoordinates) {
 
 		int rowIndex = cellCoordinates.getRowIndex() % 3;
 		int columnIndex = cellCoordinates.getColumnIndex() % 3;

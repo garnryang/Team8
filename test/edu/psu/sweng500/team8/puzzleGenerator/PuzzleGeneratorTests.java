@@ -21,70 +21,6 @@ import edu.psu.sweng500.team8.solver.SolverFactory;
 
 public class PuzzleGeneratorTests {
 
-	@Test //For UC1 Step1
-	public void testsGeneratedSolutionfor4SudokuConstraints() {
-				
-		CellGrid grid = SolutionGenerator.generateSolution();
-		
-		//check for all cells occupied
-		for(int i = 1; i < 9; i++){
-			int cellToTest = grid.getCell(0, i).getNumber();
-			assertTrue(cellToTest > 0 && cellToTest < 10);
-		}
-		
-		//check for row constraint
-		for(int j = 0; j < 9; j++) {
-			Map<Integer, Boolean> rowCheck = new HashMap<Integer, Boolean>();
-			for(int i = 0; i < 9; i++){
-				int cellToTest = grid.getCell(j, i).getNumber();
-				
-				Boolean existing = rowCheck.get(cellToTest);
-				if (null != existing) {
-					Assert.fail("Numbers should be unique in each row");
-				}				
-				rowCheck.put(cellToTest, Boolean.TRUE);
-			}
-		}
-		
-		//check for column constraint
-		for(int j = 0; j < 9; j++) {
-			Map<Integer, Boolean> columnCheck = new HashMap<Integer, Boolean>();
-			for(int i = 0; i < 9; i++){
-				int cellToTest = grid.getCell(i, j).getNumber();
-				
-				Boolean existing = columnCheck.get(cellToTest);
-				if (null != existing) {
-					Assert.fail("Numbers should be unique in each column");
-				}				
-				columnCheck.put(cellToTest, Boolean.TRUE);
-			}
-		}
-		
-		//check for box constraint
-		for(int i = 0; i < 9; i++) { // block index
-			
-			int blockRow = i%3; // 0 1 2 
-			int blockColumn = i/3; // 0 1 2 
-			
-			Map<Integer, Boolean> blockCheck = new HashMap<Integer, Boolean>();
-			
-			for (int j = 0; j < 3; j++) {
-				int a = blockRow*3 + j; //012; 345; 678
-				
-				for (int k = 0; k < 3; k++) {
-					int b = blockColumn*3 + k; //012; 345; 678
-					
-					int cellToTest = grid.getCell(a, b).getNumber();
-					
-					Boolean existing = blockCheck.get(cellToTest);
-					if (null != existing) {
-						Assert.fail("Numbers should be unique in each column");
-					}				
-					blockCheck.put(cellToTest, Boolean.TRUE);
-				}
-			}
-		}
-	}
 
 	@Test //For UC1 Step2
 	public void testsGeneratedPuzzleForAtLeast18EmptyCells(){
@@ -106,16 +42,11 @@ public class PuzzleGeneratorTests {
 		Puzzle puzzle = PuzzleGenerator.makePuzzle(DifficultyLevel.Easy);
 		
 		Board puzzleBoard = new Board();
-		puzzleBoard.initialize(puzzle, null);
+
+		puzzleBoard.initialize(puzzle);
 		Solver solver = SolverFactory.getSolverThatTriesConstraintsFirst();
 		assertNotNull(solver.findUniqueSolutionOrNull(puzzleBoard));
-	}
-	
-	//FIXME: Complete this test. 
-	@Test //For UC1 Step4
-	public void testsForWhetherSystemCategorizes(){
-		int test = DifficultyLevel.Easy.ordinal();
-		assertTrue(test == 36); 
+
 	}
 	
 	@Test
