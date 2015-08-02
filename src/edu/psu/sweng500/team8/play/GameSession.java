@@ -62,6 +62,7 @@ public class GameSession implements Serializable {
 		}
 	}
 
+
 	private void updatePencilMark(Cell currentCell, int number) {
 
 		currentCell.getPencilMarks().clear();
@@ -71,10 +72,13 @@ public class GameSession implements Serializable {
 		while (iterator.hasNext()) {
 			Constraint currentConstraint = iterator.next();
 			for (Cell eachCell : currentConstraint.getCells()) {
+
 				updatePencilMark(eachCell, number, false);
+
 			}
 		}
 	}
+
 
 	/**
 	 * Used for all the cases where Pencil Mark should be updated not directly by PencilMark input by user 
@@ -83,6 +87,8 @@ public class GameSession implements Serializable {
 	 * @param isEnter
 	 */
 	public void updatePencilMark(Cell currentCell, int number, boolean isEnter) {
+
+
 
 		Set<Integer> pencilMarks = currentCell.getPencilMarks();
 
@@ -97,6 +103,7 @@ public class GameSession implements Serializable {
 		}
 	}
 	
+
 	/**
 	 * Used for directly entering PencilMark 
 	 * @param currentCell
@@ -185,12 +192,14 @@ public class GameSession implements Serializable {
 		}
 	}
 
+
 	/**
 	 * We need this here because we are using it for numberButtonGUI's behavior change
 	 * as well as undo/redo logic 
 	 * We used to use this for Key-entering-interaction
 	 * @param isPencilMarkMode
 	 */
+
 	public void setPencilMarkMode(boolean isPencilMarkMode) {
 		this.isPencilMarkMode = isPencilMarkMode;
 
