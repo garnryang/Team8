@@ -36,9 +36,6 @@ import edu.psu.sweng500.team8.play.GameSession;
 import edu.psu.sweng500.team8.puzzleGenerator.PuzzleRepository;
 import edu.psu.sweng500.team8.solver.HintGenerator;
 import edu.psu.sweng500.team8.solver.HintInfo;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-
 
 public class SudokuGUI extends javax.swing.JFrame implements
 		CellChangedListener {
@@ -47,9 +44,6 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	 * Java happy...
 	 */
 	private static final long serialVersionUID = 1L;
-
-
-
 
 	/* Not sure if there is a better place to put this */
 	private PuzzleRepository puzzleRepo = new PuzzleRepository();
@@ -67,7 +61,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 			e.printStackTrace();
 		}
 		initComponents();
-		
+
 		this.numberInputPad.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent mouseEvent) {
@@ -86,7 +80,6 @@ public class SudokuGUI extends javax.swing.JFrame implements
 
 	@Override
 	public void cellChanged(Cell cell, int newNumber) {
-
 
 		/*
 		 * Cell number changed. Clear the message and any highlighted incorrect
@@ -113,13 +106,11 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		}
 	}
 
-	
 	@Override
 	public void pencilMarksChanged(Cell cell, Set<Integer> newPencilMarks) {
 		this.gameBoard.refreshPencilMarkDisplayOnRelatedCells(cell);
 		updateUndoRedoButtonStates();
 	}
-
 
 	private boolean gameIsComplete() {
 		Board board = this.gameSession.getGameBoard();
@@ -158,25 +149,15 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		radEasy.setSelected(true);
 		radEasy.setText("Easy");
 
-
 		jLabel1.setText("Menu");
-
-
 
 		buttonGroup1.add(radMedium);
 		radMedium.setText("Medium");
 
-
-
 		buttonGroup1.add(radHard);
 		radHard.setText("Hard");
 
-
-
 		this.jLabel2.setText("Difficulty");
-
-
-
 
 		this.btnSave.setText("Save");
 		this.btnSave.setEnabled(false);
@@ -263,15 +244,12 @@ public class SudokuGUI extends javax.swing.JFrame implements
 
 		numberInputPad = new NumberButtonGUI();
 
-
 		btnExit = new JButton("Exit");
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
-
-
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
 				getContentPane());
@@ -491,12 +469,8 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		getContentPane().setLayout(layout);
 		getContentPane().setPreferredSize(new Dimension(800, 600));
 
-
-
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
-
-
 
 	private void btnHintActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnHintActionPerformed
 		// Get a hint
@@ -504,12 +478,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 			return;
 		}
 
-
-
 		HintInfo hint = HintGenerator.getHint(this.gameSession.getGameBoard());
-
-
-
 
 		/* TODO - make this message constant */
 		String message = "Sorry, no hint available";
@@ -539,7 +508,8 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		this.gameBoard.populatePanel(this.gameSession, true,
 				this.gameSession.isPencilMarkMode(), this.numberInputPad);
 
-		this.numberInputPad.updateForFocusedCell(this.gameBoard.getSelectedCell());
+		this.numberInputPad.updateForFocusedCell(this.gameBoard
+				.getSelectedCell());
 		updateUndoRedoButtonStates();
 	}
 
@@ -549,7 +519,8 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		this.gameBoard.populatePanel(this.gameSession, true,
 				this.gameSession.isPencilMarkMode(), this.numberInputPad);
 
-		this.numberInputPad.updateForFocusedCell(this.gameBoard.getSelectedCell());
+		this.numberInputPad.updateForFocusedCell(this.gameBoard
+				.getSelectedCell());
 		updateUndoRedoButtonStates();
 	}
 
@@ -724,14 +695,11 @@ public class SudokuGUI extends javax.swing.JFrame implements
 
 	private void loadSession(Puzzle puzzle, CellGrid overloadedCellGrid) {
 
-
-		this.gameSession = (overloadedCellGrid == null) ? new GameSession(puzzle) : new GameSession(puzzle, overloadedCellGrid);
-
+		this.gameSession = (overloadedCellGrid == null) ? new GameSession(
+				puzzle) : new GameSession(puzzle, overloadedCellGrid);
 
 		this.gameSession.subscribeForCellChanges(this);
-
 		this.numberInputPad.init(this.gameSession);
-
 		this.gameBoard.populatePanel(gameSession, false, false,
 				this.numberInputPad);
 
@@ -808,25 +776,17 @@ public class SudokuGUI extends javax.swing.JFrame implements
 				}
 			}
 		} catch (ClassNotFoundException ex) {
-
 			java.util.logging.Logger.getLogger(SudokuGUI.class.getName()).log(
 					java.util.logging.Level.SEVERE, null, ex);
-
 		} catch (InstantiationException ex) {
-
 			java.util.logging.Logger.getLogger(SudokuGUI.class.getName()).log(
 					java.util.logging.Level.SEVERE, null, ex);
-
 		} catch (IllegalAccessException ex) {
-
 			java.util.logging.Logger.getLogger(SudokuGUI.class.getName()).log(
 					java.util.logging.Level.SEVERE, null, ex);
-
 		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-
 			java.util.logging.Logger.getLogger(SudokuGUI.class.getName()).log(
 					java.util.logging.Level.SEVERE, null, ex);
-
 		}
 		// </editor-fold>
 
@@ -863,13 +823,11 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	private NumberButtonGUI numberInputPad;
 	private JButton btnExit;
 
-	
 	/**
 	 * for testing
 	 * @return
 	 */
 	GameSession getGameSession() {
 		return this.gameSession;
-
 	}
 }

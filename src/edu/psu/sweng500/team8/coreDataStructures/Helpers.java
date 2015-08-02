@@ -1,8 +1,8 @@
 package edu.psu.sweng500.team8.coreDataStructures;
 
 import java.util.Arrays;
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
 
 /** Static class for common functions
  */

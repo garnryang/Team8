@@ -9,8 +9,8 @@
 	<classpathentry kind="lib" path="ThirdPartyDeps/mockito-all-1.9.5.jar"/>
 	<classpathentry kind="lib" path="ThirdPartyDeps/json-simple-1.1.1.jar"/>
 	<classpathentry kind="lib" path="ThirdPartyDeps/swt.jar"/>
-	<classpathentry kind="lib" path="JTattoo-1.6.11.jar"/>
-	<classpathentry kind="lib" path="jgoodies-common-1.8.0.jar" sourcepath="jgoodies-common-1.8.0-sources.jar"/>
-	<classpathentry kind="lib" path="jgoodies-forms-1.8.0.jar" sourcepath="jgoodies-forms-1.8.0-sources.jar"/>
+	<classpathentry kind="lib" path="ThirdPartyDeps/JTattoo-1.6.11.jar"/>
+	<classpathentry kind="lib" path="ThirdPartyDeps/jgoodies-common-1.8.0.jar" sourcepath="ThirdPartyDeps/jgoodies-common-1.8.0-sources.jar"/>
+	<classpathentry kind="lib" path="ThirdPartyDeps/jgoodies-forms-1.8.0.jar" sourcepath="ThirdPartyDeps/jgoodies-forms-1.8.0-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
