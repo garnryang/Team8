@@ -493,7 +493,6 @@ public class SudokuGUI extends javax.swing.JFrame implements
 
 
 
-
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
@@ -508,6 +507,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 
 
 		HintInfo hint = HintGenerator.getHint(this.gameSession.getGameBoard());
+
 
 
 

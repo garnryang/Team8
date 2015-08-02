@@ -90,7 +90,6 @@ public class GameSession implements Serializable {
 
 
 
-
 		Set<Integer> pencilMarks = currentCell.getPencilMarks();
 
 		if (0 == number) {

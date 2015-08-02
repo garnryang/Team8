@@ -40,6 +40,7 @@ public class ActionManager {
 
 			SudokuAction redoAction = new SudokuAction(new CellGrid(currentCellGridFromBoard));
 			addRedoAction(redoAction);
+			
 
 			currentCellGridFromBoard.copyValues(previousCellGrid);
 		}

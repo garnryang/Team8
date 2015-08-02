@@ -117,7 +117,6 @@ public class CellGUI extends JPanel {
 			if (cell.getPencilMarks().isEmpty()) {
 				this.numberInputCell.setVisible(true);
 
-
 				this.numberInputField.setFocusable(true);
 
 			} else {
