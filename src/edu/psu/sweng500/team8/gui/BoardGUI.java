@@ -23,6 +23,7 @@ import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 import edu.psu.sweng500.team8.play.GameSession;
 
+
 public class BoardGUI extends JPanel {
 	private static final long serialVersionUID = 1L; //Not really necessary since we're not serializing the UI, but just to keep Java happy...
 	private static final int BOARD_SIZE = 486 + 10;
@@ -33,8 +34,10 @@ public class BoardGUI extends JPanel {
 	private CellGUI selectedCell;
 	private Set<CellGUI> highlightedIncorrectCells = new HashSet<CellGUI>();
 	private NumberButtonGUI numberInputPad;
+
 	private MouseAdapter numberPadHandler;
 	private FocusAdapter focusHandler;
+
 
 	public BoardGUI() {
 
@@ -42,7 +45,7 @@ public class BoardGUI extends JPanel {
 		this.setMaximumSize(new Dimension(BOARD_SIZE, BOARD_SIZE));
 		this.setMinimumSize(new Dimension(BOARD_SIZE, BOARD_SIZE));
 		this.setBorder(DEFAULT_BORDER);
-
+				
 		this.blocks = new BlockGUI[3][3];
 
 		this.focusHandler = new FocusAdapter() {
@@ -132,6 +135,7 @@ public class BoardGUI extends JPanel {
 		}
 
 		this.selectedCell.setNumberToCell(mouseEvent);
+
 	}
 
 	private void mouseClickedTask(MouseEvent mouseEvent) {
@@ -247,4 +251,6 @@ public class BoardGUI extends JPanel {
 			}
 		}
 	}
+	
+
 }

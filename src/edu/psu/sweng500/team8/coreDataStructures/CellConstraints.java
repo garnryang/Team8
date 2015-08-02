@@ -56,7 +56,9 @@ public class CellConstraints {
 		}
 
 		public boolean hasNext() {
+
 			return this.index <= 2;
+
 		}
 
 		public Constraint next() {
