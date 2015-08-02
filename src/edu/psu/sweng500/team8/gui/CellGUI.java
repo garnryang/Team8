@@ -62,11 +62,20 @@ public class CellGUI extends JPanel {
 
 		this.initPencilMarkDisplayCell();
 		this.initNumberInputCell();
-
+	}
+	
+	public void addMouseListener(MouseAdapter mouseAdapter) {
+		this.numberInputField.addMouseListener(mouseAdapter);
+		
+		for (int rowIndex = 0; rowIndex < 3; rowIndex++) {
+			for (int columnIndex = 0; columnIndex < 3; columnIndex++) {
+				this.pencilMarkDisplay[rowIndex][columnIndex]
+						.addMouseListener(mouseAdapter);		
+			}
+		}
 	}
 
-	public void populate(Cell cell, GameSession gameSession, boolean isRefresh, 
-			MouseAdapter mouseAdapter, boolean isPencilMarkMode) {
+	public void populate(Cell cell, GameSession gameSession, boolean isRefresh, boolean isPencilMarkMode) {
 
 		this.gameSession = gameSession;
 		this.cell = cell;
@@ -77,15 +86,7 @@ public class CellGUI extends JPanel {
 
 		if (!isRefresh) {
 			this.numberInputField.getHighlighter().removeAllHighlights();
-			this.numberInputField.addMouseListener(mouseAdapter);
 			this.numberInputField.setBorder(DEFAULT_BORDER);
-
-			for (int rowIndex = 0; rowIndex < 3; rowIndex++) {
-				for (int columnIndex = 0; columnIndex < 3; columnIndex++) {
-					this.pencilMarkDisplay[rowIndex][columnIndex]
-							.addMouseListener(mouseAdapter);		
-				}
-			}
 		}
 
 		if (cell.hasNumber()) {
@@ -100,13 +101,7 @@ public class CellGUI extends JPanel {
 				}
 			}
 
-			if (isPencilMarkMode) {
-				this.numberInputField.setFocusable(false);
-
-			} else if (cell.getType() != ValueType.Given) {
-				this.numberInputField.setFocusable(true);
-
-			}
+			this.numberInputField.setFocusable(!isPencilMarkMode);
 
 		} else {
 
@@ -114,7 +109,6 @@ public class CellGUI extends JPanel {
 
 			if (cell.getPencilMarks().isEmpty()) {
 				this.numberInputCell.setVisible(true);
-
 				this.numberInputField.setFocusable(true);
 
 			} else {

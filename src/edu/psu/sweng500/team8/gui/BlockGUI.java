@@ -49,6 +49,13 @@ public class BlockGUI extends JPanel {
 		}
 	}
 
+	public void addMouseListener(MouseAdapter mouseAdapter) {
+		for (int cellIndex = 0; cellIndex < 9; cellIndex++) {
+			int rowIndex = cellIndex / 3;
+			int columnIndex = cellIndex % 3;
+			this.cells[rowIndex][columnIndex].addMouseListener(mouseAdapter);
+		}
+	}
 	/**
 	 * 
 	 * iterate through each contained CellGUI and populate Given/User-defined
@@ -62,15 +69,15 @@ public class BlockGUI extends JPanel {
 	 * 
 	 */
 	public void populate(Block block, GameSession gameSession,
-			boolean isRefresh, MouseAdapter mouseAdapter, boolean isPencilMarkMode) {
+			boolean isRefresh, boolean isPencilMarkMode) {
 		
 
 		for (int cellIndex = 0; cellIndex < 9; cellIndex++) {
 			int rowIndex = cellIndex / 3;
 			int columnIndex = cellIndex % 3;
+			//this.cells[rowIndex][columnIndex].addMouseListener(mouseAdapter);
 			this.cells[rowIndex][columnIndex].populate(
-					block.getCell(cellIndex), gameSession, isRefresh,
-					mouseAdapter, isPencilMarkMode);
+					block.getCell(cellIndex), gameSession, isRefresh, isPencilMarkMode);
 		}
 	}
 

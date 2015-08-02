@@ -33,8 +33,6 @@ public class BoardGUI extends JPanel {
 	private Set<CellGUI> highlightedIncorrectCells = new HashSet<CellGUI>();
 	private NumberButtonGUI numberInputPad;
 
-	private MouseAdapter numberPadHandler;
-
 	public BoardGUI() {
 
 		this.setPreferredSize(new Dimension(BOARD_SIZE, BOARD_SIZE));
@@ -44,7 +42,7 @@ public class BoardGUI extends JPanel {
 				
 		this.blocks = new BlockGUI[3][3];
 
-		this.numberPadHandler = new MouseAdapter() {
+		MouseAdapter mouseAdapter = new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent mouseEvent) {
 				mouseClickedTask(mouseEvent);
@@ -61,6 +59,7 @@ public class BoardGUI extends JPanel {
 				gridBagConstraints.gridx = columnIndex;
 				gridBagConstraints.gridy = rowIndex;
 				gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+				this.blocks[rowIndex][columnIndex].addMouseListener(mouseAdapter);
 				add(this.blocks[rowIndex][columnIndex], gridBagConstraints);
 			}
 		}
@@ -78,7 +77,7 @@ public class BoardGUI extends JPanel {
 
 			this.blocks[rowIndex][columnIndex].populate(gameSession
 					.getGameBoard().getBlock(blockIndex), gameSession,
-					isRefresh, this.numberPadHandler, isPencilMarkMode);
+					isRefresh, isPencilMarkMode);
 		}
 	}
 
