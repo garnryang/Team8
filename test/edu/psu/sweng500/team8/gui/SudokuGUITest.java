@@ -28,7 +28,7 @@ public class SudokuGUITest {
 	@Test
 	public void testSudokuGUI() {
 		
-		PuzzleRepository mockPuzzleRepo = Mockito.mock(PuzzleRepository.class);
+		PuzzleRepository mockPuzzleRepo = new PuzzleRepository();
 		
 		SudokuGUI sudokuGUI = new SudokuGUI(mockPuzzleRepo);
 		JPanel mainJPanel = ((JPanel)((JLayeredPane)((JRootPane) sudokuGUI.getComponents()[0]).getComponents()[1]).getComponents()[0]);

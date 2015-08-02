@@ -137,11 +137,6 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		buttonGroup1.add(radEasy);
 		radEasy.setSelected(true);
 		radEasy.setText("Easy");
-		radEasy.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				radEasyActionPerformed(evt);
-			}
-		});
 
 		jLabel1.setText("Menu");
 
@@ -150,11 +145,6 @@ public class SudokuGUI extends javax.swing.JFrame implements
 
 		buttonGroup1.add(radHard);
 		radHard.setText("Hard");
-		radHard.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				radHardActionPerformed(evt);
-			}
-		});
 
 		this.jLabel2.setText("Difficulty");
 
@@ -536,14 +526,6 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		this.gameBoard.highlightIncorrectCells(incorrectCells);
 
 	}// GEN-LAST:event_btnCheckActionPerformed
-
-	private void radEasyActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_radEasyActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_radEasyActionPerformed
-
-	private void radHardActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_radHardActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_radHardActionPerformed
 
 	/**
 	 * LOAD Action
