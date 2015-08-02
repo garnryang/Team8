@@ -26,7 +26,8 @@ import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
 import edu.psu.sweng500.team8.play.GameSession;
 
 public class CellGUI extends JPanel {
-	
+
+	private static final long serialVersionUID = 1L; //Not really necessary since we're not serializing the UI, but just to keep Java happy...
 	
 
 	private static final int NUMBER_SIZE = 16;
@@ -65,16 +66,7 @@ public class CellGUI extends JPanel {
 
 		this.initPencilMarkDisplayCell();
 		this.initNumberInputCell();
-		this.initPencilMarkInputCell();
-		
-	}
 
-	/**
-	 * @deprecated
-	 * @param cell
-	 * @param gameSession
-	 */
-	public void populatePencilMark(Cell cell, GameSession gameSession) {
 	}
 
 	public void populate(Cell cell, GameSession gameSession, boolean isRefresh,
@@ -115,7 +107,7 @@ public class CellGUI extends JPanel {
 				this.numberInputField.setFocusable(false);
 			} else {
 				if (!ValueType.Given.equals(cell.getType())) {
-					this.numberInputField.setEditable(true);
+					this.numberInputField.setEditable(false); //set to false to kill the cursor
 					this.numberInputField.setFocusable(true);
 				}
 			}
@@ -126,19 +118,13 @@ public class CellGUI extends JPanel {
 
 			if (cell.getPencilMarks().isEmpty()) {
 				this.numberInputCell.setVisible(true);
-				this.numberInputField.setEditable(true);
+				this.numberInputField.setEditable(false); //set to false to kill the cursor
 				this.numberInputField.setFocusable(true);
 
 			} else {
 				cellLostFocus(null);
 			}
 		}
-	}
-
-	/**
-	 * @deprecated
-	 */
-	private void initPencilMarkInputCell() {
 	}
 
 	private void initNumberInputCell() {
@@ -219,6 +205,7 @@ public class CellGUI extends JPanel {
 	public void selectCell() {
 
 		this.numberInputField.setBorder(SELECTED_BORDER);
+		this.pencilMarkDisplayCell.setBorder(SELECTED_BORDER);
 	}
 
 	/**
@@ -230,7 +217,8 @@ public class CellGUI extends JPanel {
 	 * 
 	 */
 	public void updateSelectedCellFromHint(int number) {
-		this.numberInputField.setText(Integer.toString(number));
+		if (number != 0)
+			this.numberInputField.setText(Integer.toString(number));
 
 		this.numberInputCell.setVisible(true);
 		this.pencilMarkDisplayCell.setVisible(false);
@@ -248,8 +236,9 @@ public class CellGUI extends JPanel {
 
 		if (isPencilMarkMode) {
 			/* number clicked during pencil mark mode */
-			this.gameSession.enterPencilMark(this.cell,
-					Integer.parseInt(keyValue), isSelcted);
+			int numberInt = Integer.parseInt(keyValue);
+			this.gameSession.enterPencilMark(this.cell, numberInt, isSelcted);
+			
 		} else {
 
 			/*
@@ -282,63 +271,7 @@ public class CellGUI extends JPanel {
 	public void unselect() {
 
 		this.numberInputField.setBorder(DEFAULT_BORDER);
-	}
-
-	private JTextField buildReadOnlyTextField(Cell cell) {
-		JTextField textField = new JTextField();
-		textField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-		textField.setBorder(DEFAULT_BORDER);
-		textField.setEditable(false);
-		textField.setText(Integer.toString(cell.getNumber()));
-
-		if (ValueType.Given.equals(cell.getType())) {
-			HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(
-					Color.green);
-
-			try {
-				textField.getHighlighter().addHighlight(0, 3, painter);
-			} catch (BadLocationException e) {
-				/* TODO - better error handling */
-				e.printStackTrace();
-			}
-		}
-
-		return textField;
-	}
-
-	/**
-	 * @deprecated
-	 * @param cell
-	 * @return
-	 */
-	private CombinationCell buildPencilMarkInputField(Cell cell) {
-
-		CombinationCell combinationCell = new CombinationCell(cell,
-				this.gameSession);
-
-		/*
-		 * disable any number used according to the cellConstraints for given
-		 * cell
-		 */
-		for (int usedNumber : this.gameSession.getGameBoard()
-				.getCellConstraints(cell).getUsedNumbers()) {
-			((JToggleButton) combinationCell.getComponent(usedNumber - 1))
-					.setEnabled(false);
-			((JToggleButton) combinationCell.getComponent(usedNumber - 1))
-					.setText("");
-		}
-
-		for (int k = 1; k <= 9; k++) {
-			if (cell.getPencilMarks().contains(k)) {
-				((JToggleButton) combinationCell.getComponent(k - 1))
-						.setSelected(true);
-			} else {
-				((JToggleButton) combinationCell.getComponent(k - 1))
-						.setSelected(false);
-			}
-		}
-
-		return combinationCell;
+		this.pencilMarkDisplayCell.setBorder(DEFAULT_BORDER);
 	}
 
 	public void cellLostFocus(FocusEvent focusEvent) {
@@ -346,13 +279,8 @@ public class CellGUI extends JPanel {
 		CellGUI selectedCell = this;
 
 		if (null != focusEvent) {
-			// if (focusEvent.getSource() instanceof JTextField) {
 			selectedCell = (CellGUI) ((JTextField) focusEvent.getSource())
 					.getParent().getParent();
-			// } else {
-			// /* */
-			// System.err.println("This is not supported.");
-			// }
 		}
 
 		selectedCell.numberInputField.setBorder(DEFAULT_BORDER);
@@ -482,5 +410,13 @@ public class CellGUI extends JPanel {
 
 	public Cell getCell() {
 		return this.cell;
+	}
+	
+	/**
+	 * public for testing
+	 * @return
+	 */
+	public JTextField getNumberInputField() {
+		return this.numberInputField;
 	}
 }

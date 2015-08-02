@@ -16,7 +16,7 @@ import edu.psu.sweng500.team8.play.GameSession;
 
 
 public class BlockGUI extends JPanel {
-
+	private static final long serialVersionUID = 1L; //Not really necessary since we're not serializing the UI, but just to keep Java happy...
 	private static final int BLOCK_SIZE = 162 + 2;
 	private static final Border DEFAULT_BORDER = BorderFactory
 			.createLineBorder(Color.BLACK, 2);
@@ -73,25 +73,6 @@ public class BlockGUI extends JPanel {
 			this.cells[rowIndex][columnIndex].populate(
 					block.getCell(cellIndex), gameSession, isRefresh,
 					focusAdapter, mouseAdapter, isPencilMarkMode);
-		}
-	}
-
-	/**
-	 * 
-	 * iterate through each contained CellGUI and populate Pencil Mark
-	 * 
-	 * @deprecated
-	 * @param block
-	 * @param gameSession
-	 * 
-	 */
-	public void populatePencilMark(Block block, GameSession gameSession) {
-
-		for (int cellIndex = 0; cellIndex < 9; cellIndex++) {
-			int rowIndex = cellIndex / 3;
-			int columnIndex = cellIndex % 3;
-			this.cells[rowIndex][columnIndex].populatePencilMark(
-					block.getCell(cellIndex), gameSession);
 		}
 	}
 

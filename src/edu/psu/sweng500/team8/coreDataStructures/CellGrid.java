@@ -10,13 +10,14 @@ import edu.psu.sweng500.team8.io.BinarySerializable;
  * Intended only as a data structure without complex logic
  */
 public class CellGrid implements BinarySerializable {
-	private Cell[][] m_cells = new Cell[9][9];
+	private static final long serialVersionUID = 1L;
+	private Cell[][] cells = new Cell[9][9];
 	
 	public CellGrid() {
 		//Initialize the cells
 		for (int rowIndex = 0;  rowIndex < 9; rowIndex++) {
 			for (int columnIndex = 0; columnIndex < 9; columnIndex++) {
-				m_cells[rowIndex][columnIndex] = new Cell(rowIndex, columnIndex);
+				this.cells[rowIndex][columnIndex] = new Cell(rowIndex, columnIndex);
 			}
 		}
 	}
@@ -24,18 +25,17 @@ public class CellGrid implements BinarySerializable {
 	public CellGrid(CellGrid gridToCopy) {		
 		//Clone all of the cells
 		copyValues(gridToCopy);
-	
 	}
 	
 	public Cell getCell(int row, int column) {
-		return m_cells[row][column];
+		return this.cells[row][column];
 	}
 	
 	public boolean valuesAreEqual(CellGrid gridToCompare) {
 		//Compare the cell values
 		for (int rowIndex = 0; rowIndex < 9; rowIndex++) {
 			for (int columnIndex = 0; columnIndex < 9; columnIndex++) {
-				Cell myCell = m_cells[rowIndex][columnIndex];
+				Cell myCell = this.cells[rowIndex][columnIndex];
 				Cell otherCell = gridToCompare.getCell(rowIndex, columnIndex);
 				if (myCell.getNumber() != otherCell.getNumber())
 					return false;
@@ -47,7 +47,7 @@ public class CellGrid implements BinarySerializable {
 	public void copyValues(CellGrid gridToCopy) {
 		for (int rowIndex = 0; rowIndex < 9; rowIndex++) {
 			for (int columnIndex = 0; columnIndex < 9; columnIndex++) {
-				m_cells[rowIndex][columnIndex] = new Cell(gridToCopy.getCell(rowIndex, columnIndex));
+				this.cells[rowIndex][columnIndex] = new Cell(gridToCopy.getCell(rowIndex, columnIndex));
 			}
 		}
 	}
@@ -56,7 +56,7 @@ public class CellGrid implements BinarySerializable {
 	public void print() {
 		for (int rowIndex = 0; rowIndex < 9; rowIndex++) {
 			for (int columnIndex = 0; columnIndex < 9; columnIndex++) {
-				Cell cell = m_cells[rowIndex][columnIndex];
+				Cell cell = this.cells[rowIndex][columnIndex];
 				System.out.print(cell.getNumber() + " ");
 			}
 			System.out.print("\n");
@@ -67,7 +67,7 @@ public class CellGrid implements BinarySerializable {
 	public void save(BinaryOutputStream stream) throws IOException {
 		for (int rowIndex = 0; rowIndex < 9; rowIndex++) {
 			for (int columnIndex = 0; columnIndex < 9; columnIndex++) {
-				Cell cell = m_cells[rowIndex][columnIndex];
+				Cell cell = this.cells[rowIndex][columnIndex];
 				cell.save(stream);
 			}
 		}	
@@ -77,7 +77,7 @@ public class CellGrid implements BinarySerializable {
 	public void load(BinaryInputStream stream) throws IOException {
 		for (int rowIndex = 0; rowIndex < 9; rowIndex++) {
 			for (int columnIndex = 0; columnIndex < 9; columnIndex++) {
-				Cell cell = m_cells[rowIndex][columnIndex] = new Cell(rowIndex, columnIndex);
+				Cell cell = this.cells[rowIndex][columnIndex] = new Cell(rowIndex, columnIndex);
 				cell.load(stream);
 			}
 		}
