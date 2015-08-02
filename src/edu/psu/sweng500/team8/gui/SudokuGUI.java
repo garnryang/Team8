@@ -53,6 +53,14 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	private static final String WIN_MESSAGE = "You won! Start a new game to play again.";
 
 	private boolean gameChanged = false;
+	public boolean isGameChanged() {
+		return gameChanged;
+	}
+
+	public void setGameChanged(boolean gameChanged) {
+		this.gameChanged = gameChanged;
+	}
+
 	/**
 	 * Creates new form SudokuGUI
 	 */

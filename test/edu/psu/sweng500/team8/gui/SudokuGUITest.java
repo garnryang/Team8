@@ -310,4 +310,106 @@ public class SudokuGUITest {
 		Assert.assertEquals("", ((JLabel)selectedCellGUI.getpPencilMarkDisplayCell().getComponent(8)).getText());
 		
 	}
+	
+	@Test
+	public void testSudokuGUI_GameChangedStatus()
+	{
+		SudokuGUI sudokuGUI = new SudokuGUI();
+		JPanel mainJPanel = ((JPanel)((JLayeredPane)((JRootPane) sudokuGUI.getComponents()[0]).getComponents()[1]).getComponents()[0]);
+		
+		JButton newGameButton = (JButton)mainJPanel.getComponents()[18];
+		newGameButton.doClick();
+		
+		BoardGUI boardGUI = (BoardGUI)mainJPanel.getComponents()[0];
+
+		Assert.assertEquals(sudokuGUI.isGameChanged(), false);
+		
+		/* Find Empty Cell */
+		Cell emptyCell = null;
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				Cell currentCell = sudokuGUI.getGameSession().getGameBoard().getCellGrid().getCell(i, j);
+				if (!currentCell.hasNumber()) {
+					emptyCell = currentCell;
+					break;
+				}
+			}
+			
+			if (null != emptyCell) {
+				break;
+			}
+		}
+		
+		/* Empty CellGUI is focused */
+		CellGUI selectedCellGUI = boardGUI.findCorresdpondingCellGUI(emptyCell);
+		FocusEvent focusEvent = new FocusEvent(selectedCellGUI.getNumberInputField(),
+				FocusEvent.FOCUS_GAINED);
+		FocusListener[] focusListeners = selectedCellGUI.getNumberInputField()
+				.getFocusListeners();
+		focusListeners[2].focusGained(focusEvent);
+
+		/* Number Button for 8 is clicked*/
+		NumberButtonGUI numberButtonGUI = (NumberButtonGUI)mainJPanel.getComponents()[7];
+		JToggleButton number_8 = (JToggleButton)numberButtonGUI.getComponent(7);
+		/* doClick won't work because we have mouseListener not actionLister */
+		
+		MouseEvent mouseEvent = new MouseEvent(number_8,
+				MouseEvent.MOUSE_RELEASED, 0l, 0, 0, 0, 1, false);
+		MouseListener[] mouseListeners = number_8.getMouseListeners();
+		number_8.setSelected(true);
+		mouseListeners[1].mouseReleased(mouseEvent);
+		
+		Assert.assertEquals(sudokuGUI.isGameChanged(), true);
+	}
+
+	@Test
+	public void testSudokuGUI_GameChangedStatus_pencilMark()
+	{
+		SudokuGUI sudokuGUI = new SudokuGUI();
+		JPanel mainJPanel = ((JPanel)((JLayeredPane)((JRootPane) sudokuGUI.getComponents()[0]).getComponents()[1]).getComponents()[0]);
+		
+		JButton newGameButton = (JButton)mainJPanel.getComponents()[18];
+		newGameButton.doClick();
+		
+		BoardGUI boardGUI = (BoardGUI)mainJPanel.getComponents()[0];
+				
+		/* Find Empty Cell */
+		Cell emptyCell = null;
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				Cell currentCell = sudokuGUI.getGameSession().getGameBoard().getCellGrid().getCell(i, j);
+				if (!currentCell.hasNumber()) {
+					emptyCell = currentCell;
+					break;
+				}
+			}
+			
+			if (null != emptyCell) {
+				break;
+			}
+		}
+		
+		/* Empty CellGUI is focused */
+		CellGUI selectedCellGUI = boardGUI.findCorresdpondingCellGUI(emptyCell);
+		FocusEvent focusEvent = new FocusEvent(selectedCellGUI.getNumberInputField(),
+				FocusEvent.FOCUS_GAINED);
+		FocusListener[] focusListeners = selectedCellGUI.getNumberInputField()
+				.getFocusListeners();
+		focusListeners[2].focusGained(focusEvent);
+
+		sudokuGUI.getGameSession().setPencilMarkMode(true);
+		
+		/* Number Button for 8 is clicked*/
+		NumberButtonGUI numberButtonGUI = (NumberButtonGUI)mainJPanel.getComponents()[7];
+		JToggleButton number_8 = (JToggleButton)numberButtonGUI.getComponent(7);
+		/* doClick won't work because we have mouseListener not actionLister */
+		
+		MouseEvent mouseEvent = new MouseEvent(number_8,
+				MouseEvent.MOUSE_RELEASED, 0l, 0, 0, 0, 1, false);
+		MouseListener[] mouseListeners = number_8.getMouseListeners();
+		number_8.setSelected(true);
+		mouseListeners[1].mouseReleased(mouseEvent);
+		
+		Assert.assertEquals(sudokuGUI.isGameChanged(), true);
+	}
 }
