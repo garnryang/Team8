@@ -62,7 +62,7 @@ public class SolutionGeneratorTests {
 	}
 	
 	/**
-	 * This test is checking to see if Board.populationIteration() method can
+	 * This test is checking to see if SolutionGenerator.generateSolution method can
 	 * generate a board where all the rows are without any duplicates, all the
 	 * columns are without any duplicates, and all the blocks are without any
 	 * duplicates. This test will try to generate a reasonable number of full
@@ -118,32 +118,7 @@ public class SolutionGeneratorTests {
 
 				/* iterating through each column */
 				for (int j = 0; j < 9; j++) {
-
-					/*
-					 * block index begins TODO - we need a better way to
-					 * determine this
-					 */
-					int blockIndex = 0;
-					if (i < 3 && j < 3) {
-						blockIndex = 0;
-					} else if (i < 3 && j >= 3 && j < 6) {
-						blockIndex = 1;
-					} else if (i < 3 && j >= 6 && j < 9) {
-						blockIndex = 2;
-					} else if (i >= 3 && i < 6 && j < 3) {
-						blockIndex = 3;
-					} else if (i >= 3 && i < 6 && j >= 3 && j < 6) {
-						blockIndex = 4;
-					} else if (i >= 3 && i < 6 && j >= 6 && j < 9) {
-						blockIndex = 5;
-					} else if (i >= 6 && i < 9 && j < 3) {
-						blockIndex = 6;
-					} else if (i >= 6 && i < 9 && j >= 3 && j < 6) {
-						blockIndex = 7;
-					} else {
-						blockIndex = 8;
-					}
-					/* block index determination ends */
+					int blockIndex = (i / 3) * 3 + j / 3;
 
 					Map<Integer, Boolean> blockMap = mapOfBlockMaps
 							.get(blockIndex);
@@ -233,19 +208,14 @@ public class SolutionGeneratorTests {
 	
 	private static Board boardGeneration() {
 		Board board = null;
-		boolean keepGoing = true;
-		int breakCounter = 0;
 
-		//FIXME: Why not use a for loop with a break statement instead of a separate counter and a flag??
 		/* a full board is generated within 1,000 trials */
-		while (keepGoing && breakCounter < TRIAL_LIMIT) {
+		for (int i = 0; i < TRIAL_LIMIT; i++) {
 			board = SolutionGenerator.tryCreateSolution();
-			if (board == null) {
-				breakCounter++;
-			} else {
-				keepGoing = false;
-			}
+			if (board != null)
+				break;
 		}
+		
 		
 		return board;
 	} 

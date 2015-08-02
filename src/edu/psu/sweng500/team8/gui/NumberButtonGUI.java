@@ -25,10 +25,11 @@ public class NumberButtonGUI extends javax.swing.JPanel {
 
 	private JToggleButton[] buttons = new JToggleButton[9];
 	
-	public void init(MouseAdapter mouseAdapter, GameSession gameSession) {
-
+	public void init(GameSession gameSession) {
 		this.gameSession = gameSession;
-
+	}
+	
+	public void addMouseListener(MouseAdapter mouseAdapter) {
 		for (int numberIndex = 1; numberIndex <= 9; numberIndex++) {
 			buttons[numberIndex - 1].addMouseListener(mouseAdapter);
 		}

@@ -5,7 +5,6 @@ import java.util.Set;
 import java.util.HashSet;
 
 /** Static class for common functions
- * TODO: Move and/or give this a more specific name as it evolves
  */
 public class Helpers {
 	public static Set<Integer> getValidNumberSet() {

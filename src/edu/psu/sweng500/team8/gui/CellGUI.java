@@ -95,19 +95,14 @@ public class CellGUI extends JPanel {
 			if (!isRefresh) {
 				if (ValueType.Given.equals(cell.getType())) {
 					markGivenCell();
-					this.numberInputField.setEditable(false);
 					this.numberInputField.setFocusable(false);
 				}
 			}
 
 			if (isPencilMarkMode) {
-				this.numberInputField.setEditable(false);
 				this.numberInputField.setFocusable(false);
-			} else {
-				if (!ValueType.Given.equals(cell.getType())) {
-					this.numberInputField.setEditable(false); //set to false to kill the cursor
-					this.numberInputField.setFocusable(true);
-				}
+			} else if (cell.getType() != ValueType.Given) {
+				this.numberInputField.setFocusable(true);
 			}
 
 		} else {
@@ -116,7 +111,6 @@ public class CellGUI extends JPanel {
 
 			if (cell.getPencilMarks().isEmpty()) {
 				this.numberInputCell.setVisible(true);
-				this.numberInputField.setEditable(false); //set to false to kill the cursor
 				this.numberInputField.setFocusable(true);
 
 			} else {
@@ -158,6 +152,7 @@ public class CellGUI extends JPanel {
 
 		this.add(this.numberInputCell);
 		this.numberInputField = new JTextField();
+		numberInputField.setEditable(false);
 		this.numberInputField
 				.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 		this.numberInputField.setBorder(DEFAULT_BORDER);
@@ -209,7 +204,6 @@ public class CellGUI extends JPanel {
 			this.numberInputField.getHighlighter().addHighlight(0, 3,
 					GIVEN_NUMBER_PAINTER);
 		} catch (BadLocationException e) {
-			/* TODO - handle properly */
 			e.printStackTrace();
 		}
 	}
@@ -300,7 +294,6 @@ public class CellGUI extends JPanel {
 					INCORRECT_NUMBER_PAINTER);
 			this.numberInputField.repaint();
 		} catch (BadLocationException e) {
-			/* TODO - handle properly */
 			e.printStackTrace();
 		}
 	}
@@ -317,7 +310,6 @@ public class CellGUI extends JPanel {
 	 */
 	public void disableEditing() {
 		this.numberInputField.setFocusable(false);
-		this.numberInputField.setEditable(false);
 	}
 
 	public void refreshPencilMarkDisplay() {

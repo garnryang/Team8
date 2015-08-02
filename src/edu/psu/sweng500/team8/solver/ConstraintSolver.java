@@ -162,11 +162,11 @@ class ConstraintSolver implements Solver {
 	 * (i.e. has the least available numbers, except 0) is at the front of the queue
 	 */
 	private static class ConstraintQueue {
-		private PriorityQueue<Constraint> m_queue = 
+		private PriorityQueue<Constraint> queue = 
 				new PriorityQueue<Constraint>(27, new ConstraintComparator());
 
 		public boolean isEmpty() {
-			return m_queue.isEmpty();
+			return this.queue.isEmpty();
 		}
 		
 		public void enqueue(CellConstraints constraints) {
@@ -180,12 +180,12 @@ class ConstraintSolver implements Solver {
 		}
 		
 		public void enqueue(Constraint constraint) {
-			if (constraint.getAvailableNumbers().size() > 0 && !m_queue.contains(constraint)) //Ignore fully constrained constraints
-				m_queue.add(constraint);
+			if (constraint.getAvailableNumbers().size() > 0 && !this.queue.contains(constraint)) //Ignore fully constrained constraints
+				this.queue.add(constraint);
 		}
 		
 		public Constraint dequeue() {
-			return m_queue.poll();
+			return this.queue.poll();
 		}
 		
 		/** 
@@ -199,7 +199,7 @@ class ConstraintSolver implements Solver {
 			while (iterator.hasNext()) {
 				Constraint constraint = iterator.next();
 				//Unfortunately, the only way to re-prioritize is to remove and re-add constraint
-				m_queue.remove(constraint);
+				this.queue.remove(constraint);
 				enqueue(constraint); //Using enqueue to ignore constraints with 0 available numbers
 			}
 		}

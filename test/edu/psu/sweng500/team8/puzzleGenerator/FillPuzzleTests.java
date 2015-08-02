@@ -41,14 +41,16 @@ public class FillPuzzleTests {
 
 		final BoardGUI gridPanel = new BoardGUI();
 
-		numberButtonGUI.init(new MouseAdapter() {
+		numberButtonGUI.init(newGame);
+
+		numberButtonGUI.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseReleased(MouseEvent mouseEvent) {
 
 				gridPanel.mouseClickedTaskForNumberInput(mouseEvent);
 			}
-		}, newGame);
+		});
 
 		gridPanel.populatePanel(newGame, false, false, numberButtonGUI);
 
@@ -108,14 +110,16 @@ public class FillPuzzleTests {
 		GameSession newGame = new GameSession(puzzle, null);
 		final BoardGUI gridPanel = new BoardGUI();
 
-		numberButtonGUI.init(new MouseAdapter() {
+		numberButtonGUI.init(newGame);
+
+		numberButtonGUI.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseReleased(MouseEvent mouseEvent) {
 
 				gridPanel.mouseClickedTaskForNumberInput(mouseEvent);
 			}
-		}, newGame);
+		});
 
 		gridPanel.populatePanel(newGame, false, false, numberButtonGUI);
 
@@ -166,11 +170,11 @@ public class FillPuzzleTests {
 				.isEmpty());
 	}
 
-
 	/**
-	 * When a number is entered to a cell, corresponding row, column, and block 
-	 * should have PencilMark updated, so the entered number is removed from PencilMark 
-	 *  	
+	 * When a number is entered to a cell, corresponding row, column, and block
+	 * should have PencilMark updated, so the entered number is removed from
+	 * PencilMark
+	 * 
 	 * UC3 Step 5
 	 */
 	@Test
@@ -184,14 +188,16 @@ public class FillPuzzleTests {
 		GameSession newGame = new GameSession(puzzle, null);
 		final BoardGUI gridPanel = new BoardGUI();
 
-		numberButtonGUI.init(new MouseAdapter() {
+		numberButtonGUI.init(newGame);
+
+		numberButtonGUI.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseReleased(MouseEvent mouseEvent) {
 
 				gridPanel.mouseClickedTaskForNumberInput(mouseEvent);
 			}
-		}, newGame);
+		});
 
 		gridPanel.populatePanel(newGame, false, false, numberButtonGUI);
 
