@@ -25,10 +25,8 @@ import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
 import edu.psu.sweng500.team8.play.GameSession;
 
 public class CellGUI extends JPanel {
-
 	private static final long serialVersionUID = 1L; //Not really necessary since we're not serializing the UI, but just to keep Java happy...
 	
-
 	private static final int NUMBER_SIZE = 16;
 	private static final int CELL_SIZE = 54;
 	private static final Border SELECTED_BORDER = BorderFactory
@@ -63,7 +61,6 @@ public class CellGUI extends JPanel {
 
 		this.initPencilMarkDisplayCell();
 		this.initNumberInputCell();
-
 	}
 
 	public void populate(Cell cell, GameSession gameSession, boolean isRefresh,
@@ -104,10 +101,8 @@ public class CellGUI extends JPanel {
 
 			if (isPencilMarkMode) {
 				this.numberInputField.setFocusable(false);
-
 			} else if (cell.getType() != ValueType.Given) {
 				this.numberInputField.setFocusable(true);
-
 			}
 
 		} else {
@@ -116,7 +111,6 @@ public class CellGUI extends JPanel {
 
 			if (cell.getPencilMarks().isEmpty()) {
 				this.numberInputCell.setVisible(true);
-
 				this.numberInputField.setFocusable(true);
 
 			} else {
@@ -288,7 +282,6 @@ public class CellGUI extends JPanel {
 
 		this.numberInputField.setBorder(DEFAULT_BORDER);
 		this.pencilMarkDisplayCell.setBorder(DEFAULT_BORDER);
-
 	}
 
 	/**
@@ -372,7 +365,6 @@ public class CellGUI extends JPanel {
 	public JTextField getNumberInputField() {
 		return this.numberInputField;
 	}
-
 	
 	/**
 	 * public for testing
@@ -382,4 +374,3 @@ public class CellGUI extends JPanel {
 		return this.pencilMarkDisplayCell;
 	}
 }
-

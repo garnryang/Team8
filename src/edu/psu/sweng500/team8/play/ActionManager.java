@@ -12,14 +12,12 @@ public class ActionManager {
 	private Deque<SudokuAction> redoStack = new ArrayDeque<SudokuAction>();
 
 	public void addUndoAction(SudokuAction sudokuAction) {
-
 		this.redoStack.clear(); //Redo is no longer valid since we've gone down a different path. Clear the stack.
 		this.undoStack.push(sudokuAction);
 	}
 	
 	private void addRedoAction(SudokuAction sudokuAction) {
 		this.redoStack.push(sudokuAction);
-
 	}
 
 	/**
@@ -37,11 +35,9 @@ public class ActionManager {
 			SudokuAction lastAction = undoStack.pop(); 
 			CellGrid previousCellGrid = lastAction.getCellGrid(); 
 			
-
 			SudokuAction redoAction = new SudokuAction(new CellGrid(currentCellGridFromBoard));
 			addRedoAction(redoAction);
 			
-
 			currentCellGridFromBoard.copyValues(previousCellGrid);
 		}
 	}
@@ -57,20 +53,16 @@ public class ActionManager {
 			CellGrid previousCellGrid = lastActionUndone.getCellGrid();
 			
 			SudokuAction redoAction = new SudokuAction(new CellGrid(currentCellGridFromBoard));
-
 			this.undoStack.push(redoAction);
-
 
 			currentCellGridFromBoard.copyValues(previousCellGrid);
 		}
 	}
 	
-
 	public boolean hasUndoActions() {
 		return !this.undoStack.isEmpty();
 	}
 	
-
 	public boolean hasRedoActions() {
 		return !this.redoStack.isEmpty();
 	}
