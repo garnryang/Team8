@@ -152,6 +152,7 @@ public class GameSession implements Serializable {
 	 * 
 	 * @param saveFile
 	 */
+	@Deprecated
 	public void doSave(String saveFile) {
 
 		/* TODO implement */
@@ -163,6 +164,7 @@ public class GameSession implements Serializable {
 	 * 
 	 * @param saveFile
 	 */
+	@Deprecated
 	public void doLoad(String saveFile) {
 		/* TODO implement */
 	}

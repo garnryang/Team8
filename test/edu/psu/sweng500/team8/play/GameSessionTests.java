@@ -197,6 +197,7 @@ public class GameSessionTests {
 	}
 	
 	@Test
+	@Deprecated
 	public void testDoSave() {
 		String saveFile = "save01";
 		Puzzle puzzle = new Puzzle();
@@ -230,6 +231,7 @@ public class GameSessionTests {
 	}
 
 	@Test
+	@Deprecated
 	public void testDoLoad() {
 		String saveFile = "save01";
 		Puzzle puzzle = new Puzzle();

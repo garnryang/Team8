@@ -23,7 +23,6 @@ import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.filechooser.FileFilter;
-
 import edu.psu.sweng500.team8.coreDataStructures.Board;
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
@@ -51,6 +50,15 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	private GameSession gameSession;
 	private static final String WIN_MESSAGE = "You won! Start a new game to play again.";
 
+	private boolean gameChanged = false;
+	public boolean isGameChanged() {
+		return this.gameChanged;
+	}
+
+	public void setGameChanged(boolean gameChanged) {
+		this.gameChanged = gameChanged;
+	}
+
 	/**
 	 * Creates new form SudokuGUI
 	 */
@@ -70,6 +78,19 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		});
 	}
 
+	class GameChangedListener implements CellChangedListener{
+		
+		@Override
+		public void cellChanged(Cell cell, int newNumber) {
+			gameChanged = true;
+		}
+
+		@Override
+		public void pencilMarksChanged(Cell cell, Set<Integer> newPencilMarks) {
+			gameChanged = true;
+			
+		}
+	}
 	public void setMessage(String message) {
 		this.txtAreaMessage.setText(message);
 	}
@@ -164,7 +185,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		this.btnSave.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				try {
-					btnSaveActionPerformed(evt);
+					btnSaveActionPerformed();
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -247,9 +268,10 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		btnExit = new JButton("Exit");
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				exitConfirm();
 			}
 		});
+
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
 				getContentPane());
@@ -472,6 +494,33 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
+	private void exitConfirm(){
+		if(gameChanged){
+			int result = JOptionPane.showConfirmDialog(null,  
+					"Save the current game before exiting?", "Save Game",
+					JOptionPane.YES_NO_CANCEL_OPTION);
+
+			switch (result) {
+			case JOptionPane.YES_OPTION:						
+				try {
+					btnSaveActionPerformed();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			case JOptionPane.NO_OPTION:
+				System.exit(0);
+			case JOptionPane.CLOSED_OPTION:
+				return;
+			case JOptionPane.CANCEL_OPTION:						
+				return;
+			}
+		}
+		else{				
+			System.exit(0);
+		}
+	}
+	
 	private void btnHintActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnHintActionPerformed
 		// Get a hint
 		if (this.gameSession == null) {
@@ -608,9 +657,9 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	 * @param evt
 	 * @throws FileNotFoundException
 	 */
-	private void btnSaveActionPerformed(ActionEvent evt)
+	private void btnSaveActionPerformed()
 			throws FileNotFoundException {
-
+		
 		final JFileChooser fc = new JFileChooser();
 
 		fc.setFileFilter(new FileFilter() {
@@ -687,7 +736,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 			out.writeObject(savePackage);
 			out.close();
 			fileOut.close();
-
+			this.gameChanged = false;
 		} catch (IOException i) {
 			i.printStackTrace();
 		}
@@ -707,6 +756,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		this.btnHint.setEnabled(true);
 		this.btnCheck.setEnabled(true);
 		this.pencilMarkButton.setEnabled(true);
+		this.gameSession.subscribeForCellChanges(new GameChangedListener());
 		updateUndoRedoButtonStates();
 	}
 
@@ -830,4 +880,6 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	GameSession getGameSession() {
 		return this.gameSession;
 	}
+	
+
 }
