@@ -20,6 +20,10 @@ public class GameSession implements Serializable {
 
 	private List<CellChangedListener> cellChangedListeners = new ArrayList<CellChangedListener>();
 
+	public GameSession(Puzzle puzzle) {
+		this.board.initialize(puzzle);
+	}
+	
 	public GameSession(Puzzle puzzle, CellGrid overloadCellGrid) {
 		this.board.initialize(puzzle, overloadCellGrid);
 	}
@@ -106,8 +110,8 @@ public class GameSession implements Serializable {
 		this.actionManager.addUndoAction(sudokuAction);
 		
 		updatePencilMark(currentCell, number, isEnter);
-		
-		fireCellNumberChanged(currentCell, -1);
+
+		firePencilMarksChanged(currentCell, currentCell.getPencilMarks());
 	}
 	
 	public boolean hasUndoActions() {
@@ -116,16 +120,6 @@ public class GameSession implements Serializable {
 	
 	public boolean hasRedoActions() {
 		return this.actionManager.hasRedoActions();
-	}
-
-	//FIXME: Why is this called refresh and why is it even here?? Remove it.
-	/**
-	 * Should we just have a getter instead?
-	 * 
-	 * @return
-	 */
-	public Board refresh() {
-		return this.board;
 	}
 
 	public Object getHelp(HelpType helpType) {
@@ -182,6 +176,12 @@ public class GameSession implements Serializable {
 	private void fireCellNumberChanged(Cell cell, int newNumber) {
 		for (CellChangedListener listener : this.cellChangedListeners) {
 			listener.cellChanged(cell, newNumber);
+		}
+	}
+	
+	private void firePencilMarksChanged(Cell cell, Set<Integer> newPencilMarks) {
+		for (CellChangedListener listener : this.cellChangedListeners) {
+			listener.pencilMarksChanged(cell, newPencilMarks);
 		}
 	}
 

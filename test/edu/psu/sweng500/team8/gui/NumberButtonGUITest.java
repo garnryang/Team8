@@ -1,21 +1,9 @@
 package edu.psu.sweng500.team8.gui;
 
-import static org.junit.Assert.fail;
-
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
-import javax.swing.JLabel;
-import javax.swing.JToggleButton;
-
 import org.junit.Assert;
 import org.junit.Test;
 
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
-import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
 import edu.psu.sweng500.team8.play.GameSession;
@@ -29,12 +17,12 @@ public class NumberButtonGUITest {
 		DifficultyLevel difficulty = DifficultyLevel.Easy;
 		PuzzleRepository puzzleRepo = new PuzzleRepository();
 		Puzzle puzzle = puzzleRepo.getPuzzle(difficulty);
-		GameSession gameSession = new GameSession(puzzle, null);
+		GameSession gameSession = new GameSession(puzzle);
 
 		gameSession.setPencilMarkMode(false);
 		
 		NumberButtonGUI numberButtonGUI = new NumberButtonGUI();
-		numberButtonGUI.init(null, gameSession);
+		numberButtonGUI.init(gameSession);
 		
 		Cell cell = new Cell(1, 1);
 		cell.setNumber(6);
@@ -90,12 +78,12 @@ public class NumberButtonGUITest {
 		DifficultyLevel difficulty = DifficultyLevel.Easy;
 		PuzzleRepository puzzleRepo = new PuzzleRepository();
 		Puzzle puzzle = puzzleRepo.getPuzzle(difficulty);
-		GameSession gameSession = new GameSession(puzzle, null);
+		GameSession gameSession = new GameSession(puzzle);
 
 		gameSession.setPencilMarkMode(true);
 		
 		NumberButtonGUI numberButtonGUI = new NumberButtonGUI();
-		numberButtonGUI.init(null, gameSession);
+		numberButtonGUI.init(gameSession);
 		
 		Cell cell = new Cell(0, 0);
 		cell.getPencilMarks().add(7);

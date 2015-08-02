@@ -23,18 +23,4 @@ public class SudokuAction {
 	public CellGrid getCellGrid() {
 		return cellGrid;
 	}
-
-	@Override
-	public boolean equals(Object o) {
-
-		if (null == o) {
-			return false;
-		}
-		
-		if (o instanceof SudokuAction) {
-			return this.cellGrid.equals(((SudokuAction)o).cellGrid);
-		} else {
-			return false;
-		}
-	}
 }

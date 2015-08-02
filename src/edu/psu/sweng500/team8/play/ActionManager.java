@@ -12,19 +12,12 @@ public class ActionManager {
 	private Deque<SudokuAction> redoStack = new ArrayDeque<SudokuAction>();
 
 	public void addUndoAction(SudokuAction sudokuAction) {
-
-		/* push sudokuAction only when undoStack is empty OR the top action isn't the same as incoming action */
-		if (undoStack.isEmpty() || !undoStack.peek().equals(sudokuAction)) {
-			this.undoStack.push(sudokuAction);
-		} 
+		this.redoStack.clear(); //Redo is no longer valid since we've gone down a different path. Clear the stack.
+		this.undoStack.push(sudokuAction);
 	}
 	
 	private void addRedoAction(SudokuAction sudokuAction) {
-
-		/* push sudokuAction only when redoStack is empty OR the top action isn't the same as incoming action */
-		if (redoStack.isEmpty() || !redoStack.peek().equals(sudokuAction)) {
-			this.redoStack.push(sudokuAction);
-		}
+		this.redoStack.push(sudokuAction);
 	}
 
 	/**
@@ -42,8 +35,8 @@ public class ActionManager {
 			SudokuAction lastAction = undoStack.pop(); 
 			CellGrid previousCellGrid = lastAction.getCellGrid(); 
 			
-			SudokuAction undoAction = new SudokuAction(new CellGrid(currentCellGridFromBoard));
-			addRedoAction(undoAction);
+			SudokuAction redoAction = new SudokuAction(new CellGrid(currentCellGridFromBoard));
+			addRedoAction(redoAction);
 			
 			currentCellGridFromBoard.copyValues(previousCellGrid);
 		}
@@ -60,18 +53,16 @@ public class ActionManager {
 			CellGrid previousCellGrid = lastActionUndone.getCellGrid();
 			
 			SudokuAction redoAction = new SudokuAction(new CellGrid(currentCellGridFromBoard));
-			addUndoAction(redoAction);
+			this.undoStack.push(redoAction);
 
 			currentCellGridFromBoard.copyValues(previousCellGrid);
 		}
 	}
 	
-	//TODO: Unit test
 	public boolean hasUndoActions() {
 		return !this.undoStack.isEmpty();
 	}
 	
-	//TODO: Unit test
 	public boolean hasRedoActions() {
 		return !this.redoStack.isEmpty();
 	}

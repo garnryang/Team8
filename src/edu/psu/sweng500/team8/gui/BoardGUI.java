@@ -33,6 +33,8 @@ public class BoardGUI extends JPanel {
 	private CellGUI selectedCell;
 	private Set<CellGUI> highlightedIncorrectCells = new HashSet<CellGUI>();
 	private NumberButtonGUI numberInputPad;
+	private MouseAdapter numberPadHandler;
+	private FocusAdapter focusHandler;
 
 	public BoardGUI() {
 
@@ -43,6 +45,18 @@ public class BoardGUI extends JPanel {
 
 		this.blocks = new BlockGUI[3][3];
 
+		this.focusHandler = new FocusAdapter() {
+			public void focusGained(FocusEvent focusEvent) {
+				cellGainedFocus(focusEvent);
+			}
+		};
+		this.numberPadHandler = new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent mouseEvent) {
+				mouseClickedTask(mouseEvent);
+			}
+		};
+		
 		GridBagConstraints gridBagConstraints;
 		this.setLayout(new java.awt.GridBagLayout());
 
@@ -64,19 +78,13 @@ public class BoardGUI extends JPanel {
 		this.gameSession = gameSession;
 		this.numberInputPad = numberInputPad;
 
-		if (null != this.selectedCell) {
-			/* existing selection, clear it */
-			this.selectedCell.unselect();
-			this.selectedCell = null;
-		}
-
 		for (int blockIndex = 0; blockIndex < 9; blockIndex++) {
 			int rowIndex = blockIndex / 3;
 			int columnIndex = blockIndex % 3;
 
 			this.blocks[rowIndex][columnIndex].populate(gameSession
 					.getGameBoard().getBlock(blockIndex), gameSession,
-					isRefresh, buildFocusAdapter(), buildMouseAdapter(),
+					isRefresh, this.focusHandler, this.numberPadHandler,
 					isPencilMarkMode);
 		}
 	}
@@ -90,19 +98,15 @@ public class BoardGUI extends JPanel {
 		}
 
 		this.selectedCell = this.blocks[cellCoordinates.getBlockIndex() / 3][cellCoordinates
-				.getBlockIndex() % 3].getSelectedCell(cellCoordinates);
+				.getBlockIndex() % 3].getCell(cellCoordinates);
 		this.selectedCell.updateSelectedCellFromHint(number);
 	}
-
-	private FocusAdapter buildFocusAdapter() {
-
-		return new FocusAdapter() {
-			public void focusGained(FocusEvent focusEvent) {
-				cellGainedFocus(focusEvent);
-			}
-		};
+	
+	public Cell getSelectedCell() {
+		return this.selectedCell.getCell();
 	}
 
+	//TODO: Merge this handling with mouse clicked task -- they do the same thing
 	private void cellGainedFocus(FocusEvent focusEvent) {
 		CellGUI newSelectedCell = (CellGUI) ((JTextField) focusEvent
 				.getSource()).getParent().getParent();
@@ -128,19 +132,6 @@ public class BoardGUI extends JPanel {
 		}
 
 		this.selectedCell.setNumberToCell(mouseEvent);
-	}
-
-	/**
-	 * This is MouseAdapter for PencilMark Mode where PencilMark exists already
-	 * @return
-	 */
-	private MouseAdapter buildMouseAdapter() {
-		return new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent mouseEvent) {
-				mouseClickedTask(mouseEvent);
-			}
-		};
 	}
 
 	private void mouseClickedTask(MouseEvent mouseEvent) {
@@ -203,7 +194,7 @@ public class BoardGUI extends JPanel {
 	public CellGUI findCorresdpondingCellGUI(Cell cell) {
 		CellCoordinates coordinates = cell.getCoordinates();
 		return this.blocks[coordinates.getBlockIndex() / 3][coordinates
-				.getBlockIndex() % 3].getSelectedCell(coordinates);
+				.getBlockIndex() % 3].getCell(coordinates);
 
 	}
 
