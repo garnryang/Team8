@@ -657,7 +657,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	 */
 	private void btnSaveActionPerformed()
 			throws FileNotFoundException {
-		this.gameChanged = false;
+		
 		final JFileChooser fc = new JFileChooser();
 
 		fc.setFileFilter(new FileFilter() {
@@ -734,7 +734,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 			out.writeObject(savePackage);
 			out.close();
 			fileOut.close();
-
+			this.gameChanged = false;
 		} catch (IOException i) {
 			i.printStackTrace();
 		}
