@@ -11,7 +11,9 @@ import edu.psu.sweng500.team8.coreDataStructures.CellTests;
 import edu.psu.sweng500.team8.coreDataStructures.PuzzleTests;
 import edu.psu.sweng500.team8.gui.FillPuzzleTests;
 import edu.psu.sweng500.team8.gui.NumberButtonGUITest;
+import edu.psu.sweng500.team8.gui.SudokuGUITest;
 import edu.psu.sweng500.team8.play.GameSessionTests;
+import edu.psu.sweng500.team8.play.SudokuActionTest;
 import edu.psu.sweng500.team8.puzzleGenerator.PuzzleGeneratorTests;
 import edu.psu.sweng500.team8.puzzleGenerator.PuzzleRepositoryTests;
 import edu.psu.sweng500.team8.puzzleGenerator.SolutionGeneratorTests;
@@ -37,7 +39,9 @@ import edu.psu.sweng500.team8.solver.HintGeneratorTests;
    SolutionGeneratorTests.class,   
    ConstraintSolverTests.class,
    GuessAndCheckSolverTests.class,
-   HintGeneratorTests.class
+   HintGeneratorTests.class,
+   SudokuActionTest.class,
+   SudokuGUITest.class
 })
 public class SudokuTestSuite {
 
