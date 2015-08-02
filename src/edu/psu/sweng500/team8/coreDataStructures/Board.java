@@ -105,9 +105,7 @@ public class Board implements Serializable {
 		return openCells;
 	}
 
-
 	public void initialize(Puzzle puzzle) {
-
 		// Copy the cells without swapping the cell grid
 		this.grid.copyValues(puzzle.getCopyOfCellGrid());
 		this.currentPuzzle = puzzle;
