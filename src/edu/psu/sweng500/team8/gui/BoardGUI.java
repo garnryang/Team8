@@ -51,6 +51,10 @@ public class BoardGUI extends JPanel {
 				
 				this.blocks = new BlockGUI[3][3];
 
+
+		this.blocks = new BlockGUI[3][3];
+
+
 		this.focusHandler = new FocusAdapter() {
 			public void focusGained(FocusEvent focusEvent) {
 				cellGainedFocus(focusEvent);

@@ -63,7 +63,6 @@ public class GameSession implements Serializable {
 	}
 
 
-
 	private void updatePencilMark(Cell currentCell, int number) {
 
 		currentCell.getPencilMarks().clear();

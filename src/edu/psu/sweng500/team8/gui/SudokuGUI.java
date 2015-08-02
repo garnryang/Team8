@@ -2,7 +2,6 @@ package edu.psu.sweng500.team8.gui;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -48,6 +47,8 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	 * Java happy...
 	 */
 	private static final long serialVersionUID = 1L;
+
+
 
 
 	/* Not sure if there is a better place to put this */
@@ -160,14 +161,22 @@ public class SudokuGUI extends javax.swing.JFrame implements
 
 		jLabel1.setText("Menu");
 
+
+
 		buttonGroup1.add(radMedium);
 		radMedium.setText("Medium");
+
+
 
 		buttonGroup1.add(radHard);
 		radHard.setText("Hard");
 
 
+
 		this.jLabel2.setText("Difficulty");
+
+
+
 
 		this.btnSave.setText("Save");
 		this.btnSave.setEnabled(false);
@@ -253,7 +262,6 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		txtAreaMessage.setEditable(false);
 
 		numberInputPad = new NumberButtonGUI();
-
 
 
 		btnExit = new JButton("Exit");
@@ -485,6 +493,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 
 
 
+
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
@@ -497,7 +506,10 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		}
 
 
+
 		HintInfo hint = HintGenerator.getHint(this.gameSession.getGameBoard());
+
+
 
 		/* TODO - make this message constant */
 		String message = "Sorry, no hint available";
