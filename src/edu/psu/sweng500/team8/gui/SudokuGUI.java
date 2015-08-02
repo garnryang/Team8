@@ -819,4 +819,12 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	private JToggleButton pencilMarkButton;
 	private NumberButtonGUI numberInputPad;
 	private JButton btnExit;
+	
+	/**
+	 * for testing
+	 * @return
+	 */
+	GameSession getGameSession() {
+		return this.gameSession;
+	}
 }
