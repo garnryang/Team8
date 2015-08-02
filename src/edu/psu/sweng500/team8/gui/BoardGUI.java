@@ -2,7 +2,9 @@ package edu.psu.sweng500.team8.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
+import java.awt.Image;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
@@ -14,6 +16,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -22,6 +25,7 @@ import javax.swing.border.Border;
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 import edu.psu.sweng500.team8.play.GameSession;
+
 
 public class BoardGUI extends JPanel {
 	private static final long serialVersionUID = 1L; //Not really necessary since we're not serializing the UI, but just to keep Java happy...
@@ -33,8 +37,10 @@ public class BoardGUI extends JPanel {
 	private CellGUI selectedCell;
 	private Set<CellGUI> highlightedIncorrectCells = new HashSet<CellGUI>();
 	private NumberButtonGUI numberInputPad;
+
 	private MouseAdapter numberPadHandler;
 	private FocusAdapter focusHandler;
+
 
 	public BoardGUI() {
 
@@ -42,8 +48,12 @@ public class BoardGUI extends JPanel {
 		this.setMaximumSize(new Dimension(BOARD_SIZE, BOARD_SIZE));
 		this.setMinimumSize(new Dimension(BOARD_SIZE, BOARD_SIZE));
 		this.setBorder(DEFAULT_BORDER);
+				
+				this.blocks = new BlockGUI[3][3];
+
 
 		this.blocks = new BlockGUI[3][3];
+
 
 		this.focusHandler = new FocusAdapter() {
 			public void focusGained(FocusEvent focusEvent) {
@@ -132,6 +142,7 @@ public class BoardGUI extends JPanel {
 		}
 
 		this.selectedCell.setNumberToCell(mouseEvent);
+
 	}
 
 	private void mouseClickedTask(MouseEvent mouseEvent) {
@@ -247,4 +258,6 @@ public class BoardGUI extends JPanel {
 			}
 		}
 	}
+	
+
 }

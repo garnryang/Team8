@@ -24,8 +24,10 @@ public class NumberButtonGUI extends javax.swing.JPanel {
 	private GameSession gameSession;
 
 	private JToggleButton[] buttons = new JToggleButton[9];
+
 	
 	public void init(GameSession gameSession) {
+
 		this.gameSession = gameSession;
 	}
 	
@@ -103,6 +105,7 @@ public class NumberButtonGUI extends javax.swing.JPanel {
 		}
 	}
 
+
 	/**
 	 * for testing
 	 * @return
@@ -110,5 +113,6 @@ public class NumberButtonGUI extends javax.swing.JPanel {
 	JToggleButton[] getButtons() {
 		return this.buttons;
 	}
+
 
 }

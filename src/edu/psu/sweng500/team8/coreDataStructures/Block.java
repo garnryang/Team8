@@ -9,8 +9,10 @@ package edu.psu.sweng500.team8.coreDataStructures;
  */
 public class Block extends Constraint {
 	private static final long serialVersionUID = 1L;
+
 	private CellGrid grid;
 	private int blockIndex;
+
 	
 	public Block(CellGrid grid, int blockIndex) {
 		this.grid = grid;
