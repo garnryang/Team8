@@ -5,16 +5,15 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
-import java.util.Set;
 
-import javax.swing.JButton;
 import javax.swing.JToggleButton;
 
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.play.GameSession;
 
 public class NumberButtonGUI extends javax.swing.JPanel {
-
+	private static final long serialVersionUID = 1L; //Not really necessary since we're not serializing the UI, but just to keep Java happy...
+	
 	private static final int BUTTON_SIZE = 54;
 	private final static int BUTTON_TEXT_SIZE = 40;
 	private final static Font BUTTON_FONT = new Font("Tahoma", Font.PLAIN,
@@ -24,12 +23,13 @@ public class NumberButtonGUI extends javax.swing.JPanel {
 
 	private GameSession gameSession;
 
-	JToggleButton[] buttons = new JToggleButton[9];
-
-	public void init(MouseAdapter mouseAdapter, GameSession gameSession) {
-
+	private JToggleButton[] buttons = new JToggleButton[9];
+	
+	public void init(GameSession gameSession) {
 		this.gameSession = gameSession;
-
+	}
+	
+	public void addMouseListener(MouseAdapter mouseAdapter) {
 		for (int numberIndex = 1; numberIndex <= 9; numberIndex++) {
 			buttons[numberIndex - 1].addMouseListener(mouseAdapter);
 		}
@@ -49,7 +49,6 @@ public class NumberButtonGUI extends javax.swing.JPanel {
 			numberInputButton.setPreferredSize(BUTTON_DIMENSION);
 			numberInputButton.setMaximumSize(BUTTON_DIMENSION);
 			numberInputButton.setMinimumSize(BUTTON_DIMENSION);
-			// numberInputButton.addActionListener(buildActionListner());
 
 			GridBagConstraints buttonGridBagConstraints = new GridBagConstraints();
 			buttonGridBagConstraints.gridx = (numberIndex - 1) % 3;
@@ -61,7 +60,7 @@ public class NumberButtonGUI extends javax.swing.JPanel {
 	}
 
 	public void updateForFocusedCell(Cell cell) {
-
+		
 		boolean isPencilMarkMode = this.gameSession.isPencilMarkMode();
 
 		/* Clear */
@@ -71,25 +70,9 @@ public class NumberButtonGUI extends javax.swing.JPanel {
 		}
 
 		if (isPencilMarkMode) {
-			/**/
-			if (cell.hasNumber()) {
-
-				if (cell.getPencilMarks().isEmpty()) {
-
-					/*
-					 * On Pencil Mark Mode, if we have a number, we do not allow
-					 * update
-					 */
-					for (int numberIndex = 1; numberIndex <= 9; numberIndex++) {
-						buttons[numberIndex - 1].setEnabled(false);
-					}
-
-					buttons[cell.getNumber() - 1].setSelected(true);
-				} else {
-					throw new RuntimeException(
-							"Cell cannot have both Number and Pencil Marks at the same time.");
-				}
-			} else {
+			/* During PencilMark mode, a Cell with a number cannot be selected/focused.
+			 * Only a cell with no number can be selected/focused. */
+			if (!cell.hasNumber()) {
 
 				/*
 				 * TODO - 
@@ -107,69 +90,25 @@ public class NumberButtonGUI extends javax.swing.JPanel {
 				 * buttons[usedNumber-1].setEnabled(false); }
 				 */
 
+				/* For a cell with no number, any number in PencilMark set is pre-selected */
 				for (int pencilMarked : cell.getPencilMarks()) {
 					buttons[pencilMarked - 1].setSelected(true);
 				}
 			}
 		} else {
-			/**/
-			if (cell.hasNumber()) {
-
-				if (cell.getPencilMarks().isEmpty()) {
+			/* During Normal mode, a Cell with no number does not have to get NumberPad pre-selected */
+			if (cell.hasNumber() && cell.getPencilMarks().isEmpty()) {
 					buttons[cell.getNumber() - 1].setSelected(true);
-				} else {
-					throw new RuntimeException(
-							"Cell cannot have both Number and Pencil Marks at the same time.");
-				}
-			} else {
-				/* On Normal Mode, we only select Number */
 			}
 		}
-
 	}
-	//
-	//
-	// public NumberButtonGUI(Cell cell, GameSession gameSession) {
-	//
-	// this.cell = cell;
-	// this.gameSession = gameSession;
-	// this.setLayout(new GridBagLayout());
-	//
-	// for (int numberIndex = 1; numberIndex <= 9; numberIndex++) {
-	//
-	// JToggleButton numberInputButton = new JToggleButton(
-	// String.valueOf(numberIndex));
-	// numberInputButton.setFont(PENCIL_MARK_FONT);
-	// numberInputButton.setForeground(PENCIL_MARK_COLOR);
-	// numberInputButton.setUI(BUTTON_UI);
-	// numberInputButton.setBackground(PENCIL_MARK_BACKGROUND_COLOR);
-	// numberInputButton
-	// .setPreferredSize(PENCIL_MARK_NUMBER_DIMENSION);
-	// numberInputButton.setMaximumSize(PENCIL_MARK_NUMBER_DIMENSION);
-	// numberInputButton.setMinimumSize(PENCIL_MARK_NUMBER_DIMENSION);
-	// numberInputButton.addActionListener(buildActionListner());
-	//
-	// GridBagConstraints gbc_numberInputButton = new GridBagConstraints();
-	// gbc_numberInputButton.gridx = (numberIndex - 1) % 3;
-	// gbc_numberInputButton.gridy = (numberIndex - 1) / 3;
-	// this.add(numberInputButton, gbc_numberInputButton);
-	// }
-	// }
-	//
-	// private ActionListener buildActionListner() {
-	// return new ActionListener() {
-	// public void actionPerformed(ActionEvent evt) {
-	// buttonAction(evt);
-	// }
-	// };
-	// }
-	//
-	// private void buttonAction(ActionEvent actionEvent) {
-	//
-	// JToggleButton button = (JToggleButton) actionEvent.getSource();
-	//
-	// boolean isSelected = button.isSelected();
-	// this.gameSession.enterPencilMark(this.cell,
-	// Integer.parseInt(button.getText()), isSelected);
-	// }
+
+	/**
+	 * for testing
+	 * @return
+	 */
+	JToggleButton[] getButtons() {
+		return this.buttons;
+	}
+
 }

@@ -12,21 +12,22 @@ import java.util.Set;
  * constraints
  */
 public class Board implements Serializable {
-	// TODO: Remove m_ to be consistent with java style
+	private static final long serialVersionUID = 1L;
+	
 	private CellGrid grid = new CellGrid(); // The actual 9x9 grid of cells
-	private Row[] m_rows = new Row[9]; // Abstraction of rows
-	private Column[] m_columns = new Column[9]; // Abstraction of columns
-	private Block[] m_blocks = new Block[9]; // Abstraction of blocks
+	private Row[] rows = new Row[9]; // Abstraction of rows
+	private Column[] columns = new Column[9]; // Abstraction of columns
+	private Block[] blocks = new Block[9]; // Abstraction of blocks
 	private Puzzle currentPuzzle;
 
 	public Board() {
 		// Create rows, columns, and blocks
 		for (int i = 0; i < 9; i++) {
-			m_rows[i] = new Row(this.grid, i); // Rows from 0-8 go top to bottom
-			m_columns[i] = new Column(this.grid, i); // Columns from 0-8 go left
+			this.rows[i] = new Row(this.grid, i); // Rows from 0-8 go top to bottom
+			this.columns[i] = new Column(this.grid, i); // Columns from 0-8 go left
 														// to
 			// right
-			m_blocks[i] = new Block(this.grid, i); // Blocks from 0-8 go left to
+			this.blocks[i] = new Block(this.grid, i); // Blocks from 0-8 go left to
 			// right, top to bottom
 		}
 	}
@@ -37,11 +38,11 @@ public class Board implements Serializable {
 
 		// Create rows, columns, and blocks
 		for (int i = 0; i < 9; i++) {
-			m_rows[i] = new Row(this.grid, i); // Rows from 0-8 go top to bottom
-			m_columns[i] = new Column(this.grid, i); // Columns from 0-8 go left
+			this.rows[i] = new Row(this.grid, i); // Rows from 0-8 go top to bottom
+			this.columns[i] = new Column(this.grid, i); // Columns from 0-8 go left
 														// to
 			// right
-			m_blocks[i] = new Block(this.grid, i); // Blocks from 0-8 go left to
+			this.blocks[i] = new Block(this.grid, i); // Blocks from 0-8 go left to
 			// right, top to bottom
 		}
 	}
@@ -51,15 +52,15 @@ public class Board implements Serializable {
 	}
 
 	public Row getRow(int index) {
-		return m_rows[index];
+		return this.rows[index];
 	}
 
 	public Column getColumn(int index) {
-		return m_columns[index];
+		return this.columns[index];
 	}
 
 	public Block getBlock(int index) {
-		return m_blocks[index];
+		return this.blocks[index];
 	}
 
 	public Cell getCell(int rowIndex, int columnIndex) {
@@ -69,9 +70,9 @@ public class Board implements Serializable {
 	public CellConstraints getCellConstraints(Cell cell) {
 		CellCoordinates coordinates = cell.getCoordinates();
 
-		Row row = m_rows[coordinates.getRowIndex()];
-		Column column = m_columns[coordinates.getColumnIndex()];
-		Block block = m_blocks[coordinates.getBlockIndex()];
+		Row row = this.rows[coordinates.getRowIndex()];
+		Column column = this.columns[coordinates.getColumnIndex()];
+		Block block = this.blocks[coordinates.getBlockIndex()];
 
 		return new CellConstraints(row, column, block);
 	}
@@ -104,15 +105,15 @@ public class Board implements Serializable {
 		return openCells;
 	}
 
-	public void initialize(Puzzle puzzle, CellGrid overloadCellGrid) {
+	public void initialize(Puzzle puzzle) {
 		// Copy the cells without swapping the cell grid
 		this.grid.copyValues(puzzle.getCopyOfCellGrid());
 		this.currentPuzzle = puzzle;
-
-		if (null != overloadCellGrid) {
-			this.grid.copyValues(overloadCellGrid);
-		}
-		/**/
+	}
+	
+	public void initialize(Puzzle puzzle, CellGrid overloadCellGrid) {
+		this.grid.copyValues(overloadCellGrid);
+		this.currentPuzzle = puzzle;
 	}
 
 	public Puzzle getCurrentPuzzle() {
@@ -126,13 +127,13 @@ public class Board implements Serializable {
 	public Set<Cell> getCellsViolatingConstraints() {
 		// Check each constraint for duplicates
 		Set<Cell> duplicateCells = new HashSet<Cell>();
-		for (Row row : m_rows)
+		for (Row row : this.rows)
 			duplicateCells.addAll(getCellsViolatingConstraint(row));
 
-		for (Column column : m_columns)
+		for (Column column : this.columns)
 			duplicateCells.addAll(getCellsViolatingConstraint(column));
 
-		for (Block block : m_blocks)
+		for (Block block : this.blocks)
 			duplicateCells.addAll(getCellsViolatingConstraint(block));
 
 		return duplicateCells;

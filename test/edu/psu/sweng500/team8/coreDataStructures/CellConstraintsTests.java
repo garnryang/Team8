@@ -1,5 +1,9 @@
 package edu.psu.sweng500.team8.coreDataStructures;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Iterator;
 import java.util.Set;
 
 import org.junit.Test;
@@ -78,4 +82,37 @@ public class CellConstraintsTests {
 			org.junit.Assert.fail("9 must be available");
 		}
 	}	
+	
+	@Test
+	public void iteratorReturnsRowColumnAndBlock() {
+		Board testBoard = new Board();
+		
+		for (int rowIndex = 0; rowIndex < 9; rowIndex++) {
+			for (int columnIndex = 0; columnIndex < 9; columnIndex++) {
+				Cell currentCell = testBoard.getCell(rowIndex, columnIndex);
+				CellConstraints constraints = testBoard.getCellConstraints(currentCell);
+				
+				boolean foundRow = false;
+				boolean foundColumn = false;
+				boolean foundBlock = false;
+				int constraintCount = 0;
+				Iterator<Constraint> iterator = constraints.getIterator();
+				while (iterator.hasNext()) {
+					constraintCount++;
+					Constraint currentConstraint = iterator.next();
+					if (currentConstraint == constraints.getRow())
+						foundRow = true;
+					else if (currentConstraint == constraints.getColumn())
+						foundColumn = true;
+					else if (currentConstraint == constraints.getBlock())
+						foundBlock = true;
+				}
+				
+				assertEquals(3, constraintCount);
+				assertTrue(foundRow);
+				assertTrue(foundColumn);
+				assertTrue(foundBlock);
+			}
+		}	
+	}
 }

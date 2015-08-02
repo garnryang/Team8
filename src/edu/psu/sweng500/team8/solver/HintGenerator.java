@@ -1,5 +1,7 @@
 package edu.psu.sweng500.team8.solver;
 
+import java.util.Set;
+
 import edu.psu.sweng500.team8.coreDataStructures.Board;
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
 
@@ -9,11 +11,23 @@ public final class HintGenerator {
 	} 
 
 	public static HintInfo getHint(Board board) {
-		HintInfo hint = tryToFillACellWithOnlyOneAvailableNumber(board);
+		HintInfo hint = checkForErrors(board);
+		if (hint == null)
+			hint = tryToFillACellWithOnlyOneAvailableNumber(board);
 		if (hint == null)
 			hint = tryToFillACellWithOnlyOneValidLocationForTheNumber(board);
 		
 		return hint;
+	}
+	
+	private static HintInfo checkForErrors(Board board) {
+		Set<Cell> incorrectCells = board.getIncorrectCells();
+		if (incorrectCells.size() > 0) {
+			Cell anIncorrectCell = incorrectCells.toArray(new Cell[0])[0];
+			return new HintInfo(anIncorrectCell, 0, "The value in this cell is incorrect. Fix it before continuing.");
+		}
+		
+		return null;
 	}
 
 	private static HintInfo tryToFillACellWithOnlyOneAvailableNumber(Board board) {
