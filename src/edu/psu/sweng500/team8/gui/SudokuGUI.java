@@ -109,6 +109,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	@Override
 	public void pencilMarksChanged(Cell cell, Set<Integer> newPencilMarks) {
 		this.gameBoard.refreshPencilMarkDisplayOnRelatedCells(cell);
+		updateUndoRedoButtonStates();
 	}
 
 	private boolean gameIsComplete() {
@@ -517,6 +518,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		this.gameBoard.populatePanel(this.gameSession, true,
 				this.gameSession.isPencilMarkMode(), this.numberInputPad);
 
+		this.numberInputPad.updateForFocusedCell(this.gameBoard.getSelectedCell());
 		updateUndoRedoButtonStates();
 	}
 
@@ -526,6 +528,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		this.gameBoard.populatePanel(this.gameSession, true,
 				this.gameSession.isPencilMarkMode(), this.numberInputPad);
 
+		this.numberInputPad.updateForFocusedCell(this.gameBoard.getSelectedCell());
 		updateUndoRedoButtonStates();
 	}
 

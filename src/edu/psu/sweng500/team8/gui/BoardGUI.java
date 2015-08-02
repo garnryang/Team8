@@ -98,10 +98,15 @@ public class BoardGUI extends JPanel {
 		}
 
 		this.selectedCell = this.blocks[cellCoordinates.getBlockIndex() / 3][cellCoordinates
-				.getBlockIndex() % 3].getSelectedCell(cellCoordinates);
+				.getBlockIndex() % 3].getCell(cellCoordinates);
 		this.selectedCell.updateSelectedCellFromHint(number);
 	}
+	
+	public Cell getSelectedCell() {
+		return this.selectedCell.getCell();
+	}
 
+	//TODO: Merge this handling with mouse clicked task -- they do the same thing
 	private void cellGainedFocus(FocusEvent focusEvent) {
 		CellGUI newSelectedCell = (CellGUI) ((JTextField) focusEvent
 				.getSource()).getParent().getParent();
@@ -189,7 +194,7 @@ public class BoardGUI extends JPanel {
 	public CellGUI findCorresdpondingCellGUI(Cell cell) {
 		CellCoordinates coordinates = cell.getCoordinates();
 		return this.blocks[coordinates.getBlockIndex() / 3][coordinates
-				.getBlockIndex() % 3].getSelectedCell(coordinates);
+				.getBlockIndex() % 3].getCell(coordinates);
 
 	}
 
