@@ -147,6 +147,7 @@ public class GameSession implements Serializable {
 	}
 
 	/**
+	 * @deprecated
 	 * saveFile can be name on a designated file or file's path/name
 	 * 
 	 * @param saveFile
@@ -157,6 +158,7 @@ public class GameSession implements Serializable {
 	}
 
 	/**
+	 * @deprecated
 	 * saveFile can be name on a designated file or file's path/name
 	 * 
 	 * @param saveFile
