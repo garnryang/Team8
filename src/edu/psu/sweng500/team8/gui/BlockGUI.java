@@ -23,7 +23,8 @@ public class BlockGUI extends JPanel {
 	private CellGUI[][] cells;
 
 	public BlockGUI() {
-
+		setOpaque(false); //? 
+		
 		this.cells = new CellGUI[3][3];
 		this.setPreferredSize(new java.awt.Dimension(BLOCK_SIZE, BLOCK_SIZE));
 		this.setMaximumSize(new java.awt.Dimension(BLOCK_SIZE, BLOCK_SIZE));

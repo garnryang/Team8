@@ -61,7 +61,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 			e.printStackTrace();
 		}
 		initComponents();
-		
+
 		this.numberInputPad.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent mouseEvent) {
@@ -105,7 +105,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 			updateUndoRedoButtonStates();
 		}
 	}
-	
+
 	@Override
 	public void pencilMarksChanged(Cell cell, Set<Integer> newPencilMarks) {
 		this.gameBoard.refreshPencilMarkDisplayOnRelatedCells(cell);
@@ -508,7 +508,8 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		this.gameBoard.populatePanel(this.gameSession, true,
 				this.gameSession.isPencilMarkMode(), this.numberInputPad);
 
-		this.numberInputPad.updateForFocusedCell(this.gameBoard.getSelectedCell());
+		this.numberInputPad.updateForFocusedCell(this.gameBoard
+				.getSelectedCell());
 		updateUndoRedoButtonStates();
 	}
 
@@ -518,7 +519,8 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		this.gameBoard.populatePanel(this.gameSession, true,
 				this.gameSession.isPencilMarkMode(), this.numberInputPad);
 
-		this.numberInputPad.updateForFocusedCell(this.gameBoard.getSelectedCell());
+		this.numberInputPad.updateForFocusedCell(this.gameBoard
+				.getSelectedCell());
 		updateUndoRedoButtonStates();
 	}
 
@@ -693,7 +695,8 @@ public class SudokuGUI extends javax.swing.JFrame implements
 
 	private void loadSession(Puzzle puzzle, CellGrid overloadedCellGrid) {
 
-		this.gameSession = (overloadedCellGrid == null) ? new GameSession(puzzle) : new GameSession(puzzle, overloadedCellGrid);
+		this.gameSession = (overloadedCellGrid == null) ? new GameSession(
+				puzzle) : new GameSession(puzzle, overloadedCellGrid);
 
 		this.gameSession.subscribeForCellChanges(this);
 		this.numberInputPad.init(this.gameSession);
@@ -819,7 +822,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	private JToggleButton pencilMarkButton;
 	private NumberButtonGUI numberInputPad;
 	private JButton btnExit;
-	
+
 	/**
 	 * for testing
 	 * @return
