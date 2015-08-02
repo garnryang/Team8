@@ -81,7 +81,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 
 		@Override
 		public void pencilMarksChanged(Cell cell, Set<Integer> newPencilMarks) {
-			// TODO Auto-generated method stub
+			gameChanged = true;
 			
 		}
 	}
