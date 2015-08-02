@@ -19,6 +19,7 @@ import org.junit.Test;
 
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
+import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
 
 /**
@@ -324,11 +325,13 @@ public class SudokuGUITest {
 
 		Assert.assertEquals(sudokuGUI.isGameChanged(), false);
 		
+		CellGrid cg = sudokuGUI.getGameSession().getGameBoard().getCellGrid();
+		
 		/* Find Empty Cell */
 		Cell emptyCell = null;
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
-				Cell currentCell = sudokuGUI.getGameSession().getGameBoard().getCellGrid().getCell(i, j);
+				Cell currentCell = cg.getCell(i, j);
 				if (!currentCell.hasNumber()) {
 					emptyCell = currentCell;
 					break;
@@ -372,12 +375,14 @@ public class SudokuGUITest {
 		newGameButton.doClick();
 		
 		BoardGUI boardGUI = (BoardGUI)mainJPanel.getComponents()[0];
-				
+
+		CellGrid cg = sudokuGUI.getGameSession().getGameBoard().getCellGrid();
+		
 		/* Find Empty Cell */
 		Cell emptyCell = null;
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
-				Cell currentCell = sudokuGUI.getGameSession().getGameBoard().getCellGrid().getCell(i, j);
+				Cell currentCell = cg.getCell(i, j);
 				if (!currentCell.hasNumber()) {
 					emptyCell = currentCell;
 					break;

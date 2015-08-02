@@ -23,8 +23,6 @@ import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.filechooser.FileFilter;
-
-//import dlx.SudokuGUI_Mark2.GameChangedListener;
 import edu.psu.sweng500.team8.coreDataStructures.Board;
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
@@ -54,7 +52,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 
 	private boolean gameChanged = false;
 	public boolean isGameChanged() {
-		return gameChanged;
+		return this.gameChanged;
 	}
 
 	public void setGameChanged(boolean gameChanged) {
@@ -270,30 +268,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		btnExit = new JButton("Exit");
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(gameChanged){
-					int result = JOptionPane.showConfirmDialog(null,  
-							"Save the current game before exiting?", "Save Game",
-							JOptionPane.YES_NO_CANCEL_OPTION);
-
-					switch (result) {
-					case JOptionPane.YES_OPTION:						
-						try {
-							btnSaveActionPerformed();
-						} catch (FileNotFoundException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					case JOptionPane.NO_OPTION:
-						System.exit(0);
-					case JOptionPane.CLOSED_OPTION:
-						return;
-					case JOptionPane.CANCEL_OPTION:						
-						return;
-					}
-				}
-				else{				
-					System.exit(0);
-				}
+				exitConfirm();
 			}
 		});
 
@@ -519,6 +494,33 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
+	private void exitConfirm(){
+		if(gameChanged){
+			int result = JOptionPane.showConfirmDialog(null,  
+					"Save the current game before exiting?", "Save Game",
+					JOptionPane.YES_NO_CANCEL_OPTION);
+
+			switch (result) {
+			case JOptionPane.YES_OPTION:						
+				try {
+					btnSaveActionPerformed();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			case JOptionPane.NO_OPTION:
+				System.exit(0);
+			case JOptionPane.CLOSED_OPTION:
+				return;
+			case JOptionPane.CANCEL_OPTION:						
+				return;
+			}
+		}
+		else{				
+			System.exit(0);
+		}
+	}
+	
 	private void btnHintActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnHintActionPerformed
 		// Get a hint
 		if (this.gameSession == null) {
@@ -653,7 +655,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	 * SAVE Action
 	 * 
 	 * @param evt
-	 * @throws NotFoundException
+	 * @throws FileNotFoundException
 	 */
 	private void btnSaveActionPerformed()
 			throws FileNotFoundException {
