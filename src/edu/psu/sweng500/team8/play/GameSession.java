@@ -146,27 +146,6 @@ public class GameSession implements Serializable {
 		return null;
 	}
 
-	/**
-	 * @deprecated
-	 * saveFile can be name on a designated file or file's path/name
-	 * 
-	 * @param saveFile
-	 */
-	public void doSave(String saveFile) {
-
-		/* TODO implement */
-	}
-
-	/**
-	 * @deprecated
-	 * saveFile can be name on a designated file or file's path/name
-	 * 
-	 * @param saveFile
-	 */
-	public void doLoad(String saveFile) {
-		/* TODO implement */
-	}
-
 	public void doRedo() {
 		actionManager.doRedo(board.getCellGrid());
 	}
