@@ -3,7 +3,6 @@ package edu.psu.sweng500.team8.gui;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.FocusAdapter;
 import java.awt.event.MouseAdapter;
 
 import javax.swing.BorderFactory;
@@ -14,6 +13,7 @@ import edu.psu.sweng500.team8.coreDataStructures.Block;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 import edu.psu.sweng500.team8.play.GameSession;
 
+
 public class BlockGUI extends JPanel {
 	private static final long serialVersionUID = 1L; //Not really necessary since we're not serializing the UI, but just to keep Java happy...
 	private static final int BLOCK_SIZE = 162 + 2;
@@ -21,16 +21,19 @@ public class BlockGUI extends JPanel {
 			.createLineBorder(Color.BLACK, 2);
 
 	private CellGUI[][] cells;
+	
 
 	public BlockGUI() {
-		setOpaque(false); //? 
+		setOpaque(false);
 		
-		this.cells = new CellGUI[3][3];
+				this.cells = new CellGUI[3][3];
 		this.setPreferredSize(new java.awt.Dimension(BLOCK_SIZE, BLOCK_SIZE));
 		this.setMaximumSize(new java.awt.Dimension(BLOCK_SIZE, BLOCK_SIZE));
 		this.setMinimumSize(new java.awt.Dimension(BLOCK_SIZE, BLOCK_SIZE));
 		this.setLayout(new GridBagLayout());
 		this.setBorder(DEFAULT_BORDER);
+		
+		
 
 		GridBagConstraints gridBagConstraints;
 
@@ -46,6 +49,13 @@ public class BlockGUI extends JPanel {
 		}
 	}
 
+	public void addMouseListener(MouseAdapter mouseAdapter) {
+		for (int cellIndex = 0; cellIndex < 9; cellIndex++) {
+			int rowIndex = cellIndex / 3;
+			int columnIndex = cellIndex % 3;
+			this.cells[rowIndex][columnIndex].addMouseListener(mouseAdapter);
+		}
+	}
 	/**
 	 * 
 	 * iterate through each contained CellGUI and populate Given/User-defined
@@ -59,15 +69,15 @@ public class BlockGUI extends JPanel {
 	 * 
 	 */
 	public void populate(Block block, GameSession gameSession,
-			boolean isRefresh, FocusAdapter focusAdapter,
-			MouseAdapter mouseAdapter, boolean isPencilMarkMode) {
+			boolean isRefresh, boolean isPencilMarkMode) {
+		
 
 		for (int cellIndex = 0; cellIndex < 9; cellIndex++) {
 			int rowIndex = cellIndex / 3;
 			int columnIndex = cellIndex % 3;
+			//this.cells[rowIndex][columnIndex].addMouseListener(mouseAdapter);
 			this.cells[rowIndex][columnIndex].populate(
-					block.getCell(cellIndex), gameSession, isRefresh,
-					focusAdapter, mouseAdapter, isPencilMarkMode);
+					block.getCell(cellIndex), gameSession, isRefresh, isPencilMarkMode);
 		}
 	}
 

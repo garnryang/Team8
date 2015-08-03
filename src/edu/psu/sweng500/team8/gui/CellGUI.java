@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.FocusAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -25,8 +24,10 @@ import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
 import edu.psu.sweng500.team8.play.GameSession;
 
 public class CellGUI extends JPanel {
+
 	private static final long serialVersionUID = 1L; //Not really necessary since we're not serializing the UI, but just to keep Java happy...
 	
+
 	private static final int NUMBER_SIZE = 16;
 	private static final int CELL_SIZE = 54;
 	private static final Border SELECTED_BORDER = BorderFactory
@@ -62,10 +63,19 @@ public class CellGUI extends JPanel {
 		this.initPencilMarkDisplayCell();
 		this.initNumberInputCell();
 	}
+	
+	public void addMouseListener(MouseAdapter mouseAdapter) {
+		this.numberInputField.addMouseListener(mouseAdapter);
+		
+		for (int rowIndex = 0; rowIndex < 3; rowIndex++) {
+			for (int columnIndex = 0; columnIndex < 3; columnIndex++) {
+				this.pencilMarkDisplay[rowIndex][columnIndex]
+						.addMouseListener(mouseAdapter);		
+			}
+		}
+	}
 
-	public void populate(Cell cell, GameSession gameSession, boolean isRefresh,
-			FocusAdapter focusAdapter, MouseAdapter mouseAdapter,
-			boolean isPencilMarkMode) {
+	public void populate(Cell cell, GameSession gameSession, boolean isRefresh, boolean isPencilMarkMode) {
 
 		this.gameSession = gameSession;
 		this.cell = cell;
@@ -76,15 +86,7 @@ public class CellGUI extends JPanel {
 
 		if (!isRefresh) {
 			this.numberInputField.getHighlighter().removeAllHighlights();
-			this.numberInputField.addFocusListener(focusAdapter);
 			this.numberInputField.setBorder(DEFAULT_BORDER);
-
-			for (int rowIndex = 0; rowIndex < 3; rowIndex++) {
-				for (int columnIndex = 0; columnIndex < 3; columnIndex++) {
-					this.pencilMarkDisplay[rowIndex][columnIndex]
-							.addMouseListener(mouseAdapter);		
-				}
-			}
 		}
 
 		if (cell.hasNumber()) {
@@ -99,11 +101,7 @@ public class CellGUI extends JPanel {
 				}
 			}
 
-			if (isPencilMarkMode) {
-				this.numberInputField.setFocusable(false);
-			} else if (cell.getType() != ValueType.Given) {
-				this.numberInputField.setFocusable(true);
-			}
+			this.numberInputField.setFocusable(!isPencilMarkMode);
 
 		} else {
 
@@ -282,6 +280,7 @@ public class CellGUI extends JPanel {
 
 		this.numberInputField.setBorder(DEFAULT_BORDER);
 		this.pencilMarkDisplayCell.setBorder(DEFAULT_BORDER);
+
 	}
 
 	/**
@@ -365,6 +364,7 @@ public class CellGUI extends JPanel {
 	public JTextField getNumberInputField() {
 		return this.numberInputField;
 	}
+
 	
 	/**
 	 * public for testing
@@ -374,3 +374,4 @@ public class CellGUI extends JPanel {
 		return this.pencilMarkDisplayCell;
 	}
 }
+
