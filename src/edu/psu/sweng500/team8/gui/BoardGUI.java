@@ -2,11 +2,7 @@ package edu.psu.sweng500.team8.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
-import java.awt.Image;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
@@ -16,7 +12,6 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -38,10 +33,6 @@ public class BoardGUI extends JPanel {
 	private Set<CellGUI> highlightedIncorrectCells = new HashSet<CellGUI>();
 	private NumberButtonGUI numberInputPad;
 
-	private MouseAdapter numberPadHandler;
-	private FocusAdapter focusHandler;
-
-
 	public BoardGUI() {
 
 		this.setPreferredSize(new Dimension(BOARD_SIZE, BOARD_SIZE));
@@ -49,18 +40,9 @@ public class BoardGUI extends JPanel {
 		this.setMinimumSize(new Dimension(BOARD_SIZE, BOARD_SIZE));
 		this.setBorder(DEFAULT_BORDER);
 				
-				this.blocks = new BlockGUI[3][3];
-
-
 		this.blocks = new BlockGUI[3][3];
 
-
-		this.focusHandler = new FocusAdapter() {
-			public void focusGained(FocusEvent focusEvent) {
-				cellGainedFocus(focusEvent);
-			}
-		};
-		this.numberPadHandler = new MouseAdapter() {
+		MouseAdapter mouseAdapter = new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent mouseEvent) {
 				mouseClickedTask(mouseEvent);
@@ -77,6 +59,7 @@ public class BoardGUI extends JPanel {
 				gridBagConstraints.gridx = columnIndex;
 				gridBagConstraints.gridy = rowIndex;
 				gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+				this.blocks[rowIndex][columnIndex].addMouseListener(mouseAdapter);
 				add(this.blocks[rowIndex][columnIndex], gridBagConstraints);
 			}
 		}
@@ -94,8 +77,7 @@ public class BoardGUI extends JPanel {
 
 			this.blocks[rowIndex][columnIndex].populate(gameSession
 					.getGameBoard().getBlock(blockIndex), gameSession,
-					isRefresh, this.focusHandler, this.numberPadHandler,
-					isPencilMarkMode);
+					isRefresh, isPencilMarkMode);
 		}
 	}
 
@@ -116,23 +98,6 @@ public class BoardGUI extends JPanel {
 		return this.selectedCell.getCell();
 	}
 
-	//TODO: Merge this handling with mouse clicked task -- they do the same thing
-	private void cellGainedFocus(FocusEvent focusEvent) {
-		CellGUI newSelectedCell = (CellGUI) ((JTextField) focusEvent
-				.getSource()).getParent().getParent();
-
-		if (null != this.selectedCell) {
-			/* existing selection, clear it */
-			this.selectedCell.unselect();
-		}
-
-		this.selectedCell = newSelectedCell;
-		this.selectedCell.selectCell();
-
-		this.numberInputPad.updateForFocusedCell(this.selectedCell.getCell());
-
-	}
-
 	public void mouseClickedTaskForNumberInput(MouseEvent mouseEvent) {
 
 		/* a cell must be selected/focused before mouse number input can work */
@@ -151,9 +116,15 @@ public class BoardGUI extends JPanel {
 			this.selectedCell.unselect();
 		}
 
-		CellGUI currentPencilMarkDisplayCell = (CellGUI) ((JPanel) (((JLabel) (mouseEvent
-				.getSource())).getParent())).getParent();
-		this.selectedCell = currentPencilMarkDisplayCell;
+		CellGUI selectedCellGUI = null;
+		if (mouseEvent.getSource() instanceof JLabel)
+			selectedCellGUI = (CellGUI) ((JPanel) (((JLabel) (mouseEvent.getSource())).getParent())).getParent();
+		else if (mouseEvent.getSource() instanceof JTextField)
+			selectedCellGUI = (CellGUI) ((JTextField) mouseEvent.getSource()).getParent().getParent();
+		else
+			return;
+		
+		this.selectedCell = selectedCellGUI;
 
 		this.selectedCell.selectCell();
 

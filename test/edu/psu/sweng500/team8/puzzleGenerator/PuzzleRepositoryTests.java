@@ -26,7 +26,7 @@ public class PuzzleRepositoryTests {
 		File file = new File("writePuzzlesToFileCreatesNewFile.test");
 		assertTrue(file.exists());
 		
-		//Delete the file
+		// Delete the file
 		try {
 			Files.delete(file.toPath());
 		} catch (IOException e) {

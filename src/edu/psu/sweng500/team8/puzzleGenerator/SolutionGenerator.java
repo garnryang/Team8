@@ -6,9 +6,9 @@ import java.util.Set;
 
 import edu.psu.sweng500.team8.coreDataStructures.Board;
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
+import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
 import edu.psu.sweng500.team8.coreDataStructures.CellConstraints;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
-import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
 
 public class SolutionGenerator {
 	public static CellGrid generateSolution() {
