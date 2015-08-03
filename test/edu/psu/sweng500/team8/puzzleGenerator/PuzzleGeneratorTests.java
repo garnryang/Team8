@@ -21,7 +21,6 @@ import edu.psu.sweng500.team8.solver.SolverFactory;
 
 public class PuzzleGeneratorTests {
 
-
 	@Test //For UC1 Step2
 	public void testsGeneratedPuzzleForAtLeast18EmptyCells(){
 		CellGrid puzzleGrid = PuzzleGenerator.makePuzzle(DifficultyLevel.Hard).getCopyOfCellGrid();
@@ -42,11 +41,9 @@ public class PuzzleGeneratorTests {
 		Puzzle puzzle = PuzzleGenerator.makePuzzle(DifficultyLevel.Easy);
 		
 		Board puzzleBoard = new Board();
-
 		puzzleBoard.initialize(puzzle);
 		Solver solver = SolverFactory.getSolverThatTriesConstraintsFirst();
 		assertNotNull(solver.findUniqueSolutionOrNull(puzzleBoard));
-
 	}
 	
 	@Test
