@@ -772,7 +772,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 
 	private void btnNewGameActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnNewGameActionPerformed
 		this.setMessage("");
-
+		this.gameChanged = false;
 		DifficultyLevel difficulty = null;
 
 		if (radEasy.isSelected()) {
