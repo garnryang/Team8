@@ -1,5 +1,6 @@
 package edu.psu.sweng500.team8.gui;
 
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,7 +37,9 @@ import edu.psu.sweng500.team8.play.GameSession;
 import edu.psu.sweng500.team8.puzzleGenerator.PuzzleRepository;
 import edu.psu.sweng500.team8.solver.HintGenerator;
 import edu.psu.sweng500.team8.solver.HintInfo;
+
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 
 
@@ -748,7 +751,14 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	}// GEN-LAST:event_jButton14ActionPerformed
 
 	private void openHelp() {
-		// TODO Auto-generated method stub
+		try
+		{
+		        Desktop.getDesktop().open(new File("index.html"));
+		}
+		catch (IOException ex) 
+		{
+		}
+
 
 	}
 
