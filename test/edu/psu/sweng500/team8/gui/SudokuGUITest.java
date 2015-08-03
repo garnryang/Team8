@@ -681,10 +681,7 @@ public class SudokuGUITest {
 	}
 
 	@Test
-	public void testSudokuGUI_GameChangedStatus_pencilMark()
-	{
-		SudokuGUI sudokuGUI = new SudokuGUI();
-		JPanel mainJPanel = ((JPanel)((JLayeredPane)((JRootPane) sudokuGUI.getComponents()[0]).getComponents()[1]).getComponents()[0]);
+	public void testSudokuGUI_GameChangedStatus_pencilMark() {
 		
 		JButton newGameButton = (JButton)mainJPanel.getComponents()[18];
 		newGameButton.doClick();
