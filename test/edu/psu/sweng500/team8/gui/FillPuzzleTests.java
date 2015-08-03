@@ -1,7 +1,5 @@
 package edu.psu.sweng500.team8.gui;
 
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -15,9 +13,6 @@ import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
-import edu.psu.sweng500.team8.gui.BoardGUI;
-import edu.psu.sweng500.team8.gui.CellGUI;
-import edu.psu.sweng500.team8.gui.NumberButtonGUI;
 import edu.psu.sweng500.team8.play.GameSession;
 import edu.psu.sweng500.team8.puzzleGenerator.PuzzleRepository;
 
@@ -72,17 +67,16 @@ public class FillPuzzleTests {
 
 		CellGUI cellGUI = gridPanel.findCorresdpondingCellGUI(new Cell(row,
 				column));
-		FocusEvent focusEvent = new FocusEvent(cellGUI.getNumberInputField(),
-				FocusEvent.FOCUS_GAINED);
-		FocusListener[] focusListeners = cellGUI.getNumberInputField()
-				.getFocusListeners();
-		focusListeners[2].focusGained(focusEvent); // manually found out
+		MouseEvent mouseEvent = new MouseEvent(cellGUI.getNumberInputField(),
+				MouseEvent.MOUSE_RELEASED, 0l, 0, 0, 0, 1, false);
+		MouseListener[] mouseListeners = cellGUI.getNumberInputField().getMouseListeners();
+		mouseListeners[3].mouseReleased(mouseEvent);
 
 		JToggleButton numberNineButton = (JToggleButton) numberButtonGUI
 				.getComponent(8);
-		MouseEvent mouseEvent = new MouseEvent(numberNineButton,
+		mouseEvent = new MouseEvent(numberNineButton,
 				MouseEvent.MOUSE_RELEASED, 0l, 0, 0, 0, 1, false);
-		MouseListener[] mouseListeners = numberNineButton.getMouseListeners();
+		mouseListeners = numberNineButton.getMouseListeners();
 		numberNineButton.setSelected(true);
 		mouseListeners[1].mouseReleased(mouseEvent);
 
@@ -142,17 +136,15 @@ public class FillPuzzleTests {
 
 		CellGUI cellGUI = gridPanel.findCorresdpondingCellGUI(new Cell(row,
 				column));
-		FocusEvent focusEvent = new FocusEvent(cellGUI.getNumberInputField(),
-				FocusEvent.FOCUS_GAINED);
-		FocusListener[] focusListeners = cellGUI.getNumberInputField()
-				.getFocusListeners();
-		focusListeners[2].focusGained(focusEvent); // manually found out
-
-		JToggleButton numberNineButton = (JToggleButton) numberButtonGUI
-				.getComponent(8);
-		MouseEvent mouseEvent = new MouseEvent(numberNineButton,
+		MouseEvent mouseEvent = new MouseEvent(cellGUI.getNumberInputField(),
 				MouseEvent.MOUSE_RELEASED, 0l, 0, 0, 0, 1, false);
-		MouseListener[] mouseListeners = numberNineButton.getMouseListeners();
+		MouseListener[] mouseListeners = cellGUI.getNumberInputField().getMouseListeners();
+		mouseListeners[3].mouseReleased(mouseEvent);
+		
+		JToggleButton numberNineButton = (JToggleButton) numberButtonGUI.getComponent(8);
+		mouseEvent = new MouseEvent(numberNineButton,
+				MouseEvent.MOUSE_RELEASED, 0l, 0, 0, 0, 1, false);
+		mouseListeners = numberNineButton.getMouseListeners();
 		numberNineButton.setSelected(true);
 		mouseListeners[1].mouseReleased(mouseEvent);
 
@@ -240,17 +232,16 @@ public class FillPuzzleTests {
 
 		CellGUI cellGUI = gridPanel.findCorresdpondingCellGUI(new Cell(row,
 				column));
-		FocusEvent focusEvent = new FocusEvent(cellGUI.getNumberInputField(),
-				FocusEvent.FOCUS_GAINED);
-		FocusListener[] focusListeners = cellGUI.getNumberInputField()
-				.getFocusListeners();
-		focusListeners[2].focusGained(focusEvent); // manually found out
+		MouseEvent mouseEvent = new MouseEvent(cellGUI.getNumberInputField(),
+				MouseEvent.MOUSE_RELEASED, 0l, 0, 0, 0, 1, false);
+		MouseListener[] mouseListeners = cellGUI.getNumberInputField().getMouseListeners();
+		mouseListeners[3].mouseReleased(mouseEvent);
 
 		JToggleButton numberNineButton = (JToggleButton) numberButtonGUI
 				.getComponent(8);
-		MouseEvent mouseEvent = new MouseEvent(numberNineButton,
+		mouseEvent = new MouseEvent(numberNineButton,
 				MouseEvent.MOUSE_RELEASED, 0l, 0, 0, 0, 1, false);
-		MouseListener[] mouseListeners = numberNineButton.getMouseListeners();
+		mouseListeners = numberNineButton.getMouseListeners();
 		numberNineButton.setSelected(true);
 		mouseListeners[1].mouseReleased(mouseEvent);
 

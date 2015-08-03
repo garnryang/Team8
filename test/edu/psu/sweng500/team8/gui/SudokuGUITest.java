@@ -1,8 +1,6 @@
 package edu.psu.sweng500.team8.gui;
 
 import java.awt.Component;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -54,10 +52,27 @@ public class SudokuGUITest {
 		mainJPanel = ((JPanel) ((JLayeredPane) ((JRootPane) sudokuGUI
 				.getComponents()[0]).getComponents()[1]).getComponents()[0]);
 		
-		if (null != sudokuGUI.getGameSession() && sudokuGUI.getGameSession().isPencilMarkMode()) {
-			JToggleButton pencilMarkModeButton = (JToggleButton) mainJPanel
-					.getComponents()[16];
-			pencilMarkModeButton.doClick();
+		JToggleButton pencilMarkModeButton = (JToggleButton) mainJPanel
+				.getComponents()[16];
+		pencilMarkModeButton.setSelected(false);
+		
+		NumberButtonGUI numberButtonGUI = (NumberButtonGUI) mainJPanel
+				.getComponents()[7];
+		
+		for (int i = 0; i < 9; i++) {
+			JToggleButton numberInputButton = (JToggleButton) numberButtonGUI
+					.getComponent(i);
+			numberInputButton.setSelected(false);
+		}
+		
+		if (null != sudokuGUI.getGameSession()) {
+			if (sudokuGUI.getGameSession().isPencilMarkMode()) {
+				sudokuGUI.getGameSession().setPencilMarkMode(false);
+			}
+			
+			if (sudokuGUI.isGameChanged()) {
+				sudokuGUI.setGameChanged(false);
+			} 
 		}
 	}
 	
@@ -203,11 +218,10 @@ public class SudokuGUITest {
 
 		/* Empty CellGUI is focused */
 		CellGUI selectedCellGUI = boardGUI.findCorresdpondingCellGUI(emptyCell);
-		FocusEvent focusEvent = new FocusEvent(
-				selectedCellGUI.getNumberInputField(), FocusEvent.FOCUS_GAINED);
-		FocusListener[] focusListeners = selectedCellGUI.getNumberInputField()
-				.getFocusListeners();
-		focusListeners[2].focusGained(focusEvent);
+		MouseEvent mouseEventNormal = new MouseEvent(selectedCellGUI.getNumberInputField(),
+				MouseEvent.MOUSE_RELEASED, 0l, 0, 0, 0, 1, false);
+		MouseListener[] mouseListenersNormal = selectedCellGUI.getNumberInputField().getMouseListeners();
+		mouseListenersNormal[3].mouseReleased(mouseEventNormal);
 
 		/* Number Button for 8 is clicked */
 		NumberButtonGUI numberButtonGUI = (NumberButtonGUI) mainJPanel
@@ -299,11 +313,10 @@ public class SudokuGUITest {
 
 		/* Empty CellGUI is focused */
 		CellGUI selectedCellGUI = boardGUI.findCorresdpondingCellGUI(emptyCell);
-		FocusEvent focusEvent = new FocusEvent(
-				selectedCellGUI.getNumberInputField(), FocusEvent.FOCUS_GAINED);
-		FocusListener[] focusListeners = selectedCellGUI.getNumberInputField()
-				.getFocusListeners();
-		focusListeners[2].focusGained(focusEvent);
+		MouseEvent mouseEventNormal = new MouseEvent(selectedCellGUI.getNumberInputField(),
+				MouseEvent.MOUSE_RELEASED, 0l, 0, 0, 0, 1, false);
+		MouseListener[] mouseListenersNormal = selectedCellGUI.getNumberInputField().getMouseListeners();
+		mouseListenersNormal[3].mouseReleased(mouseEventNormal);
 
 		/* Number Button for 8 is clicked */
 		NumberButtonGUI numberButtonGUI = (NumberButtonGUI) mainJPanel
@@ -447,11 +460,10 @@ public class SudokuGUITest {
 
 		/* Empty CellGUI is focused */
 		CellGUI selectedCellGUI = boardGUI.findCorresdpondingCellGUI(emptyCell);
-		FocusEvent focusEvent = new FocusEvent(
-				selectedCellGUI.getNumberInputField(), FocusEvent.FOCUS_GAINED);
-		FocusListener[] focusListeners = selectedCellGUI.getNumberInputField()
-				.getFocusListeners();
-		focusListeners[2].focusGained(focusEvent);
+		MouseEvent mouseEventNormal = new MouseEvent(selectedCellGUI.getNumberInputField(),
+				MouseEvent.MOUSE_RELEASED, 0l, 0, 0, 0, 1, false);
+		MouseListener[] mouseListenersNormal = selectedCellGUI.getNumberInputField().getMouseListeners();
+		mouseListenersNormal[3].mouseReleased(mouseEventNormal);
 
 		/* Number Button for 8 is clicked */
 		NumberButtonGUI numberButtonGUI = (NumberButtonGUI) mainJPanel
@@ -542,11 +554,10 @@ public class SudokuGUITest {
 
 		/* Empty CellGUI is focused */
 		CellGUI selectedCellGUI = boardGUI.findCorresdpondingCellGUI(emptyCell);
-		FocusEvent focusEvent = new FocusEvent(
-				selectedCellGUI.getNumberInputField(), FocusEvent.FOCUS_GAINED);
-		FocusListener[] focusListeners = selectedCellGUI.getNumberInputField()
-				.getFocusListeners();
-		focusListeners[2].focusGained(focusEvent);
+		MouseEvent mouseEventNormal = new MouseEvent(selectedCellGUI.getNumberInputField(),
+				MouseEvent.MOUSE_RELEASED, 0l, 0, 0, 0, 1, false);
+		MouseListener[] mouseListenersNormal = selectedCellGUI.getNumberInputField().getMouseListeners();
+		mouseListenersNormal[3].mouseReleased(mouseEventNormal);
 
 		/* Number Button for 8 is clicked */
 		NumberButtonGUI numberButtonGUI = (NumberButtonGUI) mainJPanel
@@ -581,10 +592,10 @@ public class SudokuGUITest {
 		
 		/* New Empty CellGUI is focused */
 		CellGUI newEmptyCellGUI = boardGUI.findCorresdpondingCellGUI(emptyCell);
-		focusEvent = new FocusEvent(newEmptyCellGUI.getNumberInputField(), FocusEvent.FOCUS_GAINED);
-		focusListeners = newEmptyCellGUI.getNumberInputField()
-				.getFocusListeners();
-		focusListeners[2].focusGained(focusEvent);
+		mouseEventNormal = new MouseEvent(newEmptyCellGUI.getNumberInputField(),
+				MouseEvent.MOUSE_RELEASED, 0l, 0, 0, 0, 1, false);
+		mouseListenersNormal = newEmptyCellGUI.getNumberInputField().getMouseListeners();
+		mouseListenersNormal[3].mouseReleased(mouseEventNormal);
 		
 		
 		/* Re-foucs the CellGUI with PencilMarks */
@@ -628,16 +639,16 @@ public class SudokuGUITest {
 	}
 	
 	@Test
-	public void testSudokuGUI_GameChangedStatus()
-	{
-		SudokuGUI sudokuGUI = new SudokuGUI();
-		JPanel mainJPanel = ((JPanel)((JLayeredPane)((JRootPane) sudokuGUI.getComponents()[0]).getComponents()[1]).getComponents()[0]);
+	public void testSudokuGUI_GameChangedStatus() {
 		
 		JButton newGameButton = (JButton)mainJPanel.getComponents()[18];
 		newGameButton.doClick();
 		
 		BoardGUI boardGUI = (BoardGUI)mainJPanel.getComponents()[0];
 
+		System.out.println("CHANGE?");
+		System.out.println(sudokuGUI.isGameChanged());
+		
 		Assert.assertEquals(sudokuGUI.isGameChanged(), false);
 		
 		CellGrid cg = sudokuGUI.getGameSession().getGameBoard().getCellGrid();
@@ -660,11 +671,10 @@ public class SudokuGUITest {
 		
 		/* Empty CellGUI is focused */
 		CellGUI selectedCellGUI = boardGUI.findCorresdpondingCellGUI(emptyCell);
-		FocusEvent focusEvent = new FocusEvent(selectedCellGUI.getNumberInputField(),
-				FocusEvent.FOCUS_GAINED);
-		FocusListener[] focusListeners = selectedCellGUI.getNumberInputField()
-				.getFocusListeners();
-		focusListeners[2].focusGained(focusEvent);
+		MouseEvent mouseEventNormal = new MouseEvent(selectedCellGUI.getNumberInputField(),
+				MouseEvent.MOUSE_RELEASED, 0l, 0, 0, 0, 1, false);
+		MouseListener[] mouseListenersNormal = selectedCellGUI.getNumberInputField().getMouseListeners();
+		mouseListenersNormal[3].mouseReleased(mouseEventNormal);
 
 		/* Number Button for 8 is clicked*/
 		NumberButtonGUI numberButtonGUI = (NumberButtonGUI)mainJPanel.getComponents()[7];
@@ -708,11 +718,10 @@ public class SudokuGUITest {
 		
 		/* Empty CellGUI is focused */
 		CellGUI selectedCellGUI = boardGUI.findCorresdpondingCellGUI(emptyCell);
-		FocusEvent focusEvent = new FocusEvent(selectedCellGUI.getNumberInputField(),
-				FocusEvent.FOCUS_GAINED);
-		FocusListener[] focusListeners = selectedCellGUI.getNumberInputField()
-				.getFocusListeners();
-		focusListeners[2].focusGained(focusEvent);
+		MouseEvent mouseEventNormal = new MouseEvent(selectedCellGUI.getNumberInputField(),
+				MouseEvent.MOUSE_RELEASED, 0l, 0, 0, 0, 1, false);
+		MouseListener[] mouseListenersNormal = selectedCellGUI.getNumberInputField().getMouseListeners();
+		mouseListenersNormal[3].mouseReleased(mouseEventNormal);
 
 		sudokuGUI.getGameSession().setPencilMarkMode(true);
 		
