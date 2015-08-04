@@ -538,7 +538,8 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	 * @param evt
 	 * @throws FileNotFoundException
 	 */
-	private void btnSaveActionPerformed() throws FileNotFoundException {
+	private void btnSaveActionPerformed()
+			throws FileNotFoundException {
 		
 		final JFileChooser fc = new JFileChooser();
 

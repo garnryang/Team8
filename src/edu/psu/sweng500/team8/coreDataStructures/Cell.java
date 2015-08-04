@@ -18,7 +18,6 @@ public class Cell implements BinarySerializable {
 	}
 
 	private static final long serialVersionUID = 1L;
-	public static int length;
 	private CellCoordinates coordinates;
 	private int currentValue = 0;
 	private ValueType type = ValueType.UserDefined;
