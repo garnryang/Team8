@@ -21,6 +21,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
@@ -40,10 +41,6 @@ import edu.psu.sweng500.team8.puzzleGenerator.PuzzleRepository;
 import edu.psu.sweng500.team8.solver.HintGenerator;
 import edu.psu.sweng500.team8.solver.HintInfo;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-
-
 public class SudokuGUI extends javax.swing.JFrame implements
 		CellChangedListener {
 	/*
@@ -59,6 +56,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	private static final String WIN_MESSAGE = "You won! Start a new game to play again.";
 
 	private boolean gameChanged = false;
+
 	public boolean isGameChanged() {
 		return this.gameChanged;
 	}
@@ -71,7 +69,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	 * Creates new form SudokuGUI
 	 */
 	public SudokuGUI() {
-		setTitle("Lion Sudoku"); 
+		setTitle("Lion Sudoku");
 		try {
 			this.puzzleRepo.initialize();
 		} catch (IOException e) {
@@ -87,8 +85,8 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		});
 	}
 
-	class GameChangedListener implements CellChangedListener{
-		
+	class GameChangedListener implements CellChangedListener {
+
 		@Override
 		public void cellChanged(Cell cell, int newNumber) {
 			gameChanged = true;
@@ -97,9 +95,10 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		@Override
 		public void pencilMarksChanged(Cell cell, Set<Integer> newPencilMarks) {
 			gameChanged = true;
-			
+
 		}
 	}
+
 	public void setMessage(String message) {
 		this.txtAreaMessage.setText(message);
 	}
@@ -274,132 +273,277 @@ public class SudokuGUI extends javax.swing.JFrame implements
 				exitConfirm();
 			}
 		});
-		
+
 		lblNewLabel = new JLabel("");
-		Image img = new ImageIcon(this.getClass().getResource("/lion.png")).getImage(); 
-		lblNewLabel.setIcon(new ImageIcon(img)); 
-
-
-		
-		
-
+		Image img = new ImageIcon(this.getClass().getResource("/lion.png"))
+				.getImage();
+		lblNewLabel.setIcon(new ImageIcon(img));
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
 				getContentPane());
-		layout.setHorizontalGroup(
-			layout.createParallelGroup(Alignment.LEADING)
-				.addGroup(layout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-						.addComponent(gameBoard, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addGroup(layout.createSequentialGroup()
-							.addGap(10)
-							.addComponent(txtAreaMessage, GroupLayout.PREFERRED_SIZE, 480, GroupLayout.PREFERRED_SIZE)))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-						.addGroup(Alignment.TRAILING, layout.createSequentialGroup()
-							.addGroup(layout.createParallelGroup(Alignment.LEADING)
-								.addComponent(radMedium)
-								.addComponent(radHard)
-								.addGroup(layout.createParallelGroup(Alignment.TRAILING)
-									.addComponent(jLabel2)
-									.addComponent(radEasy))
-								.addGroup(layout.createParallelGroup(Alignment.TRAILING, false)
-									.addComponent(jButton14, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(btnRedo, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(btnExit, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(btnNewGame, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-							.addGroup(layout.createParallelGroup(Alignment.LEADING)
-								.addGroup(layout.createSequentialGroup()
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(numberInputPad, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
-									.addGap(32))
-								.addGroup(layout.createSequentialGroup()
-									.addGap(32)
-									.addGroup(layout.createParallelGroup(Alignment.LEADING)
-										.addComponent(btnHint, GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
-										.addComponent(btnCheck, GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE))
-									.addContainerGap())
-								.addGroup(layout.createSequentialGroup()
-									.addGap(47)
-									.addComponent(pencilMarkButton, GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
-									.addContainerGap())))
-						.addGroup(layout.createSequentialGroup()
-							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 182, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())
-						.addGroup(layout.createSequentialGroup()
-							.addGroup(layout.createParallelGroup(Alignment.TRAILING, false)
-								.addComponent(btnUndo, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(btnLoad, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())))
-		);
-		layout.setVerticalGroup(
-			layout.createParallelGroup(Alignment.LEADING)
-				.addGroup(layout.createSequentialGroup()
-					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-						.addGroup(Alignment.TRAILING, layout.createSequentialGroup()
-							.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(gameBoard, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(txtAreaMessage, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
-						.addGroup(layout.createSequentialGroup()
-							.addGroup(layout.createParallelGroup(Alignment.LEADING)
-								.addGroup(layout.createSequentialGroup()
-									.addGap(31)
-									.addComponent(jLabel2)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(radEasy)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(radMedium)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(radHard)
-									.addGap(52)
-									.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE))
-								.addGroup(layout.createSequentialGroup()
-									.addGap(11)
-									.addComponent(numberInputPad, GroupLayout.PREFERRED_SIZE, 164, GroupLayout.PREFERRED_SIZE)
-									.addGap(205)))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnLoad)
-								.addComponent(btnSave))
-							.addGap(5)
-							.addComponent(btnUndo)
-							.addGap(50)
-							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnRedo)
-								.addComponent(btnHint))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(jButton14)
-								.addComponent(btnCheck))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnNewGame)))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(layout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(layout.createSequentialGroup()
-							.addComponent(btnExit)
-							.addGap(13))
-						.addGroup(layout.createSequentialGroup()
-							.addComponent(pencilMarkButton)
-							.addContainerGap())))
-		);
+		layout.setHorizontalGroup(layout
+				.createParallelGroup(Alignment.LEADING)
+				.addGroup(
+						layout.createSequentialGroup()
+								.addContainerGap()
+								.addGroup(
+										layout.createParallelGroup(
+												Alignment.LEADING)
+												.addComponent(
+														gameBoard,
+														GroupLayout.PREFERRED_SIZE,
+														GroupLayout.DEFAULT_SIZE,
+														GroupLayout.PREFERRED_SIZE)
+												.addGroup(
+														layout.createSequentialGroup()
+																.addGap(10)
+																.addComponent(
+																		txtAreaMessage,
+																		GroupLayout.PREFERRED_SIZE,
+																		480,
+																		GroupLayout.PREFERRED_SIZE)))
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addGroup(
+										layout.createParallelGroup(
+												Alignment.LEADING)
+												.addGroup(
+														Alignment.TRAILING,
+														layout.createSequentialGroup()
+																.addGroup(
+																		layout.createParallelGroup(
+																				Alignment.LEADING)
+																				.addComponent(
+																						radMedium)
+																				.addComponent(
+																						radHard)
+																				.addGroup(
+																						layout.createParallelGroup(
+																								Alignment.TRAILING)
+																								.addComponent(
+																										jLabel2)
+																								.addComponent(
+																										radEasy))
+																				.addGroup(
+																						layout.createParallelGroup(
+																								Alignment.TRAILING,
+																								false)
+																								.addComponent(
+																										jButton14,
+																										GroupLayout.DEFAULT_SIZE,
+																										GroupLayout.DEFAULT_SIZE,
+																										Short.MAX_VALUE)
+																								.addComponent(
+																										btnRedo,
+																										GroupLayout.DEFAULT_SIZE,
+																										GroupLayout.DEFAULT_SIZE,
+																										Short.MAX_VALUE)
+																								.addComponent(
+																										btnExit,
+																										Alignment.LEADING,
+																										GroupLayout.DEFAULT_SIZE,
+																										GroupLayout.DEFAULT_SIZE,
+																										Short.MAX_VALUE)
+																								.addComponent(
+																										btnNewGame,
+																										GroupLayout.DEFAULT_SIZE,
+																										GroupLayout.DEFAULT_SIZE,
+																										Short.MAX_VALUE)))
+																.addGroup(
+																		layout.createParallelGroup(
+																				Alignment.LEADING)
+																				.addGroup(
+																						layout.createSequentialGroup()
+																								.addPreferredGap(
+																										ComponentPlacement.RELATED)
+																								.addComponent(
+																										numberInputPad,
+																										GroupLayout.PREFERRED_SIZE,
+																										170,
+																										GroupLayout.PREFERRED_SIZE)
+																								.addGap(32))
+																				.addGroup(
+																						layout.createSequentialGroup()
+																								.addGap(32)
+																								.addGroup(
+																										layout.createParallelGroup(
+																												Alignment.LEADING)
+																												.addComponent(
+																														btnHint,
+																														GroupLayout.DEFAULT_SIZE,
+																														162,
+																														Short.MAX_VALUE)
+																												.addComponent(
+																														btnCheck,
+																														GroupLayout.DEFAULT_SIZE,
+																														162,
+																														Short.MAX_VALUE))
+																								.addContainerGap())
+																				.addGroup(
+																						layout.createSequentialGroup()
+																								.addGap(47)
+																								.addComponent(
+																										pencilMarkButton,
+																										GroupLayout.DEFAULT_SIZE,
+																										147,
+																										Short.MAX_VALUE)
+																								.addContainerGap())))
+												.addGroup(
+														layout.createSequentialGroup()
+																.addComponent(
+																		lblNewLabel,
+																		GroupLayout.PREFERRED_SIZE,
+																		182,
+																		GroupLayout.PREFERRED_SIZE)
+																.addContainerGap())
+												.addGroup(
+														layout.createSequentialGroup()
+																.addGroup(
+																		layout.createParallelGroup(
+																				Alignment.TRAILING,
+																				false)
+																				.addComponent(
+																						btnUndo,
+																						Alignment.LEADING,
+																						GroupLayout.DEFAULT_SIZE,
+																						GroupLayout.DEFAULT_SIZE,
+																						Short.MAX_VALUE)
+																				.addComponent(
+																						btnLoad,
+																						Alignment.LEADING,
+																						GroupLayout.DEFAULT_SIZE,
+																						83,
+																						Short.MAX_VALUE))
+																.addPreferredGap(
+																		ComponentPlacement.RELATED)
+																.addComponent(
+																		btnSave,
+																		GroupLayout.PREFERRED_SIZE,
+																		79,
+																		GroupLayout.PREFERRED_SIZE)
+																.addContainerGap()))));
+		layout.setVerticalGroup(layout
+				.createParallelGroup(Alignment.LEADING)
+				.addGroup(
+						layout.createSequentialGroup()
+								.addGroup(
+										layout.createParallelGroup(
+												Alignment.LEADING)
+												.addGroup(
+														Alignment.TRAILING,
+														layout.createSequentialGroup()
+																.addContainerGap(
+																		GroupLayout.DEFAULT_SIZE,
+																		Short.MAX_VALUE)
+																.addComponent(
+																		gameBoard,
+																		GroupLayout.PREFERRED_SIZE,
+																		GroupLayout.DEFAULT_SIZE,
+																		GroupLayout.PREFERRED_SIZE)
+																.addPreferredGap(
+																		ComponentPlacement.UNRELATED)
+																.addComponent(
+																		txtAreaMessage,
+																		GroupLayout.PREFERRED_SIZE,
+																		45,
+																		GroupLayout.PREFERRED_SIZE))
+												.addGroup(
+														layout.createSequentialGroup()
+																.addGroup(
+																		layout.createParallelGroup(
+																				Alignment.LEADING)
+																				.addGroup(
+																						layout.createSequentialGroup()
+																								.addGap(31)
+																								.addComponent(
+																										jLabel2)
+																								.addPreferredGap(
+																										ComponentPlacement.RELATED)
+																								.addComponent(
+																										radEasy)
+																								.addPreferredGap(
+																										ComponentPlacement.RELATED)
+																								.addComponent(
+																										radMedium)
+																								.addPreferredGap(
+																										ComponentPlacement.RELATED)
+																								.addComponent(
+																										radHard)
+																								.addGap(52)
+																								.addComponent(
+																										lblNewLabel,
+																										GroupLayout.DEFAULT_SIZE,
+																										193,
+																										Short.MAX_VALUE))
+																				.addGroup(
+																						layout.createSequentialGroup()
+																								.addGap(11)
+																								.addComponent(
+																										numberInputPad,
+																										GroupLayout.PREFERRED_SIZE,
+																										164,
+																										GroupLayout.PREFERRED_SIZE)
+																								.addGap(205)))
+																.addPreferredGap(
+																		ComponentPlacement.RELATED)
+																.addGroup(
+																		layout.createParallelGroup(
+																				Alignment.BASELINE)
+																				.addComponent(
+																						btnLoad)
+																				.addComponent(
+																						btnSave))
+																.addGap(5)
+																.addComponent(
+																		btnUndo)
+																.addGap(50)
+																.addGroup(
+																		layout.createParallelGroup(
+																				Alignment.BASELINE)
+																				.addComponent(
+																						btnRedo)
+																				.addComponent(
+																						btnHint))
+																.addPreferredGap(
+																		ComponentPlacement.RELATED)
+																.addGroup(
+																		layout.createParallelGroup(
+																				Alignment.BASELINE)
+																				.addComponent(
+																						jButton14)
+																				.addComponent(
+																						btnCheck))
+																.addPreferredGap(
+																		ComponentPlacement.RELATED)
+																.addComponent(
+																		btnNewGame)))
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(
+										layout.createParallelGroup(
+												Alignment.TRAILING)
+												.addGroup(
+														layout.createSequentialGroup()
+																.addComponent(
+																		btnExit)
+																.addGap(13))
+												.addGroup(
+														layout.createSequentialGroup()
+																.addComponent(
+																		pencilMarkButton)
+																.addContainerGap()))));
 		getContentPane().setLayout(layout);
 		getContentPane().setPreferredSize(new Dimension(800, 600));
 
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
-	private void exitConfirm(){
-		if(gameChanged){
-			int result = JOptionPane.showConfirmDialog(null,  
+	private void exitConfirm() {
+		if (gameChanged) {
+			int result = JOptionPane.showConfirmDialog(null,
 					"Save the current game before exiting?", "Save Game",
 					JOptionPane.YES_NO_CANCEL_OPTION);
 
 			switch (result) {
-			case JOptionPane.YES_OPTION:						
+			case JOptionPane.YES_OPTION:
 				try {
 					btnSaveActionPerformed();
 				} catch (FileNotFoundException e1) {
@@ -410,15 +554,14 @@ public class SudokuGUI extends javax.swing.JFrame implements
 				System.exit(0);
 			case JOptionPane.CLOSED_OPTION:
 				return;
-			case JOptionPane.CANCEL_OPTION:						
+			case JOptionPane.CANCEL_OPTION:
 				return;
 			}
-		}
-		else{				
+		} else {
 			System.exit(0);
 		}
 	}
-	
+
 	private void btnHintActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnHintActionPerformed
 		// Get a hint
 		if (this.gameSession == null) {
@@ -555,9 +698,8 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	 * @param evt
 	 * @throws FileNotFoundException
 	 */
-	private void btnSaveActionPerformed()
-			throws FileNotFoundException {
-		
+	private void btnSaveActionPerformed() throws FileNotFoundException {
+
 		final JFileChooser fc = new JFileChooser();
 
 		fc.setFileFilter(new FileFilter() {
@@ -664,14 +806,10 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	}// GEN-LAST:event_jButton14ActionPerformed
 
 	private void openHelp() {
-		try
-		{
-		        Desktop.getDesktop().open(new File("index.html"));
+		try {
+			Desktop.getDesktop().open(new File("index.html"));
+		} catch (IOException ex) {
 		}
-		catch (IOException ex) 
-		{
-		}
-
 
 	}
 
@@ -713,8 +851,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	 *            the command line arguments
 	 */
 	public static void main(String args[]) {
-		
-		
+
 		/* Set the Nimbus look and feel */
 		// <editor-fold defaultstate="collapsed"
 		// desc=" Look and feel setting code (optional) ">
@@ -728,7 +865,8 @@ public class SudokuGUI extends javax.swing.JFrame implements
 			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager
 					.getInstalledLookAndFeels()) {
 				if ("Nimbus".equals(info.getName())) {
-					javax.swing.UIManager.setLookAndFeel("com.jtattoo.plaf.texture.TextureLookAndFeel");
+					javax.swing.UIManager
+							.setLookAndFeel("com.jtattoo.plaf.texture.TextureLookAndFeel");
 					break;
 				}
 			}
@@ -777,11 +915,12 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	private JToggleButton pencilMarkButton;
 	private NumberButtonGUI numberInputPad;
 	private JButton btnExit;
-	private JPanel panel;
+	
 	private JLabel lblNewLabel;
 
 	/**
 	 * for testing
+	 * 
 	 * @return
 	 */
 	GameSession getGameSession() {
