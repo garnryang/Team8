@@ -35,6 +35,10 @@ public class SudokuGUITest {
 
 	private static SudokuGUI sudokuGUI;
 	private JPanel mainJPanel;
+	private JButton newGameButton;
+	private NumberButtonGUI numberButtonGUI;
+	private JRadioButton hardRadioButton;
+	private JToggleButton pencilMarkModeButton;
 	
 	@BeforeClass
 	public static void setUpClass() {
@@ -52,12 +56,14 @@ public class SudokuGUITest {
 		mainJPanel = ((JPanel) ((JLayeredPane) ((JRootPane) sudokuGUI
 				.getComponents()[0]).getComponents()[1]).getComponents()[0]);
 		
-		JToggleButton pencilMarkModeButton = (JToggleButton) mainJPanel
-				.getComponents()[16];
-		pencilMarkModeButton.setSelected(false);
+		newGameButton = (JButton)mainJPanel.getComponents()[7];
 		
-		NumberButtonGUI numberButtonGUI = (NumberButtonGUI) mainJPanel
-				.getComponents()[7];
+		numberButtonGUI = (NumberButtonGUI)mainJPanel.getComponents()[3];
+		
+		hardRadioButton = (JRadioButton) mainJPanel.getComponents()[17];
+		
+		pencilMarkModeButton = (JToggleButton) mainJPanel.getComponents()[11];
+		pencilMarkModeButton.setSelected(false);
 		
 		for (int i = 0; i < 9; i++) {
 			JToggleButton numberInputButton = (JToggleButton) numberButtonGUI
@@ -84,28 +90,37 @@ public class SudokuGUITest {
 	/**
 	 * This is to help developers to determine components
 	 */
-	@Test
-	public void testUtility() {
+	
+	public static void main(String[] args) {
 
+		SudokuGUI sudokuGUI = new SudokuGUI();
+		
+		JPanel mainJPanel = ((JPanel) ((JLayeredPane) ((JRootPane) sudokuGUI
+				.getComponents()[0]).getComponents()[1]).getComponents()[0]);
+		
 		int i = 0;
 		for (Component eachComponent : mainJPanel.getComponents()) {
 
-			System.out.println(i++ + " :  "
+			System.out.print(i++ + " :  "
 					+ eachComponent.getClass().getName());
+			
+			if (eachComponent instanceof JButton) {
+				System.out.print(" : " + ((JButton)eachComponent).getText());
+			} else if (eachComponent instanceof JRadioButton) {
+				System.out.print(" : " + ((JRadioButton)eachComponent).getText());
+			}
+			
+			System.out.println();
+			
 		}
 	}
 
 	@Test
 	public void testSudokuGUI_NewGame() {
-
-		JRadioButton hardRadioButton = (JRadioButton) mainJPanel
-				.getComponents()[4];
-		System.out.println("hard : " + hardRadioButton.getText());
-
+		
 		/* Select HARD Difficulty */
 		hardRadioButton.doClick();
 
-		JButton newGameButton = (JButton) mainJPanel.getComponents()[18];
 		System.out.println("New Game : " + newGameButton.getText());
 		newGameButton.doClick();
 
@@ -190,11 +205,8 @@ public class SudokuGUITest {
 	public void testSudokuGUI_NormalMode_EnteringNumber_EmptyCell() {
 
 		/* Select HARD Difficulty */
-		JRadioButton hardRadioButton = (JRadioButton) mainJPanel
-				.getComponents()[4];
 		hardRadioButton.doClick();
 
-		JButton newGameButton = (JButton) mainJPanel.getComponents()[18];
 		newGameButton.doClick();
 
 		BoardGUI boardGUI = (BoardGUI) mainJPanel.getComponents()[0];
@@ -224,8 +236,6 @@ public class SudokuGUITest {
 		mouseListenersNormal[3].mouseReleased(mouseEventNormal);
 
 		/* Number Button for 8 is clicked */
-		NumberButtonGUI numberButtonGUI = (NumberButtonGUI) mainJPanel
-				.getComponents()[7];
 		JToggleButton number_8 = (JToggleButton) numberButtonGUI
 				.getComponent(7);
 		/* doClick won't work because we have mouseListener not actionLister */
@@ -276,17 +286,11 @@ public class SudokuGUITest {
 	@Test
 	public void testSudokuGUI_PencilMarkMode_EnteringNumber_EmptyCell() {
 
-		JRadioButton hardRadioButton = (JRadioButton) mainJPanel
-				.getComponents()[4];
-
 		/* Select HARD Difficulty */
 		hardRadioButton.doClick();
 
-		JButton newGameButton = (JButton) mainJPanel.getComponents()[18];
 		newGameButton.doClick();
-
-		JToggleButton pencilMarkModeButton = (JToggleButton) mainJPanel
-				.getComponents()[16];
+		
 		pencilMarkModeButton.doClick();
 
 		/* Verify the game is in Pencil Mark Mode */
@@ -319,8 +323,6 @@ public class SudokuGUITest {
 		mouseListenersNormal[3].mouseReleased(mouseEventNormal);
 
 		/* Number Button for 8 is clicked */
-		NumberButtonGUI numberButtonGUI = (NumberButtonGUI) mainJPanel
-				.getComponents()[7];
 		JToggleButton number_8 = (JToggleButton) numberButtonGUI
 				.getComponent(7);
 		/* doClick won't work because we have mouseListener not actionLister */
@@ -420,20 +422,14 @@ public class SudokuGUITest {
 
 	@Test
 	public void testSudokuGUI_NormalMode_EnteringNumber_ExistingPencilMark() {
-
-		JRadioButton hardRadioButton = (JRadioButton) mainJPanel
-				.getComponents()[4];
-
+		
 		/* Select HARD Difficulty */
 		hardRadioButton.doClick();
 
-		JButton newGameButton = (JButton) mainJPanel.getComponents()[18];
 		newGameButton.doClick();
 
 		Assert.assertFalse(sudokuGUI.getGameSession().isPencilMarkMode());
 		
-		JToggleButton pencilMarkModeButton = (JToggleButton) mainJPanel
-				.getComponents()[16];
 		pencilMarkModeButton.doClick();
 
 		/* Verify the game is in Pencil Mark Mode */
@@ -466,8 +462,6 @@ public class SudokuGUITest {
 		mouseListenersNormal[3].mouseReleased(mouseEventNormal);
 
 		/* Number Button for 8 is clicked */
-		NumberButtonGUI numberButtonGUI = (NumberButtonGUI) mainJPanel
-				.getComponents()[7];
 		JToggleButton number_8 = (JToggleButton) numberButtonGUI
 				.getComponent(7);
 		/* doClick won't work because we have mouseListener not actionLister */
@@ -517,19 +511,13 @@ public class SudokuGUITest {
 	
 	@Test
 	public void testSudokuGUI_PencilMarkMode_EnteringNumber_ExistingPencilMark() {
-
-		JRadioButton hardRadioButton = (JRadioButton) mainJPanel
-				.getComponents()[4];
-
+		
 		/* Select HARD Difficulty */
 		hardRadioButton.doClick();
 
-		JButton newGameButton = (JButton) mainJPanel.getComponents()[18];
 		newGameButton.doClick();
 
 		/* Entering Pencil Mark Mode */ 
-		JToggleButton pencilMarkModeButton = (JToggleButton) mainJPanel
-				.getComponents()[16];
 		pencilMarkModeButton.doClick();
 
 		
@@ -560,8 +548,6 @@ public class SudokuGUITest {
 		mouseListenersNormal[3].mouseReleased(mouseEventNormal);
 
 		/* Number Button for 8 is clicked */
-		NumberButtonGUI numberButtonGUI = (NumberButtonGUI) mainJPanel
-				.getComponents()[7];
 		JToggleButton number_8 = (JToggleButton) numberButtonGUI
 				.getComponent(7);
 		MouseEvent mouseEvent = new MouseEvent(number_8,
@@ -641,7 +627,6 @@ public class SudokuGUITest {
 	@Test
 	public void testSudokuGUI_GameChangedStatus() {
 		
-		JButton newGameButton = (JButton)mainJPanel.getComponents()[18];
 		newGameButton.doClick();
 		
 		BoardGUI boardGUI = (BoardGUI)mainJPanel.getComponents()[0];
@@ -677,7 +662,6 @@ public class SudokuGUITest {
 		mouseListenersNormal[3].mouseReleased(mouseEventNormal);
 
 		/* Number Button for 8 is clicked*/
-		NumberButtonGUI numberButtonGUI = (NumberButtonGUI)mainJPanel.getComponents()[7];
 		JToggleButton number_8 = (JToggleButton)numberButtonGUI.getComponent(7);
 		/* doClick won't work because we have mouseListener not actionLister */
 		
@@ -693,7 +677,7 @@ public class SudokuGUITest {
 	@Test
 	public void testSudokuGUI_GameChangedStatus_pencilMark() {
 		
-		JButton newGameButton = (JButton)mainJPanel.getComponents()[18];
+		
 		newGameButton.doClick();
 		
 		BoardGUI boardGUI = (BoardGUI)mainJPanel.getComponents()[0];
@@ -726,7 +710,6 @@ public class SudokuGUITest {
 		sudokuGUI.getGameSession().setPencilMarkMode(true);
 		
 		/* Number Button for 8 is clicked*/
-		NumberButtonGUI numberButtonGUI = (NumberButtonGUI)mainJPanel.getComponents()[7];
 		JToggleButton number_8 = (JToggleButton)numberButtonGUI.getComponent(7);
 		/* doClick won't work because we have mouseListener not actionLister */
 		
