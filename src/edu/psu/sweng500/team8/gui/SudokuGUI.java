@@ -1,6 +1,8 @@
 package edu.psu.sweng500.team8.gui;
 
+import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -16,8 +18,10 @@ import java.util.Set;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
@@ -51,6 +55,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	private static final String WIN_MESSAGE = "You won! Start a new game to play again.";
 
 	private boolean gameChanged = false;
+
 	public boolean isGameChanged() {
 		return this.gameChanged;
 	}
@@ -63,6 +68,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	 * Creates new form SudokuGUI
 	 */
 	public SudokuGUI() {
+		setTitle("Lion Sudoku");
 		try {
 			this.puzzleRepo.initialize();
 		} catch (IOException e) {
@@ -78,8 +84,8 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		});
 	}
 
-	class GameChangedListener implements CellChangedListener{
-		
+	class GameChangedListener implements CellChangedListener {
+
 		@Override
 		public void cellChanged(Cell cell, int newNumber) {
 			gameChanged = true;
@@ -88,9 +94,10 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		@Override
 		public void pencilMarksChanged(Cell cell, Set<Integer> newPencilMarks) {
 			gameChanged = true;
-			
+
 		}
 	}
+
 	public void setMessage(String message) {
 		this.txtAreaMessage.setText(message);
 	}
@@ -148,7 +155,6 @@ public class SudokuGUI extends javax.swing.JFrame implements
 
 		buttonGroup1 = new javax.swing.ButtonGroup();
 		radEasy = new javax.swing.JRadioButton();
-		jLabel1 = new javax.swing.JLabel();
 		radMedium = new javax.swing.JRadioButton();
 		radHard = new javax.swing.JRadioButton();
 		jLabel2 = new javax.swing.JLabel();
@@ -158,7 +164,6 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		btnRedo = new javax.swing.JButton();
 		jButton14 = new javax.swing.JButton();
 		btnNewGame = new javax.swing.JButton();
-		jLabel3 = new javax.swing.JLabel();
 		gameBoard = new BoardGUI();
 		btnHint = new javax.swing.JButton();
 		pencilMarkButton = new JToggleButton();
@@ -169,8 +174,6 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		buttonGroup1.add(radEasy);
 		radEasy.setSelected(true);
 		radEasy.setText("Easy");
-
-		jLabel1.setText("Menu");
 
 		buttonGroup1.add(radMedium);
 		radMedium.setText("Medium");
@@ -231,8 +234,6 @@ public class SudokuGUI extends javax.swing.JFrame implements
 			}
 		});
 
-		jLabel3.setText("Options");
-
 		this.btnHint.setText("Hint");
 		this.btnHint.setEnabled(false);
 		this.btnHint.addActionListener(new java.awt.event.ActionListener() {
@@ -272,6 +273,10 @@ public class SudokuGUI extends javax.swing.JFrame implements
 			}
 		});
 
+		lblNewLabel = new JLabel("");
+		Image img = new ImageIcon(this.getClass().getResource("/lion.png"))
+				.getImage();
+		lblNewLabel.setIcon(new ImageIcon(img));
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
 				getContentPane());
@@ -296,24 +301,18 @@ public class SudokuGUI extends javax.swing.JFrame implements
 																		GroupLayout.PREFERRED_SIZE,
 																		480,
 																		GroupLayout.PREFERRED_SIZE)))
-								.addPreferredGap(ComponentPlacement.RELATED)
+								.addPreferredGap(ComponentPlacement.UNRELATED)
 								.addGroup(
 										layout.createParallelGroup(
 												Alignment.LEADING)
 												.addGroup(
+														Alignment.TRAILING,
 														layout.createSequentialGroup()
 																.addGroup(
 																		layout.createParallelGroup(
 																				Alignment.LEADING)
-																				.addGroup(
-																						layout.createParallelGroup(
-																								Alignment.LEADING)
-																								.addComponent(
-																										jLabel1,
-																										Alignment.TRAILING)
-																								.addComponent(
-																										radMedium,
-																										Alignment.TRAILING))
+																				.addComponent(
+																						radMedium)
 																				.addComponent(
 																						radHard)
 																				.addGroup(
@@ -322,70 +321,24 @@ public class SudokuGUI extends javax.swing.JFrame implements
 																								.addComponent(
 																										jLabel2)
 																								.addComponent(
-																										radEasy)))
-																.addGap(34)
-																.addComponent(
-																		numberInputPad,
-																		GroupLayout.PREFERRED_SIZE,
-																		170,
-																		GroupLayout.PREFERRED_SIZE))
-												.addGroup(
-														layout.createSequentialGroup()
-																.addPreferredGap(
-																		ComponentPlacement.RELATED)
-																.addGroup(
-																		layout.createParallelGroup(
-																				Alignment.LEADING,
-																				false)
-																				.addComponent(
-																						jButton14,
-																						GroupLayout.DEFAULT_SIZE,
-																						GroupLayout.DEFAULT_SIZE,
-																						Short.MAX_VALUE)
-																				.addComponent(
-																						btnUndo,
-																						GroupLayout.DEFAULT_SIZE,
-																						GroupLayout.DEFAULT_SIZE,
-																						Short.MAX_VALUE)
-																				.addComponent(
-																						btnRedo,
-																						GroupLayout.DEFAULT_SIZE,
-																						GroupLayout.DEFAULT_SIZE,
-																						Short.MAX_VALUE)
-																				.addComponent(
-																						jLabel3)
-																				.addComponent(
-																						btnHint,
-																						GroupLayout.DEFAULT_SIZE,
-																						GroupLayout.DEFAULT_SIZE,
-																						Short.MAX_VALUE)
-																				.addComponent(
-																						btnLoad,
-																						GroupLayout.DEFAULT_SIZE,
-																						GroupLayout.DEFAULT_SIZE,
-																						Short.MAX_VALUE)
-																				.addComponent(
-																						btnSave,
-																						GroupLayout.DEFAULT_SIZE,
-																						GroupLayout.DEFAULT_SIZE,
-																						Short.MAX_VALUE)
-																				.addComponent(
-																						btnCheck,
-																						GroupLayout.DEFAULT_SIZE,
-																						GroupLayout.DEFAULT_SIZE,
-																						Short.MAX_VALUE)
-																				.addComponent(
-																						pencilMarkButton,
-																						GroupLayout.DEFAULT_SIZE,
-																						GroupLayout.DEFAULT_SIZE,
-																						Short.MAX_VALUE)
+																										radEasy))
 																				.addGroup(
-																						Alignment.TRAILING,
 																						layout.createParallelGroup(
-																								Alignment.LEADING,
+																								Alignment.TRAILING,
 																								false)
 																								.addComponent(
+																										jButton14,
+																										GroupLayout.DEFAULT_SIZE,
+																										GroupLayout.DEFAULT_SIZE,
+																										Short.MAX_VALUE)
+																								.addComponent(
+																										btnRedo,
+																										GroupLayout.DEFAULT_SIZE,
+																										GroupLayout.DEFAULT_SIZE,
+																										Short.MAX_VALUE)
+																								.addComponent(
 																										btnExit,
+																										Alignment.LEADING,
 																										GroupLayout.DEFAULT_SIZE,
 																										GroupLayout.DEFAULT_SIZE,
 																										Short.MAX_VALUE)
@@ -393,8 +346,80 @@ public class SudokuGUI extends javax.swing.JFrame implements
 																										btnNewGame,
 																										GroupLayout.DEFAULT_SIZE,
 																										GroupLayout.DEFAULT_SIZE,
-																										Short.MAX_VALUE)))))
-								.addGap(27)));
+																										Short.MAX_VALUE)))
+																.addGroup(
+																		layout.createParallelGroup(
+																				Alignment.LEADING)
+																				.addGroup(
+																						layout.createSequentialGroup()
+																								.addPreferredGap(
+																										ComponentPlacement.RELATED)
+																								.addComponent(
+																										numberInputPad,
+																										GroupLayout.PREFERRED_SIZE,
+																										170,
+																										GroupLayout.PREFERRED_SIZE)
+																								.addGap(32))
+																				.addGroup(
+																						layout.createSequentialGroup()
+																								.addGap(32)
+																								.addGroup(
+																										layout.createParallelGroup(
+																												Alignment.LEADING)
+																												.addComponent(
+																														btnHint,
+																														GroupLayout.DEFAULT_SIZE,
+																														162,
+																														Short.MAX_VALUE)
+																												.addComponent(
+																														btnCheck,
+																														GroupLayout.DEFAULT_SIZE,
+																														162,
+																														Short.MAX_VALUE))
+																								.addContainerGap())
+																				.addGroup(
+																						layout.createSequentialGroup()
+																								.addGap(47)
+																								.addComponent(
+																										pencilMarkButton,
+																										GroupLayout.DEFAULT_SIZE,
+																										147,
+																										Short.MAX_VALUE)
+																								.addContainerGap())))
+												.addGroup(
+														layout.createSequentialGroup()
+																.addComponent(
+																		lblNewLabel,
+																		GroupLayout.PREFERRED_SIZE,
+																		182,
+																		GroupLayout.PREFERRED_SIZE)
+																.addContainerGap())
+												.addGroup(
+														layout.createSequentialGroup()
+																.addGroup(
+																		layout.createParallelGroup(
+																				Alignment.TRAILING,
+																				false)
+																				.addComponent(
+																						btnUndo,
+																						Alignment.LEADING,
+																						GroupLayout.DEFAULT_SIZE,
+																						GroupLayout.DEFAULT_SIZE,
+																						Short.MAX_VALUE)
+																				.addComponent(
+																						btnLoad,
+																						Alignment.LEADING,
+																						GroupLayout.DEFAULT_SIZE,
+																						83,
+																						Short.MAX_VALUE))
+																.addPreferredGap(
+																		ComponentPlacement.RELATED)
+																.addComponent(
+																		btnSave,
+																		GroupLayout.PREFERRED_SIZE,
+																		79,
+																		GroupLayout.PREFERRED_SIZE)
+																.addContainerGap()))));
 		layout.setVerticalGroup(layout
 				.createParallelGroup(Alignment.LEADING)
 				.addGroup(
@@ -403,66 +428,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 										layout.createParallelGroup(
 												Alignment.LEADING)
 												.addGroup(
-														layout.createSequentialGroup()
-																.addComponent(
-																		jLabel1)
-																.addGap(13)
-																.addComponent(
-																		jLabel2)
-																.addPreferredGap(
-																		ComponentPlacement.RELATED)
-																.addComponent(
-																		radEasy)
-																.addPreferredGap(
-																		ComponentPlacement.RELATED)
-																.addComponent(
-																		radMedium)
-																.addPreferredGap(
-																		ComponentPlacement.RELATED)
-																.addComponent(
-																		radHard)
-																.addPreferredGap(
-																		ComponentPlacement.RELATED,
-																		157,
-																		Short.MAX_VALUE)
-																.addComponent(
-																		jLabel3)
-																.addGap(25)
-																.addComponent(
-																		pencilMarkButton)
-																.addPreferredGap(
-																		ComponentPlacement.RELATED)
-																.addComponent(
-																		btnCheck)
-																.addPreferredGap(
-																		ComponentPlacement.RELATED)
-																.addComponent(
-																		btnHint)
-																.addPreferredGap(
-																		ComponentPlacement.RELATED)
-																.addComponent(
-																		btnSave)
-																.addPreferredGap(
-																		ComponentPlacement.RELATED)
-																.addComponent(
-																		btnLoad)
-																.addPreferredGap(
-																		ComponentPlacement.RELATED)
-																.addComponent(
-																		btnUndo)
-																.addPreferredGap(
-																		ComponentPlacement.RELATED)
-																.addComponent(
-																		btnRedo)
-																.addPreferredGap(
-																		ComponentPlacement.RELATED)
-																.addComponent(
-																		jButton14)
-																.addPreferredGap(
-																		ComponentPlacement.RELATED)
-																.addComponent(
-																		btnNewGame))
-												.addGroup(
+														Alignment.TRAILING,
 														layout.createSequentialGroup()
 																.addContainerGap(
 																		GroupLayout.DEFAULT_SIZE,
@@ -478,25 +444,100 @@ public class SudokuGUI extends javax.swing.JFrame implements
 																		txtAreaMessage,
 																		GroupLayout.PREFERRED_SIZE,
 																		45,
-																		GroupLayout.PREFERRED_SIZE)))
+																		GroupLayout.PREFERRED_SIZE))
+												.addGroup(
+														layout.createSequentialGroup()
+																.addGroup(
+																		layout.createParallelGroup(
+																				Alignment.LEADING)
+																				.addGroup(
+																						layout.createSequentialGroup()
+																								.addGap(31)
+																								.addComponent(
+																										jLabel2)
+																								.addPreferredGap(
+																										ComponentPlacement.RELATED)
+																								.addComponent(
+																										radEasy)
+																								.addPreferredGap(
+																										ComponentPlacement.RELATED)
+																								.addComponent(
+																										radMedium)
+																								.addPreferredGap(
+																										ComponentPlacement.RELATED)
+																								.addComponent(
+																										radHard)
+																								.addGap(52)
+																								.addComponent(
+																										lblNewLabel,
+																										GroupLayout.DEFAULT_SIZE,
+																										193,
+																										Short.MAX_VALUE))
+																				.addGroup(
+																						layout.createSequentialGroup()
+																								.addGap(11)
+																								.addComponent(
+																										numberInputPad,
+																										GroupLayout.PREFERRED_SIZE,
+																										164,
+																										GroupLayout.PREFERRED_SIZE)
+																								.addGap(205)))
+																.addPreferredGap(
+																		ComponentPlacement.RELATED)
+																.addGroup(
+																		layout.createParallelGroup(
+																				Alignment.BASELINE)
+																				.addComponent(
+																						btnLoad)
+																				.addComponent(
+																						btnSave))
+																.addGap(5)
+																.addComponent(
+																		btnUndo)
+																.addGap(50)
+																.addGroup(
+																		layout.createParallelGroup(
+																				Alignment.BASELINE)
+																				.addComponent(
+																						btnRedo)
+																				.addComponent(
+																						btnHint))
+																.addPreferredGap(
+																		ComponentPlacement.RELATED)
+																.addGroup(
+																		layout.createParallelGroup(
+																				Alignment.BASELINE)
+																				.addComponent(
+																						jButton14)
+																				.addComponent(
+																						btnCheck))
+																.addPreferredGap(
+																		ComponentPlacement.RELATED)
+																.addComponent(
+																		btnNewGame)))
 								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(btnExit).addGap(13))
-				.addGroup(
-						layout.createSequentialGroup()
-								.addGap(11)
-								.addComponent(numberInputPad,
-										GroupLayout.PREFERRED_SIZE, 164,
-										GroupLayout.PREFERRED_SIZE)
-								.addContainerGap()));
+								.addGroup(
+										layout.createParallelGroup(
+												Alignment.TRAILING)
+												.addGroup(
+														layout.createSequentialGroup()
+																.addComponent(
+																		btnExit)
+																.addGap(13))
+												.addGroup(
+														layout.createSequentialGroup()
+																.addComponent(
+																		pencilMarkButton)
+																.addContainerGap()))));
 		getContentPane().setLayout(layout);
 		getContentPane().setPreferredSize(new Dimension(800, 600));
 
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
-	private void exitConfirm(){
-		if(gameChanged){
-			int result = JOptionPane.showConfirmDialog(null,  
+	private void exitConfirm() {
+		if (gameChanged) {
+			int result = JOptionPane.showConfirmDialog(null,
 					"Save the current game before exiting?", "Save Game",
 					JOptionPane.YES_NO_CANCEL_OPTION);
 
@@ -657,8 +698,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	 * @param evt
 	 * @throws FileNotFoundException
 	 */
-	private void btnSaveActionPerformed()
-			throws FileNotFoundException {
+	private void btnSaveActionPerformed() throws FileNotFoundException {
 		
 		final JFileChooser fc = new JFileChooser();
 
@@ -766,7 +806,10 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	}// GEN-LAST:event_jButton14ActionPerformed
 
 	private void openHelp() {
-		// TODO Auto-generated method stub
+		try {
+			Desktop.getDesktop().open(new File("index.html"));
+		} catch (IOException ex) {
+		}
 
 	}
 
@@ -808,6 +851,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	 *            the command line arguments
 	 */
 	public static void main(String args[]) {
+
 		/* Set the Nimbus look and feel */
 		// <editor-fold defaultstate="collapsed"
 		// desc=" Look and feel setting code (optional) ">
@@ -821,7 +865,8 @@ public class SudokuGUI extends javax.swing.JFrame implements
 			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager
 					.getInstalledLookAndFeels()) {
 				if ("Nimbus".equals(info.getName())) {
-					javax.swing.UIManager.setLookAndFeel(info.getClassName());
+					javax.swing.UIManager
+							.setLookAndFeel("com.jtattoo.plaf.texture.TextureLookAndFeel");
 					break;
 				}
 			}
@@ -860,9 +905,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	private javax.swing.JButton btnSave; /* name changed from jButton10 */
 	private javax.swing.JButton btnLoad; /* name changed from jButton11 */
 	private javax.swing.JButton jButton14;
-	private javax.swing.JLabel jLabel1;
 	private javax.swing.JLabel jLabel2;
-	private javax.swing.JLabel jLabel3;
 	private javax.swing.JRadioButton radEasy;
 	private javax.swing.JRadioButton radHard;
 	private javax.swing.JRadioButton radMedium;
@@ -872,14 +915,15 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	private JToggleButton pencilMarkButton;
 	private NumberButtonGUI numberInputPad;
 	private JButton btnExit;
+	
+	private JLabel lblNewLabel;
 
 	/**
 	 * for testing
+	 * 
 	 * @return
 	 */
 	GameSession getGameSession() {
 		return this.gameSession;
 	}
-	
-
 }
