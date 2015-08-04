@@ -27,7 +27,6 @@ import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.filechooser.FileFilter;
-
 import edu.psu.sweng500.team8.coreDataStructures.Board;
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
@@ -54,6 +53,8 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	/* we need to keep track of the current game */
 	private GameSession gameSession;
 	private static final String WIN_MESSAGE = "You won! Start a new game to play again.";
+
+
 
 	private boolean gameChanged = false;
 
@@ -85,8 +86,10 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		});
 	}
 
-	class GameChangedListener implements CellChangedListener {
 
+
+	class GameChangedListener implements CellChangedListener{
+		
 		@Override
 		public void cellChanged(Cell cell, int newNumber) {
 			gameChanged = true;
@@ -95,10 +98,9 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		@Override
 		public void pencilMarksChanged(Cell cell, Set<Integer> newPencilMarks) {
 			gameChanged = true;
-
+			
 		}
 	}
-
 	public void setMessage(String message) {
 		this.txtAreaMessage.setText(message);
 	}
@@ -176,7 +178,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		radEasy.setSelected(true);
 		radEasy.setText("Easy");
 
-		buttonGroup1.add(radMedium);
+			buttonGroup1.add(radMedium);
 		radMedium.setText("Medium");
 
 		buttonGroup1.add(radHard);
@@ -274,10 +276,12 @@ public class SudokuGUI extends javax.swing.JFrame implements
 			}
 		});
 
+
 		lblNewLabel = new JLabel("");
 		Image img = new ImageIcon(this.getClass().getResource("/lion.png"))
 				.getImage();
 		lblNewLabel.setIcon(new ImageIcon(img));
+
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
 				getContentPane());
@@ -376,14 +380,17 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
-	private void exitConfirm() {
-		if (gameChanged) {
-			int result = JOptionPane.showConfirmDialog(null,
+
+	private void exitConfirm(){
+		if(gameChanged){
+			int result = JOptionPane.showConfirmDialog(null,  
+
 					"Save the current game before exiting?", "Save Game",
 					JOptionPane.YES_NO_CANCEL_OPTION);
 
 			switch (result) {
-			case JOptionPane.YES_OPTION:
+
+			case JOptionPane.YES_OPTION:						
 				try {
 					btnSaveActionPerformed();
 				} catch (FileNotFoundException e1) {
@@ -394,13 +401,15 @@ public class SudokuGUI extends javax.swing.JFrame implements
 				System.exit(0);
 			case JOptionPane.CLOSED_OPTION:
 				return;
-			case JOptionPane.CANCEL_OPTION:
+			case JOptionPane.CANCEL_OPTION:						
 				return;
 			}
-		} else {
+		}
+		else{				
 			System.exit(0);
 		}
 	}
+	
 
 	private void btnHintActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnHintActionPerformed
 		// Get a hint
@@ -538,7 +547,10 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	 * @param evt
 	 * @throws FileNotFoundException
 	 */
-	private void btnSaveActionPerformed() throws FileNotFoundException {
+
+	private void btnSaveActionPerformed()
+			throws FileNotFoundException {
+		
 
 		final JFileChooser fc = new JFileChooser();
 
@@ -755,7 +767,6 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	private JToggleButton pencilMarkButton;
 	private NumberButtonGUI numberInputPad;
 	private JButton btnExit;
-	
 	private JLabel lblNewLabel;
 
 	/**
@@ -766,4 +777,6 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	GameSession getGameSession() {
 		return this.gameSession;
 	}
+	
+
 }
