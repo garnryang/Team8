@@ -274,7 +274,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		});
 
 		lblNewLabel = new JLabel("");
-		Image img = new ImageIcon(this.getClass().getResource("/lion.png"))
+		Image img = new ImageIcon(this.getClass().getResource("/resources/lion.png"))
 				.getImage();
 		lblNewLabel.setIcon(new ImageIcon(img));
 
