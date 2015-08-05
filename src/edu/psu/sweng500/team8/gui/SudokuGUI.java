@@ -278,7 +278,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		});
 
 		lblNewLabel = new JLabel("");
-		Image img = new ImageIcon(this.getClass().getResource("/lion.png"))
+		Image img = new ImageIcon(this.getClass().getResource("/resources/lion.png"))
 				.getImage();
 		lblNewLabel.setIcon(new ImageIcon(img));
 
@@ -602,7 +602,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		}
 	}
 
-	private void savePuzzle(String path) {
+	public void savePuzzle(String path) {
 		try {
 
 			if (!path.toLowerCase().endsWith(".sudoku")) {
@@ -627,7 +627,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		}
 	}
 
-	private void loadSession(Puzzle puzzle, CellGrid overloadedCellGrid) {
+	public void loadSession(Puzzle puzzle, CellGrid overloadedCellGrid) {
 
 		this.gameSession = (overloadedCellGrid == null) ? new GameSession(
 				puzzle) : new GameSession(puzzle, overloadedCellGrid);
@@ -660,7 +660,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 
 	private void btnNewGameActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnNewGameActionPerformed
 		this.setMessage("");
-
+		this.gameChanged = false;
 		DifficultyLevel difficulty = null;
 
 		if (radEasy.isSelected()) {
