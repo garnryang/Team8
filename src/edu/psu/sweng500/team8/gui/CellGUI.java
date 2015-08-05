@@ -41,7 +41,9 @@ public class CellGUI extends JPanel {
 	private static final HighlightPainter GIVEN_NUMBER_PAINTER = new DefaultHighlighter.DefaultHighlightPainter(
 			Color.green);
 	private static final HighlightPainter INCORRECT_NUMBER_PAINTER = new DefaultHighlighter.DefaultHighlightPainter(
-			Color.red);
+			Color.orange);
+	private static final Color DEFAULT_FONT_COLOR = Color.black;
+	private static final Color DUPLICATE_FONT_COLOR = Color.red;
 
 	private GameSession gameSession;
 	private Cell cell;
@@ -287,7 +289,7 @@ public class CellGUI extends JPanel {
 	 * mark CellGUI for duplicate number
 	 */
 	public void markDuplicateCell() {
-		this.numberInputCell.setForeground(Color.RED);
+		this.numberInputField.setForeground(DUPLICATE_FONT_COLOR);
 		this.numberInputField.repaint();
 	}
 	
@@ -309,7 +311,7 @@ public class CellGUI extends JPanel {
 	 * remove duplicate marks from CellGUI
 	 */
 	public void clearDuplicateCellMark() {
-		this.numberInputField.setForeground(Color.BLACK);
+		this.numberInputField.setForeground(DEFAULT_FONT_COLOR);
 	}
 	
 	/**
