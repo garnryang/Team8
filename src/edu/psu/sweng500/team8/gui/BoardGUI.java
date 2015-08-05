@@ -115,6 +115,9 @@ public class BoardGUI extends JPanel {
 			/* existing selection, clear it */
 			this.selectedCell.unselect();
 		}
+		
+		if (this.gameSession == null) //Game hasn't start
+			return;
 
 		CellGUI selectedCellGUI = null;
 		if (mouseEvent.getSource() instanceof JLabel)
