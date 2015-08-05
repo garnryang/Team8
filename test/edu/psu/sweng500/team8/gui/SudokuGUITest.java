@@ -3,6 +3,11 @@ package edu.psu.sweng500.team8.gui;
 import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.lang.reflect.Method;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -20,9 +25,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
+import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
+import edu.psu.sweng500.team8.coreDataStructures.SavePackage;
 import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
+import edu.psu.sweng500.team8.play.GameSession;
+import edu.psu.sweng500.team8.puzzleGenerator.PuzzleRepository;
 
 /**
  * 
@@ -720,5 +729,35 @@ public class SudokuGUITest {
 		mouseListeners[1].mouseReleased(mouseEvent);
 		
 		Assert.assertEquals(sudokuGUI.isGameChanged(), true);
+	}
+	
+	@Test
+	public void testSodukuGUI_saveLoadGameObject() throws IOException
+	{	
+		SavePackage savePackage = null;
+		newGameButton.doClick();
+		int testInt =sudokuGUI.getGameSession().getGameBoard().getCellGrid().getCell(1, 1).getNumber();
+		sudokuGUI.savePuzzle("/temp/test.sudoku");
+		
+		FileInputStream fileIn = new FileInputStream("/temp/test.sudoku");
+		ObjectInputStream in = new ObjectInputStream(fileIn);
+		
+		try {
+			savePackage = (SavePackage) in.readObject();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		in.close();
+		fileIn.close();
+
+		Puzzle puzzle = savePackage.getPuzzle();		
+
+		CellGrid cellGrid = savePackage.getCellGrid();
+		
+		this.sudokuGUI.loadSession(puzzle, cellGrid);
+		
+		Assert.assertEquals(testInt,this.sudokuGUI.getGameSession().getGameBoard().getCellGrid().getCell(1, 1).getNumber());
+		
 	}
 }
