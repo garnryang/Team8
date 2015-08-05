@@ -31,6 +31,7 @@ public class BoardGUI extends JPanel {
 	private GameSession gameSession;
 	private CellGUI selectedCell;
 	private Set<CellGUI> highlightedIncorrectCells = new HashSet<CellGUI>();
+	private Set<CellGUI> highlightedDuplicateCells = new HashSet<CellGUI>();
 	private NumberButtonGUI numberInputPad;
 
 	public BoardGUI() {
@@ -134,11 +135,25 @@ public class BoardGUI extends JPanel {
 		this.numberInputPad.updateForFocusedCell(this.selectedCell.getCell());
 	}
 
-	/**/
+	public void highlightDuplicateCells(Set<Cell> duplicateCells) {
+		clearHighlightedDuplicateCells();
+		for (Cell duplicateCell : duplicateCells) {
+			markDuplicateCell(duplicateCell);
+		}
+	}
+
+	public void clearHighlightedDuplicateCells() {
+		for (CellGUI eachCell : this.highlightedDuplicateCells) {
+			eachCell.clearDuplicateCellMark();
+		}
+
+		this.highlightedDuplicateCells.clear();
+	}
+	
 	public void highlightIncorrectCells(Set<Cell> incorrectCells) {
 		clearHighlightedIncorrectCells();
 		for (Cell incorrectCell : incorrectCells) {
-			this.markIncorrectCell(incorrectCell);
+			markIncorrectCell(incorrectCell);
 		}
 	}
 
@@ -165,10 +180,15 @@ public class BoardGUI extends JPanel {
 	}
 
 	private void markIncorrectCell(Cell cell) {
-
 		CellGUI currentCell = findCorresdpondingCellGUI(cell);
 		currentCell.markIncorrectCell();
 		this.highlightedIncorrectCells.add(currentCell);
+	}
+	
+	private void markDuplicateCell(Cell cell) {
+		CellGUI currentCell = findCorresdpondingCellGUI(cell);
+		currentCell.markDuplicateCell();
+		this.highlightedDuplicateCells.add(currentCell);
 	}
 
 	/**

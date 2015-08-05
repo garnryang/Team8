@@ -115,7 +115,11 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		 */
 		this.clearMessage();
 		this.gameBoard.clearHighlightedIncorrectCells();
-
+		
+		//Highlight duplicate cells
+		Set<Cell> duplicateCells = this.gameSession.getGameBoard().getCellsViolatingConstraints();
+		this.gameBoard.highlightDuplicateCells(duplicateCells);
+		
 		if (gameIsComplete()) {
 			// Player won the game
 			this.gameBoard.disableEditing();

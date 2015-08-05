@@ -284,6 +284,14 @@ public class CellGUI extends JPanel {
 	}
 
 	/**
+	 * mark CellGUI for duplicate number
+	 */
+	public void markDuplicateCell() {
+		this.numberInputCell.setForeground(Color.RED);
+		this.numberInputField.repaint();
+	}
+	
+	/**
 	 * mark CellGUI for incorrect number
 	 */
 	public void markIncorrectCell() {
@@ -298,7 +306,14 @@ public class CellGUI extends JPanel {
 	}
 
 	/**
-	 * remove marks from CellGUI
+	 * remove duplicate marks from CellGUI
+	 */
+	public void clearDuplicateCellMark() {
+		this.numberInputField.setForeground(Color.BLACK);
+	}
+	
+	/**
+	 * remove incorrect marks from CellGUI
 	 */
 	public void clearIncorrectCellMark() {
 		this.numberInputField.getHighlighter().removeAllHighlights();
