@@ -272,13 +272,11 @@ public class BoardGUI extends JPanel {
 	 * when we switch to Pencil Mark Mode.
 	 */
 	public void unselectCellWithNumber() {
-		if (null != this.selectedCell) {
-			
-			if (this.selectedCell.getCell().hasNumber()) {
-				/* existing selection, clear it */
-				this.selectedCell.unselect();
-				this.selectedCell = null;
-			}
+		if (null != this.selectedCell
+				&& this.selectedCell.getCell().hasNumber()) {
+			/* existing selection, clear it */
+			this.selectedCell.unselect();
+			this.selectedCell = null;
 		}
 	}
 }
