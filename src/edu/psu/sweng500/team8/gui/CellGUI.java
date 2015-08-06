@@ -3,6 +3,7 @@ package edu.psu.sweng500.team8.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
@@ -44,6 +45,7 @@ public class CellGUI extends JPanel {
 			Color.orange);
 	private static final Color DEFAULT_FONT_COLOR = Color.black;
 	private static final Color DUPLICATE_FONT_COLOR = Color.red;
+	private static final Font NORMAL_NUMBER_FONT = new Font("Tahoma", Font.PLAIN, 30);
 
 	private GameSession gameSession;
 	private Cell cell;
@@ -152,7 +154,9 @@ public class CellGUI extends JPanel {
 
 		this.add(this.numberInputCell);
 		this.numberInputField = new JTextField();
-		numberInputField.setEditable(false);
+		/* Issue #309 */
+		this.numberInputField.setFont(NORMAL_NUMBER_FONT);
+		this.numberInputField.setEditable(false);
 		this.numberInputField
 				.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 		this.numberInputField.setBorder(DEFAULT_BORDER);

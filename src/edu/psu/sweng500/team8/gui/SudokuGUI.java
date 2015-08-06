@@ -676,7 +676,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		loadSession(puzzle, null);
 	}
 
-	private void pencilMarkMode(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnHintActionPerformed
+	private void pencilMarkMode(java.awt.event.ActionEvent evt) {
 
 		if (this.gameSession == null) {
 			return;
@@ -689,6 +689,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		this.btnCheck.setEnabled(!isPencilMarkMode);
 		this.gameBoard.populatePanel(gameSession, true, isPencilMarkMode,
 				this.numberInputPad);
+		this.gameBoard.unselectCellWithNumber();
 	}
 
 	/**

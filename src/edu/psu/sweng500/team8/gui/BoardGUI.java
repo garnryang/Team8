@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
+import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 import edu.psu.sweng500.team8.play.GameSession;
 
@@ -128,11 +129,23 @@ public class BoardGUI extends JPanel {
 		else
 			return;
 		
-		this.selectedCell = selectedCellGUI;
+		/* Issue #308 */
+		/* Cell with Given number cannot be selected */
+		if (!ValueType.Given.equals(selectedCellGUI.getCell().getType())) {
 
-		this.selectedCell.selectCell();
-
-		this.numberInputPad.updateForFocusedCell(this.selectedCell.getCell());
+			/* Not Pencil Mark Mode 
+			 * OR
+			 * Pencil Mark Mode and has no number
+			 * can be selected */
+			if ((this.gameSession.isPencilMarkMode() && !selectedCellGUI
+					.getCell().hasNumber())
+					|| !this.gameSession.isPencilMarkMode()) {
+				this.selectedCell = selectedCellGUI;
+				this.selectedCell.selectCell();
+				this.numberInputPad.updateForFocusedCell(this.selectedCell
+						.getCell());
+			}
+		}
 	}
 
 	public void highlightDuplicateCells(Set<Cell> duplicateCells) {
@@ -252,6 +265,20 @@ public class BoardGUI extends JPanel {
 			}
 		}
 	}
-	
 
+	/**
+	 * Issue #310
+	 * If a Cell has a user entered number and currently selected, we should not leave it selected
+	 * when we switch to Pencil Mark Mode.
+	 */
+	public void unselectCellWithNumber() {
+		if (null != this.selectedCell) {
+			
+			if (this.selectedCell.getCell().hasNumber()) {
+				/* existing selection, clear it */
+				this.selectedCell.unselect();
+				this.selectedCell = null;
+			}
+		}
+	}
 }
