@@ -72,6 +72,9 @@ public class BoardGUI extends JPanel {
 		this.gameSession = gameSession;
 		this.numberInputPad = numberInputPad;
 
+		clearHighlightedDuplicateCells();
+		clearHighlightedIncorrectCells();
+		
 		for (int blockIndex = 0; blockIndex < 9; blockIndex++) {
 			int rowIndex = blockIndex / 3;
 			int columnIndex = blockIndex % 3;
