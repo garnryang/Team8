@@ -35,25 +35,25 @@
   <ul>
     <li>Each horizontal <strong>row</strong> contains each digit exactly <strong>once</strong></li>
     <li>Each vertical <strong>column</strong> contains each digit exactly <strong>once</strong></li>
-    <li>Each subgrid or <strong>region</strong>  contains each digit exactly <strong>once</strong></li>
+    <li>Each block or <strong>region</strong>  contains each digit exactly <strong>once</strong></li>
   </ul>
   <p>In each sudoku puzzle, several digits have already been entered (the &quot;givens&quot;); these may <strong>not</strong> be changed.</p>
-  <p>The puzzler's job is to fill the remainder of the grid with digits. Once all of the cell are filled with a valid number, the game is won. </p>
+  <p>The puzzler's job is to fill the remainder of the block with digits. Once all of the cell are filled with a valid number, the game is won. </p>
 </blockquote>
 <h2>Tips</h2>
 
 <p><A name="basicstrat">The following are the basic rules used to solve sudoku:</p>
 <dl>
   <dt><strong>Rule of 1</strong></dt>
-  <dd>This comes directly from the definition of sudoku. No region can contain any   duplicate digits. In a sudoku region each digit appears <strong>exactly   once</strong>. For example, if a digit appears in a row, it cannot be in any   other cell in the row. Likewise, each digit can appear in a grid only once. If a   digit is in a grid, it cannot appear in that grid again. </dd>
+  <dd>This comes directly from the definition of sudoku. No region can contain any   duplicate digits. In a sudoku region each digit appears <strong>exactly   once</strong>. For example, if a digit appears in a row, it cannot be in any   other cell in the row. Likewise, each digit can appear in a block only once. If a   digit is in a block, it cannot appear in that block again. </dd>
   <dt><strong>Rule of Necessity</strong></dt>
-  <dd>This rule can be applied to sudoku regions (i.e., row, column, or nonet) or   to grid. In the former case, each region must contain <strong>all</strong> the   digits one to nine. Thus, if all the digits but one appear in a row, the missing   digit must appear in the empty cell. </dd>
+  <dd>This rule can be applied to sudoku regions (i.e., row, column, or nonet) or   to block. In the former case, each region must contain <strong>all</strong> the   digits one to nine. Thus, if all the digits but one appear in a row, the missing   digit must appear in the empty cell. </dd>
   <dt><strong>Rule of 45</strong></dt>
   <dd>Each sudoku region (i.e., row, column, or nonet) contains the digits one   through nine. Thus, each sudoku region has a total value of 45. If <strong>S</strong> is the sum of all the numbers contained <strong>entirely</strong> in a region, then the cells not covered must sum to <strong>45-S</strong>. </dd>
   <dt><strong>Rule of K</strong></dt>
   <dd>The Rule-of-k is an extension of the Rule-of-1. If there are k cells   contained entirely in a region that contain exactly k different possible values,   then no other cell in that region can contain any of those k values. </dd>
   <dt><strong>Sum Elimination</strong></dt>
-  <dd>This strategy examines the different possible ways of making the sum of a   grid. Reducing the number of different possible ways of making a sum, can often   lead to a potential solution. There are many ways of reducing the number of   sums. For example, if a grid has a total of 3, 4, 16, or 17 there is only one   combination of values that can be used. (3=2+1, 4=3+1, 16=9+7, and 17=9+8.)   grids with only 1 combination are: 6=1+2+3, 7=1+2+4, 23=9+8+6, 24=9+8+7. </dd>
+  <dd>This strategy examines the different possible ways of making the sum of a   block. Reducing the number of different possible ways of making a sum, can often   lead to a potential solution. There are many ways of reducing the number of   sums. For example, if a block has a total of 3, 4, 16, or 17 there is only one   combination of values that can be used. (3=2+1, 4=3+1, 16=9+7, and 17=9+8.)   blocks with only 1 combination are: 6=1+2+3, 7=1+2+4, 23=9+8+6, 24=9+8+7. </dd>
   <dd></dd>
 </dl>
 <h2>Strategies</h2>
@@ -102,7 +102,7 @@
         2) no column can contain more than one of candidate C<br />
         then candidate C must be assigned exactly once in each of these two columns <em>within</em> these two rows. Therefore, it's not possible for any other cells in these two columns to contain candidate C. This same logic applies when a puzzle that has two columns where candidate C is restricted to exactly the same two rows.<br />
         <br />
-        This will be understood more easily by examining the example below. Filtering has been added so only candidate 6's are visible. (Cells which contain the filtered candidate are automatically highlighted pale green in <a href="http://angusj.com/sudoku/index.php">Simple Sudoku</a> unless subsequently recolored - which is the case for the blue cells this example).<br />
+        This will be understood more easily by examining the example below. Filtering has been added so only candidate 6's are visible. unless subsequently recolored.<br />
         <br />
         The cells marked with a blue highlight form an &quot;X-Wing&quot; since rows one and nine both have <em>only two cells</em> with candidate 6's and these two cells share the same two columns. Therefore, other candidate 6's in columns six and nine (highlighted yellow) can safely be removed.<br />
         <br />

@@ -1,5 +1,6 @@
 package edu.psu.sweng500.team8.gui;
 
+import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -27,6 +28,7 @@ import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.filechooser.FileFilter;
+
 import edu.psu.sweng500.team8.coreDataStructures.Board;
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
@@ -85,6 +87,9 @@ public class SudokuGUI extends javax.swing.JFrame implements
 				gameBoard.mouseClickedTaskForNumberInput(mouseEvent);
 			}
 			
+			public void mousePressed(MouseEvent e) {
+				setBackground(Color.PINK);
+			}
 		});
 	}
 
@@ -793,4 +798,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	}
 	
 
+	public NumberButtonGUI getNumberInputPad() {
+		return numberInputPad;
+	}
 }
