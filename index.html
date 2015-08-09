@@ -6,28 +6,116 @@
 
 </head>
 
-<body>
+<body bgcolor="#99CCFF">
+<h1><img src="blossom.jpg" width="181" height="166" /></h1>
 <h1>Lion Sudoku</h1>
 
 <h2>History</h2>
-
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur lobortis, metus sed semper tristique, est neque eleifend nibh, in vestibulum lorem dui quis ipsum. Vestibulum ex turpis, pharetra vel est at, commodo lacinia eros. Ut id libero a nibh pharetra vestibulum vel et orci. Proin varius id risus quis fermentum. Donec porta at tortor id volutpat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris a ultrices dui, id pulvinar metus. Curabitur rhoncus est a ante volutpat convallis. Praesent ut mi diam. Suspendisse quis porttitor lacus. </p>
+<table width="945" height="455" border="0">
+  <tr>
+    <td width="247" height="451"><img src="Sudokufr.png" width="243" height="419" /></td>
+    <td width="688"><div align="left">
+      <p>I think that most people would be surprised to learn that Sudoku's origins are not in Japan but in 19th century France. Though the original rules are quite differnt from the modern version, you can see that the look is similar. The original game was based on arithmetic and not the modern logical version. </p>
+      <p>&nbsp;</p>
+      <p>The modern Sudoku was most likely designed anonymously by Howard Garns, a 74-year-old retired architect and freelance puzzle constructor from Connersville, Indiana<a title="Indiana" href="https://en.wikipedia.org/wiki/Indiana"></a>, and first published in 1979 by Dell magazines as <em>Number Place</em> (the earliest known examples of modern Sudoku).Garns's name was always present on the list of contributors in issues of <em>Dell Pencil Puzzles and Word Games</em> that included <em>Number Place</em>, and was always absent from issues that did not. He died in 1989 before getting a chance to see his creation as a worldwide phenomenon (Wikipedia, 2015)</p>
+      <p>&nbsp;</p>
+      <p>&quot;Number Place&quot; was introduced to Japan in the 80's were it became an immediate hit. It was renamed Sudoku, which loosely translated means &quot;Single Digit&quot;. The popularity of the puzzle game in Japan caused it to spread workldwide and puzzle books can be found everywhere.</p>
+<p>&nbsp;</p>
+      <p>&nbsp;</p>
+    </div></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
 
 <h2>Rules</h2>
 
-<p>Fusce commodo tellus tellus. Ut pretium sollicitudin sodales. Pellentesque posuere sapien et urna mollis, vitae rhoncus orci ullamcorper. Sed egestas diam nisl, eu sollicitudin lectus tempor eget. Duis et velit in orci egestas hendrerit ut faucibus neque. Suspendisse pharetra facilisis nulla sed vulputate. In hac habitasse platea dictumst. Morbi auctor ullamcorper vulputate. Morbi dictum lorem vitae est gravida, at interdum mi scelerisque. Etiam eu est enim. Aliquam sem nibh, efficitur non lorem sed, euismod aliquet mi. Morbi vulputate libero sed euismod tincidunt. Duis tempor finibus libero, non sollicitudin nulla. Phasellus placerat, massa et blandit sollicitudin, elit dui posuere quam, eget mollis massa purus sit amet felis. Nulla malesuada nibh ornare suscipit laoreet. Aenean ac lectus est. </p>
-
+<p>The objective of sudoku is to enter a digit from 1 through 9 in each cell, in such a way that:</p>
+<blockquote>
+  <ul>
+    <li>Each horizontal <strong>row</strong> contains each digit exactly <strong>once</strong></li>
+    <li>Each vertical <strong>column</strong> contains each digit exactly <strong>once</strong></li>
+    <li>Each subgrid or <strong>region</strong>  contains each digit exactly <strong>once</strong></li>
+  </ul>
+  <p>In each sudoku puzzle, several digits have already been entered (the &quot;givens&quot;); these may <strong>not</strong> be changed.</p>
+  <p>The puzzler's job is to fill the remainder of the grid with digits. Once all of the cell are filled with a valid number, the game is won. </p>
+</blockquote>
 <h2>Tips</h2>
 
-<p>Aenean eu condimentum justo. In hac habitasse platea dictumst. Donec tortor lectus, vulputate vitae ligula sit amet, lobortis ultrices risus. Nullam sapien lacus, ultrices vitae dapibus vitae, imperdiet vel erat. Curabitur et gravida dolor, consectetur consectetur urna. Phasellus scelerisque aliquet sapien eu varius. Ut quis orci vel leo finibus condimentum in quis libero. Sed mi leo, aliquam vel suscipit nec, rhoncus et leo. Morbi leo dui, fringilla nec nibh sit amet, blandit finibus sapien. Pellentesque et leo vel tortor pulvinar interdum eu vel risus. Nulla facilisi. Morbi non magna ullamcorper, varius tortor sed, imperdiet massa. Ut efficitur vestibulum ipsum sed ornare. </p>
-
+<p><A name="basicstrat">The following are the basic rules used to solve sudoku:</p>
+<dl>
+  <dt><strong>Rule of 1</strong></dt>
+  <dd>This comes directly from the definition of sudoku. No region can contain any   duplicate digits. In a sudoku region each digit appears <strong>exactly   once</strong>. For example, if a digit appears in a row, it cannot be in any   other cell in the row. Likewise, each digit can appear in a grid only once. If a   digit is in a grid, it cannot appear in that grid again. </dd>
+  <dt><strong>Rule of Necessity</strong></dt>
+  <dd>This rule can be applied to sudoku regions (i.e., row, column, or nonet) or   to grid. In the former case, each region must contain <strong>all</strong> the   digits one to nine. Thus, if all the digits but one appear in a row, the missing   digit must appear in the empty cell. </dd>
+  <dt><strong>Rule of 45</strong></dt>
+  <dd>Each sudoku region (i.e., row, column, or nonet) contains the digits one   through nine. Thus, each sudoku region has a total value of 45. If <strong>S</strong> is the sum of all the numbers contained <strong>entirely</strong> in a region, then the cells not covered must sum to <strong>45-S</strong>. </dd>
+  <dt><strong>Rule of K</strong></dt>
+  <dd>The Rule-of-k is an extension of the Rule-of-1. If there are k cells   contained entirely in a region that contain exactly k different possible values,   then no other cell in that region can contain any of those k values. </dd>
+  <dt><strong>Sum Elimination</strong></dt>
+  <dd>This strategy examines the different possible ways of making the sum of a   grid. Reducing the number of different possible ways of making a sum, can often   lead to a potential solution. There are many ways of reducing the number of   sums. For example, if a grid has a total of 3, 4, 16, or 17 there is only one   combination of values that can be used. (3=2+1, 4=3+1, 16=9+7, and 17=9+8.)   grids with only 1 combination are: 6=1+2+3, 7=1+2+4, 23=9+8+6, 24=9+8+7. </dd>
+  <dd></dd>
+</dl>
 <h2>Strategies</h2>
-
-<p>Sed at felis neque. Duis urna lorem, volutpat id tristique eu, aliquam quis ligula. In semper blandit ex, at laoreet ipsum euismod quis. Fusce ornare elementum rhoncus. Nam sed sapien ligula. Duis consequat convallis massa et condimentum. Donec mi arcu, commodo vel lobortis ut, pellentesque facilisis enim. Curabitur in vulputate ipsum. Nunc et sollicitudin leo, sed pulvinar ipsum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce quis odio ipsum. Integer elementum justo a mauris accumsan hendrerit. Pellentesque eu nisi porttitor, porta dolor id, varius nunc. Aliquam erat volutpat. Vestibulum vitae sapien neque. </p>
-
-
-
-
-
+<table width="90%" align="center" border="0" cellpadding="5">
+  <tbody>
+    <tr>
+      <td><strong>Hidden Pairs:</strong><br />
+        If two cells in a group contain a pair of candidates (hidden amongst other candidates) that are not found in any other cells in that group, then other candidates in those two cells can be excluded safely.<br />
+        <br />
+        In the example on the right, the candidates 1 &amp; 9 are only located in two highlighted cells of a box, and therefore form a 'hidden' pair. All candidates except 1 &amp; 9 can safely be excluded from these two cells as one cell must be the 1 while the other must be the 9. (Johnson, 2005)</td>
+      <td><img width="170" height="171" alt="" src="http://angusj.com/sudoku/hidden_pairs.gif" border="0" /></td>
+    </tr>
+  </tbody>
+</table>
+<table width="90%" align="center" border="0" cellpadding="5">
+  <tbody>
+    <tr>
+      <td><strong>Hidden Triples:</strong><br />
+        If three candidates are restricted to three cells in a given group, then all other candidates in those three cells can be excluded.<br />
+        <br />
+        In the example below, the candidates 3, 6 and 7 are found only in column four, six and seven. Therefore, all other candidates can be excluded from those three cells. (Johnson, 2005)<br />
+        <br />
+        <img width="503" height="62" alt="" src="http://angusj.com/sudoku/hidden_triples.gif" border="0" /></td>
+    </tr>
+  </tbody>
+</table>
+<table width="90%" align="center" border="0" cellpadding="5">
+  <tbody>
+    <tr>
+      <td><strong>Hidden Quads:</strong><br />
+        If four candidates are restricted to four cells in a given group, then all other candidates in those four cells can be excluded. (Johnson, 2005)<br />
+        <br />
+        <img width="501" height="61" onmouseover="this.src='hidden_quads_over.gif'" onmouseout="this.src='hidden_quads.gif'" alt="" src="http://angusj.com/sudoku/hidden_quads.gif" border="0" /></td>
+    </tr>
+  </tbody>
+</table>
+<br />
+<br />
+<br />
+<table width="90%" align="center" border="0" cellpadding="5">
+  <tbody>
+    <tr>
+      <td><strong>&quot;X-Wing&quot;:</strong><br />
+        For every Sudoku, a value can exist only once in each row, column and box. If a value has only 2 possible locations in a given row (ie it has a candidate in only 2 cells in that row), then it must be assigned to one of these 2 cells. Given a particular puzzle that has two rows where a given candidate 'C' is restricted to exactly the same two columns (and no more than 2 columns), and since<br />
+        1) candidate C must be assigned once in each of these two rows, and<br />
+        2) no column can contain more than one of candidate C<br />
+        then candidate C must be assigned exactly once in each of these two columns <em>within</em> these two rows. Therefore, it's not possible for any other cells in these two columns to contain candidate C. This same logic applies when a puzzle that has two columns where candidate C is restricted to exactly the same two rows.<br />
+        <br />
+        This will be understood more easily by examining the example below. Filtering has been added so only candidate 6's are visible. (Cells which contain the filtered candidate are automatically highlighted pale green in <a href="http://angusj.com/sudoku/index.php">Simple Sudoku</a> unless subsequently recolored - which is the case for the blue cells this example).<br />
+        <br />
+        The cells marked with a blue highlight form an &quot;X-Wing&quot; since rows one and nine both have <em>only two cells</em> with candidate 6's and these two cells share the same two columns. Therefore, other candidate 6's in columns six and nine (highlighted yellow) can safely be removed.<br />
+        <br />
+        (Note: Candidate C must be assigned to either 1) the top-left and bottom-right corners, or 2) the bottom-left and top-right corners of the rectangular grid created by these two rows and columns. The pattern created by these crossed diagonals is the likely origin to this technique's name.) (Johnson, 2005)<br />
+        <br />
+      <img width="452" height="452" alt="" src="http://angusj.com/sudoku/x_wing.png" /> <br /></td>
+    </tr>
+  </tbody>
+</table>
+<div id="copy-target-38969232" href="#" data-redirect-target="http://www.citationmachine.net/apa/cite-a-website/copied" data-clipboard-target="copy-target-38969232"> 
+  <p>Johnson, A. (2005). SOLVING SUDOKU. Retrieved August 6, 2015, from http://angusj.com/sudoku/hints.php </p>
+  <div id="copy-target-38969940" href="#" data-redirect-target="http://www.citationmachine.net/apa/cite-a-website/copied" data-clipboard-target="copy-target-38969940"> Sudoku. (2015, July 21). Retrieved August 9, 2015, from https://en.wikipedia.org/wiki/Sudoku#cite_note-time_magazine-1</div>
+</div>
+<p>&nbsp;</p>
 </body>
 </html>

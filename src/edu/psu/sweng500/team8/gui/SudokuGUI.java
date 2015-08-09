@@ -83,6 +83,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 			public void mouseReleased(MouseEvent mouseEvent) {
 				gameBoard.mouseClickedTaskForNumberInput(mouseEvent);
 			}
+			
 		});
 	}
 
