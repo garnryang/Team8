@@ -530,8 +530,8 @@ public class SudokuGUI extends javax.swing.JFrame implements
 
 			SavePackage savePackage = null;
 			try {
-				FileInputStream fileIn = new FileInputStream(fc
-						.getSelectedFile().getAbsolutePath());
+				String path = fc.getSelectedFile().getAbsolutePath();
+				FileInputStream fileIn = new FileInputStream(path);
 				ObjectInputStream in = new ObjectInputStream(fileIn);
 				savePackage = (SavePackage) in.readObject();
 				in.close();
@@ -551,6 +551,8 @@ public class SudokuGUI extends javax.swing.JFrame implements
 				CellGrid cellGrid = savePackage.getCellGrid();
 
 				this.loadSession(puzzle, cellGrid);
+				
+				setMessage("Loaded game " + path);
 
 				/* We need to populate non given cells */
 
@@ -650,6 +652,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 			out.close();
 			fileOut.close();
 			this.gameChanged = false;
+			setMessage("Game saved to " + path);
 		} catch (IOException i) {
 			i.printStackTrace();
 		}
