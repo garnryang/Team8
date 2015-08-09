@@ -18,7 +18,6 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
-import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
 import edu.psu.sweng500.team8.play.GameSession;
 
@@ -32,7 +31,6 @@ public class BoardGUI extends JPanel {
 	private GameSession gameSession;
 	private CellGUI selectedCell;
 	private Set<CellGUI> highlightedIncorrectCells = new HashSet<CellGUI>();
-	private Set<CellGUI> highlightedDuplicateCells = new HashSet<CellGUI>();
 	private NumberButtonGUI numberInputPad;
 
 	public BoardGUI() {
@@ -73,9 +71,6 @@ public class BoardGUI extends JPanel {
 		this.gameSession = gameSession;
 		this.numberInputPad = numberInputPad;
 
-		clearHighlightedDuplicateCells();
-		clearHighlightedIncorrectCells();
-		
 		for (int blockIndex = 0; blockIndex < 9; blockIndex++) {
 			int rowIndex = blockIndex / 3;
 			int columnIndex = blockIndex % 3;
@@ -120,9 +115,6 @@ public class BoardGUI extends JPanel {
 			/* existing selection, clear it */
 			this.selectedCell.unselect();
 		}
-		
-		if (this.gameSession == null) //Game hasn't start
-			return;
 
 		CellGUI selectedCellGUI = null;
 		if (mouseEvent.getSource() instanceof JLabel)
@@ -132,44 +124,18 @@ public class BoardGUI extends JPanel {
 		else
 			return;
 		
-		/* Issue #308 */
-		/* Cell with Given number cannot be selected */
-		if (!ValueType.Given.equals(selectedCellGUI.getCell().getType())) {
+		this.selectedCell = selectedCellGUI;
 
-			/* Not Pencil Mark Mode 
-			 * OR
-			 * Pencil Mark Mode and has no number
-			 * can be selected */
-			if ((this.gameSession.isPencilMarkMode() && !selectedCellGUI
-					.getCell().hasNumber())
-					|| !this.gameSession.isPencilMarkMode()) {
-				this.selectedCell = selectedCellGUI;
-				this.selectedCell.selectCell();
-				this.numberInputPad.updateForFocusedCell(this.selectedCell
-						.getCell());
-			}
-		}
+		this.selectedCell.selectCell();
+
+		this.numberInputPad.updateForFocusedCell(this.selectedCell.getCell());
 	}
 
-	public void highlightDuplicateCells(Set<Cell> duplicateCells) {
-		clearHighlightedDuplicateCells();
-		for (Cell duplicateCell : duplicateCells) {
-			markDuplicateCell(duplicateCell);
-		}
-	}
-
-	public void clearHighlightedDuplicateCells() {
-		for (CellGUI eachCell : this.highlightedDuplicateCells) {
-			eachCell.clearDuplicateCellMark();
-		}
-
-		this.highlightedDuplicateCells.clear();
-	}
-	
+	/**/
 	public void highlightIncorrectCells(Set<Cell> incorrectCells) {
 		clearHighlightedIncorrectCells();
 		for (Cell incorrectCell : incorrectCells) {
-			markIncorrectCell(incorrectCell);
+			this.markIncorrectCell(incorrectCell);
 		}
 	}
 
@@ -196,15 +162,10 @@ public class BoardGUI extends JPanel {
 	}
 
 	private void markIncorrectCell(Cell cell) {
+
 		CellGUI currentCell = findCorresdpondingCellGUI(cell);
 		currentCell.markIncorrectCell();
 		this.highlightedIncorrectCells.add(currentCell);
-	}
-	
-	private void markDuplicateCell(Cell cell) {
-		CellGUI currentCell = findCorresdpondingCellGUI(cell);
-		currentCell.markDuplicateCell();
-		this.highlightedDuplicateCells.add(currentCell);
 	}
 
 	/**
@@ -268,18 +229,6 @@ public class BoardGUI extends JPanel {
 			}
 		}
 	}
+	
 
-	/**
-	 * Issue #310
-	 * If a Cell has a user entered number and currently selected, we should not leave it selected
-	 * when we switch to Pencil Mark Mode.
-	 */
-	public void unselectCellWithNumber() {
-		if (null != this.selectedCell
-				&& this.selectedCell.getCell().hasNumber()) {
-			/* existing selection, clear it */
-			this.selectedCell.unselect();
-			this.selectedCell = null;
-		}
-	}
 }
