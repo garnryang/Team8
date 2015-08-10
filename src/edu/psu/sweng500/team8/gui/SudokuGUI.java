@@ -1,5 +1,6 @@
 package edu.psu.sweng500.team8.gui;
 
+import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -27,6 +28,7 @@ import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.filechooser.FileFilter;
+
 import edu.psu.sweng500.team8.coreDataStructures.Board;
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
 import edu.psu.sweng500.team8.coreDataStructures.CellCoordinates;
@@ -54,6 +56,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	private GameSession gameSession;
 	private static final String WIN_MESSAGE = "You won! Start a new game to play again.";
 
+	private static final String NO_HINT_MESSAGE = "Sorry, no hint available";
 
 
 	private boolean gameChanged = false;
@@ -82,6 +85,10 @@ public class SudokuGUI extends javax.swing.JFrame implements
 			@Override
 			public void mouseReleased(MouseEvent mouseEvent) {
 				gameBoard.mouseClickedTaskForNumberInput(mouseEvent);
+			}
+			
+			public void mousePressed(MouseEvent e) {
+				setBackground(Color.PINK);
 			}
 		});
 	}
@@ -118,7 +125,11 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		 */
 		this.clearMessage();
 		this.gameBoard.clearHighlightedIncorrectCells();
-
+		
+		//Highlight duplicate cells
+		Set<Cell> duplicateCells = this.gameSession.getGameBoard().getCellsViolatingConstraints();
+		this.gameBoard.highlightDuplicateCells(duplicateCells);
+		
 		if (gameIsComplete()) {
 			// Player won the game
 			this.gameBoard.disableEditing();
@@ -278,7 +289,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 
 
 		lblNewLabel = new JLabel("");
-		Image img = new ImageIcon(this.getClass().getResource("/lion.png"))
+		Image img = new ImageIcon(this.getClass().getResource("/resources/lion.png"))
 				.getImage();
 		lblNewLabel.setIcon(new ImageIcon(img));
 
@@ -414,7 +425,8 @@ public class SudokuGUI extends javax.swing.JFrame implements
 	}
 	
 
-	private void btnHintActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnHintActionPerformed
+	private void btnHintActionPerformed(java.awt.event.ActionEvent evt) {
+
 		// Get a hint
 		if (this.gameSession == null) {
 			return;
@@ -422,20 +434,26 @@ public class SudokuGUI extends javax.swing.JFrame implements
 
 		HintInfo hint = HintGenerator.getHint(this.gameSession.getGameBoard());
 
-		/* TODO - make this message constant */
-		String message = "Sorry, no hint available";
+		String message = NO_HINT_MESSAGE;
 		if (hint != null) {
 			CellCoordinates coordinates = hint.getCell().getCoordinates();
 
 			this.gameBoard.updateSelectedCellFromHint(coordinates,
 					hint.getNumber());
+			
 			if (hint.getNumber() != 0)
 				this.gameSession.enterNumber(hint.getCell(), hint.getNumber());
+			
+			/* Issue #311 */
+			this.numberInputPad.updateForFocusedCell(this.gameBoard
+					.getSelectedCell());
 
 			message = hint.getExplanation();
 			if (gameIsComplete()) {
-				// If hint resulted in completing the game, add the Win message
-				// and disable editing.
+				/*
+				 * If hint resulted in completing the game, add the Win message
+				 * and disable editing.
+				 */
 				this.gameBoard.disableEditing();
 				message += " " + WIN_MESSAGE;
 			}
@@ -614,7 +632,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		}
 	}
 
-	private void savePuzzle(String path) {
+	public void savePuzzle(String path) {
 		try {
 
 			if (!path.toLowerCase().endsWith(".sudoku")) {
@@ -640,7 +658,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		}
 	}
 
-	private void loadSession(Puzzle puzzle, CellGrid overloadedCellGrid) {
+	public void loadSession(Puzzle puzzle, CellGrid overloadedCellGrid) {
 
 		this.gameSession = (overloadedCellGrid == null) ? new GameSession(
 				puzzle) : new GameSession(puzzle, overloadedCellGrid);
@@ -673,7 +691,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 
 	private void btnNewGameActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnNewGameActionPerformed
 		this.setMessage("");
-
+		this.gameChanged = false;
 		DifficultyLevel difficulty = null;
 
 		if (radEasy.isSelected()) {
@@ -689,7 +707,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		loadSession(puzzle, null);
 	}
 
-	private void pencilMarkMode(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnHintActionPerformed
+	private void pencilMarkMode(java.awt.event.ActionEvent evt) {
 
 		if (this.gameSession == null) {
 			return;
@@ -702,6 +720,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 		this.btnCheck.setEnabled(!isPencilMarkMode);
 		this.gameBoard.populatePanel(gameSession, true, isPencilMarkMode,
 				this.numberInputPad);
+		this.gameBoard.unselectCellWithNumber();
 	}
 
 	/**

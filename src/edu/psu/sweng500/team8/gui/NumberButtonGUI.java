@@ -55,7 +55,6 @@ public class NumberButtonGUI extends javax.swing.JPanel {
 			buttonGridBagConstraints.gridy = (numberIndex - 1) / 3;
 			this.add(numberInputButton, buttonGridBagConstraints);
 			buttons[numberIndex - 1] = numberInputButton;
-			
 		}
 
 	}
