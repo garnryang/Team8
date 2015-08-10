@@ -391,7 +391,7 @@ public class CellGUI extends JPanel {
 	 * public for testing
 	 * @return
 	 */
-	public JPanel getpPencilMarkDisplayCell() {
+	public JPanel getPencilMarkDisplayCell() {
 		return this.pencilMarkDisplayCell;
 	}
 }

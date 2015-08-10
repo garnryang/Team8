@@ -73,8 +73,11 @@ public class BoardGUI extends JPanel {
 		this.gameSession = gameSession;
 		this.numberInputPad = numberInputPad;
 
-		clearHighlightedDuplicateCells();
-		clearHighlightedIncorrectCells();
+		if (!isRefresh) {
+			//Keep cells highlighted if we are just refreshing. Otherwise clear them.
+			clearHighlightedDuplicateCells();
+			clearHighlightedIncorrectCells();
+		}
 		
 		for (int blockIndex = 0; blockIndex < 9; blockIndex++) {
 			int rowIndex = blockIndex / 3;
