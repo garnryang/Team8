@@ -743,7 +743,7 @@ public class SudokuGUI extends javax.swing.JFrame implements
 					.getInstalledLookAndFeels()) {
 				if ("Nimbus".equals(info.getName())) {
 					javax.swing.UIManager
-							.setLookAndFeel("com.jtattoo.plaf.texture.TextureLookAndFeel");
+							.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
 					break;
 				}
 			}
