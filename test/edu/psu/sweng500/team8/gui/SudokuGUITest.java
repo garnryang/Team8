@@ -141,6 +141,8 @@ public class SudokuGUITest {
 			System.out.println();
 			
 		}
+		
+		System.exit(0);
 	}
 
 	@Test
