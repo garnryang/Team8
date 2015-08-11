@@ -4,10 +4,8 @@ import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.lang.reflect.Method;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -25,13 +23,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.psu.sweng500.team8.coreDataStructures.Cell;
-import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
-import edu.psu.sweng500.team8.coreDataStructures.SavePackage;
 import edu.psu.sweng500.team8.coreDataStructures.Cell.ValueType;
 import edu.psu.sweng500.team8.coreDataStructures.CellGrid;
+import edu.psu.sweng500.team8.coreDataStructures.Puzzle;
 import edu.psu.sweng500.team8.coreDataStructures.Puzzle.DifficultyLevel;
-import edu.psu.sweng500.team8.play.GameSession;
-import edu.psu.sweng500.team8.puzzleGenerator.PuzzleRepository;
+import edu.psu.sweng500.team8.coreDataStructures.SavePackage;
 
 /**
  * 
@@ -46,8 +42,11 @@ public class SudokuGUITest {
 	private JPanel mainJPanel;
 	private JButton newGameButton;
 	private NumberButtonGUI numberButtonGUI;
+	private JRadioButton easyRadioButton;
+	private JRadioButton mediumRadioButton;
 	private JRadioButton hardRadioButton;
 	private JToggleButton pencilMarkModeButton;
+	private BoardGUI boardGUI;
 	
 	@BeforeClass
 	public static void setUpClass() {
@@ -61,19 +60,39 @@ public class SudokuGUITest {
 	
 	@Before
 	public void setUp() {
-
+		
 		mainJPanel = ((JPanel) ((JLayeredPane) ((JRootPane) sudokuGUI
 				.getComponents()[0]).getComponents()[1]).getComponents()[0]);
 		
-		newGameButton = (JButton)mainJPanel.getComponents()[7];
+		/* Major Components */
+		for (Component eachComponent : mainJPanel.getComponents()) {
+			
+			if (eachComponent instanceof JButton) {
+				
+				if ("New Game".equals(((JButton)eachComponent).getText())) {
+					newGameButton = (JButton)eachComponent;	
+				}
+			} else if (eachComponent instanceof JRadioButton) {
+				if ("Easy".equals(((JRadioButton)eachComponent).getText())) {
+					easyRadioButton = (JRadioButton) eachComponent;
+				} else if ("Medium".equals(((JRadioButton)eachComponent).getText())) {
+					mediumRadioButton = (JRadioButton)eachComponent;
+				} else {
+					hardRadioButton = (JRadioButton)eachComponent;	
+				}
+			} else if (eachComponent instanceof JToggleButton) {
+				if ("Pencil Mark".equals(((JToggleButton)eachComponent).getText())) {
+					pencilMarkModeButton = (JToggleButton) eachComponent;
+					pencilMarkModeButton.setSelected(false);	
+				}
+			} else if (eachComponent instanceof NumberButtonGUI) {
+				numberButtonGUI = (NumberButtonGUI)eachComponent;
+			} else if (eachComponent instanceof BoardGUI) {
+				boardGUI = (BoardGUI)eachComponent;
+			}
+		}
 		
-		numberButtonGUI = (NumberButtonGUI)mainJPanel.getComponents()[3];
-		
-		hardRadioButton = (JRadioButton) mainJPanel.getComponents()[17];
-		
-		pencilMarkModeButton = (JToggleButton) mainJPanel.getComponents()[11];
-		pencilMarkModeButton.setSelected(false);
-		
+		/* Number Button GUI */
 		for (int i = 0; i < 9; i++) {
 			JToggleButton numberInputButton = (JToggleButton) numberButtonGUI
 					.getComponent(i);
@@ -143,7 +162,6 @@ public class SudokuGUITest {
 		Assert.assertEquals(DifficultyLevel.Hard, sudokuGUI.getGameSession()
 				.getGameBoard().getCurrentPuzzle().getDifficulty());
 
-		BoardGUI boardGUI = (BoardGUI) mainJPanel.getComponents()[0];
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
 				Cell currentCell = sudokuGUI.getGameSession().getGameBoard()
@@ -175,7 +193,7 @@ public class SudokuGUITest {
 					 * Pencil Mark Display Cell should not be visible at this
 					 * point
 					 */
-					Assert.assertFalse(emptyCellGUI.getpPencilMarkDisplayCell()
+					Assert.assertFalse(emptyCellGUI.getPencilMarkDisplayCell()
 							.isVisible());
 				} else {
 					CellGUI nonEmptyCellGUI = boardGUI
@@ -204,7 +222,7 @@ public class SudokuGUITest {
 					 * point
 					 */
 					Assert.assertFalse(nonEmptyCellGUI
-							.getpPencilMarkDisplayCell().isVisible());
+							.getPencilMarkDisplayCell().isVisible());
 				}
 			}
 		}
@@ -217,8 +235,6 @@ public class SudokuGUITest {
 		hardRadioButton.doClick();
 
 		newGameButton.doClick();
-
-		BoardGUI boardGUI = (BoardGUI) mainJPanel.getComponents()[0];
 
 		/* Find Empty Cell */
 		Cell emptyCell = null;
@@ -305,8 +321,6 @@ public class SudokuGUITest {
 		/* Verify the game is in Pencil Mark Mode */
 		Assert.assertTrue(sudokuGUI.getGameSession().isPencilMarkMode());
 
-		BoardGUI boardGUI = (BoardGUI) mainJPanel.getComponents()[0];
-
 		/* Find Empty Cell */
 		Cell emptyCell = null;
 		for (int i = 0; i < 9; i++) {
@@ -344,24 +358,24 @@ public class SudokuGUITest {
 
 		/* Verify CellGUI has 8 on Pencil Mark */
 		Assert.assertEquals("8", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(7)).getText());
+				.getPencilMarkDisplayCell().getComponent(7)).getText());
 
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(0)).getText());
+				.getPencilMarkDisplayCell().getComponent(0)).getText());
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(1)).getText());
+				.getPencilMarkDisplayCell().getComponent(1)).getText());
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(2)).getText());
+				.getPencilMarkDisplayCell().getComponent(2)).getText());
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(3)).getText());
+				.getPencilMarkDisplayCell().getComponent(3)).getText());
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(4)).getText());
+				.getPencilMarkDisplayCell().getComponent(4)).getText());
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(5)).getText());
+				.getPencilMarkDisplayCell().getComponent(5)).getText());
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(6)).getText());
+				.getPencilMarkDisplayCell().getComponent(6)).getText());
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(8)).getText());
+				.getPencilMarkDisplayCell().getComponent(8)).getText());
 
 		/* Number Button for 3 is clicked */
 		JToggleButton number_3 = (JToggleButton) numberButtonGUI
@@ -375,24 +389,24 @@ public class SudokuGUITest {
 
 		/* Verify CellGUI has 8 and 3 on Pencil Mark */
 		Assert.assertEquals("8", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(7)).getText());
+				.getPencilMarkDisplayCell().getComponent(7)).getText());
 		Assert.assertEquals("3", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(2)).getText());
+				.getPencilMarkDisplayCell().getComponent(2)).getText());
 
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(0)).getText());
+				.getPencilMarkDisplayCell().getComponent(0)).getText());
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(1)).getText());
+				.getPencilMarkDisplayCell().getComponent(1)).getText());
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(3)).getText());
+				.getPencilMarkDisplayCell().getComponent(3)).getText());
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(4)).getText());
+				.getPencilMarkDisplayCell().getComponent(4)).getText());
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(5)).getText());
+				.getPencilMarkDisplayCell().getComponent(5)).getText());
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(6)).getText());
+				.getPencilMarkDisplayCell().getComponent(6)).getText());
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(8)).getText());
+				.getPencilMarkDisplayCell().getComponent(8)).getText());
 
 		/* Verify NumberInputPad 8 is still selected */
 		number_8 = (JToggleButton) numberButtonGUI.getComponent(7);
@@ -409,24 +423,24 @@ public class SudokuGUITest {
 
 		/* Verify CellGUI has only 8 */
 		Assert.assertEquals("8", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(7)).getText());
+				.getPencilMarkDisplayCell().getComponent(7)).getText());
 
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(0)).getText());
+				.getPencilMarkDisplayCell().getComponent(0)).getText());
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(1)).getText());
+				.getPencilMarkDisplayCell().getComponent(1)).getText());
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(2)).getText());
+				.getPencilMarkDisplayCell().getComponent(2)).getText());
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(3)).getText());
+				.getPencilMarkDisplayCell().getComponent(3)).getText());
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(4)).getText());
+				.getPencilMarkDisplayCell().getComponent(4)).getText());
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(5)).getText());
+				.getPencilMarkDisplayCell().getComponent(5)).getText());
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(6)).getText());
+				.getPencilMarkDisplayCell().getComponent(6)).getText());
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(8)).getText());
+				.getPencilMarkDisplayCell().getComponent(8)).getText());
 	}
 
 	@Test
@@ -443,8 +457,6 @@ public class SudokuGUITest {
 
 		/* Verify the game is in Pencil Mark Mode */
 		Assert.assertTrue(sudokuGUI.getGameSession().isPencilMarkMode());
-
-		BoardGUI boardGUI = (BoardGUI) mainJPanel.getComponents()[0];
 
 		/* Find Empty Cell */
 		Cell emptyCell = null;
@@ -496,7 +508,7 @@ public class SudokuGUITest {
 		 * matter on which cell we click
 		 */
 		JLabel pencilMarkDisplay = (JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(0);
+				.getPencilMarkDisplayCell().getComponent(0);
 		mouseEvent = new MouseEvent(pencilMarkDisplay,
 				MouseEvent.MOUSE_RELEASED, 0l, 0, 0, 0, 1, false);
 		mouseListeners = pencilMarkDisplay.getMouseListeners();
@@ -528,9 +540,6 @@ public class SudokuGUITest {
 
 		/* Entering Pencil Mark Mode */ 
 		pencilMarkModeButton.doClick();
-
-		
-		BoardGUI boardGUI = (BoardGUI) mainJPanel.getComponents()[0];
 
 		/* Find Empty Cell */
 		Cell emptyCell = null;
@@ -595,7 +604,7 @@ public class SudokuGUITest {
 		
 		/* Re-foucs the CellGUI with PencilMarks */
 		JLabel pencilMarkDisplay = (JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(0);
+				.getPencilMarkDisplayCell().getComponent(0);
 		mouseEvent = new MouseEvent(pencilMarkDisplay,
 				MouseEvent.MOUSE_RELEASED, 0l, 0, 0, 0, 1, false);
 		mouseListeners = pencilMarkDisplay.getMouseListeners();
@@ -613,35 +622,30 @@ public class SudokuGUITest {
 		
 		/* Verify CellGUI has 8 and 6 for Pencil Mark */
 		Assert.assertEquals("8", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(7)).getText());
+				.getPencilMarkDisplayCell().getComponent(7)).getText());
 		Assert.assertEquals("6", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(5)).getText());
+				.getPencilMarkDisplayCell().getComponent(5)).getText());
 		
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(0)).getText());
+				.getPencilMarkDisplayCell().getComponent(0)).getText());
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(1)).getText());
+				.getPencilMarkDisplayCell().getComponent(1)).getText());
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(2)).getText());
+				.getPencilMarkDisplayCell().getComponent(2)).getText());
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(3)).getText());
+				.getPencilMarkDisplayCell().getComponent(3)).getText());
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(4)).getText());
+				.getPencilMarkDisplayCell().getComponent(4)).getText());
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(6)).getText());
+				.getPencilMarkDisplayCell().getComponent(6)).getText());
 		Assert.assertEquals("", ((JLabel) selectedCellGUI
-				.getpPencilMarkDisplayCell().getComponent(8)).getText());
+				.getPencilMarkDisplayCell().getComponent(8)).getText());
 	}
 	
 	@Test
 	public void testSudokuGUI_GameChangedStatus() {
 		
 		newGameButton.doClick();
-		
-		BoardGUI boardGUI = (BoardGUI)mainJPanel.getComponents()[0];
-
-		System.out.println("CHANGE?");
-		System.out.println(sudokuGUI.isGameChanged());
 		
 		Assert.assertEquals(sudokuGUI.isGameChanged(), false);
 		
@@ -689,8 +693,6 @@ public class SudokuGUITest {
 		
 		newGameButton.doClick();
 		
-		BoardGUI boardGUI = (BoardGUI)mainJPanel.getComponents()[0];
-
 		CellGrid cg = sudokuGUI.getGameSession().getGameBoard().getCellGrid();
 		
 		/* Find Empty Cell */
